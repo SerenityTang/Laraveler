@@ -14,40 +14,40 @@
                     {{ csrf_field() }}
 
                     <strong>用户注册</strong>
-                    <em>User Register</em>
-                    <div class="form-group{{ $errors->has('username') ? 'errors' : '' }}">
+                    <em class="title-eng">User Register</em>
+                    <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon u-icon{{ $errors->has('username') ? ' u-icon-clear' : '' }}"><i class="fa fa-user fa-fw"></i></span>
                             <input type="text" id="username" class="form-control text{{ $errors->has('username') ? ' text-clear' : '' }}" name="username" placeholder="用户名" value="{{ old('username') }}" autofocus>
                         </div>
                         @if ($errors->has('username'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('username') }}</em>
-                        </span>
+                                <em>{{ $errors->first('username') }}</em>
+                            </span>
                         @endif
                     </div>
 
-                    <div class="form-group{{ $errors->has('password') ? 'errors' : '' }}">
+                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon p-icon{{ $errors->has('password') ? ' p-icon-clear' : '' }}"><i class="fa fa-key fa-fw"></i></span>
                             <input type="password" id="password" class="form-control text{{ $errors->has('password') ? ' text-clear' : '' }}" name="password" placeholder="密码">
                         </div>
                         @if ($errors->has('password'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('password') }}</em>
-                        </span>
+                                <em>{{ $errors->first('password') }}</em>
+                            </span>
                         @endif
                     </div>
 
-                    <div class="form-group{{ $errors->has('password_confirmation') ? 'errors' : '' }}">
+                    <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon p-icon{{ $errors->has('password_confirmation') ? ' p-icon-clear' : '' }}"><i class="fa fa-lock fa-fw"></i></span>
                             <input type="password" id="password_confirm" class="form-control text{{ $errors->has('password_confirmation') ? ' text-clear' : '' }}" name="password_confirmation" placeholder="确认密码">
                         </div>
                         @if ($errors->has('password_confirmation'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('password_confirmation') }}</em>
-                        </span>
+                                <em>{{ $errors->first('password_confirmation') }}</em>
+                            </span>
                         @endif
                     </div>
 
@@ -58,8 +58,8 @@
                         </div>
                         @if ($errors->has('email'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('email') }}</em>
-                        </span>
+                                <em>{{ $errors->first('email') }}</em>
+                            </span>
                         @endif
                     </div>
 
@@ -70,8 +70,8 @@
                         </div>
                         @if ($errors->has('mobile'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('mobile') }}</em>
-                        </span>
+                                <em>{{ $errors->first('mobile') }}</em>
+                            </span>
                         @endif
                     </div>
 

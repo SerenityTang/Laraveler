@@ -20,8 +20,8 @@
                         </div>
                     @endif
                     <strong>用户登录</strong>
-                    <em>User Login</em>
-                    <div class="form-group{{ $errors->has('username') ? 'errors' : '' }}">
+                    <em class="title-eng">User Login</em>
+                    <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon u-icon{{ $errors->has('username') ? ' u-icon-clear' : '' }}"><i class="fa fa-user fa-fw"></i></span>
                             <input type="text" class="form-control text{{ $errors->has('username') ? ' text-clear' : '' }}" id="username" name="username" placeholder="用户名 / 邮箱 / 手机号" value="{{ old('username') }}" autofocus>
