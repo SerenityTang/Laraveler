@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Blog extends Model
+{
+    protected $fillable = [
+        'bcategory_id',
+        'user_id',
+        'title',
+        'intro',
+        'description',
+        'source',
+        'source_name',
+        'source_link',
+        'status',
+    ];
+
+    /**
+     * 获取博客对应的用户
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    //最新博客
+    public static function newest($categoryId = 0, $pageSize = 15)
+    {
+        $query = self::query();
+        if( $categoryId > 0 ){
+            $query->where('category_id','=',$categoryId);
+        }
+        $newest = $query->where('status', 1)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        return $newest;
+    }
+
+    //热门博客
+    public static function hottest($categoryId = 0, $pageSize = 15)
+    {
+        $query = self::query();
+        if( $categoryId > 0 ){
+            $query->where('category_id','=',$categoryId);
+        }
+        $hottest = $query->where('status', 1)->where('view_count', '>', 50)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        return $hottest;
+    }
+}

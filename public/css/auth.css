@@ -16,12 +16,12 @@ canvas{z-index:-1;position:absolute;}
 /*.auth .cover{border: inherit;background-color: inherit;}*/
 /*顶部标题*/
 .auth strong{display:block;text-align:center;font-size: 20px;color: #45bda6;}
-.auth em{display:block;font-size:12px;margin-top:8px;text-align:center;margin-bottom: 10px;color: #45bda6;}
+.auth em.title-eng {display:block;font-size:12px;margin-top:8px;text-align:center;margin-bottom: 10px;color: #45bda6;}
 .auth .form-group .help-block-clear {margin: 0px;}
 .auth .form-group .help-block em{display:block;font-size:13px;text-align: left;padding-left: 36px;color: #A01641;margin: 5px 0 0 0;}
 /*输入框图标*/
 .auth .u-icon, .auth .p-icon, .auth .c-icon{/*border-radius: 2px;*/padding: 4px 7px;background-color: #ddd;border: 1px solid #53c6b0;border-right: 0;}
-.auth .u-icon.u-icon-clear, .auth .p-icon.p-icon-clear, .auth .c-icon.c-icon-clear {border: 1px solid #A01641;border-right: 0;box-shadow:0px 0px 1px #A01641;}
+.auth .u-icon-clear, .auth .p-icon-clear, .auth .c-icon-clear {border: 1px solid #A01641;border-right: 0;box-shadow:0px 0px 1px #A01641;}
 /*输入框*/
 .auth .text{color: white; background-color: #55b7a4;height: 40px;line-height: 40px;border: 1px solid #53c6b0;}
 .auth .text-clear{border: 1px solid #A01641;}
