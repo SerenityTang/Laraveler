@@ -14,8 +14,8 @@
                     {{ csrf_field() }}
                     {{--显示操作成功与否提示--}}
                     @if ( session('message') )
-                        <div class="alert @if(session('message_type') === 1) alert-success @else alert-danger @endif alert-dismissible" role="alert" id="alert_message">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="alert @if(session('message_type') === 1) alert-success @else alert-danger @endif alert-dismissible login-toptip" role="alert" id="alert_message">
+                            {{--<button type="button" class="close btn-close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
                             <p class="message"><i class="fa fa-check-circle fa-lg fa-fw"></i>{{ session('message') }}</p>
                         </div>
                     @endif
@@ -117,6 +117,10 @@
                 }
             });
         });
+    </script>
+    {{--操作成功与否提示自动隐藏--}}
+    <script>
+        $("#alert_message").delay(6000).fadeOut(500);
     </script>
     {{--<script>
         $(document).ready(function () {

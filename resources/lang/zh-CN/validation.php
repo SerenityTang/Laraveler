@@ -85,7 +85,7 @@ return [
     'timezone' => ':attribute 必须是一个合法的时区值。',
     'unique' => ':attribute 已经存在。',
     'uploaded' => ':attribute 上传失败。',
-    'url' => ':attribute 格式不正确。',
+    'validate_captcha' => ':attribute 不正确',
 
     /*
     |--------------------------------------------------------------------------
@@ -101,6 +101,9 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+        ],
+        'new_password' => [
+            'different' => ':attribute 和 :other 不能相同...',
         ],
     ],
 
@@ -123,11 +126,13 @@ return [
         'last_name' => '姓',
         'password' => '密码',
         'password_confirmation' => '确认密码',
+        'old_password' =>'原密码',
+        'new_password' =>'新密码',
         'city' => '城市',
         'country' => '国家',
         'address' => '地址',
         'phone' => '电话',
-        'mobile' => '手机',
+        'mobile' => '手机号码',
         'age' => '年龄',
         'sex' => '性别',
         'gender' => '性别',
@@ -145,5 +150,7 @@ return [
         'time' => '时间',
         'available' => '可用的',
         'size' => '大小',
+        'captcha' => '验证码',
+        'm_code' => '手机验证码',
     ],
 ];

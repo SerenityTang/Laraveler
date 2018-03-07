@@ -31,7 +31,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="form-group{{ $errors->has('new_password') ? 'errors' : '' }}">
+                        <div class="form-group{{ $errors->has('new_password') ? ' has-error' : '' }}">
                             <label for="" class="col-sm-2 control-label">新密码</label>
                             <div class="col-sm-7">
                                 <input type="password" class="form-control text-extra" id="new_password" name="new_password" placeholder="请输入新密码">
@@ -42,7 +42,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="form-group{{ $errors->has('password_confirmation') ? 'errors' : '' }}">
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                             <label for="" class="col-sm-2 control-label">确认密码</label>
                             <div class="col-sm-7">
                                 <input type="password" class="form-control text-extra" id="password_confirmation" name="password_confirmation" placeholder="请输入确认密码">

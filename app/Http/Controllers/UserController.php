@@ -328,7 +328,7 @@ class UserController extends Controller
                 $cur_user->save();
                 Auth::logout();
                 //return $this->success(route('user.edit_password',['username', $cur_user->username]), '密码修改成功！！！');
-                return $this->success(route('login'), '密码修改成功，请重新登录！！！');
+                return $this->success(route('login'), '密码修改成功，请重新登录...');
             }
         } else {
             return view('auth.login');
