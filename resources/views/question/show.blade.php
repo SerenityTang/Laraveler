@@ -119,7 +119,7 @@
                 <div class="list-side-top">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-vote" data-question-id="{{ $question->id }}">
+                            <button type="button" class="btn btn-vote" data-question-id="{{ $question->id }}" data-question-uid="{{ $question->user_id }}" data-question-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                 <i class="iconfont icon-toupiao1"></i>
                                 @if(\App\Helpers\Helpers::vote($question->id, 'Question') != null)
                                     <span class="btn-vote-text">已投票</span>
@@ -131,7 +131,7 @@
                             投票
                         </li>
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-attention" data-question-id="{{ $question->id }}">
+                            <button type="button" class="btn btn-attention" data-question-id="{{ $question->id }}" data-question-uid="{{ $question->user_id }}" data-question-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                 <i class="iconfont icon-guanzhu"></i>
                                 @if(\App\Helpers\Helpers::attention($question->id, 'Question') != null)
                                     <span class="btn-attention-text">已关注</span>
@@ -143,7 +143,7 @@
                             关注
                         </li>
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-collection" data-question-id="{{ $question->id }}">
+                            <button type="button" class="btn btn-collection" data-question-id="{{ $question->id }}" data-question-uid="{{ $question->user_id }}" data-question-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                 <i class="iconfont icon-shoucang"></i>
                                 @if(\App\Helpers\Helpers::collection($question->id, 'Question') != null)
                                     <span class="btn-collection-text">已收藏</span>
@@ -372,18 +372,30 @@
         $(function () {
             $('.btn-vote').click(function () {
                 var question_id = $(this).data('question-id');
+                var question_uid = $(this).data('question-uid');
+                var question_curruid = $(this).data('question-curruid');
                 var vote_count = parseInt($('.vote-count').html());
-                $.get('/question/vote/'+question_id, function (message) {
-                    if (message == 'vote') {
-                        vote_count++;
-                        $('.vote-count').html(vote_count);
-                        $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'已投票');
-                    } else if (message == 'unvote') {
-                        vote_count--;
-                        $('.vote-count').html(vote_count);
-                        $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'投票');
+                @if(!\Auth::check())
+                    window.location.href = '{{ url('/login') }}';
+                @else
+                    if (question_uid != question_curruid) {
+                        $.get('/question/vote/'+question_id, function (message) {
+                            if (message == 'vote') {
+                                vote_count++;
+                                $('.vote-count').html(vote_count);
+                                $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'已投票');
+                            } else if (message == 'unvote') {
+                                vote_count--;
+                                $('.vote-count').html(vote_count);
+                                $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'投票');
+                            }
+                        });
+                    } else {
+                        layer.tips('不能投票自己的问答^_^', '.btn-vote', {
+                            tips: [1, '#22d7bb'], //配置颜色
+                        });
                     }
-                });
+                @endif
             });
         });
 
@@ -391,18 +403,30 @@
         $(function () {
             $('.btn-attention').click(function () {
                 var question_id = $(this).data('question-id');
+                var question_uid = $(this).data('question-uid');
+                var question_curruid = $(this).data('question-curruid');
                 var attention_count = parseInt($('.attention-count').html());
-                $.get('/question/attention/'+question_id, function (message) {
-                    if (message == 'attention') {
-                        attention_count++;
-                        $('.attention-count').html(attention_count);
-                        $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'已关注');
-                    } else if (message == 'unattention') {
-                        attention_count--;
-                        $('.attention-count').html(attention_count);
-                        $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'关注');
+                @if(!\Auth::check())
+                    window.location.href = '{{ url('/login') }}';
+                @else
+                    if (question_uid != question_curruid) {
+                        $.get('/question/attention/'+question_id, function (message) {
+                            if (message == 'attention') {
+                                attention_count++;
+                                $('.attention-count').html(attention_count);
+                                $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'已关注');
+                            } else if (message == 'unattention') {
+                                attention_count--;
+                                $('.attention-count').html(attention_count);
+                                $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'关注');
+                            }
+                        });
+                    } else {
+                        layer.tips('不能关注自己的问答^_^', '.btn-attention', {
+                            tips: [4, '#22d7bb'], //配置颜色
+                        });
                     }
-                });
+                @endif
             });
         });
 
@@ -410,18 +434,30 @@
         $(function () {
             $('.btn-collection').click(function () {
                 var question_id = $(this).data('question-id');
+                var question_uid = $(this).data('question-uid');
+                var question_curruid = $(this).data('question-curruid');
                 var collection_count = parseInt($('.collection-count').html());
-                $.get('/question/collection/'+question_id, function (message) {
-                    if (message == 'collection') {
-                        collection_count++;
-                        $('.collection-count').html(collection_count);
-                        $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'已收藏');
-                    } else if (message == 'uncollection') {
-                        collection_count--;
-                        $('.collection-count').html(collection_count);
-                        $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'收藏');
+                @if(!\Auth::check())
+                    window.location.href = '{{ url('/login') }}';
+                @else
+                    if (question_uid != question_curruid) {
+                        $.get('/question/collection/'+question_id, function (message) {
+                            if (message == 'collection') {
+                                collection_count++;
+                                $('.collection-count').html(collection_count);
+                                $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'已收藏');
+                            } else if (message == 'uncollection') {
+                                collection_count--;
+                                $('.collection-count').html(collection_count);
+                                $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'收藏');
+                            }
+                        });
+                    } else {
+                        layer.tips('不能收藏自己的问答^_^', '.btn-collection', {
+                            tips: [3, '#22d7bb'], //配置颜色
+                        });
                     }
-                });
+                @endif
             });
         });
     </script>

@@ -59,6 +59,7 @@
                                 <select id="bcategory_id" name="bcategory_id" class="form-control selectpicker">
                                     <option value="0">请选择博客分类</option>
                                     <option value="1">Laravel</option>
+                                    <option value="2">Other</option>
                                 </select>
                             </div>
                         </div>
