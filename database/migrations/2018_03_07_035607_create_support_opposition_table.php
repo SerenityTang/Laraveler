@@ -15,6 +15,9 @@ class CreateSupportOppositionTable extends Migration
     {
         Schema::create('support_opposition', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->comment('用户id');
+            $table->morphs('sup_opp_able');
+            $table->string('sup_opp_mode')->comment('支持或反对类型：支持->support，反对->opposition');
             $table->timestamps();
         });
     }

@@ -15,6 +15,8 @@ class CreateAttentionsTable extends Migration
     {
         Schema::create('attentions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->comment('用户id');
+            $table->morphs('entityable');
             $table->timestamps();
         });
     }
