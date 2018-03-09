@@ -43,9 +43,25 @@
 .question-main .panel-body ul li .ques-count {display: inline-block;padding-left: 15px;}
 .question-main .panel-body ul li .ques-count span {color: #777;font-size: 13px;}
 .question-main .panel-body ul li .ques-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
+/*侧边栏最新回答*/
+.side-question h3.side-question-title {font-weight: bold;}
+.side-question h3.side-question-title i.new-icon, .side-question h3.side-question-title i.rank-icon {padding-right: 6px;font-weight: normal;}
+.side-question .panel-body ul .list-new-answer {border: 0;padding: 0;border-bottom: 1px solid #ddd;margin-bottom: 6px;padding-bottom: 3px;border-bottom-left-radius: 0;border-bottom-right-radius: 0;}
+.side-question .panel-body ul.list-new-answers {margin-bottom: 10px;}
+.side-question .panel-body ul .list-new-answer a.new-answer {font-size: 15px;color: #555;}
+/*侧边栏排行榜*/
+.side-question .side-question-rank {position: relative;}
+.side-question .panel-heading .rank {font-size: 10px;position: absolute;top: 6px;right: 6px;}
+.side-question .panel-heading .rank a {text-decoration: none;}
+.side-question .panel-heading .rank a:hover {color: #22d7bb;}
+.side-question .panel-heading .rank a.active-rank {color: #22d7bb;}
+.side-question .panel-body ol {list-style: decimal;padding-left: 20px;color: #555;}
+.side-question .panel-body ol .list-active {border: 0;padding: 8px 0 0 5px;background-color: #fff;}
+.side-question .panel-body ol .list-active a {font-size: 15px;color: #555;text-decoration: none;padding-left: 5px;}
+.side-question .panel-body ol .list-active a:hover {color: #22d7bb;}
+.side-question .panel-body ol .list-active .credit {color: #888;font-size: 10px;float: right;}
 
-
-/*问答内容展示页*/
+    /*问答内容展示页*/
 .ques-show-main div:first-child {border-color: #e0e0e0;}
 .ques-show-main .panel-heading-extra {background-color: #f4f4f4;}
 .ques-show-main .panel-heading .ques-show-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 10px;}
@@ -55,7 +71,10 @@
 .ques-show-main .panel-heading .ques-show-top .ques-operate {display: inline-block;padding-left: 15px;}
 .ques-show-main .panel-heading .ques-show-top .ques-operate span {color: #777;font-size: 13px;}
 .ques-show-main .panel-heading .ques-show-top .ques-operate span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
-.ques-show-main .panel-heading p {font-size: 16px;padding: 16px 0 8px 0;}
+.ques-show-main .panel-heading p {font-size: 16px;padding: 16px 0 8px 0;
+    word-wrap: break-word;   /*自动换行*/
+    /*word-break: break-all;   允许在单词内换行*/
+}
 .ques-show-main .panel-heading .operation-icon a {color: #999;text-decoration: none;padding-right: 8px;}
 .ques-show-main .panel-heading .operation-icon a:hover {color: #555;}
 .ques-show-main .panel-heading .operation-icon a i {padding-right: 3px;}
@@ -130,15 +149,27 @@
 .ques-show-main .panel-footer-tip .login-tip p {text-align: center;line-height: 100px;font-size: 16px;color: #666;}
 .ques-show-main .panel-footer-tip .login-tip p a {color: #22d7bb;text-decoration: none;font-weight: 500;}
 
-/*问答右侧栏*/
+/*问答右侧栏top*/
 .list-side-top ul li {background-color: #f4f4f4;}
 .list-side-top ul li .btn-vote, .list-side-top ul li .btn-attention, .list-side-top ul li .btn-collection {background-color: #22d7bb;color: #fff;line-height: 16px;width: 83px;text-align: center;}
 .list-side-top ul li .btn-vote:hover, .list-side-top ul li .btn-attention:hover, .list-side-top ul li .btn-collection:hover {background-color: #36ceb6;color: #fff;}
 .list-side-top ul li .btn-vote .btn-vote-text, .list-side-top ul li .btn-attention .btn-attention-text, .list-side-top ul li .btn-collection .btn-collection-text {box-sizing: inherit;color: #fff;font-size: 14px;padding: 0;}
 .list-side-top ul li .btn-vote i {padding-right: 1px;}
 .list-side-top ul li span {padding-left: 10px;color: #666;font-size: 15px;}
+.list-side-top ul li span.vote-count, .list-side-top ul li span.attention-count, .list-side-top ul li span.collection-count {float: right;padding-top: 4px;}
 
+/*问答右侧栏其它问答*/
+.list-side-other .other-panel {background-color: inherit;}
+.list-side-other h3.other-ques {font-weight: bold;font-size: 16px;}
+.list-side-other h3.other-ques i.other-icon {padding-right: 5px;}
+.list-side-other .other-panel .list-others {margin-bottom: 0;}
+.list-side-other .other-panel .list-others li a {color: #666;word-wrap: break-word;}
+.list-side-other .other-panel .list-others li a:hover {color: #333;}
+.list-side-other .other-panel .list-others p.list-other-empty {text-align: center;color: #999;}
 
-
+/*问答右侧栏相关问答*/
+.list-side-related .related-panel {background-color: inherit;}
+.list-side-related h3.related-ques {font-weight: bold;font-size: 16px;}
+.list-side-related h3.related-ques i.related-icon {padding-right: 5px;}
 
 

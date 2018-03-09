@@ -13,7 +13,7 @@ class CreateSupportOppositionTable extends Migration
      */
     public function up()
     {
-        Schema::create('support_opposition', function (Blueprint $table) {
+        Schema::create('support_oppositions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('用户id');
             $table->morphs('sup_opp_able');
@@ -29,6 +29,6 @@ class CreateSupportOppositionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('support_opposition');
+        Schema::dropIfExists('support_oppositions');
     }
 }

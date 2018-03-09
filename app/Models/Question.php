@@ -31,6 +31,14 @@ class Question extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
+    /**
+    * 获取问答对应的答案
+    */
+    public function answers()
+    {
+        return $this->hasMany('App\Models\Answer', 'question_id');
+    }
+
     //最新问答
     public static function newest($categoryId = 0, $pageSize = 15)
     {

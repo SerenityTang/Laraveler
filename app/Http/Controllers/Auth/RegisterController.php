@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User_data;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -94,6 +95,13 @@ class RegisterController extends Controller
             'user_status' => 1,
         ];
         $user = User::create($user_data);
+
+        if ($user) {
+            $data = [
+                'user_id'       => $user->id,
+            ];
+            User_data::create($data);
+        }
         return $user;
     }
 }

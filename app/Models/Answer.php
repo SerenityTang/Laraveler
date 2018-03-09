@@ -22,4 +22,12 @@ class Answer extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    /**
+     * 获取问答回答所属的问答
+     */
+    public function question()
+    {
+        return $this->belongsTo('App\Models\Question', 'question_id');
+    }
 }

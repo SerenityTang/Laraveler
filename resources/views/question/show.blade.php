@@ -127,8 +127,7 @@
                                     <span class="btn-vote-text">投票</span>
                                 @endif
                             </button>
-                            <span class="vote-count">{{ $question->vote_count }}</span>
-                            投票
+                            <span class="vote-count">{{ $question->vote_count }} 投票</span>
                         </li>
                         <li class="list-group-item">
                             <button type="button" class="btn btn-attention" data-question-id="{{ $question->id }}" data-question-uid="{{ $question->user_id }}" data-question-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
@@ -139,8 +138,7 @@
                                     <span class="btn-attention-text">关注</span>
                                 @endif
                             </button>
-                            <span class="attention-count">{{ $question->attention_count }}</span>
-                            关注
+                            <span class="attention-count">{{ $question->attention_count }} 关注</span>
                         </li>
                         <li class="list-group-item">
                             <button type="button" class="btn btn-collection" data-question-id="{{ $question->id }}" data-question-uid="{{ $question->user_id }}" data-question-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
@@ -151,14 +149,43 @@
                                     <span class="btn-collection-text">收藏</span>
                                 @endif
                             </button>
-                            <span class="collection-count">{{ $question->collection_count }}</span>
-                            收藏
+                            <span class="collection-count">{{ $question->collection_count }} 收藏</span>
                         </li>
                     </ul>
                 </div>
 
-                <div>
+                <div class="list-side-other">
+                    <div class="panel panel-default other-panel">
+                        <div class="panel-heading">
+                            <h3 class="other-ques"><i class="iconfont icon-qita other-icon"></i>{{ $question->user->username }} 的其它问答</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group list-others">
+                                @if($other_ques->isEmpty())
+                                    <p class="list-other-empty">{{ $question->user->username }} 暂无其它问答</p>
+                                @else
+                                    @foreach($other_ques as $other_que)
+                                        <li>
+                                            <a href="{{ url('question/show/' . $other_que->id) }}">{{ str_limit($other_que->title, 58) }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="list-side-related">
+                    <div class="panel panel-default related-panel">
+                        <div class="panel-heading">
+                            <h3 class="related-ques"><i class="iconfont icon-changjianwentixiangguanwenti related-icon"></i>相关问答</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group list-actives">
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -314,20 +341,18 @@
                             if (message == 'support') {
                                 support_count++;
                                 //两种写法，需要把$(this)传给变量
-                                $('.support-count').html(support_count);
+                                support_icon.parents('.media-footer').find('.support-count').html(support_count);
                                 //support_icon.find('.support-count').html(support_count);
-                                $('.support-icon').addClass('active');
+                                support_icon.parents('.media-footer').find('.support-icon').addClass('active');
                             } else if (message == 'unsupport') {
                                 support_count--;
-                                $('.support-count').html(support_count);
+                                support_icon.parents('.media-footer').find('.support-count').html(support_count);
                                 //support_icon.find('.support-count').html(support_count);
-                                $('.support-icon').removeClass('active');
+                                support_icon.parents('.media-footer').find('.support-icon').removeClass('active');
                             }
                         });
                     } else {
-                        layer.tips('不能支持自己的回答^_^', '#support-icon', {
-                            tips: [1, '#22d7bb'], //配置颜色
-                        });
+                        layer.msg('不能支持自己的回答^_^',{icon: 7});
                     }
                 @endif
             });
@@ -349,20 +374,18 @@
                             if (message == 'opposition') {
                                 oppose_count++;
                                 //两种写法，需要把$(this)传给变量
-                                $('.oppose-count').html(oppose_count);
+                                oppose_icon.parents('.media-footer').find('.oppose-count').html(oppose_count);
                                 //oppose_icon.find('.oppose_count').html(oppose_count);
-                                $('.oppose-icon').addClass('active');
+                                oppose_icon.parents('.media-footer').find('.oppose-icon').addClass('active');
                             } else if (message == 'unopposition') {
                                 oppose_count--;
-                                $('.oppose-count').html(oppose_count);
+                                oppose_icon.parents('.media-footer').find('.oppose-count').html(oppose_count);
                                 //oppose_icon.find('.oppose_count').html(oppose_count);
-                                $('.oppose-icon').removeClass('active');
+                                oppose_icon.parents('.media-footer').find('.oppose-icon').removeClass('active');
                             }
                         });
                     } else {
-                        layer.tips('不能反对自己的回答^_^', '#oppose-icon', {
-                            tips: [1, '#22d7bb'], //配置颜色
-                        });
+                        layer.msg('不能反对自己的回答^_^',{icon: 7});
                     }
                 @endif
             });

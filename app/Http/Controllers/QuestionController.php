@@ -7,10 +7,12 @@ use App\Models\Answer;
 use App\Models\Attention;
 use App\Models\Collection;
 use App\Models\Question;
+use App\Models\User_data;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use BrowserDetect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class QuestionController extends Controller
@@ -25,7 +27,24 @@ class QuestionController extends Controller
         $question = new Question();
         $questions = call_user_func([$question, $filter]);
 
-        return view('question.index')->with(['questions' => $questions, 'filter' => $filter]);
+        //最新回答
+        $new_answer_ques = [];
+        $answers = Answer::where('status', 1)->orderBy('created_at', 'DESC')->get();
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+            array_push($new_answer_ques, $question);
+            $new_answer_questions = array_unique($new_answer_ques);
+        }
+
+        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.answer_count','DESC')
+            ->orderBy('user_datas.article_count','DESC')
+            ->orderBy('user.updated_at','DESC')
+            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->take(10)->get();
+
+        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'active_users' => $active_users]);
     }
 
     /**
@@ -39,7 +58,41 @@ class QuestionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 活跃排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function active_rank()
+    {
+        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.answer_count','DESC')
+            ->orderBy('user_datas.article_count','DESC')
+            ->orderBy('user.updated_at','DESC')
+            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->take(10)->get();
+
+        return view('question.parts.active_rank')->with(['active_users' => $active_users]);
+    }
+
+    /**
+     * 积分排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function credit_rank()
+    {
+        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.credits','DESC')
+            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->take(10)->get();
+
+        return view('question.parts.credit_rank')->with(['credit_users' => $credit_users]);
+    }
+
+    /**
+     * 发布问答
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -62,6 +115,10 @@ class QuestionController extends Controller
 
             //判断是否发布成功
             if ($question) {
+                $user_data = User_data::where('user_id', $user->id)->first();
+                $user_data->increment('question_count');
+                $user_data->save();
+
                 return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^！！！');
             }
         } else {
@@ -83,13 +140,22 @@ class QuestionController extends Controller
         //问答浏览量统计
         Event::fire(new QuestionViewEvent($question));
 
+        //其它问答
+        $other_ques = Question::where('user_id', $question->user_id)->get();
+        foreach ($other_ques as $other_quekey => $other_quevalue) {
+            if ($other_quevalue->id == $id) {
+                unset($other_ques[$other_quekey]);
+            }
+        }
+
+        //最佳答案
         if ($question->question_status == 2 && $answers != null) {
             $best_answer = $answers->where('adopted_at', '>', '0')->first();
         } else {
-            return view('question.show')->with(['question' => $question, 'answers' => $answers]);
+            return view('question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques]);
         }
 
-        return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer]);
+        return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques]);
     }
 
     /**
@@ -151,7 +217,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除问答
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -159,8 +225,12 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         $question = Question::where('id', $id)->first();
+        $user_data = User_data::where('user_id', $question->user_id)->first();
         $question->delete();
         if($question->trashed()){
+            $user_data->decrement('question_count');
+            $user_data->save();
+
             return $this->jsonResult(701);
         }else{
             return $this->jsonResult(702);

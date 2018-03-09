@@ -47,11 +47,9 @@ class CreateUserTable extends Migration
             $table->tinyInteger('career_status')->nullable()->comment('职业状态：0->学生，1->在职，2->待业');
             $table->string('career_direction')->nullable()->comment('职业方向');
 
-            $table->dateTime('approval_time')->nullable()->comment('实名认证时间');
-            $table->tinyInteger('approval_status')->nullable()->default(0)->comment('实名认证状态：0->未提交资料，1->待审核，2->审核通过');
             $table->string('site_notifications')->nullable()->comment('站内通知');
             $table->string('email_notifications')->nullable()->comment('邮件通知策略');
-            $table->dateTime('last_login_time')->nullable()->comment('最后登录时间');
+            $table->dateTime('last_login_at')->nullable()->comment('最后登录时间');
             $table->dateTime('last_login_ip')->nullable()->comment('最后登录IP');
             $table->dateTime('user_agent')->nullable()->comment('最后登录浏览器信息');
             $table->timestamps();
