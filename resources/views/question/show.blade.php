@@ -27,7 +27,7 @@
                     <div class="panel-heading panel-heading-extra">
                         <div class="ques-show-top">
                             <h1 class="ques-show-title">{{ $question->title }}</h1>
-                            <a class="author" href="{{ url('') }}">
+                            <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                 <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
                                 <span class="username">{{ $question->user->username }}</span>
                             </a>

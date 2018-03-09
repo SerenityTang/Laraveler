@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Career_direction;
+use App\Models\User_data;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,59 +17,67 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     //用户个人主页
-    public function index(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.index')->with(['user' => $user]);
+    public function index($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的问答
-    public function questions(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.question')->with(['user' => $user]);
+    public function questions($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的回复
-    public function replies(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.replies')->with(['user' => $user]);
+    public function replies($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.replies')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的文章
-    public function articles(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.articles')->with(['user' => $user]);
+    public function articles($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.articles')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的关注
-    public function following(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.following')->with(['user' => $user]);
+    public function attentions($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的粉丝
-    public function fans(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.fans')->with(['user' => $user]);
+    public function fans($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的点赞
-    public function likes(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.likes')->with(['user' => $user]);
+    public function likes($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.likes')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的收藏
-    public function favorites(Request $request) {
-        $user = $request->user();
-        $user = User::where('id', $user->id)->first();
-        return view('user.homepage.favorites')->with(['user' => $user]);
+    public function favorites($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        return view('user.homepage.favorites')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人设置之个人信息

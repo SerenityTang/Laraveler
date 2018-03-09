@@ -1,9 +1,9 @@
 <div class="comment-list">
     <h4 class="media-heading media-heading-extra">
-        <a class="author reply-author" href="{{ url('') }}">{{ $comment->user->username }}</a>
+        <a class="author reply-author" href="{{ url('user/'.$comment->user->personal_domain) }}">{{ $comment->user->username }}</a>
         <span class="separate">:</span>
         @if($comment->to_user_id != null)
-            <a class="author" href="{{ url('') }}">@ {{ $comment->toUser->username }}</a>
+            <a class="author" href="{{ url('user/'.$comment->user->personal_domain) }}">@ {{ $comment->toUser->username }}</a>
         @endif
 
         {!! $comment->content !!}

@@ -41,7 +41,7 @@ class QuestionController extends Controller
             ->orderBy('user_datas.answer_count','DESC')
             ->orderBy('user_datas.article_count','DESC')
             ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
             ->take(10)->get();
 
         return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'active_users' => $active_users]);
@@ -69,7 +69,7 @@ class QuestionController extends Controller
             ->orderBy('user_datas.answer_count','DESC')
             ->orderBy('user_datas.article_count','DESC')
             ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
             ->take(10)->get();
 
         return view('question.parts.active_rank')->with(['active_users' => $active_users]);
@@ -85,7 +85,7 @@ class QuestionController extends Controller
         $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status','>',0)
             ->orderBy('user_datas.credits','DESC')
-            ->select('user.id','user.username','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
             ->take(10)->get();
 
         return view('question.parts.credit_rank')->with(['credit_users' => $credit_users]);

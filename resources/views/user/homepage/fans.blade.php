@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('user.partials.homepage_header')
+
     <div class="container main-container">
         <div class="row">
             {{--左侧菜单--}}
@@ -16,7 +18,7 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title">我的粉丝</h4>
+                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的粉丝 @else 我的粉丝 @endif</h4>
 
                 </div>
             </div>

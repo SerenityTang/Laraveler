@@ -93,6 +93,7 @@ class RegisterController extends Controller
             'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
             'user_status' => 1,
+            'personal_domain' => $data['username'],
         ];
         $user = User::create($user_data);
 

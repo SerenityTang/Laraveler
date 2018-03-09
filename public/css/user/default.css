@@ -1,12 +1,34 @@
-.main-container {margin-bottom: 30px;}
 /*个人主页*/
+/*头部*/
+.homepage-header {background-color: rgba(238, 238, 238, 1);padding: 20px 0 20px 0;margin-bottom: 20px;}
+.homepage-header .homepage-avatar {border: 4px solid #fff;box-shadow: 0 4px 8px 0 rgba(7,17,27,.1);}
+.homepage-header .homepage-middle .homepage-username {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;
+}
+.homepage-header .homepage-middle .homepage-username span {font-size: 13px;color: #999;font-weight: normal;}
+.homepage-header .homepage-middle p.homepage-info {font-size: 15px;}
+.homepage-header .homepage-middle p.homepage-info span {padding-right: 13px;}
+.homepage-header .homepage-middle p.homepage-desc {margin: 5px 0 15px 0;}
+.homepage-header .homepage-middle .homepage-btn button {margin-right: 10px;border: 1px solid #22d7bb;background-color: rgba(238, 238, 238, 1);color: #22d7bb;}
+.homepage-header .homepage-middle .homepage-btn button:hover {border: 1px solid #fff;background-color: #22d7bb;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
+.homepage-header .homepage-middle .homepage-btn button i {padding-right: 3px;}
+.homepage-header .homepage-bottom {margin-top: 20px;}
+.homepage-header .homepage-bottom .item {float: left;margin: 0 15px;}
+.homepage-header .homepage-bottom span.count {display: block;color: #22d7bb;font-size: 35px;font-weight: 700;text-align: center;}
+.homepage-header .homepage-bottom span.text {display: block;font-weight: 400;text-align: center;}
+
+.main-container {margin-bottom: 30px;}
 /*左侧内容*/
 .main-container .side-menu {width: 235px;background-color: #f8fafc;border-radius: 4px;}
 .main-container .side-menu .list-wapper {overflow: hidden;}
 .main-container .side-menu .list-wapper h3 {padding: 22px 0 10px 22px;font-size: 22px;font-weight: bold;}
 .main-container .side-menu .list-wapper .line {height: 1px;background-color: #d9dde1;margin: 0 24px;}
 .main-container .side-menu .list-wapper .menu {padding: 10px 0 25px;}
-.main-container .side-menu .list-wapper .menu li a {height: 50px;padding: 15px 128px 15px 34px;color: #14191e;text-decoration: none;line-height: 50px;}
+.main-container .side-menu .list-wapper .menu li a {height: 50px;padding: 15px 126px 15px 34px;color: #14191e;text-decoration: none;line-height: 50px;}
 .main-container .side-menu .list-wapper .menu li a i {color: #b5b9bc;position: relative;left: 98px;}
 /*鼠标经过导航菜单改变样式*/
 .main-container .side-menu .list-wapper .menu li a:hover {color: #22d7bb;background-color: rgba(0,0,0,0.1);cursor: pointer;}
