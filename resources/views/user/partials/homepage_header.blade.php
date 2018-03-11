@@ -72,7 +72,10 @@
 
                     <div class="col-md-12 dynamic">
                         <p><i class="iconfont icon-fangwenliang"></i> 主页被访问次数：{{ $user_data->view_count }}</p>
-                        <p>最近登录：{{ $user->last_login_at }}</p>
+                        <p>
+                            登录于：<span class="time" title="{{ $user->last_login_at }}">{!! $user->last_login_at !!}</span>
+                             / 活跃于：<span class="time" title="{{ $user->last_active_at }}">{!! $user->last_active_at !!}</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -80,6 +83,11 @@
     </div>
 </div>
 
+<script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
+<script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+<script>
+    $(".time").timeago();
+</script>
 <script>
     $(function () {
         $('.btn-attention').click(function () {
