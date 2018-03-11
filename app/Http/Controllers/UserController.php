@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\HomepageViewEvent;
+use App\Models\Attention;
 use App\Models\Career_direction;
+use App\Models\Question;
 use App\Models\User_data;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -21,31 +26,45 @@ class UserController extends Controller
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
+        //统计主页被访问记录
+        $curr_user = Auth::check() ? Auth::user() : null;
+        if ($curr_user == null) {
+            Event::fire(new HomepageViewEvent($user_data));
+        } else if ($curr_user->id != $user->id) {
+            Event::fire(new HomepageViewEvent($user_data));
+        }
+
         return view('user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的问答
     public function questions($personal_domain) {
+        //通过唯一的个性域名获取用户
         $user = User::where('personal_domain', $personal_domain)->first();
+        //获取用户数据
         $user_data = User_data::where('user_id', $user->id)->first();
+        //获取用户问答
+        $questions = $user->questions;
 
-        return view('user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
     }
 
     //用户个人主页之我的回复
-    public function replies($personal_domain) {
+    public function answers($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
+        //获取用户回答
+        $answers = $user->answers;
 
-        return view('user.homepage.replies')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
     }
 
     //用户个人主页之我的文章
-    public function articles($personal_domain) {
+    public function blogs($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
-        return view('user.homepage.articles')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的关注
@@ -53,31 +72,90 @@ class UserController extends Controller
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
-        return view('user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data]);
+        //关注的用户
+        $atte_users = $user->atte_user;
+
+        //关注的问答
+        $atte_ques = $user->atte_ques;
+
+        return view('user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
     }
 
     //用户个人主页之我的粉丝
     public function fans($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
+        $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
 
-        return view('user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
     }
 
-    //用户个人主页之我的点赞
-    public function likes($personal_domain) {
+    //用户个人主页之我的支持
+    public function supports($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
-        return view('user.homepage.likes')->with(['user' => $user, 'user_data' => $user_data]);
+        //支持的回答
+        $supp_answers = $user->supp_answer;
+
+        //反对的回答
+        $oppo_answers = $user->oppo_answer;
+
+        return view('user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers]);
     }
 
     //用户个人主页之我的收藏
-    public function favorites($personal_domain) {
+    public function collections($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
-        return view('user.homepage.favorites')->with(['user' => $user, 'user_data' => $user_data]);
+        //收藏的博客
+
+        //收藏的问答
+        $coll_ques = $user->coll_ques;
+
+        return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques]);
+    }
+
+    //用户个人主页之关注用户
+    public function attention_user(Request $request) {
+        //获取被关注用户id
+        $user = $request->input('user');
+        $users = User::where('id', $user)->first();
+        $user_data = User_data::where('user_id', $user)->first();
+        //获取当前用户id
+        $curr_user = $request->input('curr_user');
+        $attention = Attention::where('user_id', $curr_user)->where('entityable_id', $user)->where('entityable_type', get_class($users))->first();
+        $curr_user_data = User_data::where('user_id', $curr_user)->first();
+
+        if ($attention) {
+            //如存在此用户关注该用户记录，则属于取消关注
+            $att_del = $attention->delete();
+            if ($att_del == true) {
+                //当前用户关注数-1
+                $curr_user_data->decrement('attention_count');
+                //被关注用户粉丝数-1
+                $user_data->decrement('fan_count');
+
+                return 'unattention';
+            }
+        } else {
+            //如不存在此用户关注该用户记录，则属于关注
+            $data = [
+                'user_id'           =>$curr_user,
+                'entityable_id'     =>$user,
+                'entityable_type'   =>get_class($users),
+            ];
+            $attention_user = Attention::create($data);
+            if ($attention_user) {
+                //当前用户关注数+1
+                $curr_user_data->increment('attention_count');
+                //被关注用户粉丝数+1
+                $user_data->increment('fan_count');
+                return 'attention';
+            }
+        }
+        return $this->jsonResult(500);
     }
 
     //用户个人设置之个人信息

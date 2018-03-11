@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\QuestionViewEvent;
+use App\Events\HomepageViewEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class QuestionViewListener
+class HomepageViewListener
 {
     /**
      * Create the event listener.
@@ -21,14 +21,14 @@ class QuestionViewListener
     /**
      * Handle the event.
      *
-     * @param  QuestionViewEvent  $event
+     * @param  HomepageViewEvent  $event
      * @return void
      */
-    public function handle(QuestionViewEvent $event)
+    public function handle(HomepageViewEvent $event)
     {
-        $question = $event->question;
+        $user_data = $event->user_data;
 
-        //问答浏览量+1
-        $question->increment('view_count');
+        //主页访问量+1
+        $user_data->increment('view_count');
     }
 }

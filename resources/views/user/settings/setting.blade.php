@@ -98,7 +98,7 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">现居地址</label>
                             <div class="col-sm-8">
-                                <input type="text" id="city-picker" name="city-picker" class="form-control text-extra required" placeholder="省 / 市 " data-toggle="city-picker" data-level="city">
+                                <input type="text" id="city-picker" name="city-picker" class="form-control text-extra required city-bg" placeholder="省 / 市 " data-toggle="city-picker" data-level="city">
                             </div>
                         </div>
                         <div class="form-group">
@@ -208,6 +208,12 @@
             province: '{{ $user->province }}',
             city: '{{ $user->city }}',
         });
+
+        $(function () {
+            $('.city-picker-dropdown').css('left', '15px');  //调整地区下拉菜单位置
+            $('.city-picker-span').addClass('city-bg');
+        });
+
     </script>
     {{--<script>
         $('#career_status').on('click', function () {

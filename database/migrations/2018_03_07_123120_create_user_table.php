@@ -50,6 +50,7 @@ class CreateUserTable extends Migration
             $table->string('site_notifications')->nullable()->comment('站内通知');
             $table->string('email_notifications')->nullable()->comment('邮件通知策略');
             $table->dateTime('last_login_at')->nullable()->comment('最后登录时间');
+            $table->dateTime('last_active_at')->nullable()->comment('最后活跃时间');
             $table->dateTime('last_login_ip')->nullable()->comment('最后登录IP');
             $table->dateTime('user_agent')->nullable()->comment('最后登录浏览器信息');
             $table->timestamps();

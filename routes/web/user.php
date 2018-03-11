@@ -10,14 +10,15 @@
 Route::group(['prefix' => 'user/{personal_domain}'], function() {
     Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
     Route::get('/questions', ['as' => 'user.questions', 'uses' => 'UserController@questions']);
-    Route::get('/replies', ['as' => 'user.replies', 'uses' => 'UserController@replies']);
-    Route::get('/articles', ['as' => 'user.articles', 'uses' => 'UserController@articles']);
+    Route::get('/answers', ['as' => 'user.answers', 'uses' => 'UserController@answers']);
+    Route::get('/blogs', ['as' => 'user.blogs', 'uses' => 'UserController@blogs']);
     Route::get('/attentions', ['as' => 'user.attentions', 'uses' => 'UserController@attentions']);
     Route::get('/fans', ['as' => 'user.fans', 'uses' => 'UserController@fans']);
-    Route::get('/likes', ['as' => 'user.likes', 'uses' => 'UserController@likes']);
-    Route::get('/favorites', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
+    Route::get('/supports', ['as' => 'user.supports', 'uses' => 'UserController@supports']);
+    Route::get('/collections', ['as' => 'user.collections', 'uses' => 'UserController@collections']);
 });
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
+    Route::post('/attention_user', ['as' => 'user.attention_user', 'uses' => 'UserController@attention_user']);
     /*个人设置*/
     Route::get('{username}/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);
     Route::get('{username}/authenticate', ['as' => 'user.authenticate', 'uses' => 'UserController@authenticate']);

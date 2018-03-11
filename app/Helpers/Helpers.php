@@ -13,7 +13,9 @@ use App\Models\Attention;
 use App\Models\Collection;
 use App\Models\Question;
 use App\Models\Support_opposition;
+use App\Models\User_data;
 use App\Models\Vote;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class Helpers {
@@ -24,10 +26,28 @@ class Helpers {
         }
     //}
 
+    /*获取用户*/
+    public static function get_user($user_id){
+        $user = User::where('id', $user_id)->first();
+        return $user;
+    }
+
+    /*获取用户数据*/
+    public static function get_user_data($user_id){
+        $user_data = User_data::where('user_id', $user_id)->first();
+        return $user_data;
+    }
+
     /*获取回答*/
     public static function get_answer($answer_id){
         $answer = Answer::where('id', $answer_id)->first();
         return $answer;
+    }
+
+    /*获取问答*/
+    public static function get_question($question_id){
+        $question = Question::where('id', $question_id)->first();
+        return $question;
     }
 
     /**
@@ -103,9 +123,10 @@ class Helpers {
     }
 
     //判断是否关注
-    public static function attention($mode_id, $mode_type)
+    public static function attention($mode_id, $mode_type, $curr_userid = null)
     {
         if (Auth::check()) {
+            //关注问答
             if ($mode_type === 'Question') {
                 $question = Question::where('id', $mode_id)->first();
                 $attention = Attention::where('user_id', Auth::user()->id)->where('entityable_id', $mode_id)->where('entityable_type', get_class($question))->first();
@@ -114,9 +135,10 @@ class Helpers {
                 }
 
                 return null;
-            } else if ($mode_type === 'Question') {
-                $question = Question::where('id', $mode_id)->first();
-                $attention = Attention::where('user_id', Auth::user()->id)->where('entityable_id', $mode_id)->where('entityable_type', get_class($question))->first();
+            } else if ($mode_type === 'User') {
+                //关注用户
+                $user = User::where('id', $mode_id)->first();
+                $attention = Attention::where('user_id', $curr_userid)->where('entityable_id', $mode_id)->where('entityable_type', get_class($user))->first();
                 if ($attention) {
                     return $attention;
                 }

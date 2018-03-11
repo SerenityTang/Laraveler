@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    {{ $user->username }} 的收藏 | @parent
+    {{ $user->username }} 的文章 | @parent
 @stop
 @section('css')
     <link href="{{ asset('css/user/default.css') }}" rel="stylesheet">
@@ -18,7 +18,7 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的收藏 @else 我的收藏 @endif</h4>
+                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的博客 @else 我的博客 @endif</h4>
 
                 </div>
             </div>

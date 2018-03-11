@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Event;
 class QuestionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 问答首页
      *
      * @return \Illuminate\Http\Response
      */
@@ -48,7 +48,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 发布问答页面
      *
      * @return \Illuminate\Http\Response
      */
@@ -92,7 +92,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * 发布问答
+     * 保存发布问答
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -117,7 +117,6 @@ class QuestionController extends Controller
             if ($question) {
                 $user_data = User_data::where('user_id', $user->id)->first();
                 $user_data->increment('question_count');
-                $user_data->save();
 
                 return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^！！！');
             }
@@ -205,18 +204,6 @@ class QuestionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * 删除问答
      *
      * @param  int  $id
@@ -229,7 +216,6 @@ class QuestionController extends Controller
         $question->delete();
         if($question->trashed()){
             $user_data->decrement('question_count');
-            $user_data->save();
 
             return $this->jsonResult(701);
         }else{
@@ -288,13 +274,17 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $question = Question::where('id', $id)->first();
+            $curr_user_data = User_data::where('user_id', $user->id)->first();
+            $user_data = User_data::where('user_id', $question->user_id)->first();
             $attention = Attention::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
             //如果此用户关注过此问答，则属于取消关注
             if ($attention) {
                 $attention_bool = $attention->delete();
                 if ($attention_bool == true) {
                     $question->decrement('attention_count');     //关注数-1
-                    $question->save();
+                    $curr_user_data->decrement('atten_count'); //当前用户关注数-1
+                    $user_data->decrement('attened_count'); //回答所属用户被关注数-1
+
                     return response('unattention');
                 }
             } else {
@@ -308,7 +298,9 @@ class QuestionController extends Controller
                 $new_attention = Attention::create($data);
                 if ($new_attention) {
                     $question->increment('attention_count');     //关注数+1
-                    $question->save();
+                    $curr_user_data->increment('atten_count'); //当前用户关注数+1
+                    $user_data->increment('attened_count'); //回答所属用户被关注数+1
+
                     return response('attention');
                 }
             }
@@ -328,17 +320,21 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $question = Question::where('id', $id)->first();
+            $curr_user_data = User_data::where('user_id', $user->id)->first();
+            $user_data = User_data::where('user_id', $question->user_id)->first();
             $collection = Collection::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
-            //如果此用户关注过此问答，则属于取消关注
+            //如果此用户关注过此问答，则属于取消收藏
             if ($collection) {
                 $collection_bool = $collection->delete();
                 if ($collection_bool == true) {
                     $question->decrement('collection_count');     //收藏数-1
-                    $question->save();
+                    $curr_user_data->decrement('collection_count'); //当前用户收藏数-1
+                    $user_data->decrement('collectioned_count'); //回答所属用户被收藏数-1
+
                     return response('uncollection');
                 }
             } else {
-                //如果此用户无关注过此问答，则属于关注
+                //如果此用户无关注过此问答，则属于收藏
                 $data = [
                     'user_id'           =>$user->id,
                     'entityable_id'   =>$id,
@@ -348,7 +344,9 @@ class QuestionController extends Controller
                 $new_collection = Collection::create($data);
                 if ($new_collection) {
                     $question->increment('collection_count');     //收藏数+1
-                    $question->save();
+                    $curr_user_data->increment('collection_count'); //当前用户收藏数+1
+                    $user_data->increment('collectioned_count'); //回答所属用户被收藏数+1
+
                     return response('collection');
                 }
             }

@@ -405,11 +405,11 @@
                         $.get('/question/vote/'+question_id, function (message) {
                             if (message == 'vote') {
                                 vote_count++;
-                                $('.vote-count').html(vote_count);
+                                $('.vote-count').html(vote_count+' 投票');
                                 $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'已投票');
                             } else if (message == 'unvote') {
                                 vote_count--;
-                                $('.vote-count').html(vote_count);
+                                $('.vote-count').html(vote_count+' 投票');
                                 $('.btn-vote').html('<i class="iconfont icon-toupiao1"></i>'+'投票');
                             }
                         });
@@ -436,11 +436,11 @@
                         $.get('/question/attention/'+question_id, function (message) {
                             if (message == 'attention') {
                                 attention_count++;
-                                $('.attention-count').html(attention_count);
+                                $('.attention-count').html(attention_count+' 关注');
                                 $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'已关注');
                             } else if (message == 'unattention') {
                                 attention_count--;
-                                $('.attention-count').html(attention_count);
+                                $('.attention-count').html(attention_count+' 关注');
                                 $('.btn-attention').html('<i class="iconfont icon-toupiao1"></i>'+'关注');
                             }
                         });
@@ -467,11 +467,11 @@
                         $.get('/question/collection/'+question_id, function (message) {
                             if (message == 'collection') {
                                 collection_count++;
-                                $('.collection-count').html(collection_count);
+                                $('.collection-count').html(collection_count+' 收藏');
                                 $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'已收藏');
                             } else if (message == 'uncollection') {
                                 collection_count--;
-                                $('.collection-count').html(collection_count);
+                                $('.collection-count').html(collection_count+' 收藏');
                                 $('.btn-collection').html('<i class="iconfont icon-toupiao1"></i>'+'收藏');
                             }
                         });
