@@ -6,18 +6,19 @@
  * Time: 下午3:44
  */
 
-
+/*个人主页*/
+Route::group(['prefix' => 'user/{personal_domain}'], function() {
+    Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
+    Route::get('/questions', ['as' => 'user.questions', 'uses' => 'UserController@questions']);
+    Route::get('/answers', ['as' => 'user.answers', 'uses' => 'UserController@answers']);
+    Route::get('/blogs', ['as' => 'user.blogs', 'uses' => 'UserController@blogs']);
+    Route::get('/attentions', ['as' => 'user.attentions', 'uses' => 'UserController@attentions']);
+    Route::get('/fans', ['as' => 'user.fans', 'uses' => 'UserController@fans']);
+    Route::get('/supports', ['as' => 'user.supports', 'uses' => 'UserController@supports']);
+    Route::get('/collections', ['as' => 'user.collections', 'uses' => 'UserController@collections']);
+});
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
-    /*个人主页*/
-    Route::get('{username}', ['as' => 'user.index', 'uses' => 'UserController@index']);
-    Route::get('{username}/question', ['as' => 'user.question', 'uses' => 'UserController@question']);
-    Route::get('{username}/replies', ['as' => 'user.replies', 'uses' => 'UserController@replies']);
-    Route::get('{username}/articles', ['as' => 'user.articles', 'uses' => 'UserController@articles']);
-    Route::get('{username}/following', ['as' => 'user.following', 'uses' => 'UserController@following']);
-    Route::get('{username}/fans', ['as' => 'user.fans', 'uses' => 'UserController@fans']);
-    Route::get('{username}/likes', ['as' => 'user.likes', 'uses' => 'UserController@likes']);
-    Route::get('{username}/favorites', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
-
+    Route::post('/attention_user', ['as' => 'user.attention_user', 'uses' => 'UserController@attention_user']);
     /*个人设置*/
     Route::get('{username}/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);
     Route::get('{username}/authenticate', ['as' => 'user.authenticate', 'uses' => 'UserController@authenticate']);
@@ -32,5 +33,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('auth/profile/avatar', ['as' => 'user.auth.profile.avatar', 'uses' => 'UserController@post_avatar']);   //修改头像
     Route::post('profile/modify_password', ['as' => 'user.profile.modify_password', 'uses' => 'UserController@modify_password']);   //修改密码
 });
+
 
 

@@ -2,12 +2,12 @@
     @foreach($answers as $answer)
         <li class="list-group-item">
             <div class="media">
-                <a class="media-left ans-avatar avatar-40" href="{{ url('') }}">
+                <a class="media-left ans-avatar avatar-40" href="{{ url('user/'.$answer->user->personal_domain) }}">
                     <img src="{{ App\Helpers\Helpers::get_user_avatar($answer->user_id, 'middle') }}" class="avatar-40" alt="{{ $answer->user->username }}">
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading">
-                        <a class="author-name" href="{{ url('') }}"><strong>{{ $answer->user->username }}</strong></a>
+                        <a class="author-name" href="{{ url('user/'.$answer->user->personal_domain) }}"><strong>{{ $answer->user->username }}</strong></a>
                         <span class="separate">回复于</span>
                         <span class="time" title="{{ $answer->created_at }}">
                             {!! $answer->created_at !!}

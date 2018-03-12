@@ -19,6 +19,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\QuestionViewEvent' => [
             'App\Listeners\QuestionViewListener',
         ],
+        'App\Events\HomepageViewEvent' => [
+            'App\Listeners\HomepageViewListener',
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\UserLoginListener',
+        ],
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\UserLogoutListener',
+        ],
     ];
 
     /**

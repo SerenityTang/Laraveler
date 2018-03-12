@@ -124,7 +124,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-publish">
                             <li>
-                                <a href="{{ url('user/'.Auth::user()->username) }}"><i class="fa fa-user fa-lg"></i>个人主页</a>
+                                <a href="{{ url('user/'.Auth::user()->personal_domain) }}"><i class="fa fa-user fa-lg"></i>个人主页</a>
                             </li>
                             <li class="divider"></li>
                             <li>

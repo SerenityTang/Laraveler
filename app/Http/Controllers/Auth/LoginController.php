@@ -59,15 +59,25 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return redirect('/login')->withInput()->withErrors($validator);
         } else {
+
+            $credentials = $this->credentials($request);
+            $credentials['user_status'] = 1;
+
             if ($this->hasTooManyLoginAttempts($request)) {
                 $this->fireLockoutEvent($request);
 
                 return $this->sendLockoutResponse($request);
             }
 
-            if ($this->attemptLogin($request)) {
+            /*if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
+            }*/
+            if ($this->guard()->attempt($credentials, $request->has('remember'))) {
+                return $this->sendLoginResponse($request);
+            } else {
+                return $this->error('/login', '抱歉，您的帐号无法登录...');
             }
+
             $this->incrementLoginAttempts($request);
 
             return $this->sendFailedLoginResponse($request);

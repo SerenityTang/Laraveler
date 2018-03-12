@@ -21,6 +21,7 @@ class User extends Authenticatable
         'mobile',
         'password',
         'user_status',
+        'personal_domain'
     ];
 
     /**
@@ -76,7 +77,7 @@ class User extends Authenticatable
      */
     public function answers()
     {
-        return $this->hasMany('App\Models\Answer');
+        return $this->hasMany('App\Models\Answer', 'user_id');
     }
 
     /**
@@ -94,5 +95,53 @@ class User extends Authenticatable
     public function isAnswer($question_id)
     {
         return boolval($this->answers()->where('question_id', $question_id)->count());
+    }
+
+    /*
+     * 获取用户问答
+     */
+    public function questions()
+    {
+        return $this->hasMany('App\Models\Question', 'user_id');
+    }
+
+    /*
+     * 获取用户关注的问答
+     */
+    public function atte_ques()
+    {
+        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\Models\Question');
+    }
+
+    /*
+     * 获取用户关注的用户
+     */
+    public function atte_user()
+    {
+        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\User');
+    }
+
+    /*
+    * 获取用户收藏的问答
+    */
+    public function coll_ques()
+    {
+        return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Question');
+    }
+
+    /*
+    * 获取用户支持的回答
+    */
+    public function supp_answer()
+    {
+        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
+    }
+
+    /*
+    * 获取用户反对的回答
+    */
+    public function oppo_answer()
+    {
+        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
     }
 }

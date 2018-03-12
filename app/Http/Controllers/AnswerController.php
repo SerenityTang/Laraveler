@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Support_opposition;
+use App\Models\User_data;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,7 @@ class AnswerController extends Controller
     public function adopt($id)
     {
         $answer = Answer::where('id', $id)->first();
+        $user_data = User_data::where('user_id', $answer->user_id)->first();
         $answer->adopted_at = Carbon::now()->toDateTimeString();
         $ans_bool = $answer->save();
 
@@ -68,6 +70,8 @@ class AnswerController extends Controller
             $ques_bool = $question->save();
 
             if ($ques_bool == true) {
+                $user_data->increment('adoption_count');
+
                 return $this->jsonResult(703);
             }
         }
@@ -84,18 +88,17 @@ class AnswerController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $answer = Answer::where('id', $id)->first();
+            $curr_user_data = User_data::where('user_id', $user->id)->first();
+            $user_data = User_data::where('user_id', $answer->user_id)->first();
             $sup_opp = Support_opposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($answer))->first();
             //如果此用户支持过此问答的回答，则属于取消支持
             if ($sup_opp) {
                 $del_bool = $sup_opp->delete();
                 if ($del_bool == true) {
                     $answer->decrement('support_count');   //回答支持数-1
-                    /*if ($answer->support_count < 1) {
-                        $answer->support_count = 0;
-                    } else {
-                        $answer->support_count = $answer->support_count - 1;
-                    }*/
-                    $answer->save();
+                    $curr_user_data->decrement('support_count'); //当前用户支持数-1
+                    $user_data->decrement('supported_count'); //回答所属用户被支持数-1
+
                     return response('unsupport');
                 }
             } else {
@@ -110,8 +113,9 @@ class AnswerController extends Controller
 
                 if ($support_opposition) {
                     $answer->increment('support_count');      //回答支持数+1
-                    //$answer->support_count = $answer->support_count + 1;
-                    $answer->save();
+                    $curr_user_data->increment('support_count'); //当前用户支持数+1
+                    $user_data->increment('supported_count'); //回答所属用户被支持数+1
+
                     return response('support');
                 }
             }
@@ -137,12 +141,7 @@ class AnswerController extends Controller
                 $del_bool = $sup_opp->delete();
                 if ($del_bool == true) {
                     $answer->decrement('opposition_count');   //回答反对数-1
-                    /*if ($answer->opposition_count < 1) {
-                        $answer->opposition_count = 0;
-                    } else {
-                        $answer->opposition_count = $answer->opposition_count - 1;
-                    }*/
-                    $answer->save();
+
                     return response('unopposition');
                 }
             } else {
@@ -157,8 +156,7 @@ class AnswerController extends Controller
 
                 if ($support_opposition) {
                     $answer->increment('opposition_count');      //回答反对数+1
-                    //$answer->opposition_count = $answer->opposition_count + 1;
-                    $answer->save();
+
                     return response('opposition');
                 }
             }

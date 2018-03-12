@@ -1,13 +1,40 @@
-.main-container {margin-bottom: 30px;}
 /*个人主页*/
+/*头部*/
+.homepage-header {background-color: rgba(238, 238, 238, 1);padding: 20px 0 20px 0;margin-bottom: 20px;}
+.homepage-header .homepage-avatar {border: 4px solid #fff;box-shadow: 0 4px 8px 0 rgba(7,17,27,.1);}
+.homepage-header .homepage-middle .homepage-username {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;
+}
+.homepage-header .homepage-middle .homepage-username span {font-size: 13px;color: #999;font-weight: normal;}
+.homepage-header .homepage-middle p.homepage-info {font-size: 15px;}
+.homepage-header .homepage-middle p.homepage-info span {padding-right: 13px;}
+.homepage-header .homepage-middle p.homepage-desc {margin: 5px 0 15px 0;}
+.homepage-header .homepage-middle .homepage-btn a {width: 83px;margin-right: 10px;border: 1px solid #22d7bb;background-color: rgba(238, 238, 238, 1);color: #22d7bb;}
+.homepage-header .homepage-middle .homepage-btn a.btn-ask {width: 100px;}
+.homepage-header .homepage-middle .homepage-btn a.btn-edit {width: 98px;}
+.homepage-header .homepage-middle .homepage-btn a:hover {border: 1px solid #fff;background-color: #22d7bb;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
+.homepage-header .homepage-middle .homepage-btn a.active {border: 1px solid #fff;background-color: #22d7bb;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
+.homepage-header .homepage-middle .homepage-btn a i {padding-right: 3px;}
+.homepage-header .homepage-bottom {margin-top: 20px;}
+.homepage-header .homepage-bottom .dynamic {margin-top: 15px;}
+.homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 14px;margin-left: 20px;font-weight: 300;}
+.homepage-header .homepage-bottom .item {float: left;margin: 0 15px;}
+.homepage-header .homepage-bottom span.count {display: block;color: #22d7bb;font-size: 35px;font-weight: 700;text-align: center;}
+.homepage-header .homepage-bottom span.text {display: block;font-weight: 400;text-align: center;}
+
+.main-container {margin-bottom: 30px;}
 /*左侧内容*/
 .main-container .side-menu {width: 235px;background-color: #f8fafc;border-radius: 4px;}
 .main-container .side-menu .list-wapper {overflow: hidden;}
 .main-container .side-menu .list-wapper h3 {padding: 22px 0 10px 22px;font-size: 22px;font-weight: bold;}
 .main-container .side-menu .list-wapper .line {height: 1px;background-color: #d9dde1;margin: 0 24px;}
 .main-container .side-menu .list-wapper .menu {padding: 10px 0 25px;}
-.main-container .side-menu .list-wapper .menu li a {height: 50px;padding: 15px 128px 15px 34px;color: #14191e;text-decoration: none;line-height: 50px;}
-.main-container .side-menu .list-wapper .menu li a i {color: #b5b9bc;position: relative;left: 98px;}
+.main-container .side-menu .list-wapper .menu li a {height: 43px;padding: 0 0 0 34px;color: #14191e;text-decoration: none;line-height: 43px;display: block;position: relative;}
+.main-container .side-menu .list-wapper .menu li a i {color: #b5b9bc;position: absolute;right: 15px;}
 /*鼠标经过导航菜单改变样式*/
 .main-container .side-menu .list-wapper .menu li a:hover {color: #22d7bb;background-color: rgba(0,0,0,0.1);cursor: pointer;}
 .main-container .side-menu .list-wapper .menu li a:hover i {color: #22d7bb;}
@@ -23,10 +50,38 @@
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    background-color: #f4f4f4;
 }
-.main-container .right-container h4.title {font-size:22px;font-weight:bold;padding: 15px 0 10px 5px;margin:0 10px;border-bottom: 2px solid #d0d6d9;}
+.main-container .right-container h4.title {font-size:22px;font-weight:bold;padding: 15px 0 10px 5px;border-bottom: 2px solid #d0d6d9;}
 .main-container .right-container h4.title i {font-size: 25px;padding-right: 6px;position: relative;top: 3px;}
+.main-container .right-container ul .list- {background-color: #f4f4f4;border: 0;border-bottom: 1px solid #ddd;margin-bottom: 0;}
+.main-container .right-container>.list-group:last-child .list-group-item:last-child {border-bottom: 1px solid #ddd;}
+.main-container .right-container ul .list- .headtitle div {font-weight: 500;}
+.main-container .right-container ul .list- .headtitle .count, .main-container .right-container ul .list- .content .count {text-align: center;}
+.main-container .right-container ul .list- a.title {font-size: 15px;color: #333;white-space: nowrap;}
+.main-container .right-container ul .list- a.title:hover {color: #22d7bb;}
+.main-container .right-container ul .list- span.adopt-tip {background-color: #22d7bb;color: #fff;padding: 4px 5px;border-radius: 4px;}
 
+/*tab栏*/
+.main-container .right-container .tab-top {margin-top: 20px;}
+.main-container .right-container ul .list-tab {background-color: #fff;border: 0;border-bottom: 1px solid #ddd;margin-bottom: 0;}
+.main-container .right-container ul .list-tab:last-child {border-bottom-right-radius: 0;border-bottom-right-radius: 0;}
+.main-container .right-container ul .list-tab .headtitle div {font-weight: 500;}
+.main-container .right-container ul .list-tab .headtitle .count, .main-container .right-container ul .list-tab .content .count {text-align: center;}
+.main-container .right-container ul .list-tab a.title {font-size: 15px;color: #333;white-space: nowrap;}
+.main-container .right-container ul .list-tab a.title:hover {color: #22d7bb;}
+.main-container .right-container ul .list-tab p.answer-content, .main-container .right-container ul .list-tab .create-time {font-size: 13px;color: #666;}
+.main-container .right-container ul .list-tab a.att-u-name {font-size: 16px;color: #333;text-decoration: none;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
+.main-container .right-container ul .list-tab a.att-u-name:hover {color: #22d7bb;}
+.main-container .right-container ul .list-tab p.data {color: #666;font-size: 13px;}
+.main-container .right-container ul .list-tab a.attention-icon, .main-container .right-container ul .list-tab a.pri-letter-icon {text-decoration: none;font-size: 13px;border: 1px solid #22d7bb;line-height: 23px;border-radius: 3px;color: #999;display: block;width: 50px;text-align: center;}
+.main-container .right-container ul .list- p.answer-content {font-size: 13px;color: #666;display: inline-block;}
+
+/*粉丝列表*/
+.main-container .right-container ul .list- a.att-u-name {font-size: 16px;color: #333;text-decoration: none;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
+.main-container .right-container ul .list- a.att-u-name:hover {color: #22d7bb;}
+.main-container .right-container ul .list- p.data {color: #666;font-size: 13px;}
+.main-container .right-container ul .list- a.attention-icon, .main-container .right-container ul .list- a.pri-letter-icon {text-decoration: none;font-size: 13px;border: 1px solid #22d7bb;line-height: 23px;border-radius: 3px;color: #999;display: block;width: 50px;text-align: center;}
 
 /*个人设置*/
 /*左侧导航菜单*/
@@ -46,6 +101,7 @@
 .main-container .panel-default.right-container p.small-title {font-size: 16px;font-weight: bold;color: #666;border-left: 3px solid #22d7bb;padding-left: 10px;margin-left: 20px;}
 /*.main-container .panel-default.right-container .text-extra {border: 2px solid #e4e4e4;height: 40px;}*/
 .text-extra {border: 2px solid #e4e4e4;height: 40px;}
+.main-container .panel-default.right-container .city-bg {background-color: #f4f4f4;}
 .main-container .panel-default.right-container textarea {border: 2px solid #e4e4e4;}
 .main-container .panel-default.right-container .text-extra:focus, .main-container .panel-default.right-container textarea:focus {border: 2px solid #22d7bb;}
 /*保存按钮除绑定第三方*/
