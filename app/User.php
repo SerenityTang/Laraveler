@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Encore\Admin\Traits\AdminBuilder;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, AdminBuilder;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +33,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
 
     public static function getAvatarPath($userId, $size='big', $ext='jpg')
     {

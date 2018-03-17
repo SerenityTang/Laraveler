@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="@section('keywords'){{ Config::get('global.keywords') }}@show">
-        <meta name="description" content="@section('description'){{ Config::get('global.description') }}@show">
-        <meta name="author" content="{{ Config::get('global.author') }}">
+        <meta name="keywords" content="@section('keywords'){{ config('global.keywords') }}@show">
+        <meta name="description" content="@section('description'){{ config('global.description') }}@show">
+        <meta name="author" content="{{ config('global.author') }}">
 
-        <title>@section('title'){{ Config::get('global.title') }}@show</title>
+        <title>@section('title'){{ config('global.title') }}@show</title>
 
         {{--Font--}}
         <link rel="stylesheet" href="{{ asset('libs/font-awesome/css/font-awesome.min.css') }}">
@@ -21,6 +21,8 @@
 
         @section('style')
         @show
+
+        <link rel="shortcut icon" href="/bitbug_favicon.ico">
 
         {{--JavaScript--}}
 

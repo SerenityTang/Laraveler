@@ -123,10 +123,15 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-publish">
+                            @if(Auth::user()->can('admin.question.manage'))
+                                <li>
+                                    <a href="{{ url('user/'.Auth::user()->username) }}"><i class="fa fa-gears fa-lg"></i>系统管理</a>
+                                </li>
+                                <li class="divider"></li>
+                            @endif
                             <li>
                                 <a href="{{ url('user/'.Auth::user()->personal_domain) }}"><i class="fa fa-user fa-lg"></i>个人主页</a>
                             </li>
-                            <li class="divider"></li>
                             <li>
                                 <a href="{{ url('user/'.Auth::user()->username.'/settings') }}"><i class="fa fa-gear fa-lg"></i>个人设置</a>
                             </li>
