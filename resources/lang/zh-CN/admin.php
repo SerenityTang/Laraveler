@@ -60,6 +60,7 @@ return [
     'more' => '更多',
     'deny' => '无权访问',
 
+    'common_user' => '普通用户',
     'administrator' => '管理员',
     'roles'         => '角色',
     'permissions'   => '权限',
