@@ -7,6 +7,10 @@
  */
 
 return [
+    'keywords' => env('KEYWORDS', 'Laraveler, php, Laravel, php问答, Laravel问答, Laraveler问答, php博客, Laravel博客, Laraveler博客'),
+    'description' => env('DESC', 'Laraveler问答系统聚集了优秀的Laravel开发者，致力于为国内广大Laravel程序员打造一个分享、互助、交流的开源社区'),
+    'author' => env('AUTHOR', 'Serenity_Tang'),
+    'title' => env('TITLE', 'Laraveler - '),
     /*
     |--------------------------------------------------------------------------
     | Upload folder

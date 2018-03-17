@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="@section('keywords'){{ Config::get('global.keywords') }}@show">
-    <meta name="description" content="@section('description'){{ Config::get('global.description') }}@show">
-    <meta name="author" content="{{ Config::get('global.author') }}">
+    <meta name="keywords" content="@section('keywords'){{ config('global.keywords') }}@show">
+    <meta name="description" content="@section('description'){{ config('global.description') }}@show">
+    <meta name="author" content="{{ config('global.author') }}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@section('title')Serenity - @show</title>
+    <title>@section('title'){{ config('global.title') }}@show</title>
 
     <!-- Styles -->
     {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
@@ -34,7 +34,7 @@
     @section('style')
     @show
 
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/bitbug_favicon.ico">
 
     {{--JavaScript--}}
     <!--[if lt IE 9]>
