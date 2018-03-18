@@ -1,0 +1,116 @@
+@charset "UTF-8";
+html{overflow-y:auto;font-size:50px;-webkit-tap-highlight-color:transparent;height:100%;min-width:320px;overflow-x:auto}
+body{margin:0;height:100%;background:#16a085;}
+canvas{z-index:-1;position:absolute;}
+
+/*--------------登录界面-------------*/
+.auth{
+    width: 380px;
+    height: auto;
+    overflow: auto;
+    margin: 8% auto 0 auto;
+    padding: 40px;
+    box-shadow: 0 -15px 30px #0d957a;
+    border-radius: 5px;
+}
+/*.auth .cover{border: inherit;background-color: inherit;}*/
+/*顶部标题*/
+.auth strong{display:block;text-align:center;font-size: 20px;color: #45bda6;}
+.auth em.title-eng {display:block;font-size:12px;margin-top:8px;text-align:center;margin-bottom: 10px;color: #45bda6;}
+.auth .form-group .help-block-clear {margin: 0px;}
+.auth .form-group .help-block em{display:block;font-size:13px;text-align: left;padding-left: 36px;color: #A01641;margin: 5px 0 0 0;}
+/*输入框图标*/
+.auth .u-icon, .auth .p-icon, .auth .c-icon{/*border-radius: 2px;*/padding: 4px 7px;background-color: #ddd;border: 1px solid #53c6b0;border-right: 0;}
+.auth .u-icon-clear, .auth .p-icon-clear, .auth .c-icon-clear {border: 1px solid #A01641;border-right: 0;box-shadow:0px 0px 1px #A01641;}
+/*输入框*/
+.auth .text{color: white; background-color: #55b7a4;height: 40px;line-height: 40px;border: 1px solid #53c6b0;}
+.auth .text-clear{border: 1px solid #A01641;}
+.auth .text-focus {background: #5cbdaa;
+    -moz-box-shadow: 0px 0px 8px #53c6b0;/*firefox*/
+    -webkit-box-shadow: 0px 0px 8px #53c6b0;/*safari或chrome*/
+    box-shadow:0px 0px 8px #53c6b0;
+}
+/*输入框提示*/
+.auth .text::-webkit-input-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.auth .text:-moz-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.auth .text::-moz-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.auth .form-group .input-group .c-text{border-radius: 4px;border-top-left-radius: 0;border-bottom-left-radius: 0;}
+/*验证码*/
+.auth img:hover{cursor: pointer;}
+.auth .loc{padding-left: 10px;}
+.auth .loc:hover {cursor: pointer;}
+.auth .glyphicon-refresh{
+    animation:rotate 2s infinite;
+    -moz-animation:rotate 2s infinite;
+    -webkit-animation:rotate 2s infinite;
+    -o-animation:rotate 21s infinite;
+}
+/*获取验证码按钮*/
+.auth .get-btn {background-color: #048f74; height: 40px;border: none;font-size: 15px;color: #f4f4f4;}
+.auth .get-btn:hover {background:#0e8a70;color:#fff;}
+/*登录按钮*/
+.auth .log-btn {background-color: #048f74; height: 42px;border: none;font-size: 15px;color: #f4f4f4;}
+.auth .log-btn:hover {background:#0e8a70;color:#fff;}
+/*登录验证提示*/
+/*.has-error{border-color: #A01641;}*/
+.auth .tooltip.bottom .tooltip-arrow, .has-error .tooltip.bottom .tooltip-arrow{
+    border-bottom-color: #A01641;
+}
+.auth .tooltip.top .tooltip-arrow, .has-error .tooltip.top .tooltip-arrow{
+    border-top-color: #A01641;
+}
+.auth .tooltip.right .tooltip-arrow, .has-error .tooltip.right .tooltip-arrow{
+    border-top-color: #A01641;
+}
+.auth .tooltip.left .tooltip-arrow, .has-error .tooltip.left .tooltip-arrow{
+    border-top-color: #A01641;
+}
+.auth .tooltip-inner, .has-error .tooltip-inner{
+    background-color: #A01641;
+}
+/*keep & forget*/
+.auth label, .auth .forget-pwd{color: #53c6b0;}
+/*第三方登录标题*/
+.auth .other-login{margin-top: 33px;}
+.auth .other-login h6{
+    text-align: center;
+    position: relative;
+    margin: 0 0 20px;
+    font-size: 12px;
+    color: white;
+}
+.auth .other-login h6:before, .auth .other-login h6:after{
+    content: "";
+    border-top: 1px solid #fff;
+    display: block;
+    position: absolute;
+    width: 60px;
+    top: 5px;
+}
+.auth .other-login h6:before{left: 30px;}
+.auth .other-login h6:after{right: 30px;}
+/*第三方登录图标*/
+.auth .other-login ol{list-style-type: none;width: 250px;margin: 0 auto;}
+/*立即注册*/
+.auth .register-now{width: 200px;margin: 20px auto;padding: 3px;text-align: center;background-color: hsla(0,0%,71%,.4);border-radius: 15px;}
+.auth .register-now span{color: #fff;}
+.auth .register-now span a{color: #53c6b0;}
+
+
+/*--------------注册界面-------------*/
+/*输入框图标*/
+.auth .e-icon{background-color: #ddd;padding: 4px 7px;border: 1px solid #53c6b0;border-right: 0;}
+.auth .e-icon-clear{border: 1px solid #A01641;border-right: 0;box-shadow:0px 0px 2px #A01641;}
+.auth .m-icon{background-color: #ddd;padding: 0px 4px;border: 1px solid #53c6b0;border-right: 0;}
+.auth .m-icon-clear{border: 1px solid #A01641;border-right: 0;box-shadow:0px 0px 2px #A01641;}
+/*注册按钮*/
+.auth .reg-btn{background-color: #048f74; height: 42px;border: none;font-size: 15px;color: #f4f4f4;}
+.auth .reg-btn:hover{background:#0e8a70;color:#fff;}
+/*立即登录*/
+.auth .login-now{width: 200px;margin: 20px auto;padding: 3px;text-align: center;background-color: hsla(0,0%,71%,.4);border-radius: 15px;}
+.auth .login-now span{color: #fff;}
+.auth .login-now span a{color: #53c6b0;}
+
+.auth .login-toptip {width: 340px;position: relative;top: -20px;left: -20px;padding-right: 0;margin-bottom: 0;}
+.auth .login-toptip .btn-close {top: -12px;}
+.auth .login-toptip p.message {font-size: 13px;}

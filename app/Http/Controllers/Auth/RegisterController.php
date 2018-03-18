@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User_data;
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -14,7 +16,7 @@ class RegisterController extends Controller
     | Register Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles the registration of new users as well as their
+    | This controller handles the registration of new user as well as their
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
@@ -23,11 +25,11 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * Where to redirect user after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -40,6 +42,33 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $input = $request->only(['username', 'password', 'password_confirmation','email','mobile','m_code']);
+        $rules = array(
+            'username' => 'required|string|max:255|unique:user',
+            'password' => 'required|string|between:6,20|confirmed',
+            'password_confirmation' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:user',
+            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
+            //'m_code' => 'required|string'
+        );
+
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            return redirect('/register')->withInput()->withErrors($validator);
+        } else {
+            $user = $this->create($input);
+            return $this->success(route('login'), '亲爱的' . $user->username . '，恭喜您注册成功，请登录...');
+        }
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -47,11 +76,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+
     }
 
     /**
@@ -62,10 +87,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user_data = [
+            'username' => $data['username'],
             'email' => $data['email'],
+            'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
-        ]);
+            'user_status' => 1,
+            'personal_domain' => $data['username'],
+        ];
+        $user = User::create($user_data);
+
+        if ($user) {
+            $data = [
+                'user_id'       => $user->id,
+            ];
+            User_data::create($data);
+        }
+        return $user;
     }
 }

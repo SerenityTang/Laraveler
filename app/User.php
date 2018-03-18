@@ -4,18 +4,25 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Encore\Admin\Traits\AdminBuilder;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, AdminBuilder;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $table = 'user';
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'email',
+        'mobile',
+        'password',
+        'user_status',
+        'personal_domain'
     ];
 
     /**
@@ -26,4 +33,118 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+
+    public static function getAvatarPath($userId, $size='big', $ext='jpg')
+    {
+        $avatarDir = self::getAvatarDir($userId);
+        $avatarFileName = self::getAvatarFileName($userId,$size);
+        return $avatarDir. DIRECTORY_SEPARATOR .$avatarFileName.'.'.$ext;
+    }
+
+    /**
+     * 获取用户头像存储目录
+     * @param $user_id
+     * @return string
+     */
+    public static function getAvatarDir($userId, $rootPath='avatar')
+    {
+        /*$userId = sprintf("%09d", $userId);
+        return $rootPath.'/'.substr($userId, 0, 3) . '/' . substr($userId, 3, 2) . '/' . substr($userId, 5, 2);*/
+        $rootDir = config('global.upload_folder');
+        return $rootDir . DIRECTORY_SEPARATOR . $rootPath . DIRECTORY_SEPARATOR . $userId;
+    }
+
+
+    /**
+     * 获取头像文件命名
+     * @param string $size
+     * @return mixed
+     */
+    public static function getAvatarFileName($userId, $size='big')
+    {
+        $avatarNames = [
+            'small'=>'user_small_'.$userId,
+            'medium'=>'user_medium_'.$userId,
+            'middle'=>'user_middle_'.$userId,
+            'big'=>'user_big_'.$userId,
+            'origin'=>'user_origin_'.$userId
+        ];
+        return $avatarNames[$size];
+    }
+
+    /**
+     * 获取用户回答
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function answers()
+    {
+        return $this->hasMany('App\Models\Answer', 'user_id');
+    }
+
+    /**
+     * 获取用户评论
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Answer');
+    }
+
+    /*
+     * 是否回答过此问题
+     */
+    public function isAnswer($question_id)
+    {
+        return boolval($this->answers()->where('question_id', $question_id)->count());
+    }
+
+    /*
+     * 获取用户问答
+     */
+    public function questions()
+    {
+        return $this->hasMany('App\Models\Question', 'user_id');
+    }
+
+    /*
+     * 获取用户关注的问答
+     */
+    public function atte_ques()
+    {
+        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\Models\Question');
+    }
+
+    /*
+     * 获取用户关注的用户
+     */
+    public function atte_user()
+    {
+        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\User');
+    }
+
+    /*
+    * 获取用户收藏的问答
+    */
+    public function coll_ques()
+    {
+        return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Question');
+    }
+
+    /*
+    * 获取用户支持的回答
+    */
+    public function supp_answer()
+    {
+        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
+    }
+
+    /*
+    * 获取用户反对的回答
+    */
+    public function oppo_answer()
+    {
+        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
+    }
 }
