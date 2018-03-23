@@ -44,6 +44,10 @@ class QuestionController extends Controller
             ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
             ->take(10)->get();
 
+        if (!isset($new_answer_questions)) {
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'active_users' => $active_users]);
+        }
+
         return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'active_users' => $active_users]);
     }
 

@@ -64,11 +64,13 @@
                     </div>
                     <div class="panel-body">
                         <ul class="list-group list-new-answers">
-                            @foreach($new_answer_questions as $new_ques)
-                                <li class="list-group-item list-new-answer">
-                                    <a class="new-answer" href="{{ url('question/show/'.$new_ques->id) }}">{{ str_limit($new_ques->title, 28) }}</a>
-                                </li>
-                            @endforeach
+                            @if(isset($new_answer_questions))
+                                @foreach($new_answer_questions as $new_ques)
+                                    <li class="list-group-item list-new-answer">
+                                        <a class="new-answer" href="{{ url('question/show/'.$new_ques->id) }}">{{ str_limit($new_ques->title, 28) }}</a>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>

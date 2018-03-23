@@ -25,9 +25,9 @@ class CreateUserDatasTable extends Migration
             $table->integer('comment_count')->unsigned()->default(0)->comment('评论数');
             $table->integer('adoption_count')->unsigned()->default(0)->comment('被采纳数');
             $table->integer('support_count')->unsigned()->default(0)->comment('支持数');
-            $table->integer('support_count')->unsigned()->default(0)->comment('被支持数');
+            $table->integer('supported_count')->unsigned()->default(0)->comment('被支持数');
             $table->integer('collection_count')->unsigned()->default(0)->comment('收藏数');
-            $table->integer('collection_count')->unsigned()->default(0)->comment('被收藏数');
+            $table->integer('collectioned_count')->unsigned()->default(0)->comment('被收藏数');
             $table->integer('atten_count')->unsigned()->default(0)->comment('关注数');
             $table->integer('attened_count')->unsigned()->default(0)->comment('被关注数');
             $table->integer('attention_count')->unsigned()->default(0)->comment('用户关注数');

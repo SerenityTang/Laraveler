@@ -23,7 +23,8 @@ require __DIR__.'/web/user.php';
 
 //框架自带欢迎页
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return view('home');
 });
 
 //执行认证生成的路由
