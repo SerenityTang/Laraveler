@@ -72,31 +72,31 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-extra">
                             <ul id="myTab" class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#home" data-toggle="tab">
+                                <li class="active first">
+                                    <a href="#news" data-toggle="tab">
                                         <i class="iconfont icon-xiaoxi"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ios" data-toggle="tab">
+                                    <a href="#pri-letter" data-toggle="tab">
                                         <i class="iconfont icon-wodexiaoxi"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ios" data-toggle="tab">
+                                    <a href="#attention" data-toggle="tab">
                                         <i class="iconfont icon-chakantiezigengduozhiguanzhulouzhu"></i>
                                     </a>
                                 </li>
                             </ul>
                             <div id="myTabContent" class="tab-content">
-                                <div class="tab-pane fade in active" id="home">
-                                    <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或</p>
+                                <div class="tab-pane fade in active" id="news">
+                                    <p>此功能暂未开通</p>
                                 </div>
-                                <div class="tab-pane fade" id="ios">
-                                    <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或</p>
+                                <div class="tab-pane fade" id="pri-letter">
+                                    <p>此功能暂未开通</p>
                                 </div>
-                                <div class="tab-pane fade" id="jmeter">
-                                    <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或</p>
+                                <div class="tab-pane fade" id="attention">
+                                    <p>此功能暂未开通</p>
                                 </div>
                             </div>
                         </ul>

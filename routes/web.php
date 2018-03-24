@@ -22,16 +22,15 @@ require __DIR__.'/web/image.php';
 require __DIR__.'/web/user.php';
 
 //框架自带欢迎页
-Route::get('/', function () {
-    //return view('welcome');
-    return view('home');
-});
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
 
 //执行认证生成的路由
 Auth::routes();
 
 //执行认证生成的首页
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 //登录页面验证码
 Route::get('/captcha/verify', ['as' => 'captcha.verify', 'uses' => 'CaptchaController@verify']);

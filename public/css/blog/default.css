@@ -34,7 +34,7 @@
 .blog-main .panel-heading .tabs nav {text-align: left;margin-left: -4px;}
 .blog-main .panel-heading .tabs nav ul li {border-top-left-radius: 4px;border-top-right-radius: 4px;}
 .blog-main .panel-heading .tabs nav ul li a {padding: 8px 8px 5px 8px;line-height: inherit;font-size: 15px;color: #333;font-weight: bold;}
-.blog-main .panel-heading .tabs nav ul li a:hover {text-decoration: none;background-color: rgba(0,0,0,.08);}
+.blog-main .panel-heading .tabs nav ul li a:hover {text-decoration: none;}
 /*tab栏内容*/
 .blog-main .panel-body {padding: 0 15px 15px 15px;}
 .blog-main .panel-body ul li {border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}

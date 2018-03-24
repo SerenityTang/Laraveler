@@ -36,19 +36,11 @@ class QuestionController extends Controller
             $new_answer_questions = array_unique($new_answer_ques);
         }
 
-        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.answer_count','DESC')
-            ->orderBy('user_datas.article_count','DESC')
-            ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
-            ->take(10)->get();
-
         if (!isset($new_answer_questions)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'active_users' => $active_users]);
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter]);
         }
 
-        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'active_users' => $active_users]);
+        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions]);
     }
 
     /**
