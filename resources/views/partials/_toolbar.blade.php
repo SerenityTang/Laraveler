@@ -1,12 +1,6 @@
 <div class="toolbar">
     <a href="javascript:void(0)" class="toolbar-item">
         <span class="toolbar-btn">
-            <i class="iconfont icon-yijianfankui toolbar-icon toolbar-icon-opinion"></i>
-            <span class="toolbar-text">意见<br />反馈</span>
-        </span>
-    </a>
-    <a href="javascript:void(0)" class="toolbar-item">
-        <span class="toolbar-btn">
             <i class="iconfont icon-qr-code toolbar-icon"></i>
             <span class="toolbar-text">联系<br />站主</span>
         </span>
@@ -18,6 +12,12 @@
         <span class="toolbar-btn">
             <i class="iconfont icon-iconfonticon6 toolbar-icon"></i>
             <span class="toolbar-text">Q Q<br />咨询</span>
+        </span>
+    </a>
+    <a href="javascript:void(0)" class="toolbar-item">
+        <span class="toolbar-btn">
+            <i class="iconfont icon-yijianfankui toolbar-icon toolbar-icon-opinion"></i>
+            <span class="toolbar-text">意见<br />反馈</span>
         </span>
     </a>
     <a id="backTop" href="javascript:void(0)" class="toolbar-item">
