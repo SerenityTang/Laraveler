@@ -27,7 +27,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ $question->title }}</a>
+                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ str_limit($question->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$question->user->personal_domain) }}" class="h_q_user">{{ $question->user->username }} / </a>
                                                     <span class="time" title="{{ $question->created_at }}">
@@ -123,7 +123,11 @@
                     </div>
 
                     <div class="panel-body">
-
+                        <div id="tagscloud">
+                            @foreach($tags as $tag)
+                                <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
 
@@ -157,6 +161,7 @@
 @section('footer')
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+    <script src="{{ asset('libs/tag-cloud/tagscloud.js') }}"></script>
     <script>
         $(".time").timeago();
     </script>
@@ -170,7 +175,7 @@
         $(function () {
             //活跃排行榜
             $('.active-rank').click(function () {
-                $.get('/question/active_rank', function (html) {
+                $.get('/user/active_rank', function (html) {
                     $('.side-rank .panel-heading .rank a.credit-rank').css('color', '#ccc');
                     $('.side-rank .panel-body').empty();
                     $('.side-rank .panel-body').append(html);
@@ -180,7 +185,7 @@
 
             //积分排行榜
             $('.credit-rank').click(function () {
-                $.get('/question/credit_rank', function (html) {
+                $.get('/user/credit_rank', function (html) {
                     $('.side-rank .panel-heading .rank a.active-rank').css('color', '#ccc');
                     $('.side-rank .panel-body').empty();
                     $('.side-rank .panel-body').append(html);

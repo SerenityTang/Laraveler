@@ -57,7 +57,7 @@ class Question extends Model
         if( $categoryId > 0 ){
             $query->where('category_id','=',$categoryId);
         }
-        $hottest = $query->where('status', 1)->where('view_count', '>', 20)->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $hottest = $query->where('status', 1)->where('view_count', '>', 10)->whereDate('updated_at', date('Y-m-d'))->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $hottest;
     }
 

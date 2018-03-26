@@ -245,6 +245,19 @@ body, html {
 /*首页热门标签*/
 .side-tag h3.hot-tag {font-weight: 500;font-size: 15px;}
 .side-tag h3.hot-tag i {padding-right: 5px;}
+#tagscloud {height:170px;position:relative;font-size:12px;color:#333;margin:20px auto 0;text-align:center;}
+#tagscloud a{position:absolute;top:0px;left:0px;color:#333;font-family:Arial;text-decoration:none;margin:0 10px 15px 0;line-height:18px;text-align:center;font-size:12px;padding:1px 5px;display:inline-block;border-radius:3px;}
+#tagscloud a.tagc1{background:#666;color:#fff;}
+#tagscloud a.tagc2{background:#F16E50;color:#fff;}
+#tagscloud a.tagc3{background:#FFDAB9;color:#fff;}
+#tagscloud a.tagc4{background:#CD950C;color:#fff;}
+#tagscloud a.tagc5{background:#006633;color:#fff;}
+#tagscloud a.tagc6{background:#8B2252;color:#fff;}
+#tagscloud a.tagc7{background:#7D26CD;color:#fff;}
+#tagscloud a.tagc8{background:#87CEFF;color:#fff;}
+#tagscloud a.tagc9{background:#FF6EB4;color:#fff;}
+#tagscloud a:hover{color:#fff;background:#22d7bb;}
+
 
 /*首页栏排行榜*/
 .side-rank .side-question-rank h3.side-question-title {font-weight: 500;font-size: 15px;}
@@ -262,7 +275,7 @@ body, html {
 
 /*底部*/
 .footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 20px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
-.footer p.footer-link {text-align: center;font-size: 15px;}
+.footer p.footer-link {text-align: center;font-size: 15px;color: #333;}
 .footer p.footer-link a {color: #333;text-decoration: none;}
 .footer p.footer-link a:hover {color: #22d7bb;}
 .footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 13px;}

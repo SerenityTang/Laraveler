@@ -67,6 +67,7 @@
 <!-- Scripts -->
 {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 <script src="{{ asset('libs/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('libs/typeahead.js/dist/typeahead.bundle.min.js') }}"></script>
 <script src="{{ asset('js/global.js') }}"></script>
 {{--操作成功与否提示自动隐藏--}}
 <script>

@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-xs-12 col-md-9 question-main">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading question-heading">
                         <div id="tabs" class="tabs">
                             <nav>
                                 <ul>
@@ -26,33 +26,75 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            @foreach($questions as $question)
-                                <li class="list-group-item">
-                                    <h2 class="title">
-                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
-                                    </h2>
-                                    <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
-                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
-                                        <span class="username">{{ $question->user->username }} / </span>
-                                    </a>
-                                    <span class="time" title="{{ $question->created_at }}">
-                                        {!! $question->created_at !!}
-                                    </span>
+                    <div class="panel-body question-body hot-date">
+                        @if($filter === 'hottest')
+                            <div class="hot-question">
+                                <div class="btn-group date" data-toggle="buttons">
+                                    <label class="btn day-sort active" data-question-id="" data-sort="default">
+                                        <input type="radio" name="default" id="day-sort"> 日榜
+                                    </label>
+                                    <label class="btn week-sort" data-question-id="" data-sort="time">
+                                        <input type="radio" name="time" id="week-sort"> 周榜
+                                    </label>
+                                    <label class="btn month-sort" data-question-id="" data-sort="support">
+                                        <input type="radio" name="support" id="month-sort"> 月榜
+                                    </label>
+                                </div>
+                                <ul class="list-group">
+                                    @foreach($questions as $question)
+                                        <li class="list-group-item hot-list-item">
+                                            <h2 class="title">
+                                                <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                            </h2>
+                                            <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
+                                                <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
+                                                <span class="username">{{ $question->user->username }} / </span>
+                                            </a>
+                                            <span class="time" title="{{ $question->created_at }}">
+                                                {!! $question->created_at !!}
+                                            </span>
 
-                                    <div class="ques-count">
-                                        <span title="浏览数"><i class="iconfont icon-liulan"></i>{{$question->view_count}}</span>
-                                        <span>|</span>
-                                        <span title="投票数"><i class="iconfont icon-toupiao"></i>{{$question->vote_count}}</span>
-                                        <span>|</span>
-                                        <span title="回答数"><i class="iconfont icon-tubiaopinglunshu"></i>{{$question->answer_count}}</span>
-                                        <span>|</span>
-                                        <span title="关注数"><i class="iconfont icon-guanzhu"></i>{{$question->attention_count}}</span>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                                            <div class="ques-count">
+                                                <span title="浏览数"><i class="iconfont icon-liulan"></i>{{$question->view_count}}</span>
+                                                <span>|</span>
+                                                <span title="投票数"><i class="iconfont icon-toupiao"></i>{{$question->vote_count}}</span>
+                                                <span>|</span>
+                                                <span title="回答数"><i class="iconfont icon-tubiaopinglunshu"></i>{{$question->answer_count}}</span>
+                                                <span>|</span>
+                                                <span title="关注数"><i class="iconfont icon-guanzhu"></i>{{$question->attention_count}}</span>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @else
+                            <ul class="list-group">
+                                @foreach($questions as $question)
+                                    <li class="list-group-item global-list-item">
+                                        <h2 class="title">
+                                            <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                        </h2>
+                                        <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
+                                            <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
+                                            <span class="username">{{ $question->user->username }} / </span>
+                                        </a>
+                                        <span class="time" title="{{ $question->created_at }}">
+                                            {!! $question->created_at !!}
+                                        </span>
+
+                                        <div class="ques-count">
+                                            <span title="浏览数"><i class="iconfont icon-liulan"></i>{{$question->view_count}}</span>
+                                            <span>|</span>
+                                            <span title="投票数"><i class="iconfont icon-toupiao"></i>{{$question->vote_count}}</span>
+                                            <span>|</span>
+                                            <span title="回答数"><i class="iconfont icon-tubiaopinglunshu"></i>{{$question->answer_count}}</span>
+                                            <span>|</span>
+                                            <span title="关注数"><i class="iconfont icon-guanzhu"></i>{{$question->attention_count}}</span>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -75,7 +117,40 @@
                     </div>
                 </div>
 
+                <div class="panel panel-default">
+                    <div class="panel-heading ">
+                        <h3 class="side-question-title"><i class="iconfont icon-biaoqian side-ques-tag"></i>问答标签</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="tagscloud">
+                            @foreach($tags as $tag)
+                                <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
 
+                <div class="panel panel-default warm">
+                    <div class="panel-heading warm-panel-heading">
+                        <h3 class="side-question-title"><i class="iconfont icon-remen warm-icon"></i>热心排行榜</h3>
+                        <div class="date">
+                            <a class="week" href="javascript:void(0)">周榜</a>
+                            <span> · </span>
+                            <a class="month" href="javascript:void(0)">月榜</a>
+                        </div>
+                    </div>
+                    <div class="panel-body warm-panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item warm-user">
+                                @foreach($warm_users as $warm_user)
+                                    <a href="{{ url('user/'.$warm_user->personal_domain) }}">
+                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($warm_user->id, 'medium') }}" data-toggle="tooltip" title="{{$warm_user->username}} 回答数：{{$warm_user->answer_count}}" alt="{{ $warm_user->username }}">
+                                    </a>
+                                @endforeach
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -88,9 +163,54 @@
     </script>--}}
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+    <script src="{{ asset('libs/tag-cloud/tagscloud.js') }}"></script>
     <script>
         $(".time").timeago();
-        //$(".answer-time").timeago();
     </script>
+    <script>
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+    </script>
+    <script>
+        //问答首页中热门问答分类显示 日/周/月
+        $(function () {
+            $('.day-sort').click(function () {
+                $.get('/question/day_sort', function (html) {
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').empty();
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').append(html);
+                });
+            });
 
+            $('.week-sort').click(function () {
+                $.get('/question/week_sort', function (html) {
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').empty();
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').append(html);
+                });
+            });
+
+            $('.month-sort').click(function () {
+                $.get('/question/month_sort', function (html) {
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').empty();
+                    $('.month-sort').parents('.hot-question').find('ul.list-group').append(html);
+                });
+            });
+        })
+    </script>
+    <script>
+        $('.week').click(function () {
+            $.get('/question/warm_week', function (html) {
+                $('.week').css('color', '#22d7bb');
+                $('.week').siblings('a').css('color', '#ccc');
+                $('.week').parents('.warm').find('.warm-panel-body ul.list-group').empty();
+                $('.week').parents('.warm').find('.warm-panel-body ul.list-group').append(html);
+            });
+        });
+        $('.month').click(function () {
+            $.get('/question/warm_month', function (html) {
+                $('.month').css('color', '#22d7bb');
+                $('.month').siblings('a').css('color', '#ccc');
+                $('.month').parents('.warm').find('.warm-panel-body ul.list-group').empty();
+                $('.month').parents('.warm').find('.warm-panel-body ul.list-group').append(html);
+            });
+        });
+    </script>
 @stop

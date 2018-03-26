@@ -44,6 +44,9 @@ class AnswerController extends Controller
                 //问答的问题状态
                 $question->question_status = 1;
                 $question->save();
+
+                $user_data = User_data::where('user_id', $user->id)->first();
+                $user_data->increment('answer_count');
                 return $this->success(route('question.show', ['id' => $question_id]), '回复成功^_^');
             }
         } else {
