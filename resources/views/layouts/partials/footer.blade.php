@@ -6,6 +6,6 @@
             <a class="contact" href="">联系我们</a>
         </p>
         <p class="copyright">互联网ICP备案：<a href=""></a>Copyright ©  2018 <a href="/"> laraveler.net</a> . All rights reserved.</p>
-        <p class="author">Powered By <a href="">Serenity_Tang</a></p>
+        <p class="author">Powered By <a href="/user/Serenity_Tang">Serenity_Tang</a></p>
     </div>
 </div>

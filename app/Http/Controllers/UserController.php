@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\HomepageViewEvent;
 use App\Models\Attention;
 use App\Models\Career_direction;
-use App\Models\Question;
 use App\Models\User_data;
 use App\User;
 use Illuminate\Http\Request;
@@ -440,5 +439,39 @@ class UserController extends Controller
         }
         //dd($taxonomies);
         return $taxonomies;
+    }
+
+    /**
+     * 活跃排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function active_rank()
+    {
+        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.answer_count','DESC')
+            ->orderBy('user_datas.article_count','DESC')
+            ->orderBy('user.updated_at','DESC')
+            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->take(10)->get();
+
+        return view('user.partials.active_rank')->with(['active_users' => $active_users]);
+    }
+
+    /**
+     * 积分排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function credit_rank()
+    {
+        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.credits','DESC')
+            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->take(10)->get();
+
+        return view('user.partials.credit_rank')->with(['credit_users' => $credit_users]);
     }
 }

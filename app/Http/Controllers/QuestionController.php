@@ -7,10 +7,13 @@ use App\Models\Answer;
 use App\Models\Attention;
 use App\Models\Collection;
 use App\Models\Question;
+use App\Models\Tag;
+use App\Models\Taggable;
 use App\Models\User_data;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use BrowserDetect;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -36,11 +39,35 @@ class QuestionController extends Controller
             $new_answer_questions = array_unique($new_answer_ques);
         }
 
-        if (!isset($new_answer_questions)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter]);
+        //问答热门标签
+        $taggables = Taggable::where('entityable_type', get_class($question))->get();
+        $tags = array();
+        foreach ($taggables as $taggable) {
+             $tag = Tag::where('id', $taggable->tag_id)->first();
+             array_unshift($tags, $tag);
         }
 
-        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions]);
+        //热心排行榜
+        $week = Carbon::now()->dayOfWeek;
+        if ($week == 0) {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now();
+        } else {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now()->addDays(7 - $week);
+        }
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count','DESC')
+            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->take(9)->get();
+
+        if (!isset($new_answer_questions)) {
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users, 'tags' => $tags]);
+        }
+
+        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'tags' => $tags]);
     }
 
     /**
@@ -50,41 +77,9 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('question.create');
-    }
+        $tags = Tag::where('status', 1)->get();
 
-    /**
-     * 活跃排行榜
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function active_rank()
-    {
-        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.answer_count','DESC')
-            ->orderBy('user_datas.article_count','DESC')
-            ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
-            ->take(10)->get();
-
-        return view('question.parts.active_rank')->with(['active_users' => $active_users]);
-    }
-
-    /**
-     * 积分排行榜
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function credit_rank()
-    {
-        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.credits','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
-            ->take(10)->get();
-
-        return view('question.parts.credit_rank')->with(['credit_users' => $credit_users]);
+        return view('question.create')->with(['tags' => $tags]);
     }
 
     /**
@@ -102,7 +97,7 @@ class QuestionController extends Controller
                 'qcategory_id'  =>$request->input('qcategory_id', 0),
                 'title'         =>$request->input('question_title'),
                 'description'   =>$request->input('description'),
-                'price'         =>0,
+                'price'         =>$request->input('price'),
                 //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
                 'device'        =>1,
                 'status'        =>1,
@@ -114,7 +109,21 @@ class QuestionController extends Controller
                 $user_data = User_data::where('user_id', $user->id)->first();
                 $user_data->increment('question_count');
 
-                return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^！！！');
+                //绑定标签
+                $tags = explode(',', $request->input('tags'));
+                foreach ($tags as $tag) {
+                    $taggables = [
+                        'tag_id'            =>$tag,
+                        'entityable_id'     =>$question->id,
+                        'entityable_type'   =>get_class($question),
+                    ];
+                    $taggable = Taggable::create($taggables);
+                }
+                if ($taggable) {
+                    return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^！！！');
+                } else {
+                    return $this->error('/question', '发布问答失败^_^！！！');
+                }
             }
         } else {
             return view('auth.login');
@@ -149,6 +158,9 @@ class QuestionController extends Controller
         } else {
             return view('question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques]);
         }
+
+        //相关问答
+        
 
         return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques]);
     }
@@ -349,5 +361,101 @@ class QuestionController extends Controller
         } else {
             return view('auth.login');
         }
+    }
+
+    /**
+     * 热门问答日榜
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function day_sort()
+    {
+        $day_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereDate('updated_at', date('Y-m-d'))->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('question.parts.day_sort')->with(['day_hot_questions' => $day_hot_questions]);
+    }
+
+    /**
+     * 热门问答周榜
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function week_sort()
+    {
+        $week = Carbon::now()->dayOfWeek;
+        if ($week == 0) {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now();
+        } else {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now()->addDays(7 - $week);
+        }
+
+        $week_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereBetween('updated_at', [$start, $end])->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('question.parts.week_sort')->with(['week_hot_questions' => $week_hot_questions]);
+    }
+
+    /**
+     * 热门问答月榜
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function month_sort()
+    {
+        $now_day = Carbon::now();
+        $start = date('Y-m-01', strtotime($now_day));//获取指定月份的第一天
+        $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
+
+        $month_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereBetween('updated_at', [$start, $end])->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('question.parts.month_sort')->with(['month_hot_questions' => $month_hot_questions]);
+    }
+
+    /**
+     * 热心周排行榜
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function warm_week()
+    {
+        $week = Carbon::now()->dayOfWeek;
+        if ($week == 0) {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now();
+        } else {
+            $start = Carbon::now()->addDays($week - 7);
+            $end = Carbon::now()->addDays(7 - $week);
+        }
+
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count','DESC')
+            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->take(9)->get();
+        return view('question.parts.warm_week')->with(['warm_users' => $warm_users]);
+    }
+
+    /**
+     * 热心月排行榜
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function warm_month()
+    {
+        $now_day = Carbon::now();
+        $start = date('Y-m-01', strtotime($now_day));//获取指定月份的第一天
+        $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
+
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count','DESC')
+            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->take(9)->get();
+        return view('question.parts.warm_month')->with(['warm_users' => $warm_users]);
     }
 }

@@ -6,6 +6,10 @@
  * Time: 下午3:44
  */
 
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/active_rank', ['as' => 'user.active_rank', 'uses' => 'UserController@active_rank']);       //活跃排行榜
+    Route::get('/credit_rank', ['as' => 'user.credit_rank', 'uses' => 'UserController@credit_rank']);       //积分排行榜
+});
 /*个人主页*/
 Route::group(['prefix' => 'user/{personal_domain}'], function() {
     Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
@@ -17,6 +21,7 @@ Route::group(['prefix' => 'user/{personal_domain}'], function() {
     Route::get('/supports', ['as' => 'user.supports', 'uses' => 'UserController@supports']);
     Route::get('/collections', ['as' => 'user.collections', 'uses' => 'UserController@collections']);
 });
+
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('/attention_user', ['as' => 'user.attention_user', 'uses' => 'UserController@attention_user']);
     /*个人设置*/
@@ -33,6 +38,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('auth/profile/avatar', ['as' => 'user.auth.profile.avatar', 'uses' => 'UserController@post_avatar']);   //修改头像
     Route::post('profile/modify_password', ['as' => 'user.profile.modify_password', 'uses' => 'UserController@modify_password']);   //修改密码
 });
+
 
 
 
