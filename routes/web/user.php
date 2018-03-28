@@ -20,6 +20,7 @@ Route::group(['prefix' => 'user/{personal_domain}'], function() {
     Route::get('/fans', ['as' => 'user.fans', 'uses' => 'UserController@fans']);
     Route::get('/supports', ['as' => 'user.supports', 'uses' => 'UserController@supports']);
     Route::get('/collections', ['as' => 'user.collections', 'uses' => 'UserController@collections']);
+    Route::get('/drafts', ['as' => 'user.drafts', 'uses' => 'UserController@drafts']);
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {

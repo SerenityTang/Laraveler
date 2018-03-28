@@ -18,6 +18,10 @@
                 <li>
                     <a href="{{ url('/blog') }}" class="version-link ">博客</a>
                 </li>
+
+                <li>
+                    <a href="{{ url('/tag') }}" class="version-link ">标签</a>
+                </li>
                 
                 <li>
                     <a href="{{ url('') }}" class="version-link ">作品展示</a>
@@ -27,7 +31,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="search-bar">
                     <form action="{{ url('') }}" method="get" target="_blank" accept-charset="utf-8">
-                        <input type="text" id="search-text" class="search-text" placeholder="请输入你想要滴 ^_^ ！！！">
+                        <input type="text" id="search-text" class="search-text" placeholder="请输入你想要滴 ^_^ ">
                         <a href="{{ url('') }}" class="search-btn">
                             <i class="iconfont icon-sousuo"></i>
                         </a>

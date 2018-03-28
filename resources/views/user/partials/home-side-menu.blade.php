@@ -60,6 +60,9 @@
                 <li>
                     <a href="{{url('user/'.$user->personal_domain.'/collections')}}" class="{{ App\Helpers\Helpers::setActive('user/'.$user->personal_domain.'/collections', 'extra') }}">我的收藏<i class="iconfont icon-1202youjiantou"></i></a>
                 </li>
+                <li>
+                    <a href="{{url('user/'.$user->personal_domain.'/drafts')}}" class="{{ App\Helpers\Helpers::setActive('user/'.$user->personal_domain.'/drafts', 'extra') }}">我的草稿<i class="iconfont icon-1202youjiantou"></i></a>
+                </li>
             </ul>
         @endif
     </div>

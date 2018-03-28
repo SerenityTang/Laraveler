@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Models\Question;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -20,9 +22,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * 首页
      */
     public function index()
     {
@@ -43,5 +43,49 @@ class HomeController extends Controller
         $tags = Tag::where('status', 1)->get();
 
         return view('home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags]);
+    }
+
+    /**
+     * 意见反馈
+     */
+    public function feedback(Request $request)
+    {
+        $data = $_POST['data'];
+        $feedback_data = [
+            'user_id'       =>Auth::check() ? Auth::user()->id : 0,
+            'type'          =>$data[0]['value'],
+            'description'   =>$data[1]['value'],
+            'url'           =>$data[2]['value'],
+            //'picture'       =>$data[]['value'],
+            'contact'       =>$data[3]['value'],
+        ];
+        $feedback_data = Feedback::create($feedback_data);
+        if ($feedback_data) {
+            return $this->jsonResult(801);
+        }
+    }
+
+    /**
+     * 关于我们
+     */
+    public function about()
+    {
+        return view('footer.about');
+    }
+
+    /**
+     * 联系我们
+     */
+    public function contact()
+    {
+        return view('footer.contact');
+    }
+
+    /**
+     * 帮助中心
+     */
+    public function help()
+    {
+        return view('footer.help');
     }
 }

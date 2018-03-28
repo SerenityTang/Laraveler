@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\HomepageViewEvent;
 use App\Models\Attention;
+use App\Models\Blog;
 use App\Models\Career_direction;
+use App\Models\Question;
 use App\Models\User_data;
 use App\User;
 use Illuminate\Http\Request;
@@ -114,6 +116,20 @@ class UserController extends Controller
         $coll_ques = $user->coll_ques;
 
         return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques]);
+    }
+
+    //用户个人主页之我的草稿
+    public function drafts($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        //问答草稿
+        $questions = Question::where('user_id', $user->id)->where('status', 2)->get();
+
+        //博客草稿
+        $blogs = Blog::where('user_id', $user->id)->where('status', 2)->get();
+
+        return view('user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
     }
 
     //用户个人主页之关注用户

@@ -28,6 +28,7 @@
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/store') }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" id="description" name="description" value="">
+                        <input type="hidden" id="user_coin" name="user_coin" value="{{ $user_data->coins }}">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">问题标题</label>
                             <div class="col-sm-9">
@@ -52,13 +53,24 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">悬赏金币</label>
                             <div class="col-sm-4">
-                                <select id="price" name="price" class="form-control selectpicker">
-                                    <option value="0">0</option>
-                                    <option value="2">2</option>
-                                    <option value="5">5</option>
-                                    <option value="8">8</option>
-                                    <option value="10">10</option>
-                                </select>
+                                @if($user_data->coins == 0)
+                                    <select id="price" name="price" class="form-control selectpicker" onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;">
+                                        <option value="0">0</option>
+                                        <option value="2">2</option>
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <span class="award-tip"><i class="iconfont icon-jinggao1"></i>您的金币不足</span>
+                                @else
+                                    <select id="price" name="price" class="form-control selectpicker">
+                                        <option value="0">0</option>
+                                        <option value="2">2</option>
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group tag-form-group">
@@ -84,6 +96,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-8">
                                 <button type="submit" class="btn btn-success btn-lg btn-save">发布问题</button>
+                                <button type="button" class="btn btn-success btn-lg btn-draft">保存草稿</button>
                             </div>
                         </div>
                     </form>
@@ -103,6 +116,137 @@
     <script type="text/javascript" src="{{ url('libs/bootstrap-select/js/i18n/defaults-zh_CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/amazeui-tagsinput/amazeui.tagsinput.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('css/iconfont/iconfont.js') }}"></script>
+    <script>
+        $(function () {
+            //选择金币后触发事件
+            $('#price').change(function () {
+                var coin = $('#user_coin').val();   //获取隐藏表单中用户金币数
+                //var select_coin = $('#price option:selected').val(); val():获取value，text():获取文本
+                var select_coin = $('#price option:selected').text();   //获取用户选择的金币数
+                //比较金币
+                if (coin < select_coin) {
+                    layer.msg('您的金币不足', {
+                        icon: 7,
+                        time: 2000,
+                    });
+                    $("#price").val(0);     //还原为选择0
+                }
+            });
+
+            //发布问题
+            $('.btn-save').click(function () {
+                var question_title = $('#question_title').val();
+                var qcategory_id = $('#qcategory_id').val();
+                var tags = $('#tags').val();
+                if (question_title == '') {
+                    layer.msg('问题标题不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (qcategory_id == 0) {
+                    layer.msg('请选择一个问题分类喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (tags == '') {
+                    layer.msg('问题标签不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (question_title.lastIndexOf("？") == -1) {
+                    layer.msg('问题标题以中文问号结尾喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+            });
+
+            //保存草稿
+            $('.btn-draft').click(function () {
+                /*var question_title = $('#question_title').val();
+                var qcategory_id = $('#qcategory_id').val();
+                var tags = $('#tags').val();
+                if (question_title == '') {
+                    layer.msg('问题标题不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (qcategory_id == 0) {
+                    layer.msg('请选择一个问题分类喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (tags == '') {
+                    layer.msg('问题标签不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (question_title.lastIndexOf("？") == -1) {
+                    layer.msg('问题标题以中文问号结尾喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }*/
+
+                $.ajax({
+                    url: "{{ url('question/store_draft') }}",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'question_title': $('#question_title').val(),
+                        'description': $('#description').val(),
+                        'qcategory_id': $('#qcategory_id').val(),
+                        'price': $('#price').val(),
+                        'tags': $('#tags').val(),
+                    },
+                    cache: false, //不允许有缓存
+                    success: function(res){
+                        if (res.code == 501) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                                end : function(){
+                                    location.href='{{ url("/question") }}';
+                                }
+                            });
+                        } else if (res.code == 502) {
+                            layer.msg(res.message, {
+                                icon: 2,
+                                time: 2000,
+                                end : function(){
+                                    location.href='{{ url("/question") }}';
+                                }
+                            });
+                        }
+                    },
+                    error: function(){
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                            end : function(){
+                                location.href='{{ url("/question") }}';
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         $(function () {
             $('.question-tag .am-tagsinput span .tt-menu').addClass('tt-drop-menu');

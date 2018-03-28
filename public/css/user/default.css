@@ -76,8 +76,11 @@
 .main-container .right-container ul .list-tab p.data {color: #666;font-size: 13px;}
 .main-container .right-container ul .list-tab a.attention-icon, .main-container .right-container ul .list-tab a.pri-letter-icon {text-decoration: none;font-size: 13px;border: 1px solid #22d7bb;line-height: 23px;border-radius: 3px;color: #999;display: block;width: 50px;text-align: center;}
 .main-container .right-container ul .list- p.answer-content {font-size: 13px;color: #666;display: inline-block;}
+span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;color: #666;}
+.edit-icon a {color: #999;text-decoration: none;font-size: 13px;}
+.edit-icon a:hover {color: #22d7bb;}
 
-/*粉丝列表*/
+    /*粉丝列表*/
 .main-container .right-container ul .list- a.att-u-name {font-size: 16px;color: #333;text-decoration: none;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
 .main-container .right-container ul .list- a.att-u-name:hover {color: #22d7bb;}
 .main-container .right-container ul .list- p.data {color: #666;font-size: 13px;}

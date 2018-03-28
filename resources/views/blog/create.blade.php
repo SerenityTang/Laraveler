@@ -31,8 +31,8 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12 source-display">
-                                    <input type="text" class="form-control source-name text-extra" id="firstname" name="source_name" placeholder="请输入博客来源名称">
-                                    <input type="text" class="form-control source-link text-extra" id="firstname" name="source_link" placeholder="请输入博客原文链接">
+                                    <input type="text" class="form-control source-name text-extra" id="source_name" name="source_name" placeholder="请输入博客来源名称">
+                                    <input type="text" class="form-control source-link text-extra" id="source_link" name="source_link" placeholder="请输入博客原文链接">
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-8">
                                 <button type="submit" class="btn btn-success btn-lg btn-save">发布博客</button>
-                                <button type="button" class="btn btn-success btn-lg btn-save">保存草稿</button>
+                                <button type="button" class="btn btn-success btn-lg btn-draft">保存草稿</button>
                             </div>
                         </div>
                     </form>
@@ -83,6 +83,156 @@
     <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
     <script src="{{ asset('libs/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap-select/js/i18n/defaults-zh_CN.js') }}"></script>
+    <script>
+        $(function () {
+            //保存发布博客
+           $('.btn-save').click(function () {
+               var source = $('#source').val();
+               var source_name = $('#source_name').val();
+               var source_link = $('#source_link').val();
+               var blog_title = $('#blog_title').val();
+               var description = $('#description').val();
+               var bcategory_id = $('#bcategory_id').val();
+
+               if (source == 0) {
+                   layer.msg('请选择一个博客来源喔(⊙o⊙)', {
+                       icon: 2,
+                       time: 2000,
+                   });
+                   return false;
+               }
+               if (source == 2 || source ==3) {
+                   if (source_name == '') {
+                       layer.msg('博客来源名称不可为空喔(⊙o⊙)', {
+                           icon: 2,
+                           time: 2000,
+                       });
+                       return false;
+                    }
+                    if (source_link == '') {
+                        layer.msg('博客原文链接不可为空喔(⊙o⊙)', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                        return false;
+                    }
+               }
+               if (blog_title == '') {
+                   layer.msg('博客标题不可为空喔(⊙o⊙)', {
+                       icon: 2,
+                       time: 2000,
+                   });
+                   return false;
+               }
+               if (description == '') {
+                   layer.msg('博客内容不可为空喔(⊙o⊙)', {
+                       icon: 2,
+                       time: 2000,
+                   });
+                   return false;
+               }
+               if (bcategory_id == 0) {
+                   layer.msg('请选择一个博客分类喔(⊙o⊙)', {
+                       icon: 2,
+                       time: 2000,
+                   });
+                   return false;
+               }
+           });
+
+           //保存博客草稿
+            $('.btn-draft').click(function () {
+                /*var source = $('#source').val();
+                var source_name = $('#source_name').val();
+                var source_link = $('#source_link').val();
+                var blog_title = $('#blog_title').val();
+                var description = $('#description').val();
+                var bcategory_id = $('#bcategory_id').val();
+
+                if (source == 0) {
+                    layer.msg('请选择一个博客来源喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (source == 2 || source ==3) {
+                    if (source_name == '') {
+                        layer.msg('博客来源名称不可为空喔(⊙o⊙)', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                        return false;
+                    }
+                    if (source_link == '') {
+                        layer.msg('博客原文链接不可为空喔(⊙o⊙)', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                        return false;
+                    }
+                }
+                if (blog_title == '') {
+                    layer.msg('博客标题不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (description == '') {
+                    layer.msg('博客内容不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }
+                if (bcategory_id == 0) {
+                    layer.msg('请选择一个博客分类喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                }*/
+
+                $.ajax({
+                    url: "{{ url('blog/store_draft') }}",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'blog_title': $('#blog_title').val(),
+                        'blog_intro': $('#blog_intro').val(),
+                        'description': $('#description').val(),
+                        'bcategory_id': $('#bcategory_id').val(),
+                        'source': $('#source').val(),
+                        'source_name': $('#source_name').val(),
+                        'source_link': $('#source_link').val(),
+                    },
+                    cache: false, //不允许有缓存
+                    success: function(res){
+                        if (res.code == 501) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                            });
+
+                        } else {
+                            layer.msg('系统错误！', {
+                                icon: 2,
+                                time: 2000,
+                            });
+                        }
+                    },
+                    error: function(){
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                });
+            });
+        });
+    </script>
     <script>    //下拉菜单
         $(function () {
             $('.selectpicker').selectpicker();

@@ -25,6 +25,7 @@
 
     {{--dataTabels--}}
     {{--<link href="#" rel="stylesheet">--}}
+    <link rel="stylesheet" href="{{ asset('libs/jquery-checkbox/css/jquery-labelauty.css') }}">
     @section('css')
     @show
 
@@ -59,6 +60,59 @@
     @endif
 </div>
 
+{{--意见反馈模态框--}}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content feedback">
+            <div class="modal-header feedback-header">
+                <button type="button" class="close feedback-close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title feedback-title" id="myModalLabel">
+                    意见反馈
+                </h4>
+            </div>
+            <div class="modal-body feedback-body">
+                <div class="row">
+                    <form class="form-horizontal" role="form" method="post"  enctype="multipart/form-data" action="{{ url('/feedback') }}">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">意见类型</label>
+                            <div class="col-sm-9 extra">
+                                <ul class="feedback">
+                                    <li><input type="radio" id="content" name="feedback" value="内容意见" data-labelauty="内容意见" ></li>
+                                    <li><input type="radio" id="technology" name="feedback" value="技术问题" data-labelauty="技术问题"></li>
+                                    <li><input type="radio" id="other" name="feedback" value="其它" data-labelauty="其它"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">意见详情</label>
+                            <div class="col-sm-9 extra">
+                                <textarea id="description" name="description" class="form-control" placeholder="请填写具体内容并留下您宝贵的意见^_^" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">页面链接</label>
+                            <div class="col-sm-9 extra">
+                                <input type="text" id="personal_website" name="fb-url" class="form-control text-extra" placeholder="http://www.laraveler.net/">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">联系方式</label>
+                            <div class="col-sm-9 extra">
+                                <input type="text" id="personal_website" name="fb-contact" class="form-control text-extra" placeholder="请留下您的联系信息方便我们及时为您解答(QQ/邮箱)^_^">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer feedback-footer">
+                <button type="button" class="btn feedback-btn">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @yield('content')
 
 @section('footer-nav')
@@ -66,9 +120,53 @@
 @show
 <!-- Scripts -->
 {{--<script src="{{ asset('js/app.js') }}"></script>--}}
+<script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('libs/typeahead.js/dist/typeahead.bundle.min.js') }}"></script>
 <script src="{{ asset('js/global.js') }}"></script>
+<script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
+{{--意见反馈模态框--}}
+<script>
+    $(function(){
+        $('.feedback input').labelauty();
+
+        $('.feedback-btn').click(function () {
+            var data = $(".feedback .feedback-body form").serializeArray();
+            $.ajax({
+                url: "{{ url('/feedback') }}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    'data': data,
+                    _token: '{{csrf_token()}}',
+                },
+                cache: false, //不允许有缓存
+                success: function(res){
+                    if (res.code == 801) {
+                        $('#myModal').modal('hide');
+                        layer.msg(res.message, {
+                            icon: 6,
+                            time: 2000,
+                        });
+                    } else {
+                        $('#myModal').modal('hide');
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                },
+                error: function(){
+                    $('#myModal').modal('hide');
+                    layer.msg('系统错误！', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                }
+            });
+        });
+    });
+</script>
 {{--操作成功与否提示自动隐藏--}}
 <script>
     $("#alert_message").delay(3000).fadeOut(500);

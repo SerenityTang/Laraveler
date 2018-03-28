@@ -78,8 +78,13 @@ class QuestionController extends Controller
     public function create()
     {
         $tags = Tag::where('status', 1)->get();
+        if (Auth::check()) {
+            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+        } else {
+            return view('auth.login');
+        }
 
-        return view('question.create')->with(['tags' => $tags]);
+        return view('question.create')->with(['tags' => $tags, 'user_data' => $user_data]);
     }
 
     /**
@@ -120,9 +125,54 @@ class QuestionController extends Controller
                     $taggable = Taggable::create($taggables);
                 }
                 if ($taggable) {
-                    return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^！！！');
+                    return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^');
                 } else {
-                    return $this->error('/question', '发布问答失败^_^！！！');
+                    return $this->error('/question', '发布问答失败^_^');
+                }
+            }
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    /**
+     * 保存问答草稿
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_draft(Request $request)
+    {
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $data = [
+                'user_id'       =>$user->id,
+                'qcategory_id'  =>$request->input('qcategory_id', 0),
+                'title'         =>$request->input('question_title'),
+                'description'   =>$request->input('description'),
+                'price'         =>$request->input('price'),
+                //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
+                'device'        => 1,
+                'status'        => 2,
+            ];
+            $question = Question::create($data);
+
+            //判断是否保存草稿
+            if ($question) {
+                //绑定标签
+                $tags = explode(',', $request->input('tags'));
+                foreach ($tags as $tag) {
+                    $taggables = [
+                        'tag_id'            =>$tag,
+                        'entityable_id'     =>$question->id,
+                        'entityable_type'   =>get_class($question),
+                    ];
+                    $taggable = Taggable::create($taggables);
+                }
+                if ($taggable) {
+                    return $this->jsonResult(501, '保存草稿成功，请前往个人主页查看^_^');
+                } else {
+                    return $this->error(502, '保存草稿失败^_^');
                 }
             }
         } else {
@@ -166,18 +216,6 @@ class QuestionController extends Controller
     }
 
     /**
-     * 展示问答编辑页
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show_edit($id)
-    {
-        $question = Question::where('id', $id)->first();
-        return view('question.edit')->with(['question' => $question]);
-    }
-
-    /**
      * 展示问答最佳答案
      *
      * @param  int  $id
@@ -193,6 +231,33 @@ class QuestionController extends Controller
     }
 
     /**
+     * 展示问答编辑页
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_edit($id)
+    {
+        $question = Question::where('id', $id)->first();
+        $tags = Tag::where('status', 1)->get();     //获取tag展示在下拉列表
+        //获取此问答绑定的标签
+        $tags = [];
+        $taggables = Taggable::where('entityable_id', $question->id)->where('entityable_type', get_class($question))->get();
+        foreach ($taggables as $taggable) {
+            $tag = Tag::where('id', $taggable->tag_id)->first();
+            array_push($tags, $tag);
+        }
+
+        if (Auth::check()) {
+            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+        } else {
+            return view('auth.login');
+        }
+
+        return view('question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'tags' => $tags]);
+    }
+
+    /**
      * 保存修改问答
      *
      * @param  int  $id
@@ -200,14 +265,25 @@ class QuestionController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $question = Question::where('id', $id)->first();
-        $question->qcategory_id = $request->input('qcategory_id');
-        $question->title = $request->input('question_title');
-        $question->description = $request->input('description');
-        $bool = $question->save();
+        if (Auth::check()) {
+            $question = Question::where('id', $id)->first();
+            $ori_status = $question->status;
+            $question->qcategory_id = $request->input('qcategory_id');
+            $question->title = $request->input('question_title');
+            $question->description = $request->input('description');
+            $question->price = $request->input('price');
+            $question->status = 1;
+            $bool = $question->save();
 
-        if ($bool == true) {
-            return $this->success(route('question.show', $id), '问题编辑成功^_^');
+            if ($bool == true) {
+                if ($ori_status == 2) {
+                    $user_data = User_data::where('user_id', Auth::user()->id)->first();
+                    $user_data->increment('question_count');
+                }
+                return $this->success(route('question.show', $id), '问题编辑成功^_^');
+            }
+        } else {
+            return view('auth.login');
         }
     }
 
@@ -228,6 +304,24 @@ class QuestionController extends Controller
             return $this->jsonResult(701);
         }else{
             return $this->jsonResult(702);
+        }
+    }
+
+    /**
+     * 舍弃问答
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function abandon($id)
+    {
+        $question = Question::where('id', $id)->first();
+
+        $question->delete();
+        if($question->trashed()){
+            return $this->jsonResult(704);
+        }else{
+            return $this->jsonResult(705);
         }
     }
 

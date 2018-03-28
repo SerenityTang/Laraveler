@@ -27,7 +27,7 @@ class CreateBlogsTable extends Migration
             $table->tinyInteger('source')->default(0)->comment('博客来源，1->原创，2->转载，3->翻译');
             $table->string('source_name')->nullable()->comment('博客来源名称');
             $table->string('source_link')->nullable()->comment('博客原文链接');
-            $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是');
+            $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是，2->草稿');
             $table->integer('view_count')->default(0)->comment('浏览量');
             $table->integer('like_count')->default(0)->comment('点赞数');
             $table->integer('favorite_count')->default(0)->comment('收藏数');

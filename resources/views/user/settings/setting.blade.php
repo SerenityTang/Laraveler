@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('libs/cropper/dist/cropper.min.css') }}">
     <link rel="stylesheet" href="{{ asset('libs/bootstrap-select/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('libs/bootstrap-fileinput/css/fileinput.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('libs/jquery-checkbox/css/jquery-labelauty.css') }}">
 @stop
 
 @section('content')
@@ -116,7 +115,7 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">个人简介</label>
                             <div class="col-sm-8">
-                                <textarea id="description" name="description" class="form-control" placeholder="请简单介绍一下自己吧^_^！！！" rows="3">{{ $user->description }}</textarea>
+                                <textarea id="description" name="description" class="form-control" placeholder="请简单介绍一下自己吧^_^" rows="3">{{ $user->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -172,7 +171,6 @@
     {{--<script src="{{ asset('libs/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap-fileinput/js/fileinput_locale_zh.js') }}"></script>--}}
     <script src="{{ asset('libs/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
-    <script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
     <script>
         /*页面加载滚动到顶端*/
         window.onload = function () {

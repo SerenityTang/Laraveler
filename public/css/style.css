@@ -138,6 +138,7 @@ body, html {
 #navbar-serenity .dropdown .dropdown-menu a {padding: 5px;font-size: 14px;}
 #navbar-serenity .dropdown ul.dropdown-menu-extra {min-width: 240px;padding: 0;border-radius: 4px;position: absolute;top: 66px;}
 #navbar-serenity .dropdown ul.dropdown-menu-extra .tab-content div {padding: 5px;}
+#navbar-serenity .dropdown ul.dropdown-menu-extra .tab-content p {text-align: center;color: #999;}
 /*导航右侧发布*/
 #navbar-serenity .dropdown .dropdown-menu .nav li {width: 79px;text-align: center;}
 #navbar-serenity .dropdown .dropdown-menu .nav li a {margin-left: 1px;margin-right: 1px;}
@@ -200,6 +201,20 @@ body, html {
     filter:alpha(opacity=100);
     transform:scale(1);-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);
 }
+/*意见反馈模态框*/
+.feedback .feedback-header {padding: 10px 15px;}
+.feedback .feedback-header h4.feedback-title {font-weight: 500;font-size: 16px;color: #333;}
+.feedback .feedback-header .feedback-close {font-size: 15px;box-shadow: none;}
+.feedback .feedback-body label {padding-top: 7px;color: #666;font-size: 14px;}
+.feedback .feedback-body .extra input {border: 2px solid #e4e4e4;height: 40px;}
+.feedback .feedback-body .extra textarea {border: 2px solid #e4e4e4;}
+.feedback .feedback-body .extra input:focus, .feedback .feedback-body .extra textarea:focus {border: 2px solid #22d7bb;}
+.feedback .feedback-body ul.feedback {list-style-type: none;margin-left: 1px;margin-top: 2px;}
+.feedback .feedback-body ul.feedback li {margin-right: 25px;display: inline-block;}
+.feedback .feedback-body ul.feedback li label {padding: 0px 12px 8px 5px;font-size: 13px;}
+.feedback .feedback-footer {padding: 10px 15px;}
+.feedback .feedback-footer .feedback-btn {background-color: #22d7bb;color: #fff;padding: 4px 13px;margin-right: 10px;box-shadow: none;}
+.feedback .feedback-footer .feedback-btn:hover {background-color: #36ceb6;}
 
 /*用户头像*/
 .avatar-16{width:16px;height:16px;border-radius:50%;}
@@ -214,7 +229,7 @@ body, html {
 .avatar-128{width:128px;height:128px;border-radius:50%;}
 .avatar-256{width:256px;height:256px;}
 
-/*首页*/
+/*首页内容*/
 .home-container {padding-top: 20px;}
 .home-bg {
     background-color: #f4f4f4;
@@ -237,9 +252,9 @@ body, html {
 .home-bg .home-body .home-list-item a.h_q_user:hover {color: #333;}
 .home-bg .home-body .home-list-item span.time {font-size: 11px;color: #999;}
 .home-bg .home-body .home-list-item span.h_q_answer {position: absolute;top: 18px;right: 8px;background-color: #22d7bb;}
-.sign-in {padding: 0;height: 80px;border-radius: 3px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
+.sign-in {padding: 0;height: 90px;border-radius: 3px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
 .sign-in p.sign-in-title {text-align: center;font-size: 15px;padding: 5px 0;font-weight: 500;}
-.sign-in .sign-in-content .btn-signin {width: 80px;color: #fff;background-color: #22d7bb;margin: 0 auto;display: block;}
+.sign-in .sign-in-content .btn-signin {width: 80px;color: #fff;background-color: #22d7bb;margin: 5px auto;display: block;}
 .sign-in .sign-in-content .btn-signin:hover {background-color: #36ceb6;}
 
 /*首页热门标签*/
@@ -258,7 +273,6 @@ body, html {
 #tagscloud a.tagc9{background:#FF6EB4;color:#fff;}
 #tagscloud a:hover{color:#fff;background:#22d7bb;}
 
-
 /*首页栏排行榜*/
 .side-rank .side-question-rank h3.side-question-title {font-weight: 500;font-size: 15px;}
 .side-rank .side-question-rank h3.side-question-title i {padding-right: 5px;font-size: 18px;}
@@ -275,10 +289,10 @@ body, html {
 
 /*底部*/
 .footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 20px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
-.footer p.footer-link {text-align: center;font-size: 15px;color: #333;}
+.footer p.footer-link {text-align: center;font-size: 14px;color: #333;}
 .footer p.footer-link a {color: #333;text-decoration: none;}
 .footer p.footer-link a:hover {color: #22d7bb;}
-.footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 13px;}
+.footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 12px;}
 .footer p.copyright a, .footer p.author a {color: #666;text-decoration: none;}
 .footer p.copyright a:hover, .footer p.author a:hover {color: #22d7bb;}
 

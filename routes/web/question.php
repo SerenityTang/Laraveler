@@ -21,9 +21,11 @@ Route::group(['prefix' => 'question'], function() {
     Route::group(['middleware' => ['auth']], function() {
         Route::get('/create', ['as' => 'question.create', 'uses' => 'QuestionController@create']);      //创建问答
         Route::any('/store', ['as' => 'question.store', 'uses' => 'QuestionController@store']);      //保存创建问答
+        Route::any('/store_draft', ['as' => 'question.store_draft', 'uses' => 'QuestionController@store_draft']);      //保存问答草稿
         Route::get('/show_edit/{id}', ['as' => 'question.show_edit', 'uses' => 'QuestionController@show_edit']);      //修改问答
         Route::post('/edit/{id}', ['as' => 'question.edit', 'uses' => 'QuestionController@edit']);      //保存修改问答
         Route::any('/destroy/{id}', ['as' => 'question.destroy', 'uses' => 'QuestionController@destroy']);      //删除问答
+        Route::any('/abandon/{id}', ['as' => 'question.abandon', 'uses' => 'QuestionController@abandon']);      //舍弃问答
         Route::get('/vote/{id}', ['as' => 'question.vote', 'uses' => 'QuestionController@vote']);      //问答投票
         Route::get('/attention/{id}', ['as' => 'question.attention', 'uses' => 'QuestionController@attention']);      //问答关注
         Route::get('/collection/{id}', ['as' => 'question.collection', 'uses' => 'QuestionController@collection']);      //问答收藏
