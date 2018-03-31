@@ -27,10 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         $question = new Question();
-        $new_questions = call_user_func([$question, 'newest']);     //最新问答
-        $hot_questions = call_user_func([$question, 'hottest']);    //热门问答
+        //$new_questions = call_user_func([$question, 'newest']);     //最新问答
+        //$hot_questions = call_user_func([$question, 'hottest']);    //热门问答
+        $new_questions = $question->newest(0, 6);       //最新问答
+        $hot_questions = $question->hottest(0, 6);      //热门问答
 
-        //排行榜
+            //排行榜
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status','>',0)
             ->orderBy('user_datas.answer_count','DESC')

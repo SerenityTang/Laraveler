@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['delete_at'];
+
     protected $fillable = [
         'bcategory_id',
         'user_id',
@@ -44,7 +48,7 @@ class Blog extends Model
         if( $categoryId > 0 ){
             $query->where('category_id','=',$categoryId);
         }
-        $hottest = $query->where('status', 1)->where('view_count', '>', 50)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $hottest = $query->where('status', 1)->where('view_count', '>', 10)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $hottest;
     }
 }

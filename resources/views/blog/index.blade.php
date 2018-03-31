@@ -22,12 +22,12 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body blog-body">
                         <ul class="list-group">
                             @foreach($blogs as $blog)
-                                <li class="list-group-item">
+                                <li class="list-group-item global-list-item">
                                     <h2 class="title">
-                                        <a href="{{ url('') }}" title="{{ $blog->title }}">{{ $blog->title }}</a>
+                                        <a href="{{ url('blog/show/'.$blog->id) }}" title="{{ $blog->title }}">{{ $blog->title }}</a>
                                     </h2>
                                     <a class="author" href="{{ url('') }}">
                                         <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-24" alt="{{ $blog->user->username }}">
@@ -53,8 +53,51 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 col-md-3 side-blog">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="side-blog-title"><i class="iconfont icon-quxiaozhiding stick-icon"></i>置顶博客</h3>
+                    </div>
+                    <div class="panel-body stick-body">
+                        <ul class="list-group stick-list">
+                            @foreach($stick_blogs as $stick_blog)
+                                <li class="list-group-item stick-item">
+                                    <a class="stick" href="{{ url('blog/show/'.$stick_blog->id) }}" title="{{ $stick_blog->title }}">{{ str_limit($stick_blog->title, 28) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
 
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="side-blog-title"><i class="iconfont icon-tuijianliebiao promote-icon"></i>推荐博客</h3>
+                    </div>
+                    <div class="panel-body promote-body">
+                        <ul class="list-group promote-list">
+                            @foreach($promote_blogs as $promote_blog)
+                                <li class="list-group-item promote-item">
+                                    <a class="promote" href="{{ url('blog/show/'.$promote_blog->id) }}" title="{{ $promote_blog->title }}">{{ str_limit($promote_blog->title, 28) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading ">
+                        <h3 class="side-blog-title"><i class="iconfont icon-biaoqian side-blog-tag"></i>问答标签</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="tagscloud">
+                            @if(isset($hot_tags))
+                                @foreach($hot_tags as $tag)
+                                    <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -65,6 +108,7 @@
     <script>
         new CBPFWTabs( document.getElementById( 'tabs' ) );
     </script>--}}
+    <script src="{{ asset('libs/tag-cloud/tagscloud.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
     <script>

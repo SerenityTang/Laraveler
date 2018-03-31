@@ -36,8 +36,9 @@
 .blog-main .panel-heading .tabs nav ul li a {padding: 8px 8px 5px 8px;line-height: inherit;font-size: 15px;color: #333;font-weight: bold;}
 .blog-main .panel-heading .tabs nav ul li a:hover {text-decoration: none;}
 /*tab栏内容*/
-.blog-main .panel-body {padding: 0 15px 15px 15px;}
+.blog-main .blog-body {padding: 0 15px 15px 15px;}
 .blog-main .panel-body ul li {border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}
+.blog-main  .panel-body ul li.global-list-item {padding: 8px 15px 3px;border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
 .blog-main .panel-body ul li h2.title {margin-bottom: 3px;}
 .blog-main .panel-body ul li h2.title a {font-weight: 500;color: #555;font-size: 17px;}
 .blog-main .panel-body ul li h2.title a:hover {text-decoration: none;color: #22d7bb;}
@@ -46,3 +47,86 @@
 .blog-main .panel-body ul li .ques-count {display: inline-block;padding-left: 15px;}
 .blog-main .panel-body ul li .ques-count span {color: #777;font-size: 13px;}
 .blog-main .panel-body ul li .ques-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
+/*侧栏置顶、推荐博客*/
+.side-blog h3.side-blog-title {font-weight: bold;}
+.side-blog h3.side-blog-title i.stick-icon, .side-blog h3.side-blog-title i.promote-icon, .side-blog  .side-blog-tag {padding-right: 6px;}
+.side-blog .stick-body, .side-blog .promote-body {padding: 10px;}
+.side-blog ul.stick-list, .side-blog ul.promote-list {margin-bottom: 10px;}
+.side-blog ul li.stick-item, .side-blog ul li.promote-item {border: 0;padding: 0;border-bottom: 1px solid #ddd;margin-bottom: 6px;padding-bottom: 3px;border-radius: 0;}
+.side-blog ul li.stick-item a.stick, .side-blog ul li.promote-item a.promote {font-size: 15px;color: #555;text-decoration: none;}
+.side-blog ul li.stick-item a.stick:hover, .side-blog ul li.promote-item a.promote:hover {color: #22d7bb;}
+
+/*博客展示页*/
+.blog-show-main .panel-heading .blog-show-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 10px;}
+.blog-show-main .panel-heading .blog-show-top h1.blog-show-title {font-size: 20px;padding-bottom: 5px;color: #333;font-weight: bold;}
+.blog-show-main .panel-heading .blog-show-top a.author {text-decoration: none;}
+.blog-show-main .panel-heading .blog-show-top a.author span, .blog-show-main .panel-heading span.title-extra, .blog-show-main .panel-heading span.time {color: #999;font-size: 10px;}
+.blog-show-main .panel-heading .blog-show-top a.author {padding-right: 10px;}
+.blog-show-main .panel-heading .blog-show-top a.author i {font-size: 14px;}
+.blog-show-main .panel-heading span.title-extra i {font-size: 13px;position: relative;top: 1px;}
+.blog-show-main .panel-heading .blog-show-top .blog-operate {display: inline-block;padding-left: 15px;}
+.blog-show-main .panel-heading .blog-show-top .blog-operate span {color: #777;font-size: 13px;}
+.blog-show-main .panel-heading .blog-show-top .blog-operate span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
+.blog-show-main .panel-heading p {font-size: 16px;padding: 16px 0 8px 0;
+    word-wrap: break-word;   /*自动换行*/
+    /*word-break: break-all;   允许在单词内换行*/
+}
+.blog-show-main .panel-heading p.intro {font-size: 14px;background-color: #f9f9f9;padding: 0;margin: 15px auto 0;}
+.blog-show-main .panel-heading p.intro span {font-weight: 500;}
+
+/*评论*/
+/*评论头部*/
+.blog-show-main .panel-body {background-color: #f4f4f4;}
+.blog-show-main .panel-body .comment-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 15px;position: relative;}
+.blog-show-main .panel-body .comment-top h3.comment-count {font-size: 20px;font-weight: 500;}
+.blog-show-main .panel-body .comment-top .comment-rank {position: absolute;right: 0;top: -2px;}
+.blog-show-main .panel-body .comment-top .comment-rank label {color: #737171;font-size: 10px;height: 25px;background-color: #ddd;line-height: 13px;font-weight: 500;}
+.blog-show-main .panel-body .comment-top .comment-rank label:hover {background-color: #e6e6e6;}
+/*评论未登录提示*/
+.blog-show-main .panel-footer-tip {background-color: #f4f4f4;padding-bottom: 10px;}
+.blog-show-main .panel-footer-tip .login-tip {width: 810px;height: 100px;border: 1px solid #ddd;border-radius: 4px;margin-left: 18px;}
+.blog-show-main .panel-footer-tip .login-tip p {text-align: center;line-height: 100px;font-size: 16px;color: #666;}
+.blog-show-main .panel-footer-tip .login-tip p a {color: #22d7bb;text-decoration: none;font-weight: 500;}
+/*评论富文本*/
+.blog-show-main .panel-footer {background-color: #f4f4f4;}
+.blog-show-main .panel-footer .note-editor.blog-panel-extra {left: -4px;display: inline-block;margin-bottom: 0px;border: 1px solid #ddd;}
+.blog-show-main .panel-footer .note-editor .note-statusbar.note-statusbar-extra {border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
+.blog-show-main .panel-footer .blog_comment_bottom {width: 825px;height: 40px;background-color: #f5f5f5;border: 1px solid #ddd;position: relative;left: -4px;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;}
+.blog-show-main .panel-footer .blog_comment_bottom .btn-reply {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 5px;border-radius: 2px;line-height: 13px;}
+.blog-show-main .panel-footer .blog_comment_bottom .btn-reply:hover {background-color: #36ceb6;color: #fff;}
+/*评论列表*/
+.comment-content ul.comment-con {margin-bottom: inherit;}
+.comment-content ul li.comment-item {background-color: #f4f4f4;border: none;border-bottom: 1px solid #e0e0e0;margin: 0;border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
+.comment-content ul li .media a.ans-avatar {padding-right: 15px;}
+.comment-content ul li .media .media-body h4 a.author-name {color: #22d7bb;font-size: 16px;text-decoration: none;}
+.comment-content ul li .media .media-body h4 span.separate {padding: 0 3px;color: #999;font-size: 12px;}
+.comment-content ul li .media .media-body h4 span.time {color: #999;font-size: 12px;}
+.comment-content ul li .media .media-body .operation {margin-top: 5px;height: 29px;}
+.comment-content ul li .media .media-body .operation a {color: #999;text-decoration: none;}
+.comment-content ul li .media .media-body .operation a:hover {color: #555;}
+.comment-content ul li .media .media-body .operation span.oper-left .like-count {color: #999;padding-right: 8px;}
+.comment-content ul li .media .media-body .operation span.oper-right {float: right;display: none;}
+.comment-content ul li .media .media-body .operation span.oper-right a .edit-icon {font-size: 13px;}
+.comment-content ul li .media .media-body .operation span.oper-right a .delete-icon {position: relative;top: 3px;padding-left: 5px;font-size: 18px;}
+
+.comment-content .comment-input {border-left: 2px solid #ddd;width: 91%;padding-left: 15px;margin-left: 55px;}
+.comment-content .comment-input .mutual-comment {padding: 10px 0;border-bottom: 1px dashed #ddd;}
+.comment-content .comment-input .mutual-comment h4.media-heading-extra {line-height: 20px;}
+.comment-content .comment-input .mutual-comment h4 a.author {color: #22d7bb;font-size: 16px;text-decoration: none;}
+.comment-content .comment-input .mutual-comment h4 .separate {color: #444;font-size: 16px;padding: 0 3px;}
+.comment-content .comment-input .mutual-comment span.time {color: #999;font-size: 12px;}
+.comment-content .comment-input .mutual-comment span a.reply-icon {color: #999;text-decoration: none;padding-left: 10px;}
+.comment-content .comment-input .mutual-comment span a.reply-icon:hover {color: #555;}
+.comment-content .comment-input .mutual-comment span a.reply-icon i {padding-right: 3px;}
+
+.comment-content .comment-form {display: none;width: 91%;margin-left: 55px;}
+.comment-content .comment-form textarea {border-bottom-right-radius: 0;border-bottom-left-radius: 0;margin-top: 10px;}
+.comment-content .comment-form textarea:focus {border: 1px solid #22d7bb;}
+.comment-content .comment-form .comment-part-bottom {height: 35px;background-color: #fbfbfb;border: 1px solid #ddd;border-top: 0;position: relative;left: 0;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;}
+.comment-content .comment-form .comment-part-bottom .btn-reply {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 3px;border-radius: 2px;line-height: 13px;}
+.comment-content .comment-form .comment-part-bottom .btn-cancel {background-color: #22d7bb;color: #fff;position: absolute;right: 65px;top: 3px;border-radius: 2px;line-height: 13px;}
+.comment-content .comment-form .comment-part-bottom .btn-reply:hover, .ques-show-main .panel-body .answer-content ul li .media .media-comment .comment-part-bottom .btn-cancel:hover {background-color: #36ceb6;color: #fff;}
+
+
+
+

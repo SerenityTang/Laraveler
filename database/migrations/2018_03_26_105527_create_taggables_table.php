@@ -17,7 +17,7 @@ class CreateTaggablesTable extends Migration
             $table->increments('id');
             $table->integer('tag_id')->unsigned()->comment('标签id');
             $table->index('tag_id');
-            $table->morphs('entityable');
+            $table->morphs('taggable');
             $table->timestamps();
         });
     }

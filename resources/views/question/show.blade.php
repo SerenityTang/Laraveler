@@ -52,15 +52,17 @@
                         {!! $question->description !!}
 
                         <div class="operation-icon">
-                            <a href="{{ url('/question/show_edit/'.$question->id) }}" class="edit-icon" title="编辑">
-                                <i class="iconfont icon-bianji"></i>编辑
-                            </a>
-                            <a href="javascript:void(0);" class="delete-icon" title="删除" data-question-id="{{ $question->id }}">
-                                <i class="iconfont icon-weibiaoti544" style="font-size: 20px;position: relative;top: 1px;"></i>删除
-                            </a>
-                            <a href="{{ url('') }}" title="追加悬赏">
-                                <i class="iconfont icon-dashangzonge"></i>追加悬赏
-                            </a>
+                            @if(Auth::check() && Auth::user()->id == $question->user_id)
+                                <a href="{{ url('/question/show_edit/'.$question->id) }}" class="edit-icon" title="编辑">
+                                    <i class="iconfont icon-bianji"></i>编辑
+                                </a>
+                                <a href="javascript:void(0);" class="delete-icon" title="删除" data-question-id="{{ $question->id }}">
+                                    <i class="iconfont icon-weibiaoti544" style="font-size: 20px;position: relative;top: 1px;"></i>删除
+                                </a>
+                                <a href="{{ url('') }}" title="追加悬赏">
+                                    <i class="iconfont icon-dashangzonge"></i>追加悬赏
+                                </a>
+                            @endif
                             <a href="{{ url('') }}">
                                 <i class="iconfont icon-web-icon-" style="font-size: 21px;position: relative;top: 2px;" title="邀请回答"></i>邀请回答
                             </a>
@@ -166,7 +168,7 @@
                                 @else
                                     @foreach($other_ques as $other_que)
                                         <li>
-                                            <a href="{{ url('question/show/' . $other_que->id) }}">{{ str_limit($other_que->title, 58) }}</a>
+                                            <a href="{{ url('question/show/' . $other_que->id) }}" title="{{ $other_que->title }}">{{ str_limit($other_que->title, 30) }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -181,10 +183,14 @@
                             <h3 class="related-ques"><i class="iconfont icon-changjianwentixiangguanwenti related-icon"></i>相关问答</h3>
                         </div>
                         <div class="panel-body">
-                            <ul class="list-group list-actives">
-                                <li>
-
-                                </li>
+                            <ul class="list-group correlation-list">
+                                @foreach($correlation_ques as $correlation)
+                                    @if($question->user_id != $correlation->user_id)
+                                        <li class="correlation-ques">
+                                            <a href="{{ url('question/show/' . $correlation->id) }}" title="{{ $correlation->title }}">{{ str_limit($correlation->title, 30) }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -203,6 +209,14 @@
     <script type="text/javascript" src="{{ url('css/iconfont/iconfont.js') }}"></script>
     <script>
         $(".time").timeago();
+    </script>
+    <script>
+        //如相关问答为空，插入提示
+        $(function () {
+            if ($('.list-side-related ul.correlation-list').children().length === 0) {
+                $('.list-side-related ul.correlation-list').html('<p class="list-other-empty">暂无相关问答</p>');
+            }
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -242,16 +256,17 @@
     <script>
         //查看问答回答的评论
         $(document).ready(function(){
-            $('#comment-icon').click(function () {
+            $('.comment-icon').click(function () {
+                var icon = $(this);
                 var entity_id = $(this).data('entity_id');
                 var entity_type = $(this).data('entity_type');
-                $.get('/comment/'+entity_id+'/'+entity_type,function(html){
-                    $("#media-comment").append(html);
+                $.get('/comment/answer_comment/'+entity_id+'/'+entity_type, function(html){
+                    icon.parents('.media').find('.media-comment').append(html);
                 });
 
-                $('.media-comment').toggle();
+                icon.parents('.media').find('.media-comment').toggle();
 
-                $("#media-comment").empty();
+                icon.parents('.media').find('.media-comment').empty();
             });
         });
     </script>

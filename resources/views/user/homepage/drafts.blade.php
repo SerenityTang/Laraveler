@@ -132,7 +132,7 @@
         //舍弃草稿
         $('.q-reject-icon').click(function () {
             var question_id = $(this).data('question-id');
-            zeroModal.confirm("确定舍弃问题吗？", function() {
+            zeroModal.confirm("确定舍弃问题草稿吗？", function() {
                 $.ajax({
                     url : "{{url('/question/abandon/[id]')}}".replace('[id]', question_id),
                     data : {
@@ -163,24 +163,24 @@
 
         $('.b-reject-icon').click(function () {
             var blog_id = $(this).data('blog-id');
-            zeroModal.confirm("确定舍弃博客吗？", function() {
+            zeroModal.confirm("确定舍弃博客草稿吗？", function() {
                 $.ajax({
-                    url : "{{url('/blog/destroy/[id]')}}".replace('[id]', blog_id),
+                    url : "{{url('/blog/abandon/[id]')}}".replace('[id]', blog_id),
                     data : {
                         _token: '{{csrf_token()}}',
                     },
                     dataType : "json",
                     type : "POST",
                     success : function (res) {
-                        if(res.code == 701){
+                        if(res.code == 708){
                             layer.msg(res.message, {
                                 icon: 6,//提示的样式
                                 time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
-                                end : function(){
+                                /*end : function(){
                                     location.href='{{ url("/question") }}';
-                                }
+                                }*/
                             });
-                        } else if (res.code == 702) {
+                        } else if (res.code == 709) {
                             zeroModal.error(res.message);
                         }
 

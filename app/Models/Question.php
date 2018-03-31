@@ -39,6 +39,14 @@ class Question extends Model
         return $this->hasMany('App\Models\Answer', 'question_id');
     }
 
+    /**
+     * 获取问答对应的标签
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Models\Tag', 'taggable');
+    }
+
     //最新问答
     public static function newest($categoryId = 0, $pageSize = 15)
     {

@@ -15,3 +15,9 @@
         <span title="回复"><a href="javascript:void(0);" id="reply-icon" class="reply-icon" data-user-id="{{ $comment->user_id }}" data-user-name="{{ $comment->user->username }}"><i class="iconfont icon-icon_reply"></i>回复</a></span>
     @endif
 </div>
+
+<script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
+<script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+<script>
+    $(".time").timeago();
+</script>

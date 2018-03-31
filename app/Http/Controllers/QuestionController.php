@@ -40,11 +40,12 @@ class QuestionController extends Controller
         }
 
         //问答热门标签
-        $taggables = Taggable::where('entityable_type', get_class($question))->get();
+        $taggables = Taggable::where('taggable_type', get_class($question))->get();
         $tags = array();
         foreach ($taggables as $taggable) {
              $tag = Tag::where('id', $taggable->tag_id)->first();
-             array_unshift($tags, $tag);
+            array_push($tags, $tag);
+            $hot_tags = array_unique($tags);
         }
 
         //热心排行榜
@@ -64,10 +65,10 @@ class QuestionController extends Controller
             ->take(9)->get();
 
         if (!isset($new_answer_questions)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users, 'tags' => $tags]);
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);
         }
 
-        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'tags' => $tags]);
+        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);
     }
 
     /**
@@ -195,24 +196,27 @@ class QuestionController extends Controller
         Event::fire(new QuestionViewEvent($question));
 
         //其它问答
-        $other_ques = Question::where('user_id', $question->user_id)->get();
+        $other_ques = Question::where('user_id', $question->user_id)->where('status', 1)->get();
         foreach ($other_ques as $other_quekey => $other_quevalue) {
             if ($other_quevalue->id == $id) {
                 unset($other_ques[$other_quekey]);
             }
         }
 
+        //相关问答
+        $tag_id = $question->tags()->pluck('tag_id');
+        $correlation_ques = $question->whereHas('tags', function ($query) use ($tag_id) {
+            $query->whereIn('tag_id', $tag_id);
+        })->where('status', 1)->orderBy('created_at','DESC')->take(8)->get();
+
         //最佳答案
         if ($question->question_status == 2 && $answers != null) {
             $best_answer = $answers->where('adopted_at', '>', '0')->first();
         } else {
-            return view('question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques]);
+            return view('question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
         }
 
-        //相关问答
-        
-
-        return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques]);
+        return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
     }
 
     /**
@@ -242,7 +246,7 @@ class QuestionController extends Controller
         $tags = Tag::where('status', 1)->get();     //获取tag展示在下拉列表
         //获取此问答绑定的标签
         $tags = [];
-        $taggables = Taggable::where('entityable_id', $question->id)->where('entityable_type', get_class($question))->get();
+        $taggables = Taggable::where('taggable_id', $question->id)->where('taggable_type', get_class($question))->get();
         foreach ($taggables as $taggable) {
             $tag = Tag::where('id', $taggable->tag_id)->first();
             array_push($tags, $tag);

@@ -214,12 +214,18 @@
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,
+                                end : function(){
+                                    location.href='{{ url("/blog") }}';
+                                }
                             });
 
                         } else {
                             layer.msg('系统错误！', {
                                 icon: 2,
                                 time: 2000,
+                                end : function(){
+                                    location.href='{{ url("/blog") }}';
+                                }
                             });
                         }
                     },
@@ -227,6 +233,9 @@
                         layer.msg('系统错误！', {
                             icon: 2,
                             time: 2000,
+                            end : function(){
+                                location.href='{{ url("/blog") }}';
+                            }
                         });
                     }
                 });

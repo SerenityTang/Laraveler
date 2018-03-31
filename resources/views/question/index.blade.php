@@ -123,9 +123,11 @@
                     </div>
                     <div class="panel-body">
                         <div id="tagscloud">
-                            @foreach($tags as $tag)
-                                <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
-                            @endforeach
+                            @if(isset($hot_tags))
+                                @foreach($hot_tags as $tag)
+                                    <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

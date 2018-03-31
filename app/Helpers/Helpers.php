@@ -50,6 +50,12 @@ class Helpers {
         return $question;
     }
 
+    /*获取问答
+    public static function get_mutual_comment($blog, $comment_id){
+        $mutual_comments = Comment::where('entity_id', $blog->id)->where('entity_type', 'Blog')->whereNotNull('to_user_id')->orderBy('created_at','asc')->get();
+        return $question;
+    }*/
+
     /**
      * 验证是否是中国验证码.
      *

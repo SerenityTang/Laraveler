@@ -6,25 +6,25 @@
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-left" style="margin-left: 10px;margin-top: 17px;">
+            <ul class="nav navbar-nav navbar-left nav-column">
                 <li>
-                    <a href="{{ url('/') }}" class="version-link ">首页</a>
+                    <a href="{{ url('/') }}" class="version-link {{ App\Helpers\Helpers::setActive('/', 'active') }}">首页</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/question') }}" class="version-link ">问答</a>
+                    <a href="{{ url('/question') }}" class="version-link {{ App\Helpers\Helpers::setActive('question', 'active') }}">问答</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/blog') }}" class="version-link ">博客</a>
+                    <a href="{{ url('/blog') }}" class="version-link {{ App\Helpers\Helpers::setActive('blog', 'active') }}">博客</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/tag') }}" class="version-link ">标签</a>
+                    <a href="{{ url('/tag') }}" class="version-link {{ App\Helpers\Helpers::setActive('tag', 'active') }}">标签</a>
                 </li>
                 
                 <li>
-                    <a href="{{ url('') }}" class="version-link ">作品展示</a>
+                    <a href="{{ url('/workshow') }}" class="version-link {{ App\Helpers\Helpers::setActive('workshow', 'active') }}">作品展示</a>
                 </li>
             </ul>
 
@@ -56,7 +56,7 @@
                 </li>
 
                 @if(Auth::guest())
-                    <li class="text-center">
+                    <li>
                         <a href="{{ url('login') }}" class="btn btn-login">
                             <i class="iconfont icon-denglu"></i>
                             登录
