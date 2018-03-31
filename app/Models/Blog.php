@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comment;
 
 class Blog extends Model
 {
@@ -50,5 +51,10 @@ class Blog extends Model
         }
         $hottest = $query->where('status', 1)->where('view_count', '>', 10)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $hottest;
+    }
+
+    public function parent_comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->where('depth', 0)->where('status', 1)->orderBy('id', 'DESC');
     }
 }

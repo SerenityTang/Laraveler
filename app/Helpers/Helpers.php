@@ -11,6 +11,7 @@ namespace App\Helpers;
 use App\Models\Answer;
 use App\Models\Attention;
 use App\Models\Collection;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Support_opposition;
 use App\Models\User_data;
@@ -50,12 +51,6 @@ class Helpers {
         return $question;
     }
 
-    /*获取问答
-    public static function get_mutual_comment($blog, $comment_id){
-        $mutual_comments = Comment::where('entity_id', $blog->id)->where('entity_type', 'Blog')->whereNotNull('to_user_id')->orderBy('created_at','asc')->get();
-        return $question;
-    }*/
-
     /**
      * 验证是否是中国验证码.
      *
@@ -93,6 +88,14 @@ class Helpers {
             } else if ($mode_type === 'Answer' && $mode === 'opposition') {
                 $answer = Answer::where('id', $mode_id)->first();
                 $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
+                if ($sup_opp) {
+                    return $sup_opp;
+                }
+
+                return null;
+            } else if ($mode_type === 'Comment' && $mode === 'support') {
+                $comment = Comment::where('id', $mode_id)->first();
+                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }

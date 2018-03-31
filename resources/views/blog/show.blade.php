@@ -6,6 +6,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ url('css/blog/default.css') }}">
     <link rel="stylesheet" href="{{ url('libs/summernote/summernote.css') }}">
+    <link rel="stylesheet" href="{{ url('libs/zeroModal/zeroModal.css') }}">
 @stop
 
 @section('content')
@@ -50,12 +51,15 @@
                                 <label class="btn time-sort" data-blog-id="{{ $blog->id }}" data-sort="time">
                                     <input type="radio" name="time" id="time"> 时间
                                 </label>
+                                <label class="btn support-sort" data-blog-id="{{ $blog->id }}" data-sort="support">
+                                    <input type="radio" name="support" id="support"> 支持
+                                </label>
                             </div>
                         </div>
 
                         <div class="comment-content">
                             <ul class="list-group comment-con">
-                                @foreach($comments as $comment)
+                                @foreach($blog->parent_comments as $comment)
                                     <li class="list-group-item comment-item">
                                         <div class="media">
                                             <a class="media-left ans-avatar avatar-40" href="{{ url('user/'.$comment->user->personal_domain) }}">
@@ -74,45 +78,76 @@
 
                                                 <div class="operation">
                                                     <span class="oper-left">
-                                                        <a href="">
+                                                        <a href="javascript:void(0)" title="支持" class="like-icon @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif" data-comment-id="{{ $comment->id }}" data-user-id="{{ $comment->user_id }}" data-curr-uid="{{ Auth::check()?Auth::user()->id:0 }}">
                                                             <i class="iconfont icon-dianzan"></i>
+                                                            <span class="like-count @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif">{{ $comment->support_count }}</span>
                                                         </a>
-                                                        <span class="like-count">{{ $comment->support_count }}</span>
-
-                                                        <a href="javascript:void(0)" class="reply-icon">
-                                                            <i class="iconfont icon-icon_reply"></i>
-                                                        </a>
+                                                        @if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id)
+                                                            <a href="javascript:void(0)" title="回复" class="reply-icon" data-user-name="{{ $comment->user->username }}" data-user-id="{{ $comment->user_id }}">
+                                                                <i class="iconfont icon-icon_reply"></i>
+                                                            </a>
+                                                        @endif
                                                     </span>
 
                                                     <span class="oper-right">
-                                                        <a href=""><i class="iconfont icon-bianji1 edit-icon"></i></a>
-                                                        <a href=""><i class="iconfont icon-weibiaoti544 delete-icon"></i></a>
+                                                        <a href="javascript:void(0)" title="编辑">
+                                                            <i class="iconfont icon-bianji1 edit-icon"@if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;" @endif></i>
+                                                        </a>
+                                                        <a href="javascript:void(0)" title="删除">
+                                                            <i class="iconfont icon-weibiaoti544 delete-icon"@if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;" @endif data-comment-id="{{ $comment->id }}"></i>
+                                                        </a>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        @foreach($mutual_comments as $mutual_comment)
-                                            <div class="form-group comment-input">
-                                                <div class="mutual-comment">
-                                                    <h4 class="media-heading media-heading-extra">
-                                                        <a class="author reply-author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">{{ $mutual_comment->user->username }}</a>
-                                                        <span class="separate">:</span>
-                                                        @if($mutual_comment->to_user_id != null)
-                                                            <a class="author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">@ {{ $mutual_comment->toUser->username }}</a>
-                                                        @endif
-
-                                                        {!! $mutual_comment->content !!}
-                                                    </h4>
-                                                    <span class="time" title="{{ $mutual_comment->created_at }}">
-                                                        {!! $mutual_comment->created_at !!}
-                                                    </span>
-                                                    @if(Auth::check() && $mutual_comment->user_id != Auth::user()->id)
-                                                        <span title="回复"><a href="javascript:void(0);" id="reply-icon" class="reply-icon" data-user-id="{{ $mutual_comment->user_id }}" data-user-name="{{ $mutual_comment->user->username }}"><i class="iconfont icon-icon_reply"></i>回复</a></span>
-                                                    @endif
+                                        <div class="edit-comment">
+                                            <form id="edit-comment" method="post" action="{{ url('comment/edit') }}">
+                                                <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                                                <textarea id="edit_comment_con" name="edit_comment_con" class="form-control" rows="2"></textarea>
+                                                <div class="comment-part-bottom">
+                                                    <button type="button" class="btn edit-cancel">取消</button>
+                                                    <button type="button" class="btn edit-comment-btn" data-comment-id="{{ $comment->id }}">更改</button>
                                                 </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="form-group comment-input">
+                                            @if($comment->hasChildren())
+                                                @foreach($comment->getChildren() as $mutual_comment)
+                                                    <div class="mutual-comment">
+                                                        <h4 class="media-heading media-heading-extra">
+                                                            <a class="author reply-author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">{{ $mutual_comment->user->username }}</a>
+                                                            <span class="separate">:</span>
+                                                            @if($mutual_comment->to_user_id != null)
+                                                                <a class="author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">@ {{ $mutual_comment->toUser->username }}</a>
+                                                            @endif
+
+                                                            {!! $mutual_comment->content !!}
+                                                        </h4>
+                                                        <span class="time" title="{{ $mutual_comment->created_at }}">
+                                                            {!! $mutual_comment->created_at !!}
+                                                        </span>
+                                                        @if(Auth::check() && $mutual_comment->user_id != Auth::user()->id)
+                                                            <span title="回复"><a href="javascript:void(0);" id="sub-reply-icon" class="sub-reply-icon" data-user-id="{{ $mutual_comment->user_id }}" data-user-name="{{ $mutual_comment->user->username }}"><i class="iconfont icon-icon_reply"></i>回复</a></span>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
+
+                                            <div class="comment-form">
+                                                <form id="comment-content" method="post" action="{{ url('comment/store') }}">
+                                                    <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                                                    <input type="hidden" id="comment_id" name="comment_id" value="{{ $comment->id }}">
+                                                    <input type="hidden" id="to_user" name="to_user" value="">
+                                                    <input type="hidden" id="parent_id" name="parent_id" value="{{ $comment->id }}">
+                                                    <textarea id="comment_child" name="comment_child" class="form-control" rows="2"></textarea>
+                                                    <div class="comment-part-bottom">
+                                                        <button type="button" class="btn btn-cancel">取消</button>
+                                                        <button type="button" class="btn btn-child-reply">回复</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        @endforeach
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -120,7 +155,7 @@
                     </div>
 
                     @if(Auth::guest())
-                        <div class="panel-footer-tip">{{dd($mutual_comments)}}
+                        <div class="panel-footer-tip">
                             <div class="login-tip">
                                 <p>您需要登录才可以发表评论噢！！！<a href="{{ url('login') }}">登录</a> or <a href="{{ url('register') }}">注册</a></p>
                             </div>
@@ -130,7 +165,7 @@
                             <div class="panel-footer">
                                 <form method="post" action="{{ url('comment/blog_store') }}">
                                     <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                                    <input type="hidden" id="comment_concent" name="comment_concent" value="">
+                                    <input type="hidden" id="comment_content" name="comment_content" value="">
                                     <input type="hidden" id="blog_id" name="blog_id" value="{{ $blog->id }}">
                                     <div id="blog_comment_summernote" class="col-sm-9"></div>
                                     <div class="blog_comment_bottom">
@@ -155,32 +190,188 @@
     <script src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/zeroModal/zeroModal.min.js') }}"></script>
     <script>
         $(".time").timeago();
     </script>
     <script>
         $(function () {
-            //评论回复文本输入框切换显示隐藏
+            //评论回复输入框切换显示隐藏
             $('.reply-icon').click(function () {
-                $(this).parents('.comment-item').find('.comment-form').slideToggle('slow');
+                var icon = $(this);
+                var user_name = $(this).data('user-name');
+                var user_id = $(this).data('user-id');
+                $('#to_user').val(user_id);
+                @if (Auth::check())
+                    if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
+                        icon.parents('.comment-item').find('.comment-form textarea').val('');
+                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                        icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
+                    } else {
+                        icon.parents('.comment-item').find('.comment-form textarea').val('');
+                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                    }
+                @else
+                    window.location.href = '{{ url('/login') }}';
+                @endif
+            });
+            //子评论回复输入框切换显示隐藏
+            $('.sub-reply-icon').click(function () {
+                var icon = $(this);
+                var user_name = $(this).data('user-name');
+                var user_id = $(this).data('user-id');
+                $('#to_user').val(user_id);
+                @if (Auth::check())
+                    if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
+                        icon.parents('.comment-item').find('.comment-form textarea').val('');
+                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                        icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
+                    } else {
+                        icon.parents('.comment-item').find('.comment-form textarea').val('');
+                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                    }
+                @else
+                    window.location.href = '{{ url('/login') }}';
+                @endif
+            });
+            //取消隐藏输入框
+            $('.btn-cancel').click(function () {
+                $(this).parents('.comment-item').find('.comment-form').hide('slow');
             });
 
             //评论右下角按钮显示隐藏
-            $('.comment-content ul.comment-con li').hover(function () {
-                $(this).find('.media .media-body .operation span.oper-right').fadeIn();
+            $('.comment-content ul.comment-con .media').hover(function () {
+                $(this).find('.media-body .operation span.oper-right').fadeIn();
             }, function () {
-                $(this).find('.media .media-body .operation span.oper-right').fadeOut();
+                $(this).find('.media-body .operation span.oper-right').fadeOut();
             });
 
-            //
-            $('.btn-reply').click(function () {
-                var postData = $("#comment-content").serializeArray();
+            //评论回复
+            $('.btn-child-reply').click(function () {
+                var icon = $(this);
+                var postData = icon.parents('.comment-form').find("#comment-content").serializeArray();
                 $.post('/comment/mutual_blog_store', postData, function(html){
                     $('.comment-content .comment-form').hide();
-                    $(this).parents('.comment-item').find(".comment-input").append(html);
+                    icon.parents('.comment-item').find(".comment-input").append(html);
 
-                    //$('.comment-count').html(parseInt($('.comment-count').html())+1);       //回答的评论数+1
+                    $('.comment-count').html(parseInt($('.comment-count').html())+1+' 条评论');       //回答的评论数+1
                 });
+            });
+
+            //评论支持
+            $('.like-icon').click(function () {
+                var icon = $(this);
+                var comment_id = $(this).data('comment-id');
+                var user_id = $(this).data('user-id');
+                var curr_uid = $(this).data('curr-uid');
+                var like_count = icon.find('.like-count').html();
+                @if(\Auth::check())
+                    if (user_id != curr_uid) {
+                        $.get('/comment/support/'+comment_id, function (message) {
+                            if (message == 'support') {
+                                like_count++;
+                                icon.find('.like-count').html(like_count);
+                                icon.find('i').css('color', '#555');
+                                icon.find('.like-count').css('color', '#555');
+                            } else if (message == 'unsupport') {
+                                like_count--;
+                                icon.find('.like-count').html(like_count);
+                                icon.find('i').css('color', '#999');
+                                icon.find('.like-count').css('color', '#999');
+                            }
+                        });
+                    } else {
+                        layer.tips('不能支持自己的评论^_^', '.like-icon', {
+                            tips: [1, '#22d7bb'], //配置颜色
+                        });
+                    }
+                @else
+                    window.location.href = '{{ url('/login') }}';
+                @endif
+            });
+
+            //编辑评论
+            $('.edit-icon').click(function () {
+                var icon = $(this);
+                icon.parents('.media').css('display', 'none');
+                icon.parents('.comment-item').find('.edit-comment').show('slow');
+            });
+            //编辑评论输入框取消隐藏
+            $('.edit-cancel').click(function () {
+                $(this).parents('.comment-item').find('.edit-comment').hide();
+                $(this).parents('.comment-item').find('.media').show('slow');
+            });
+            //提交评论更改
+            $('.edit-comment-btn').click(function () {
+                var icon = $(this);
+                var comment_id = $(this).data('comment-id');
+                var postData = icon.parents('.edit-comment').find("#edit-comment").serializeArray();
+                $.post('/comment/edit/'+comment_id, postData, function(message){
+                    icon.parents('.comment-item').find('.edit-comment').hide();
+                    icon.parents('.comment-item').find('.media .media-body p').html(message);
+                    icon.parents('.comment-item').find('.media').show('slow');
+                });
+            });
+            //删除评论
+            $('.delete-icon').click(function () {
+                var icon = $(this);
+                var comment_id = $(this).data('comment-id');
+                zeroModal.confirm("确定删除评论吗？", function() {
+                    $.ajax({
+                        url : "{{url('/comment/destroy/[id]')}}".replace('[id]', comment_id),
+                        data : {
+                            _token: '{{csrf_token()}}',
+                        },
+                        dataType : "json",
+                        type : "POST",
+                        success : function (res) {
+                            if(res.code == 710){
+                                layer.msg(res.message, {
+                                    icon: 6,//提示的样式
+                                    time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
+                                });
+                                icon.parents('.media').css('display', 'none');
+                            } else if (res.code == 711) {
+                                zeroModal.error(res.message);
+                            }
+
+                        },
+                        error : function () {
+                            zeroModal.error('系统错误！');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        //问答的回复按条件显示
+        $(function () {
+            $('.default-sort').click(function () {
+                var blog_id = $(this).data('blog-id');
+                var sort = $(this).data('sort');
+                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                    $('.media').empty();
+                    $('.media').append(html);
+                })
+            });
+
+            $('.time-sort').click(function () {
+                var blog_id = $(this).data('blog-id');
+                var sort = $(this).data('sort');
+                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                    $('.media').empty();
+                    $('.media').append(html);
+                })
+            });
+
+            $('.support-sort').click(function () {
+                var blog_id = $(this).data('blog-id');
+                var sort = $(this).data('sort');
+                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                    $('.media').empty();
+                    $('.media').append(html);
+                })
             });
         });
     </script>
@@ -205,7 +396,7 @@
                 callbacks: {
                     onChange:function (contents, $editable) {
                         var code = $(this).summernote("code");
-                        $("#comment_concent").val(code);
+                        $("#comment_content").val(code);
                     },
                     /*onImageUpload: function(files) {
                         upload_editor_image(files[0], 'question_summernote', 'question');

@@ -10,6 +10,7 @@ Route::group(['prefix' => 'blog'], function() {
     //博客tab分类
     Route::get('/{filter?}', ['as' => 'blog.index', 'uses' => 'BlogController@index'])->where(['filter'=>'(newest|hottest)']);
     Route::get('/show/{id}', ['as' => 'blog.show', 'uses' => 'BlogController@show']);       //博客内容页
+    Route::get('/sort_show/{id}/{sort}', ['as' => 'blog.sort_show', 'uses' => 'BlogController@sort_show']);       //博客内容页
 
     Route::group(['middleware' => ['auth']], function() {
         Route::get('/create', ['as' => 'blog.create', 'uses' => 'BlogController@create']);      //创建博客

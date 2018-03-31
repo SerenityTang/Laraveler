@@ -71,7 +71,7 @@
     word-wrap: break-word;   /*自动换行*/
     /*word-break: break-all;   允许在单词内换行*/
 }
-.blog-show-main .panel-heading p.intro {font-size: 14px;background-color: #f9f9f9;padding: 0;margin: 15px auto 0;}
+.blog-show-main .panel-heading p.intro {font-size: 14px;background-color: #eee;padding: 5px 10px;margin: 15px auto 0;}
 .blog-show-main .panel-heading p.intro span {font-weight: 500;}
 
 /*评论*/
@@ -96,7 +96,7 @@
 .blog-show-main .panel-footer .blog_comment_bottom .btn-reply:hover {background-color: #36ceb6;color: #fff;}
 /*评论列表*/
 .comment-content ul.comment-con {margin-bottom: inherit;}
-.comment-content ul li.comment-item {background-color: #f4f4f4;border: none;border-bottom: 1px solid #e0e0e0;margin: 0;border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
+.comment-content ul li.comment-item {background-color: #f4f4f4;border: none;border-radius: 0;border-bottom: 1px solid #ddd;margin: 0px;padding-bottom: 20px;}
 .comment-content ul li .media a.ans-avatar {padding-right: 15px;}
 .comment-content ul li .media .media-body h4 a.author-name {color: #22d7bb;font-size: 16px;text-decoration: none;}
 .comment-content ul li .media .media-body h4 span.separate {padding: 0 3px;color: #999;font-size: 12px;}
@@ -104,29 +104,38 @@
 .comment-content ul li .media .media-body .operation {margin-top: 5px;height: 29px;}
 .comment-content ul li .media .media-body .operation a {color: #999;text-decoration: none;}
 .comment-content ul li .media .media-body .operation a:hover {color: #555;}
+.comment-content ul li .media .media-body .operation a.like-icon:hover .like-count {color: #555;}
+.comment-content ul li .media .media-body .operation a.active, .comment-content ul li .media .media-body .operation .oper-left .like-icon span.active {color: #555;}
 .comment-content ul li .media .media-body .operation span.oper-left .like-count {color: #999;padding-right: 8px;}
 .comment-content ul li .media .media-body .operation span.oper-right {float: right;display: none;}
 .comment-content ul li .media .media-body .operation span.oper-right a .edit-icon {font-size: 13px;}
 .comment-content ul li .media .media-body .operation span.oper-right a .delete-icon {position: relative;top: 3px;padding-left: 5px;font-size: 18px;}
 
-.comment-content .comment-input {border-left: 2px solid #ddd;width: 91%;padding-left: 15px;margin-left: 55px;}
+.comment-content .comment-input {border-left: 2px solid #ddd;width: 91%;padding-left: 15px;margin: 0 0 0 55px;}
 .comment-content .comment-input .mutual-comment {padding: 10px 0;border-bottom: 1px dashed #ddd;}
 .comment-content .comment-input .mutual-comment h4.media-heading-extra {line-height: 20px;}
 .comment-content .comment-input .mutual-comment h4 a.author {color: #22d7bb;font-size: 16px;text-decoration: none;}
 .comment-content .comment-input .mutual-comment h4 .separate {color: #444;font-size: 16px;padding: 0 3px;}
 .comment-content .comment-input .mutual-comment span.time {color: #999;font-size: 12px;}
-.comment-content .comment-input .mutual-comment span a.reply-icon {color: #999;text-decoration: none;padding-left: 10px;}
-.comment-content .comment-input .mutual-comment span a.reply-icon:hover {color: #555;}
-.comment-content .comment-input .mutual-comment span a.reply-icon i {padding-right: 3px;}
+.comment-content .comment-input .mutual-comment span a.sub-reply-icon {color: #999;text-decoration: none;padding-left: 10px;}
+.comment-content .comment-input .mutual-comment span a.sub-reply-icon:hover {color: #555;}
+.comment-content .comment-input .mutual-comment span a.sub-reply-icon i {padding-right: 3px;}
 
-.comment-content .comment-form {display: none;width: 91%;margin-left: 55px;}
+.comment-content .comment-form {display: none;}
 .comment-content .comment-form textarea {border-bottom-right-radius: 0;border-bottom-left-radius: 0;margin-top: 10px;}
 .comment-content .comment-form textarea:focus {border: 1px solid #22d7bb;}
 .comment-content .comment-form .comment-part-bottom {height: 35px;background-color: #fbfbfb;border: 1px solid #ddd;border-top: 0;position: relative;left: 0;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;}
-.comment-content .comment-form .comment-part-bottom .btn-reply {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 3px;border-radius: 2px;line-height: 13px;}
+.comment-content .comment-form .comment-part-bottom .btn-child-reply {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 3px;border-radius: 2px;line-height: 13px;}
 .comment-content .comment-form .comment-part-bottom .btn-cancel {background-color: #22d7bb;color: #fff;position: absolute;right: 65px;top: 3px;border-radius: 2px;line-height: 13px;}
-.comment-content .comment-form .comment-part-bottom .btn-reply:hover, .ques-show-main .panel-body .answer-content ul li .media .media-comment .comment-part-bottom .btn-cancel:hover {background-color: #36ceb6;color: #fff;}
+.comment-content .comment-form .comment-part-bottom .btn-child-reply:hover, .comment-content .comment-form .comment-part-bottom .btn-cancel:hover {background-color: #36ceb6;color: #fff;}
 
+.comment-content .edit-comment {display: none;margin-bottom: 10px;}
+.comment-content .edit-comment textarea {border-bottom-right-radius: 0;border-bottom-left-radius: 0;margin-top: 10px;}
+.comment-content .edit-comment textarea:focus {border: 1px solid #22d7bb;}
+.comment-content .edit-comment .comment-part-bottom {height: 35px;background-color: #fbfbfb;border: 1px solid #ddd;border-top: 0;position: relative;left: 0;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;}
+.comment-content .edit-comment .comment-part-bottom .edit-comment-btn {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 3px;border-radius: 2px;line-height: 13px;}
+.comment-content .edit-comment .comment-part-bottom .edit-cancel {background-color: #22d7bb;color: #fff;position: absolute;right: 65px;top: 3px;border-radius: 2px;line-height: 13px;}
+.comment-content .edit-comment .comment-part-bottom .edit-comment-btn:hover, .comment-content .comment-form .comment-part-bottom .edit-cancel:hover {background-color: #36ceb6;color: #fff;}
 
 
 

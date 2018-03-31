@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Blog;
 use App\Models\Comment;
 use App\Models\Question;
+use App\Models\Support_opposition;
 use App\Models\User_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,9 +30,9 @@ class CommentController extends Controller
 
             $data = [
                 'user_id' => $user->id,
-                'content' => $request->input('comment-part-con'),
-                'entity_id' => $answer_id,
-                'entity_type' => $request->input('entity_type'),
+                'content' => $request->input('comment_content'),
+                'commentable_id' => $answer_id,
+                'commentable_type' => get_class($answer)/*$request->input('commentable_type')*/,
                 'to_user_id' => $request->input('to_user'),
                 'status' => 1,
             ];
@@ -67,12 +68,12 @@ class CommentController extends Controller
             $user_data = User_data::where('user_id', $user->id)->first();
 
             $data = [
-                'user_id'           =>$user->id,
-                'content'           =>$request->input('comment_concent'),
-                'entity_id'         =>$blog_id,
-                'entity_type'       =>'Blog',
-                'to_user_id'        =>$request->input('to_user'),
-                'status'            =>1,
+                'user_id'                =>$user->id,
+                'content'                =>$request->input('comment_content'),
+                'commentable_id'         =>$blog_id,
+                'commentable_type'       =>get_class($blog),
+                'to_user_id'             =>$request->input('to_user'),
+                'status'                 =>1,
             ];
             $comment = Comment::create($data);
 
@@ -100,26 +101,30 @@ class CommentController extends Controller
         if (Auth::check()) {
             $comment_id = $request->input('comment_id');
             $comment = Comment::where('id', $comment_id)->first();
-            $blog = Blog::where('id', $comment->entity_id)->first();
+            $blog = Blog::where('id', $comment->commentable_id)->first();
             $user = Auth::user();
             $user_data = User_data::where('user_id', $user->id)->first();
             $data = [
-                'user_id'           =>$user->id,
-                'content'           =>$request->input('comment_part_con'),
-                'entity_id'         =>$blog->id,
-                'entity_type'       =>'Blog',
-                'to_user_id'        =>$comment->user_id,
-                'status'            =>1,
+                'user_id'                =>$user->id,
+                'content'                =>$request->input('comment_child'),
+                'commentable_id'         =>$blog->id,
+                'commentable_type'       =>get_class($blog),
+                'to_user_id'             =>$request->input('to_user'),
+                'status'                 =>1,
             ];
-            $comment = Comment::create($data);
+            $mutual_comment = Comment::create($data);
 
-            if ($comment) {
+            if ($request->get('parent_id') > 0) {
+                $mutual_comment->makeChildOf(Comment::findOrFail($request->get('parent_id')));
+            }
+
+            if ($mutual_comment) {
                 //博客评论数+1
                 $blog->increment('comment_count');
                 //用户评论数+1
                 $user_data->increment('comment_count');
 
-                return view('comment.comment_part_item')->with(['comment' => $comment]);
+                return view('comment.comment_child_blog')->with(['mutual_comment' => $mutual_comment]);
             }
         } else {
             return view('auth.login');
@@ -132,23 +137,101 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function answer_comment_show($entity_id, $entity_type)
+    public function show($commentable_id, $commentable_type)
     {
-        $comments = Comment::where('entity_id', $entity_id)->where('entity_type', $entity_type)->orderBy('created_at','asc')->get();
-        $answer = Answer::where('id', $entity_id)->first();
-        return view('comment.comment_part')->with(['comments' => $comments, 'entity_id' => $entity_id, 'entity_type' => $entity_type, 'answer' => $answer]);
+        $answer = Answer::where('id', $commentable_id)->first();
+        $comments = Comment::where('commentable_id', $commentable_id)->where('commentable_type', get_class($answer))->orderBy('created_at','asc')->get();
+
+        return view('comment.comment_part')->with(['comments' => $comments, 'commentable_id' => $commentable_id, 'commentable_type' => $commentable_type, 'answer' => $answer]);
     }
 
     /**
-     * 读取博客的评论
+     * 博客评论支持
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function blog_comment_show($entity_id, $entity_type)
+    public function support($comment_id)
     {
-        $comments = Comment::where('entity_id', $entity_id)->where('entity_type', $entity_type)->orderBy('created_at','asc')->get();
-        $answer = Answer::where('id', $entity_id)->first();
-        return view('comment.comment_part')->with(['comments' => $comments, 'entity_id' => $entity_id, 'entity_type' => $entity_type, 'answer' => $answer]);
+        if (Auth::check()) {
+            $comment = Comment::where('id', $comment_id)->first();
+            $supp_oppo = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $comment_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', 'support')->first();
+            $user_data = User_data::where('user_id', $comment->user_id)->first();   //评论所属用户
+            $curr_user_data = User_data::where('user_id', Auth::user()->id)->first();   //当前用户
+            //存在支持记录，则属于取消支持
+            if ($supp_oppo) {
+                $bool = $supp_oppo->delete();
+                if ($bool == true) {
+                    //评论支持数-1
+                    $comment->decrement('support_count');
+                    //用户被支持数-1
+                    $user_data->decrement('supported_count');
+                    //当前用户支持数-1
+                    $curr_user_data->decrement('support_count');
+                }
+
+                return response('unsupport');
+            } else {
+                //不存在支持记录，则属于支持
+                $data = [
+                    'user_id'           =>Auth::user()->id,
+                    'sup_opp_able_id'   =>$comment_id,
+                    'sup_opp_able_type' =>get_class($comment),
+                    'sup_opp_mode'      =>'support',
+                ];
+                $s_o = Support_opposition::create($data);
+                if ($s_o) {
+                    //评论支持数-1
+                    $comment->increment('support_count');
+                    //用户被支持数-1
+                    $user_data->increment('supported_count');
+                    //当前用户支持数-1
+                    $curr_user_data->increment('support_count');
+
+                    return response('support');
+                }
+            }
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    /**
+     * 博客评论编辑
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $comment_id)
+    {
+        $comment = Comment::where('id', $comment_id)->first();
+        $content = $request->input('edit_comment_con');
+        $edit_content = '<p>'.$content.'</p>';
+        $comment->content = $edit_content;
+        $bool = $comment->save();
+
+        if ($bool == true) {
+            return response($request->input('edit_comment_con'));
+        }
+    }
+
+    /**
+     * 博客评论删除
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($comment_id)
+    {
+        $comment = Comment::where('id', $comment_id)->first();
+        $user_data = User_data::where('user_id', $comment->user_id)->first();
+        $comment->delete();
+        if($comment->trashed()){
+            $user_data->decrement('comment_count');
+
+            return $this->jsonResult(710);
+        }else{
+            return $this->jsonResult(711);
+        }
     }
 }

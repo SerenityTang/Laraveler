@@ -6,9 +6,9 @@
 </div>
 {{--根据登录与否和是否为本回答的回答者给出提示添加评论--}}
 @if(Auth::check())
-    @if(\App\Helpers\Helpers::get_answer($entity_id)->user_id != Auth::user()->id)
+    @if(\App\Helpers\Helpers::get_answer($commentable_id)->user_id != Auth::user()->id)
         <span><a href="javascript:void(0);" id="new-comment" class="new-comment"><i class="iconfont icon-iconfontpinglun"></i>您有话要说？请添加您的评论吧......</a></span>
-    @elseif(\App\Helpers\Helpers::get_answer($entity_id)->comment_count < 1)
+    @elseif(\App\Helpers\Helpers::get_answer($commentable_id)->comment_count < 1)
         <span class="comment-tip">您的回答暂时还没有评论噢^_^</span>
     @endif
 @else
@@ -18,13 +18,13 @@
 <div class="form-group comment-input">
     <form id="comment-content" method="post" action="{{ url('comment/answer_store') }}">
         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-        <input type="hidden" id="answer_id" name="answer_id" value="{{ $entity_id }}">
-        <input type="hidden" id="entity_type" name="entity_type" value="{{ $entity_type }}">
+        <input type="hidden" id="answer_id" name="answer_id" value="{{ $commentable_id }}">
+        <input type="hidden" id="entity_type" name="entity_type" value="{{ $commentable_type }}">
         <input type="hidden" id="to_user" name="to_user" value="">
-        <textarea id="comment-part-con" name="comment-part-con" class="form-control comment-part-con" rows="2"></textarea>
+        <textarea id="comment_content" name="comment_content" class="form-control" rows="2"></textarea>
         <div class="comment-part-bottom">
             <button type="button" class="btn btn-cancel">取消</button>
-            <button type="button" class="btn btn-reply" data-entity_id="{{ $entity_id }}" data-entity_type="{{ $entity_type }}">回复</button>
+            <button type="button" class="btn btn-reply" data-entity_id="{{ $commentable_id }}" data-entity_type="{{ $commentable_type }}">回复</button>
         </div>
     </form>
 </div>

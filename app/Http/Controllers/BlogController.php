@@ -150,10 +150,29 @@ class BlogController extends Controller
     public function show($id)
     {
         $blog = Blog::where('id', $id)->first();
-        $comments = Comment::where('entity_id', $blog->id)->where('entity_type', 'Blog')->whereNull('to_user_id')->orderBy('created_at','asc')->get();
 
+        return view('blog.show')->with(['blog' => $blog]);
+    }
 
-        return view('blog.show')->with(['blog' => $blog, 'comments' => $comments, 'mutual_comments' => $mutual_comments]);
+    /**
+     * 博客评论分类
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sort_show($id, $sort)
+    {
+        $blog = Blog::where('id', $id)->first();
+
+        if ($sort === 'default') {
+            $comments = Comment::where('commentable_id', $id)->where('commentable_type', get_class($blog))->where('status', 1)->where('depth', 0)->get();
+        } else if ($sort === 'time') {
+            $comments = Comment::where('commentable_id', $id)->where('commentable_type', get_class($blog))->where('status', 1)->where('depth', 0)->orderBy('created_at', 'DESC')->get();
+        } else if ($sort === 'support') {
+            $comments = Comment::where('commentable_id', $id)->where('commentable_type', get_class($blog))->where('status', 1)->where('depth', 0)->orderBy('support_count', 'DESC')->get();
+        }
+
+        return view('blog.parts.blog_comment')->with(['comments' => $comments]);
     }
 
     /**

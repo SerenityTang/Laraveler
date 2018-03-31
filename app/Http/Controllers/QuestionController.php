@@ -42,7 +42,7 @@ class QuestionController extends Controller
         //问答热门标签
         $taggables = Taggable::where('taggable_type', get_class($question))->get();
         $tags = array();
-        foreach ($taggables as $taggable) {
+        foreach ($taggables as $taggable) {dd(1);
              $tag = Tag::where('id', $taggable->tag_id)->first();
             array_push($tags, $tag);
             $hot_tags = array_unique($tags);
@@ -64,8 +64,12 @@ class QuestionController extends Controller
             ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
             ->take(9)->get();
 
-        if (!isset($new_answer_questions)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);
+        if (!isset($new_answer_questions) && !isset($hot_tags)) {
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users]);
+        } else if (!isset($hot_tags)) {
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users]);
+        } else if (!isset($new_answer_questions)) {
+            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'hot_tags' => $hot_tags, 'warm_users' => $warm_users]);
         }
 
         return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);

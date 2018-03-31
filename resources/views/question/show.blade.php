@@ -260,7 +260,7 @@
                 var icon = $(this);
                 var entity_id = $(this).data('entity_id');
                 var entity_type = $(this).data('entity_type');
-                $.get('/comment/answer_comment/'+entity_id+'/'+entity_type, function(html){
+                $.get('/comment/'+entity_id+'/'+entity_type, function(html){
                     icon.parents('.media').find('.media-comment').append(html);
                 });
 
