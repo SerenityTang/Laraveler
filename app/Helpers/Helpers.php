@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Answer;
 use App\Models\Attention;
+use App\Models\Blog;
 use App\Models\Collection;
 use App\Models\Comment;
 use App\Models\Question;
@@ -49,6 +50,12 @@ class Helpers {
     public static function get_question($question_id){
         $question = Question::where('id', $question_id)->first();
         return $question;
+    }
+
+    /*获取博客*/
+    public static function get_blog($blog_id){
+        $blog = Blog::where('id', $blog_id)->first();
+        return $blog;
     }
 
     /**
@@ -96,6 +103,14 @@ class Helpers {
             } else if ($mode_type === 'Comment' && $mode === 'support') {
                 $comment = Comment::where('id', $mode_id)->first();
                 $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', $mode)->first();
+                if ($sup_opp) {
+                    return $sup_opp;
+                }
+
+                return null;
+            } else if ($mode_type === 'Blog' && $mode === 'like') {
+                $blog = Blog::where('id', $mode_id)->first();
+                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -173,6 +188,14 @@ class Helpers {
             } else if ($mode_type === 'Question') {
                 $question = Question::where('id', $mode_id)->first();
                 $collection = Collection::where('user_id', Auth::user()->id)->where('entityable_id', $mode_id)->where('entityable_type', get_class($question))->first();
+                if ($collection) {
+                    return $collection;
+                }
+
+                return null;
+            } else if ($mode_type === 'Blog') {
+                $blog = Blog::where('id', $mode_id)->first();
+                $collection = Collection::where('user_id', Auth::user()->id)->where('entityable_id', $mode_id)->where('entityable_type', get_class($blog))->first();
                 if ($collection) {
                     return $collection;
                 }

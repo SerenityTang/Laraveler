@@ -86,7 +86,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading ">
-                        <h3 class="side-blog-title"><i class="iconfont icon-biaoqian side-blog-tag"></i>问答标签</h3>
+                        <h3 class="side-blog-title"><i class="iconfont icon-biaoqian side-blog-tag"></i>博客标签</h3>
                     </div>
                     <div class="panel-body">
                         <div id="tagscloud">

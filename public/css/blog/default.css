@@ -25,6 +25,23 @@
 .main-content .source-display {display: none;}
 .main-content .source-name {width: 30%;display: inline-block;margin-left: 18%;margin-right: 2%;}
 .main-content .source-link {width: 40%;display: inline-block;}
+/*标签*/
+.blog-tag .am-tagsinput {min-width: 100%;border: 2px solid #e4e4e4;height: 40px;border-radius: 4px;color: #555;font-size: 14px;margin-bottom: 0px;}
+.blog-tag .am-tagsinput .tag {color: #333;background: #efefef;padding: 5px;border-radius: 4px;}
+.blog-tag .am-tagsinput span .tt-drop-menu {top: 143%;left: -11px;background-color: #fff;border: 1px solid rgba(0, 0, 0, 0.15);min-width: 180px;
+    padding: 5px 0;
+    font-size: 16px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
+.blog-tag .am-tagsinput span .tt-drop-menu .tt-dataset:hover {cursor: pointer;}
+.blog-tag .tag-drop-tip {width: 100%;background-color: #fff;border: 1px solid #ddd;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.18);display: none;}
+.blog-tag .tag-drop-tip ul {padding: 5px;}
+.blog-tag .tag-drop-tip ul li.tip {display: inline-block;margin-right: 5px;background-color: #66d2c1;color: #f4f4f4;border-radius: 3px;line-height: 12px;padding: 3px 5px;}
+.blog-tag .tag-drop-tip ul li.tip:hover {cursor: pointer;}
+.tag-form-group a.btn {position: relative;}
+.tag-form-group a.btn svg {display: inline-block;font-size: 28px;position: absolute;top: -2px;right: -3px;}
 
 
 /*博客首页*/
@@ -71,8 +88,49 @@
     word-wrap: break-word;   /*自动换行*/
     /*word-break: break-all;   允许在单词内换行*/
 }
+/*简介*/
 .blog-show-main .panel-heading p.intro {font-size: 14px;background-color: #eee;padding: 5px 10px;margin: 15px auto 0;}
 .blog-show-main .panel-heading p.intro span {font-weight: 500;}
+/*内容底部ps提示*/
+.blog-show-main .panel-heading .blog-support p.blog-tip {color: #555;font-size: 14px;}
+.blog-show-main .panel-heading .blog-support span.ps {font-size: 16px;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
+/*内容底部按钮*/
+.blog-show-main .panel-heading .blog-support .handle-bottom {text-align: center;padding: 20px 0;}
+.blog-show-main .panel-heading .blog-support .handle-bottom i {padding-right: 5px;}
+.blog-support .handle-bottom a.like-btn, .blog-support .handle-bottom a.favorite-btn {margin-right: 10px;}
+.blog-support .handle-bottom a.like-btn, .blog-support .handle-bottom a.favorite-btn, .blog-support .handle-bottom a.admire-btn {border: 1px solid #22d7bb;color: #22d7bb;padding: 9px 13px;border-radius: 5px;text-decoration: none;}
+.blog-support .handle-bottom a.like-btn:hover, .blog-support .handle-bottom a.favorite-btn:hover, .blog-support .handle-bottom a.admire-btn:hover {background-color: #22d7bb;border: 1px solid #fff;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
+.blog-support .handle-bottom a.active {background-color: #22d7bb;border: 1px solid #fff;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
+.blog-support .handle-bottom a.favorite-btn i {font-size: 19px;position: relative;top: 1px;}
+.blog-support .handle-bottom a.admire-btn i {font-size: 18px;position: relative;top: 1px;}
+/*问答右侧栏博主介绍*/
+.list-side-top .other-panel {background-color: inherit;}
+.list-side-top h3.blogger {font-weight: bold;font-size: 16px;}
+.list-side-top h3.blogger i.other-icon {padding-right: 5px;}
+.list-side-top .media a.blogger-avatar {padding-top: 5px;}
+.list-side-top .media a.blogger-avatar img {border: 1px solid #ccc;}
+.list-side-top .media .media-body a.btn-edit, .list-side-top .media .media-body a.btn-delete, .list-side-top .media .media-body a.btn-attention {background-color: #22d7bb;color: #fff;padding: 3px 6px;font-size: 13px;}
+.list-side-top .media .media-body a.btn-edit i, .list-side-top .media .media-body a.btn-delete i, .list-side-top .media .media-body a.btn-attention i {font-size: 12px;padding-right: 3px;}
+.list-side-top .media .media-body a.btn-edit:hover, .list-side-top .media .media-body a.btn-delete:hover, .list-side-top .media .media-body a.btn-attention:hover {background-color: #36ceb6;}
+.list-side-top .media .media-body a.blogger-name {color: #666;text-decoration: none;}
+.list-side-top .media .media-body p.blogger-data {color: #999;font-size: 12px;}
+/*问答右侧栏其它问答*/
+.list-side-other .other-panel {background-color: inherit;}
+.list-side-other h3.other-blog {font-weight: bold;font-size: 16px;}
+.list-side-other h3.other-blog i.other-icon {padding-right: 5px;}
+.list-side-other .other-panel .list-others {margin-bottom: 0;}
+.list-side-other .other-panel .list-others li a {color: #666;word-wrap: break-word;text-decoration: none;}
+.list-side-other .other-panel .list-others li a:hover {color: #22d7bb;}
+.list-side-other .other-panel .list-others p.list-other-empty {text-align: center;color: #999;}
+/*问答右侧栏相关问答*/
+.list-side-related .related-panel {background-color: inherit;}
+.list-side-related h3.related-blog {font-weight: bold;font-size: 16px;}
+.list-side-related h3.related-blog i.related-icon {padding-right: 5px;}
+.list-side-related ul.correlation-list {margin-bottom: 0;}
+.list-side-related ul.correlation-list p {text-align: center;color: #999;}
+.list-side-related ul li.correlation-blog a {color: #333;text-decoration: none;}
+.list-side-related ul li.correlation-blog a:hover {color: #22d7bb;}
+
 
 /*评论*/
 /*评论头部*/
@@ -110,7 +168,7 @@
 .comment-content ul li .media .media-body .operation span.oper-right {float: right;display: none;}
 .comment-content ul li .media .media-body .operation span.oper-right a .edit-icon {font-size: 13px;}
 .comment-content ul li .media .media-body .operation span.oper-right a .delete-icon {position: relative;top: 3px;padding-left: 5px;font-size: 18px;}
-
+/*子评论列表*/
 .comment-content .comment-input {border-left: 2px solid #ddd;width: 91%;padding-left: 15px;margin: 0 0 0 55px;}
 .comment-content .comment-input .mutual-comment {padding: 10px 0;border-bottom: 1px dashed #ddd;}
 .comment-content .comment-input .mutual-comment h4.media-heading-extra {line-height: 20px;}
@@ -120,7 +178,7 @@
 .comment-content .comment-input .mutual-comment span a.sub-reply-icon {color: #999;text-decoration: none;padding-left: 10px;}
 .comment-content .comment-input .mutual-comment span a.sub-reply-icon:hover {color: #555;}
 .comment-content .comment-input .mutual-comment span a.sub-reply-icon i {padding-right: 3px;}
-
+/*评论输入框*/
 .comment-content .comment-form {display: none;}
 .comment-content .comment-form textarea {border-bottom-right-radius: 0;border-bottom-left-radius: 0;margin-top: 10px;}
 .comment-content .comment-form textarea:focus {border: 1px solid #22d7bb;}
@@ -128,7 +186,7 @@
 .comment-content .comment-form .comment-part-bottom .btn-child-reply {background-color: #22d7bb;color: #fff;position: absolute;right: 5px;top: 3px;border-radius: 2px;line-height: 13px;}
 .comment-content .comment-form .comment-part-bottom .btn-cancel {background-color: #22d7bb;color: #fff;position: absolute;right: 65px;top: 3px;border-radius: 2px;line-height: 13px;}
 .comment-content .comment-form .comment-part-bottom .btn-child-reply:hover, .comment-content .comment-form .comment-part-bottom .btn-cancel:hover {background-color: #36ceb6;color: #fff;}
-
+/*评论编辑*/
 .comment-content .edit-comment {display: none;margin-bottom: 10px;}
 .comment-content .edit-comment textarea {border-bottom-right-radius: 0;border-bottom-left-radius: 0;margin-top: 10px;}
 .comment-content .edit-comment textarea:focus {border: 1px solid #22d7bb;}

@@ -39,6 +39,29 @@
                         <p class="intro"><span>简介：</span>{{ $blog->intro }}</p>
 
                         {!! $blog->description !!}
+
+                        <div class="blog-support">
+                            <p class="blog-tip"><span class="ps">PS: </span>如本文对您有帮助，不妨通过一下方式支持一下博主噢 ^_^</p>
+                            <div class="handle-bottom">
+                                <a href="javascript:void(0)" class="like-btn @if(\App\Helpers\Helpers::support($blog->id, 'Blog', 'like') != null)active @endif" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                    @if(\App\Helpers\Helpers::support($blog->id, 'Blog', 'like') != null)
+                                        <i class="iconfont icon-dianzan2"></i>已点赞
+                                    @else
+                                        <i class="iconfont icon-dianzan2"></i>点赞
+                                    @endif
+                                </a>
+                                <a href="javascript:void(0)" class="favorite-btn @if(\App\Helpers\Helpers::collection($blog->id, 'Blog') != null)active @endif" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                    @if(\App\Helpers\Helpers::collection($blog->id, 'Blog') != null)
+                                        <i class="iconfont icon-shoucang"></i>已收藏
+                                    @else
+                                        <i class="iconfont icon-shoucang"></i>收藏
+                                    @endif
+                                </a>
+                                <a href="javascript:void(0)" class="admire-btn" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                    <i class="iconfont icon-xuanshang"></i>赞赏
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="panel-body">
@@ -179,7 +202,85 @@
             </div>
 
             <div class="col-xs-12 col-md-3">
+                <div class="list-side-top">
+                    <div class="panel panel-default other-panel">
+                        <div class="panel-heading">
+                            <h3 class="blogger"><i class="iconfont icon-jieshao other-icon"></i>博主介绍</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="media">
+                                <a class="media-left blogger-avatar" href="{{ url('user/'.$blog->user->personal_domain) }}">
+                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-40" alt="{{ $blog->user->username }}">
+                                </a>
+                                <div class="media-body blogger-content">
+                                    <a href="{{ url('user/'.$blog->user->personal_domain) }}" class="media-heading blogger-name">{{ $blog->user->username }}</a>
+                                    <p class="blogger-data">
+                                        <span>博客：{{ App\Helpers\Helpers::get_user_data($blog->user_id)->article_count }}</span>
+                                        <span>·</span>
+                                        <span>粉丝：{{ App\Helpers\Helpers::get_user_data($blog->user_id)->fan_count }}</span>
+                                    </p>
+                                    <div>
+                                        @if($blog->user_id == (Auth::check()?Auth::user()->id:0))
+                                            <a href="{{ url('blog/show_edit/'.$blog->id) }}" class="btn btn-edit">
+                                                <i class="iconfont icon-bianji"></i>编辑
+                                            </a>
+                                            <a href="javascript:void(0)" class="btn btn-delete" data-blog-id="{{ $blog->id }}">
+                                                <i class="iconfont icon-shanchu"></i>删除
+                                            </a>
+                                        @endif
+                                        <a href="javascript:void(0)" class="btn btn-attention" data-user="{{ $blog->user_id }}" data-curr-user="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                            @if(\App\Helpers\Helpers::attention($blog->user_id, 'User', (Auth::check() ? Auth::user()->id : 0)) == null)
+                                                <i class="iconfont icon-guanzhuderen2"></i>关注
+                                            @else
+                                                <i class="iconfont icon-guanzhuderen2"></i>已关注
+                                            @endif
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="list-side-other">
+                    <div class="panel panel-default other-panel">
+                        <div class="panel-heading">
+                            <h3 class="other-blog"><i class="iconfont icon-qita1 other-icon"></i>{{ $blog->user->username }} 的其它博客</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group list-others">
+                                @if($other_blogs->isEmpty())
+                                    <p class="list-other-empty">{{ $blog->user->username }} 暂无其它博客</p>
+                                @else
+                                    @foreach($other_blogs as $other_blog)
+                                        <li>
+                                            <a href="{{ url('question/show/' . $other_blog->id) }}" title="{{ $other_blog->title }}">{{ str_limit($other_blog->title, 30) }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-side-related">
+                    <div class="panel panel-default related-panel">
+                        <div class="panel-heading">
+                            <h3 class="related-blog"><i class="iconfont icon-xiangguan related-icon"></i>相关博客</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group correlation-list">
+                                @foreach($correlation_blogs as $correlation_blog)
+                                    @if($blog->user_id != $correlation_blog->user_id)
+                                        <li class="correlation-blog">
+                                            <a href="{{ url('blog/show/' . $correlation_blog->id) }}" title="{{ $correlation_blog->title }}">{{ str_limit($correlation_blog->title, 30) }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -193,6 +294,154 @@
     <script type="text/javascript" src="{{ asset('libs/zeroModal/zeroModal.min.js') }}"></script>
     <script>
         $(".time").timeago();
+    </script>
+    <script>
+        //如相关问答为空，插入提示
+        $(function () {
+            if ($('.list-side-related ul.correlation-list').children().length === 0) {
+                $('.list-side-related ul.correlation-list').html('<p class="list-other-empty">暂无相关博客</p>');
+            }
+        });
+    </script>
+    <script>
+        //点赞博客
+        $('.like-btn').click(function () {
+            var blog_id = $(this).data('blog-id');
+            var blog_uid = $(this).data('blog-uid');
+            var blog_curruid = $(this).data('blog-curruid');
+            @if(!\Auth::check())
+                window.location.href = '{{ url('/login') }}';
+            @else
+                if (blog_uid != blog_curruid) {
+                    $.get('/blog/like/'+blog_id, function (message) {
+                        if (message == 'like') {
+                            $('.like-btn').addClass('active');
+                            $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>'+'已点赞');
+                        } else if (message == 'unlike') {
+                            $('.like-btn').removeClass('active');
+                            $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>'+'点赞');
+                        }
+                    });
+                } else {
+                    layer.tips('不能点赞自己的博客^_^', '.like-btn', {
+                        tips: [1, '#22d7bb'], //配置颜色
+                    });
+                }
+            @endif
+        });
+
+        //收藏博客
+        $('.favorite-btn').click(function () {
+            var blog_id = $(this).data('blog-id');
+            var blog_uid = $(this).data('blog-uid');
+            var blog_curruid = $(this).data('blog-curruid');
+            @if(!\Auth::check())
+                window.location.href = '{{ url('/login') }}';
+            @else
+                if (blog_uid != blog_curruid) {
+                    $.get('/blog/favorite/'+blog_id, function (message) {
+                        if (message == 'favorite') {
+                            $('.favorite-btn').addClass('active');
+                            $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>'+'已收藏');
+                        } else if (message == 'unfavorite') {
+                            $('.favorite-btn').removeClass('active');
+                            $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>'+'收藏');
+                        }
+                    });
+                } else {
+                    layer.tips('不能收藏自己的博客^_^', '.favorite-btn', {
+                        tips: [1, '#22d7bb'], //配置颜色
+                    });
+                }
+            @endif
+        });
+
+        //赞赏博客
+        $('.admire-btn').click(function () {
+            var blog_id = $(this).data('blog-id');
+            var blog_uid = $(this).data('blog-uid');
+            var blog_curruid = $(this).data('blog-curruid');
+            @if(!\Auth::check())
+                window.location.href = '{{ url('/login') }}';
+            @else
+                if (blog_uid != blog_curruid) {
+
+                } else {
+                    layer.tips('不能赞赏自己的博客^_^', '.admire-btn', {
+                        tips: [1, '#22d7bb'], //配置颜色
+                    });
+                }
+            @endif
+        });
+
+        //关注博主
+        $(function () {
+            $('.btn-attention').click(function () {
+                var user = $(this).data('user');
+                var curr_user = $(this).data('curr-user');
+                @if(!\Auth::check())
+                    window.location.href = '{{ url('/login') }}';
+                @else
+                    if (user != curr_user) {
+                        $.ajax({
+                            type : 'POST',
+                            data : {
+                                _token: '{{ csrf_token() }}',
+                                'user': user,
+                                'curr_user':curr_user
+                            },
+                            url : '{{ url('/user/attention_user') }}',
+                            success: function (data) {
+                                if (data == 'attention') {
+                                    $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>已关注');
+                                } else if (data == 'unattention') {
+                                    $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>关注');
+                                }
+                            },
+                            error: function () {
+                                layer.msg('系统错误');
+                            }
+                        });
+                    } else {
+                        layer.tips('不能关注自己^_^', '.btn-attention', {
+                            tips: [1, '#22d7bb'], //配置颜色
+                        });
+                    }
+                @endif
+            });
+        });
+
+        //删除博客
+        $('.btn-delete').click(function () {
+            var blog_id = $(this).data('blog-id');
+            zeroModal.confirm("确定删除博客吗？", function() {
+                $.ajax({
+                    url : "{{url('/blog/destroy/[id]')}}".replace('[id]', blog_id),
+                    data : {
+                        _token: '{{csrf_token()}}',
+                    },
+                    dataType : "json",
+                    type : "POST",
+                    success : function (res) {
+                        if(res.code == 706){
+                            layer.msg(res.message, {
+                                icon: 6,//提示的样式
+                                time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
+                                end : function(){
+                                    location.href='{{ url("/blog") }}';
+                                }
+                            });
+                        } else if (res.code == 707) {
+                            zeroModal.error(res.message);
+                        }
+
+                    },
+                    error : function () {
+                        zeroModal.error('系统错误！');
+                    }
+                });
+            });
+        });
     </script>
     <script>
         $(function () {
@@ -399,7 +648,7 @@
                         $("#comment_content").val(code);
                     },
                     /*onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'question_summernote', 'question');
+                        upload_editor_image(files[0], 'question_summernote', 'blog');
                     }*/
                 }
             });

@@ -42,7 +42,7 @@ class QuestionController extends Controller
         //问答热门标签
         $taggables = Taggable::where('taggable_type', get_class($question))->get();
         $tags = array();
-        foreach ($taggables as $taggable) {dd(1);
+        foreach ($taggables as $taggable) {
              $tag = Tag::where('id', $taggable->tag_id)->first();
             array_push($tags, $tag);
             $hot_tags = array_unique($tags);
@@ -100,13 +100,13 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        if (\Auth::check()) {
-            $user = \Auth::user();
+        if (Auth::check()) {
+            $user = Auth::user();
             $data = [
                 'user_id'       =>$user->id,
                 'qcategory_id'  =>$request->input('qcategory_id', 0),
                 'title'         =>$request->input('question_title'),
-                'description'   =>$request->input('description'),
+                'description'   =>$request->input('desc'),
                 'price'         =>$request->input('price'),
                 //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
                 'device'        =>1,
@@ -124,16 +124,18 @@ class QuestionController extends Controller
                 foreach ($tags as $tag) {
                     $taggables = [
                         'tag_id'            =>$tag,
-                        'entityable_id'     =>$question->id,
-                        'entityable_type'   =>get_class($question),
+                        'taggable_id'     =>$question->id,
+                        'taggable_type'   =>get_class($question),
                     ];
                     $taggable = Taggable::create($taggables);
                 }
                 if ($taggable) {
                     return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^');
                 } else {
-                    return $this->error('/question', '发布问答失败^_^');
+                    return $this->error('/question', '发布问答失败，未绑定标签^_^');
                 }
+            } else {
+                return $this->error('/question', '发布问答失败^_^');
             }
         } else {
             return view('auth.login');
@@ -148,13 +150,13 @@ class QuestionController extends Controller
      */
     public function store_draft(Request $request)
     {
-        if (\Auth::check()) {
-            $user = \Auth::user();
+        if (Auth::check()) {
+            $user = Auth::user();
             $data = [
                 'user_id'       =>$user->id,
                 'qcategory_id'  =>$request->input('qcategory_id', 0),
                 'title'         =>$request->input('question_title'),
-                'description'   =>$request->input('description'),
+                'description'   =>$request->input('desc'),
                 'price'         =>$request->input('price'),
                 //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
                 'device'        => 1,
@@ -169,16 +171,18 @@ class QuestionController extends Controller
                 foreach ($tags as $tag) {
                     $taggables = [
                         'tag_id'            =>$tag,
-                        'entityable_id'     =>$question->id,
-                        'entityable_type'   =>get_class($question),
+                        'taggable_id'     =>$question->id,
+                        'taggable_type'   =>get_class($question),
                     ];
                     $taggable = Taggable::create($taggables);
                 }
                 if ($taggable) {
                     return $this->jsonResult(501, '保存草稿成功，请前往个人主页查看^_^');
                 } else {
-                    return $this->error(502, '保存草稿失败^_^');
+                    return $this->jsonResult(502, '保存草稿失败，未绑定标签^_^');
                 }
+            } else {
+                return $this->jsonResult(502, '保存草稿失败^_^');
             }
         } else {
             return view('auth.login');
@@ -249,11 +253,11 @@ class QuestionController extends Controller
         $question = Question::where('id', $id)->first();
         $tags = Tag::where('status', 1)->get();     //获取tag展示在下拉列表
         //获取此问答绑定的标签
-        $tags = [];
+        $bound_tags = [];
         $taggables = Taggable::where('taggable_id', $question->id)->where('taggable_type', get_class($question))->get();
         foreach ($taggables as $taggable) {
             $tag = Tag::where('id', $taggable->tag_id)->first();
-            array_push($tags, $tag);
+            array_push($bound_tags, $tag);
         }
 
         if (Auth::check()) {
@@ -262,7 +266,7 @@ class QuestionController extends Controller
             return view('auth.login');
         }
 
-        return view('question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'tags' => $tags]);
+        return view('question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
     }
 
     /**
@@ -278,7 +282,7 @@ class QuestionController extends Controller
             $ori_status = $question->status;
             $question->qcategory_id = $request->input('qcategory_id');
             $question->title = $request->input('question_title');
-            $question->description = $request->input('description');
+            $question->description = $request->input('desc');
             $question->price = $request->input('price');
             $question->status = 1;
             $bool = $question->save();
@@ -287,8 +291,11 @@ class QuestionController extends Controller
                 if ($ori_status == 2) {
                     $user_data = User_data::where('user_id', Auth::user()->id)->first();
                     $user_data->increment('question_count');
+
+                    return $this->success(route('question.show', $id), '您的问题草稿以问答方式发布成功^_^');
+                } else {
+                    return $this->success(route('question.show', $id), '问题编辑成功^_^');
                 }
-                return $this->success(route('question.show', $id), '问题编辑成功^_^');
             }
         } else {
             return view('auth.login');

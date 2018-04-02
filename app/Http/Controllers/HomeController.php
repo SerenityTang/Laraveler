@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Feedback;
 use App\Models\Question;
 use App\Models\Tag;
@@ -27,12 +28,15 @@ class HomeController extends Controller
     public function index()
     {
         $question = new Question();
+        $blog = new Blog();
         //$new_questions = call_user_func([$question, 'newest']);     //最新问答
         //$hot_questions = call_user_func([$question, 'hottest']);    //热门问答
         $new_questions = $question->newest(0, 6);       //最新问答
         $hot_questions = $question->hottest(0, 6);      //热门问答
+        $new_blogs = $blog->newest(0, 6);       //最新博客
+        $hot_blogs = $blog->hottest(0, 6);      //热门博客
 
-            //排行榜
+        //排行榜
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status','>',0)
             ->orderBy('user_datas.answer_count','DESC')
@@ -44,7 +48,7 @@ class HomeController extends Controller
         //热门标签
         $tags = Tag::where('status', 1)->get();
 
-        return view('home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags]);
+        return view('home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
     }
 
     /**

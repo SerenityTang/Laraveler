@@ -27,7 +27,7 @@
                     <h4><i class="iconfont icon-fabu1"></i>发布问答</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/store') }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                        <input type="hidden" id="description" name="description" value="">
+                        <input type="hidden" id="desc" name="desc" value="">
                         <input type="hidden" id="user_coin" name="user_coin" value="{{ $user_data->coins }}">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">问题标题</label>
@@ -168,9 +168,9 @@
                 }
             });
 
-            //保存草稿
+            //保存问答草稿
             $('.btn-draft').click(function () {
-                /*var question_title = $('#question_title').val();
+                var question_title = $('#question_title').val();
                 var qcategory_id = $('#qcategory_id').val();
                 var tags = $('#tags').val();
                 if (question_title == '') {
@@ -200,7 +200,7 @@
                         time: 2000,
                     });
                     return false;
-                }*/
+                }
 
                 $.ajax({
                     url: "{{ url('question/store_draft') }}",
@@ -209,7 +209,7 @@
                     data: {
                         _token: '{{csrf_token()}}',
                         'question_title': $('#question_title').val(),
-                        'description': $('#description').val(),
+                        'desc': $('#desc').val(),
                         'qcategory_id': $('#qcategory_id').val(),
                         'price': $('#price').val(),
                         'tags': $('#tags').val(),
@@ -331,7 +331,7 @@
                 callbacks: {
                     onChange:function (contents, $editable) {
                         var code = $(this).summernote("code");
-                        $("#description").val(code);
+                        $("#desc").val(code);
                     },
                     onImageUpload: function(files) {
                         upload_editor_image(files[0], 'question_summernote', 'question');

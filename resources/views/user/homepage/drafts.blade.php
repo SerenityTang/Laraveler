@@ -69,9 +69,9 @@
                                         <div class="row content">
                                             <div class="col-md-7">
                                                 @if($blog->title == null)
-                                                    <a href="{{ url('question/show/' . $blog->id) }}" title="" class="title">此博客未定义标题</a>
+                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}" title="" class="title">此博客未定义标题</a>
                                                 @else
-                                                    <a href="{{ url('question/show/' . $blog->id) }}" title="{{ $blog->title }}" class="title">{{ str_limit($blog->title, 60) }}</a>
+                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}" title="{{ $blog->title }}" class="title">{{ str_limit($blog->title, 60) }}</a>
                                                 @endif
                                                 <span class="seperator">保存于</span>
                                             </div>
@@ -81,7 +81,7 @@
                                             </div>
 
                                             <div class="col-md-2 edit-icon">
-                                                <a href="">编辑</a>
+                                                <a href="{{ url('blog/show_edit/' . $blog->id) }}">编辑</a>
                                                 <span>·</span>
                                                 <a href="javascript:void(0)" class="b-reject-icon" data-blog-id="{{ $blog->id }}">舍弃</a>
                                             </div>

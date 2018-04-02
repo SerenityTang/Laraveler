@@ -72,7 +72,21 @@
                         </div>
 
                         <div id="support-blog">
+                            <ul class="list-group">
+                                @foreach($like_blogs as $like_blog)
+                                    <li class="list-group-item list-tab">
+                                        <div class="row content">
+                                            <div class="col-md-10">
+                                                <a href="{{ url('blog/show/' . $like_blog->sup_opp_able_id) }}" title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title, 60) }}</a>
+                                            </div>
 
+                                            <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->created_at }}">
+                                                {!! \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->created_at !!}
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>

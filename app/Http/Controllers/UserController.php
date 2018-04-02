@@ -64,8 +64,10 @@ class UserController extends Controller
     public function blogs($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
+        //获取用户博客
+        $blogs = $user->blogs;
 
-        return view('user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
     }
 
     //用户个人主页之我的关注
@@ -102,7 +104,10 @@ class UserController extends Controller
         //反对的回答
         $oppo_answers = $user->oppo_answer;
 
-        return view('user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers]);
+        //点赞的博客
+        $like_blogs = $user->like_blog;
+
+        return view('user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
     }
 
     //用户个人主页之我的收藏
@@ -111,11 +116,12 @@ class UserController extends Controller
         $user_data = User_data::where('user_id', $user->id)->first();
 
         //收藏的博客
+        $coll_blogs = $user->coll_blog;
 
         //收藏的问答
         $coll_ques = $user->coll_ques;
 
-        return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques]);
+        return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
     }
 
     //用户个人主页之我的草稿

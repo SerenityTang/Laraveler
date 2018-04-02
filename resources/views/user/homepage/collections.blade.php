@@ -58,7 +58,32 @@
                         </div>
 
                         <div id="collection-blog">
-
+                            <ul class="list-group">
+                                <li class="list-group-item list-tab">
+                                    <div class="row headtitle">
+                                        <div class="col-md-7">博客标题</div>
+                                        <div class="col-md-1 count">查看</div>
+                                        <div class="col-md-1 count">点赞</div>
+                                        <div class="col-md-1 count">收藏</div>
+                                        <div class="col-md-2">发布日期</div>
+                                    </div>
+                                </li>
+                                @foreach($coll_blogs as $coll_blog)
+                                    <li class="list-group-item list-tab">
+                                        <div class="row content">
+                                            <div class="col-md-7">
+                                                <a href="{{ url('blog/show/' . $coll_blog->entityable_id) }}" title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title, 60) }}</a>
+                                            </div>
+                                            <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->view_count }}</div>
+                                            <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->like_count }}</div>
+                                            <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->favorite_count }}</div>
+                                            <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->created_at }}">
+                                                {!! \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->created_at !!}
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>

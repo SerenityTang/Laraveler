@@ -171,7 +171,6 @@
 .ques-show-main .panel-footer-tip .login-tip {width: 810px;height: 100px;border: 1px solid #ddd;border-radius: 4px;margin-left: 18px;}
 .ques-show-main .panel-footer-tip .login-tip p {text-align: center;line-height: 100px;font-size: 16px;color: #666;}
 .ques-show-main .panel-footer-tip .login-tip p a {color: #22d7bb;text-decoration: none;font-weight: 500;}
-
 /*问答右侧栏top*/
 .list-side-top ul li {background-color: #f4f4f4;}
 .list-side-top ul li .btn-vote, .list-side-top ul li .btn-attention, .list-side-top ul li .btn-collection {background-color: #22d7bb;color: #fff;line-height: 16px;width: 83px;text-align: center;}
@@ -180,7 +179,6 @@
 .list-side-top ul li .btn-vote i {padding-right: 1px;}
 .list-side-top ul li span {padding-left: 10px;color: #666;font-size: 15px;}
 .list-side-top ul li span.vote-count, .list-side-top ul li span.attention-count, .list-side-top ul li span.collection-count {float: right;padding-top: 4px;}
-
 /*问答右侧栏其它问答*/
 .list-side-other .other-panel {background-color: inherit;}
 .list-side-other h3.other-ques {font-weight: bold;font-size: 16px;}
@@ -189,7 +187,6 @@
 .list-side-other .other-panel .list-others li a {color: #666;word-wrap: break-word;text-decoration: none;}
 .list-side-other .other-panel .list-others li a:hover {color: #22d7bb;}
 .list-side-other .other-panel .list-others p.list-other-empty {text-align: center;color: #999;}
-
 /*问答右侧栏相关问答*/
 .list-side-related .related-panel {background-color: inherit;}
 .list-side-related h3.related-ques {font-weight: bold;font-size: 16px;}

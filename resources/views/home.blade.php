@@ -88,7 +88,27 @@
                                 </h3>
                             </div>
                             <div class="panel-body home-body">
-
+                                <ul class="list-group">
+                                    @foreach($new_blogs as $new_blog)
+                                        <li class="list-group-item home-list-item">
+                                            <div class="media">
+                                                <a class="media-left home-media-left" href="{{ url('user/'.$new_blog->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($new_blog->user_id, 'small') }}" class="avatar-32" alt="{{ $new_blog->user->username }}">
+                                                </a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading home-media-heading">
+                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 43) }}</a>
+                                                    </h4>
+                                                    <a href="{{ url('user/'.$new_blog->user->personal_domain) }}" class="h_q_user">{{ $new_blog->user->username }} / </a>
+                                                    <span class="time" title="{{ $new_blog->created_at }}">
+                                                        {!! $new_blog->created_at !!}
+                                                    </span>
+                                                    <span title="回答数" class="badge h_q_answer">{{ $new_blog->answer_count }}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -102,7 +122,27 @@
                                 </h3>
                             </div>
                             <div class="panel-body home-body">
-
+                                <ul class="list-group">
+                                    @foreach($hot_blogs as $hot_blog)
+                                        <li class="list-group-item home-list-item">
+                                            <div class="media">
+                                                <a class="media-left home-media-left" href="{{ url('user/'.$hot_blog->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($hot_blog->user_id, 'small') }}" class="avatar-32" alt="{{ $hot_blog->user->username }}">
+                                                </a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading home-media-heading">
+                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 43) }}</a>
+                                                    </h4>
+                                                    <a href="{{ url('user/'.$hot_blog->user->personal_domain) }}" class="h_q_user">{{ $hot_blog->user->username }} / </a>
+                                                    <span class="time" title="{{ $hot_blog->created_at }}">
+                                                        {!! $hot_blog->created_at !!}
+                                                    </span>
+                                                    <span title="回答数" class="badge h_q_answer">{{ $hot_blog->answer_count }}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>

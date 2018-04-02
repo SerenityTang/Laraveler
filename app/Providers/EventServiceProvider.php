@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\QuestionViewEvent' => [
             'App\Listeners\QuestionViewListener',
         ],
+        'App\Events\BlogViewEvent' => [
+            'App\Listeners\BlogViewListener',
+        ],
         'App\Events\HomepageViewEvent' => [
             'App\Listeners\HomepageViewListener',
         ],

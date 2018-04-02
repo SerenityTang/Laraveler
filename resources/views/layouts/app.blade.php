@@ -169,7 +169,7 @@
 </script>
 {{--操作成功与否提示自动隐藏--}}
 <script>
-    $("#alert_message").delay(3000).fadeOut(500);
+    $("#alert_message").delay(3000).slideUp('slow');
 </script>
 <script>
     {{-- hover 下拉 --}}

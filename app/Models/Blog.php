@@ -53,8 +53,19 @@ class Blog extends Model
         return $hottest;
     }
 
+    /**
+     * 获取博客父评论
+     */
     public function parent_comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->where('depth', 0)->where('status', 1)->orderBy('id', 'DESC');
+    }
+
+    /**
+     * 获取博客对应的标签
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Models\Tag', 'taggable');
     }
 }

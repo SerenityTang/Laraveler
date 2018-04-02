@@ -109,6 +109,14 @@ class User extends Authenticatable
     }
 
     /*
+    * 获取用户博客
+    */
+    public function blogs()
+    {
+        return $this->hasMany('App\Models\Blog', 'user_id');
+    }
+
+    /*
      * 获取用户关注的问答
      */
     public function atte_ques()
@@ -146,5 +154,21 @@ class User extends Authenticatable
     public function oppo_answer()
     {
         return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
+    }
+
+    /*
+    * 获取用户点赞的博客
+    */
+    public function like_blog()
+    {
+        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Blog')->where('sup_opp_mode', 'like');
+    }
+
+    /*
+    * 获取用户点赞的博客
+    */
+    public function coll_blog()
+    {
+        return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Blog');
     }
 }

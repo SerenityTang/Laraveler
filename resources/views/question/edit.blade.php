@@ -27,7 +27,7 @@
                     <h4><i class="iconfont icon-fabu1"></i>编辑问答</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/edit/'.$question->id) }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                        <input type="hidden" id="description" name="description" value="">
+                        <input type="hidden" id="desc" name="desc" value="">
                         <input type="hidden" id="user_coin" name="user_coin" value="{{ $user_data->coins }}">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">问题标题</label>
@@ -135,6 +135,7 @@
             //发布问题
             $('.btn-save').click(function () {
                 var question_title = $('#question_title').val();
+                var desc = $('#question_summernote').summernote('code');
                 var qcategory_id = $('#qcategory_id').val();
                 var tags = $('#tags').val();
                 if (question_title == '') {
@@ -143,6 +144,15 @@
                         time: 2000,
                     });
                     return false;
+                }
+                if (desc == '') {
+                    layer.msg('问题内容不可为空喔(⊙o⊙)', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                    return false;
+                } else {
+                    $("#desc").val(desc)
                 }
                 if (qcategory_id == 0) {
                     layer.msg('请选择一个问题分类喔(⊙o⊙)', {
@@ -224,7 +234,7 @@
             var tag_category = $(this).data('tag-category');
             $('#tags').tagsinput('add', { "value": tag_value, "text": tag_text, "category": tag_category});
         });
-        @foreach($tags as $tag)
+        @foreach($bound_tags as $tag)
             $('#tags').tagsinput('add', { "value":  '{{ $tag->id }}' , "text": '{{ $tag->name }}', "category": '{{ $tag->tcategory_id }}'});
         @endforeach
     </script>
@@ -254,7 +264,7 @@
                 callbacks: {
                     onChange:function (contents, $editable) {
                         var code = $(this).summernote("code");
-                        $("#description").val(code);
+                        $("#desc").val(code);
                     },
                     onImageUpload: function(files) {
                         upload_editor_image(files[0], 'question_summernote', 'question');
