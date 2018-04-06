@@ -20,8 +20,8 @@
 .homepage-header .homepage-middle .homepage-btn a.active {border: 1px solid #fff;background-color: #22d7bb;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
 .homepage-header .homepage-middle .homepage-btn a i {padding-right: 3px;}
 .homepage-header .homepage-bottom {margin-top: 20px;}
-.homepage-header .homepage-bottom .dynamic {margin-top: 15px;}
-.homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 14px;margin-left: 20px;font-weight: 300;}
+.homepage-header .homepage-bottom .dynamic {margin-top: 20px;}
+.homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 15px;margin-left: 20px;font-weight: 300;}
 .homepage-header .homepage-bottom .item {float: left;margin: 0 15px;}
 .homepage-header .homepage-bottom span.count {display: block;color: #22d7bb;font-size: 35px;font-weight: 700;text-align: center;}
 .homepage-header .homepage-bottom span.text {display: block;font-weight: 400;text-align: center;}
