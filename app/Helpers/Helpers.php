@@ -24,7 +24,7 @@ class Helpers {
     /*生成头像图片地址*/
     //if(! function_exists('get_user_avatar')){
         public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
-            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'.'.$extension]);
+            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
         }
     //}
 

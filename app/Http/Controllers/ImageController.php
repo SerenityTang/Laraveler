@@ -17,7 +17,7 @@ class ImageController extends Controller
      */
     public function avatar($avatar_name)
     {
-        list($user_id, $size) = explode('_',str_replace(".jpg",'',$avatar_name));
+        list($user_id, $size) = explode('_',str_replace("_jpg",'',$avatar_name));
         $avatarFile = storage_path('app/'.User::getAvatarPath($user_id, $size));
         if(!is_file($avatarFile)){
             $avatarFile = public_path('imgs/default_avatar.jpg');
