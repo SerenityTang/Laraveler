@@ -72,7 +72,7 @@
 
                     <div class="col-md-12 dynamic">
                         <p><i class="iconfont icon-fangwenliang"></i> 主页被访问次数：{{ $user_data->view_count }}</p>
-                        <p>
+                        <p><i class="iconfont icon-gerenxinxi_zhixiguanxi"></i>
                             登录于：<span class="time" title="{{ $user->last_login_at }}">{!! $user->last_login_at !!}</span>
                              / 活跃于：<span class="time" title="{{ $user->last_active_at }}">{!! $user->last_active_at !!}</span>
                         </p>

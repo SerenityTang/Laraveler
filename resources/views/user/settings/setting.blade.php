@@ -21,7 +21,7 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title"><i class="iconfont icon-gerenxinxi1"></i>个人信息</h4>
+                    <h4 class="title"><i class="iconfont icon-msnui-person-info"></i>个人信息</h4>
                     <form class="form-horizontal" role="form" method="post"  enctype="multipart/form-data" action="{{ url('user/auth/profile/per_detail') }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" id="avatar_image" name="avatar_image" value="{{ \Illuminate\Support\Facades\Cookie::get('avatar_image') }} " />
