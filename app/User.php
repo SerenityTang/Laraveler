@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Encore\Admin\Traits\AdminBuilder;
+use App\Models\Traits\UserSocialiteHelper;
 
 class User extends Authenticatable
 {
-    use Notifiable, AdminBuilder;
+    use Notifiable, AdminBuilder, UserSocialiteHelper;
 
     /**
      * The attributes that are mass assignable.
