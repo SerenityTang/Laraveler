@@ -4,7 +4,6 @@
 @stop
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('libs/share.js/css/share.min.css') }}">
 @stop
 @section('content')
     <div class="container">
@@ -96,11 +95,12 @@
 
                     <div class="other-login">
                         <h6>社交账号登录</h6>
-                        <ol>
-                            <li class="row">
-                                <div class="social-share" data-sites="qq,wechat,weibo,google,facebook"></div>
-                            </li>
-                        </ol>
+                        <div class="thirdparty">
+                            <a href="{{ url('/auth/oauth/qq') }}" class="qq"><i class="fa fa-qq"></i></a>
+                            <a href="{{ url('/auth/oauth/weibo') }}" class="weibo"><i class="fa fa-weibo"></i></a>
+                            <a href="{{ url('/auth/oauth/weixin') }}" class="weixin"><i class="fa fa-weixin"></i></a>
+                            <a href="{{ url('/auth/oauth/github') }}" class="github"><i class="fa fa-github"></i></a>
+                        </div>
                     </div>
 
                     <div class="login-now">
@@ -116,7 +116,6 @@
 @section('footer')
     {{--粒子背景插件及效果--}}
     <script src="{{asset('libs/particleground/jquery.particleground.min.js')}}"></script>
-    <script src="{{asset('libs/share.js/js/jquery.share.min.js')}}"></script>
     <script>
         $(document).ready(function() {
             //粒子背景特效

@@ -90,7 +90,17 @@ canvas{z-index:-1;position:absolute;}
 .auth .other-login h6:before{left: 30px;}
 .auth .other-login h6:after{right: 30px;}
 /*第三方登录图标*/
-.auth .other-login ol{list-style-type: none;width: 250px;margin: 0 auto;}
+.auth .other-login .thirdparty {text-align: center;position: relative;padding-right: 33px;}
+.auth .other-login .thirdparty a.qq {width: 30px;height: 30px;border-radius: 50%;background-color: #2a9cd5;display: inline-block;margin-right: 5px;}
+.auth .other-login .thirdparty a.qq i {font-size: 16px;color: #fff;padding-top: 6px;}
+.auth .other-login .thirdparty a.weibo {width: 30px;height: 30px;border-radius: 50%;background-color: #e42a32;display: inline-block;margin-right: 5px;}
+.auth .other-login .thirdparty a.weibo i {font-size: 16px;color: #fff;padding-top: 6px;}
+.auth .other-login .thirdparty a.weixin {width: 30px;height: 30px;border-radius: 50%;background-color: #50c332;display: inline-block;margin-right: 7px;}
+.auth .other-login .thirdparty a.weixin i {font-size: 16px;color: #fff;padding-top: 6px;}
+.auth .other-login .thirdparty a.github {width: 30px;height: 30px;border-radius: 50%;display: inline-block;position: absolute;bottom: 2px;}
+.auth .other-login .thirdparty a.github i {font-size: 35px;color: #0a0203;}
+.auth .other-login .thirdparty a.qq:hover, .auth .other-login .thirdparty a.weibo:hover, .auth .other-login .thirdparty a.weixin:hover {opacity:0.8;-webkit-transition: all .6s;transition: all .6s;}
+.auth .other-login .thirdparty a.github:hover {opacity:0.6;-webkit-transition: all .6s;transition: all .6s;}
 /*立即注册*/
 .auth .register-now{width: 200px;margin: 20px auto;padding: 3px;text-align: center;background-color: hsla(0,0%,71%,.4);border-radius: 15px;}
 .auth .register-now span{color: #fff;}
