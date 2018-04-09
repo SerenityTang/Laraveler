@@ -152,6 +152,21 @@ trait SocialiteHelper
                 $profile->weibo = 'http://weibo.com/' . $oauthUser->user['profile_url'];
 
                 break;
+            case 'github':
+                $profile->oauth_type = 'github';
+                $profile->oauth_id = $oauthUser->id;
+                $profile->oauth_access_token = $oauthUser->token;
+                $profile->oauth_expires = $oauthUser->expiresIn;
+                $profile->avatar = $oauthUser->avatar;
+                $profile->nickname = $oauthUser->nickname;
+                $profile->realname = $oauthUser->name;
+                $profile->gender = '';
+                $profile->email = $oauthUser->email;
+                $profile->province = '';
+                $profile->city = '';
+                $profile->weibo = '';
+
+                break;
             default:
                 $profile->oauth_type = 'weixin';
                 $profile->oauth_id = $oauthUser->id;

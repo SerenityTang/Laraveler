@@ -26,7 +26,8 @@ trait UserSocialiteHelper
             'qq'        => 'getByQqId',
             'weibo'     => 'getByWeiboId',
             'weixin'    => 'getByWeixinId',
-            'weixinweb' => 'getByWeixinWebId'
+            'weixinweb' => 'getByWeixinWebId',
+            'github'    => 'getByGithubId'
         ];
         $function = $functionMap[$driver];
         if (!$function) {
@@ -92,6 +93,22 @@ trait UserSocialiteHelper
     public static function getByWeixinWebId($id)
     {
         $OAuth = User_socialite::where('oauth_type', 'weixinweb')->where('oauth_id', $id)->first();
+        if ($OAuth == null) {
+            return null;
+        }
+        $user = User::where('id', $OAuth->user_id)->first();
+
+        return $user;
+    }
+
+    /**
+     * 获取绑定微信开放平台用户的本地用户信息
+     * @param string $id 微信开放平台用户的openid
+     * @return null
+     */
+    public static function getByGithubId($id)
+    {
+        $OAuth = User_socialite::where('oauth_type', 'github')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
