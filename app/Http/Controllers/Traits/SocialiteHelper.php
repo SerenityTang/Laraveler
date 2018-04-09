@@ -40,7 +40,7 @@ trait SocialiteHelper
                 return redirect()->intended('/');
             }
         }
-        if ($this->oauthDrivers[$driver] == 'github') {
+        if ($driver == 'github') {
             $oauthUser = Socialite::driver('github')->user();
         } else {
             $oauthUser = Socialite::with($this->oauthDrivers[$driver])->user();
