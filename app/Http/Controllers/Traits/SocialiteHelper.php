@@ -40,8 +40,11 @@ trait SocialiteHelper
                 return redirect()->intended('/');
             }
         }
-
-        $oauthUser = Socialite::with($this->oauthDrivers[$driver])->user();
+        if ($this->oauthDrivers[$driver] == 'github') {
+            $oauthUser = Socialite::driver('github')->user();
+        } else {
+            $oauthUser = Socialite::with($this->oauthDrivers[$driver])->user();
+        }
 
         $userSocialite = User_socialite::where('oauth_type', $driver)->where('oauth_id', $oauthUser->id)->first();
         if (!$userSocialite) {
