@@ -30,11 +30,12 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="search-bar">
-                    <form action="{{ url('') }}" method="get" target="_blank" accept-charset="utf-8">
-                        <input type="text" id="search-text" class="search-text" placeholder="请输入你想要滴 ^_^ ">
-                        <a href="{{ url('') }}" class="search-btn">
+                    <form action="{{ url('/search') }}" method="post" accept-charset="utf-8">
+                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                        <input type="text" id="search-text" name="search-text" class="search-text" placeholder="请输入你想要滴 ^_^ " @if(isset($keyword)) value="{{ $keyword }}" @endif>
+                        <button type="submit" class="search-btn">
                             <i class="iconfont icon-sousuo"></i>
-                        </a>
+                        </button>
                         <div class="hot-search">
                             <i class="iconfont icon-jiantouarrow492"></i>
                             <div class="search-content">
@@ -43,7 +44,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="search-tip">
+                        {{--<div class="search-tip">
                             <i class="iconfont icon-jiantouarrow492"></i>
                             <div class="search-content">
                                 <ul>
@@ -51,7 +52,7 @@
                                     <li><a href="">Bootstrap</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>--}}
                     </form>
                 </li>
 

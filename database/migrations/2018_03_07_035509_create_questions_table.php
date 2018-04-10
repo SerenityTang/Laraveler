@@ -34,9 +34,6 @@ class CreateQuestionsTable extends Migration
             $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是，2->草稿');
             $table->softDeletes();
             $table->timestamps();
-
-            $table->index('created_at');
-            $table->index('updated_at');
         });
     }
 

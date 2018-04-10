@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Comment;
+use Laravel\Scout\Searchable;
 
 class Blog extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
     protected $dates = ['delete_at'];
 
     protected $fillable = [
@@ -22,6 +23,16 @@ class Blog extends Model
         'source_link',
         'status',
     ];
+
+    /**
+     * 获取模型的索引名称.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'titles_index';
+    }
 
     /**
      * 获取博客对应的用户

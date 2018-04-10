@@ -201,6 +201,22 @@
 <script>
     $(function(){
         $(".search-text").focus(function(){
+            if ($(this).parents('.search-bar').find('.search-text').val() == '') {
+                $(this).parents('.search-bar').find('.search-text').addClass('search-transition');
+                $(this).parents('.search-bar').find('.hot-search').fadeIn("8000");
+            } else {
+                $(this).parents('.search-bar').find('.search-tip').css("display", "block");
+                $(this).parents('.search-bar').find('.search-text').addClass('search-transition');
+            }
+        });
+        $(".search-text").blur(function(){
+            $(this).parents('.search-bar').find('input').removeClass('search-transition');
+            $(this).parents('.search-bar').find('.hot-search').hide();
+        });
+        $(".search-text").keyup(function() {
+            $(this).parents('.search-bar').find('.hot-search').css("display", "none");
+        });
+        /*$(".search-text").focus(function(){
             if ($(this).parents('.search-bar').find('input').val() == '') {
                 $(this).parents('.search-bar').find('input').addClass('search-transition');
                 $(this).parents('.search-bar').find('.hot-search').fadeIn("8000");
@@ -212,9 +228,9 @@
             $(this).parents('.search-bar').find('input').removeClass('search-transition');
             $(this).parents('.search-bar').find('.hot-search').fadeOut("2000");
             $(this).parents('.search-bar').find('.search-tip').css("display", "none");
-        });
+        });*/
 
-        $(".search-text").keyup(function(){
+        /*$(".search-text").keyup(function(){
             $(this).parents('.search-bar').find('.hot-search').css("display", "none");
 
             var content = $(this).parents('.search-bar').find('input').val();
@@ -224,16 +240,16 @@
                 data: content,
                 cache: false, //不允许有缓存
 
-                /*success:function(res){
+                /!*success:function(res){
                  var
                  if(data > 0){ //data传达过来的是Activity id
                  $('#aid').val(data);
                  console.log('自动保存成功。 活动id为 ' + data);
                  }
-                 }*/
+                 }*!/
             });
             $(this).parents('.search-bar').find('.search-tip').css("display", "block");
-        });
+        });*/
     });
 </script>
 {{--工具栏--}}

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use App\Models\Question;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +17,37 @@ class SearchController extends Controller
      * @param int $id 活动id
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function search_tip()
+    public function search_scout(Request $request, $filter = 'all')
     {
-        
+        $keyword = $request->input('search-text');
+        if ($keyword != null) {
+            //搜索问答
+            $ques_searchs = Question::search($keyword)->get();
+            //搜索博客
+            $blog_searchs = Blog::search($keyword)->get();
+            return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
+        } else {
+            $keyword = $_GET['q'];
+            switch ($filter) {
+                case 'all':
+                    //搜索问答
+                    $ques_searchs = Question::search($keyword)->get();
+                    //搜索博客
+                    $blog_searchs = Blog::search($keyword)->get();
+
+                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
+                case 'question':
+                    //搜索问答
+                    $ques_searchs = Question::search($keyword)->get();
+
+                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs]);
+                case 'blog':
+                    //搜索博客
+                    $blog_searchs = Blog::search($keyword)->get();
+
+                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'blog_searchs' => $blog_searchs]);
+            }
+        }
     }
 
     /**

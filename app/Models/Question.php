@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Question extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
     protected $dates = ['delete_at'];
 
     protected $fillable = [
@@ -22,6 +23,16 @@ class Question extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * 获取模型的索引名称.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'titles_index';
+    }
 
     /**
      * 获取问答对应的用户

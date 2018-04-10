@@ -39,6 +39,7 @@ body, html {
     padding-left: 13px;
     border: 1px solid #eee;
     border-radius: 40px;
+    color: #555;
     /*background: #eee;*/
 }
 /*#navbar-serenity .navbar-nav li.search-bar .search-text:focus {width:450px;transition:width 1s;
@@ -53,7 +54,7 @@ body, html {
 }
 #navbar-serenity .navbar-nav li.search-bar .search-btn {
     position: absolute;
-    top: 25px;
+    top: 18px;
     right: 7px;
     width: 30px;
     height: 30px!important;
@@ -61,6 +62,8 @@ body, html {
     padding: 0!important;
     color: #969696!important;
     text-align: center;
+    background-color: inherit;
+    border: 0;
 }
 #navbar-serenity .navbar-nav li.search-bar .hot-search {
     display: none;
@@ -106,7 +109,6 @@ body, html {
 #navbar-serenity .navbar-nav li.search-bar .search-tip .search-content ul li {line-height: 28px;padding: 5px 8px;}
 #navbar-serenity .navbar-nav li.search-bar .search-tip .search-content ul li:hover {background-color: #ccc;cursor: pointer;}
 #navbar-serenity .navbar-nav li.search-bar .search-tip .search-content ul li:hover a {color: #5e5e5e;text-decoration: none;}
-#navbar-serenity .navbar-nav li.search-bar .search-btn {text-decoration: none;}
 #navbar-serenity .navbar-nav li.search-bar .search-btn i {font-size: 16px;font-weight: bold;}
 #navbar-serenity .btn-login, #navbar-serenity .btn-regist {
     font-weight: 500;
@@ -296,6 +298,29 @@ body, html {
 .footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 12px;}
 .footer p.copyright a, .footer p.author a {color: #666;text-decoration: none;}
 .footer p.copyright a:hover, .footer p.author a:hover {color: #22d7bb;}
+
+/*全文搜索*/
+/*tab栏顶部*/
+.search-main .search-heading {background-color: #fff;border-color: #fff;}
+.search-main .panel-heading .tabs {margin: 0px;}
+.search-main .panel-heading .tabs nav {text-align: left;margin-left: -4px;}
+.search-main .panel-heading .tabs nav ul li {border-top-left-radius: 4px;border-top-right-radius: 4px;}
+.search-main .panel-heading .tabs nav ul li a {padding: 8px 8px 5px 8px;line-height: inherit;font-size: 15px;color: #333;font-weight: bold;}
+.search-main .panel-heading .tabs nav ul li a:hover {text-decoration: none;}
+/*tab栏内容*/
+.search-main  .search-body {padding: 0 15px 15px 15px;}
+.search-main  .panel-body ul li.hot-list-item {padding: 3px 15px;border: none;margin-top: 15px;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
+.search-main  .panel-body ul li.global-list-item {padding: 8px 15px 3px;border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
+.search-main  .panel-body ul li h2.title {margin-bottom: 3px;}
+.search-main  .panel-body ul li h2.title .keyword {color: #22d7bb;}
+.search-main  .panel-body ul li h2.title a {font-weight: 500;color: #555;font-size: 17px;}
+.search-main  .panel-body ul li h2.title a:hover {text-decoration: none;color: #22d7bb;}
+.search-main  .panel-body ul li p.desc {color: #888;font-size: 13px;line-height: 24px;margin: 5px 0;padding: 0 5px;}
+.search-main  .panel-body ul li a.author {text-decoration: none;}
+.search-main  .panel-body ul li a.author span, .search-main .panel-body ul li span.time {color: #999;font-size: 13px;}
+.search-main .panel-body ul li .search-count {display: inline-block;padding-left: 15px;}
+.search-main .panel-body ul li .search-count span {color: #777;font-size: 13px;}
+.search-main .panel-body ul li .search-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
 
 
 
