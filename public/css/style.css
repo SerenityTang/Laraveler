@@ -52,7 +52,7 @@ body, html {
     -webkit-transition:width 1s; /* Safari and Chrome */
     -o-transition:width 1s; /* Opera */
 }
-#navbar-serenity .navbar-nav li.search-bar .search-btn {
+#navbar-serenity .navbar-nav li.search-bar button.search-btn {
     position: absolute;
     top: 18px;
     right: 7px;
@@ -63,7 +63,7 @@ body, html {
     color: #969696!important;
     text-align: center;
     background-color: inherit;
-    border: 0;
+    border: 0;text-shadow: none;box-shadow: none;margin: 0;
 }
 #navbar-serenity .navbar-nav li.search-bar .hot-search {
     display: none;

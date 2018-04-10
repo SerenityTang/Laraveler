@@ -92,13 +92,13 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">页面链接</label>
                             <div class="col-sm-9 extra">
-                                <input type="text" id="personal_website" name="fb-url" class="form-control text-extra" placeholder="http://www.laraveler.net/">
+                                <input type="text" id="fb-url" name="fb-url" class="form-control text-extra" placeholder="http://www.laraveler.net/">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">联系方式</label>
                             <div class="col-sm-9 extra">
-                                <input type="text" id="personal_website" name="fb-contact" class="form-control text-extra" placeholder="请留下您的联系信息方便我们及时为您解答(QQ/邮箱)^_^">
+                                <input type="text" id="fb-contact" name="fb-contact" class="form-control text-extra" placeholder="请留下您的联系信息方便我们及时为您解答(QQ/邮箱)^_^">
                             </div>
                         </div>
                     </form>

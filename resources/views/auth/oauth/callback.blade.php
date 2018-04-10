@@ -21,7 +21,7 @@
                     <input type="hidden" name="oauth_id" value="{{ $profile->oauth_id }}">
                     <input type="hidden" name="oauth_access_token" value="{{ $profile->oauth_access_token }}">
                     <input type="hidden" name="oauth_expires" value="{{ $profile->oauth_expires }}">
-                    <input type="hidden" name="redirect_uri" value="{{ $redirect_uri }}">
+                    {{--<input type="hidden" name="redirect_uri" value="{{ $redirect_uri }}">--}}
                     <div class="form-group">
                         <label for="lastname" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-10">

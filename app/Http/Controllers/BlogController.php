@@ -13,28 +13,9 @@ use App\Models\User_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Mail;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function mail()
-    {
-        /*$user = User::first();
-        $user->notify(new VerificationCode());*/
-        Mail::raw('Serenity 邮件测试', function ($message) {
-            $message->to('serenity_tang@sina.com');
-        });
-        /*$mailer::send('auth.login', ['username' => $user], function ($message) use ($email){
-            $message->from('13676225868@163.com', 'Serenity');
-            $message->to('1060684139@qq.com');
-        });*/
-    }
-
     /**
      * 博客首页
      *
