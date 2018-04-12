@@ -2,16 +2,68 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User_data;
+use App\Models\User_socialite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserOauth;
-use App\Models\User;
+use App\User;
 use App\Models\UserProfile;
-use Auth;
-use \BrowserDetect;
+use BrowserDetect;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class OAuthController extends Controller
 {
+    /**
+     * 第三方授权认证登录后的本地平台用户绑定处理表单ajax验证
+     */
+    public function bind_verify(Request $request)
+    {
+        $input = $request->only(['username', 'password', 'mobile','captcha']);
+        if (isset($input['username']) && $input['username'] != null) {
+            $username = User::where('username', $input['username'])->first();
+            if ($username) {
+                return $this->jsonResult(906);
+            } else {
+                return $this->jsonResult(907);
+            }
+        } else if (isset($input['mobile']) && $input['mobile'] != null) {
+            $rules = array(
+                'mobile' => 'bail|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            );
+            $validator = Validator::make($input, $rules);
+            $mobile_user = User::where('mobile', $input['mobile'])->first();
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else if ($mobile_user) {
+                return $this->jsonResult(902);
+            } else {
+                return $this->jsonResult(903);
+            }
+        } else if (isset($input['password']) && $input['password'] != null) {
+            $rules = array(
+                'password' => 'string|between:6,20',
+            );
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else {
+                return $this->jsonResult(904);
+            }
+        } else if (isset($input['captcha']) && $input['captcha'] != null) {
+            $rules = array(
+                'captcha' => 'required|validateCaptcha',
+            );
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else {
+                return $this->jsonResult(905);
+            }
+        }
+    }
+
     /**
      * callback->bind 第三方授权认证登录后的本地平台用户绑定处理
      * @param Request $request
@@ -51,73 +103,60 @@ class OAuthController extends Controller
                 return redirect($redirect_uri ? $redirect_uri : 'setting');
             }
         } else {
-            $errors = [];
-
+            $username = $request->input('username');
             $mobile = $request->input('mobile');
-            $password = $request->get('password');
-            if ($mobile || $password) {
-                if (!$mobile) {
-                    $errors = ['mobile' => '手机号不能为空'];
-                } else if (!$password) {
-                    $errors = ['password' => '密码不能为空'];
-                } else {
-                    $field = filter_var($mobile, FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
-                    if (User::where($field, $mobile)->first()) {
-                        // 账号存在，验证登录授权
-                        if (Auth::attempt([$field => $mobile, 'password' => $password])) {
-                            // 登入成功
+            $password = $request->input('password');
+            $driver = $request->input('driver');
+            if ($password) {
+                //密码不为空则新建账户
+                $user_data = [
+                    'username' => $username,
+                    'email' => 0,
+                    'mobile' => $mobile,
+                    'password' => bcrypt($password),
+                    'user_status' => 1,
+                    'personal_domain' => $username,
+                ];
+                $user = User::create($user_data);
 
-                            // 写入 OAuth 数据
-                            $this->oauthSave($request, Auth::user()->id);
+                if ($user) {
+                    $data = [
+                        'user_id'       => $user->id,
+                    ];
+                    $user_data = User_data::create($data);
+                    if ($user_data) {
+                        $this->socialiteSave($request, $user->id);
 
-                            // 写入 User Profile 数据
-                            $profile = UserProfile::where('uid', Auth::user()->id)->first();//查看是否存在profile记录，如果存在，不做写入操作。
-                            if ($profile == null) {
-                                $this->profileSave($request, Auth::user()->id);
-                            }
+                        $this->unRegisterUserSave($request, $user->id, $driver);
 
-                            return redirect($redirect_uri ? $redirect_uri : 'setting');
-                        } else {
-                            // 登入失败
-
-                            $errors = ['mobile' => '手机号或密码不正确'];
-                        }
-                    } else {
-                        // 账号不存在，需要注册并且登录！！！
-
-                        // 注册用户
-                        $homepage = \App\Helpers\Helpers::generateNumber();
-                        $user = User::create([
-                            'name'     => $mobile,
-                            $field     => $mobile,
-                            'homepage' => $homepage,
-                            'password' => bcrypt($password),
-                        ]);
-
-                        // 写入 OAuth 数据
-                        $this->oauthSave($request, $user->id);
-
-                        // 写入 User Profile 数据
-                        $this->profileSave($request, $user->id);
-
-                        if (Auth::attempt([$field => $mobile, 'password' => $password])) {
-                            return redirect($redirect_uri ? $redirect_uri : 'setting');
-                        }
-
-                        return redirect($redirect_uri ? $redirect_uri : '/');
+                        Auth::login($user);
+                        return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
                     }
+                } else {
+                    return $this->error(route('home'), '用户注册失败');
                 }
-            }
-            $profile = (object)$request->except('redirect_uri');
-            // 判断是否手机
-            if (BrowserDetect::isMobile()) {
-                return view('mobile.auth.bind')
-                    ->with(['profile' => $profile, 'redirect_uri' => $redirect_uri])
-                    ->withErrors($errors);
             } else {
-                return view('pc.auth.bind')
-                    ->with(['profile' => $profile, 'redirect_uri' => $redirect_uri])
-                    ->withErrors($errors);
+                //密码为空则为此账户绑定第三方账号
+                //if (Auth::attempt(['mobile' => $mobile])) {
+                    $user = User::where('mobile', $mobile)->first();
+                    $user_data = User_data::where('user_id', $user->id)->first();
+
+                    if ($user) {
+                        $this->socialiteSave($request, $user->id);
+
+                        if (!$user_data) {
+                            User_data::create(['user_id' => $user->id]);
+                        }
+
+                        $this->registerUserSave($request, $user->id, $driver);
+
+                        Auth::login($user);
+                        return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功绑定了社交账号 ^_^');
+                    } else {
+                        return $this->error(route('home'), '用户不存在');
+                    }
+
+                //}
             }
         }
     }
@@ -127,31 +166,83 @@ class OAuthController extends Controller
      * @param Request $request
      * @param int     $user_id 用户id
      */
-    private function oauthSave(Request $request, $user_id)
+    private function socialiteSave(Request $request, $user_id)
     {
-        $oauth = UserOauth::firstOrNew(['oauth_type' => $request->get('oauth_type'), 'oauth_id' => $request->get('oauth_id')]);
-        $oauth->uid = $user_id;
-        $oauth->save();
+        $user_socialite = User_socialite::firstOrNew(['oauth_type' => $request->get('oauth_type'), 'oauth_id' => $request->get('oauth_id')]);
+        $user_socialite->user_id = $user_id;
+        $user_socialite->save();
     }
 
     /**
-     * 写入 User Profile 数据
+     * 写入 User 数据（用户未注册）
      * @param Request $request
      * @param int     $user_id 用户id
      */
-    private function profileSave(Request $request, $user_id)
+    private function unRegisterUserSave(Request $request, $user_id, $driver)
     {
-        $profile = new UserProfile();
-        $profile->uid = $user_id;
-        $profile->realname = $request->get('realname');
-        $profile->avatar = $request->get('avatar');
-        $profile->cover = 'cover/default.jpg';
-        $profile->music = 1;
-        $profile->notify = 1;
-        $profile->gender = $request->get('gender');
-        $profile->weibo = $request->get('weibo');
-        $profile->province = $request->get('province');
-        $profile->city = $request->get('city');
-        $profile->save();
+        $user = User::where('id', $user_id)->first();
+        switch ($driver) {
+            case 'weibo':
+                $user->realname = $request->get('realname');
+                $user->email = $request->get('email');
+                $user->avatar = $request->get('avatar');
+                $user->gender = $request->get('gender');
+                $user->weibo_name = $request->get('nickname');
+                $user->weibo_link = $request->get('weibo');
+                $user->province = $request->get('province');
+                $user->city = $request->get('city');
+                $user->save();
+
+                break;
+            case 'github':
+                $user->realname = $request->get('realname');
+                $user->email = $request->get('email');
+                $user->avatar = $request->get('avatar');
+                $user->gender = $request->get('gender');
+                $user->github_name = $request->get('nickname');
+                $user->github_link = $request->get('github');
+                $user->province = $request->get('province');
+                $user->city = $request->get('city');
+                $user->save();
+
+                break;
+        }
+    }
+
+    /**
+     * 写入 User 数据（用户已注册）
+     * @param Request $request
+     * @param int     $user_id 用户id
+     */
+    private function registerUserSave(Request $request, $user_id, $driver)
+    {
+        $user = User::where('id', $user_id)->first();
+        switch ($driver) {
+            case 'weibo':
+                $user->realname = is_null($user->realname) ? $request->get('realname') : $user->realname;
+                $user->email = is_null($user->email) ? $request->get('email') : $user->email;
+                $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
+                $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
+                $user->weibo = is_null($user->nickname) ? $request->get('nickname') : $user->nickname;
+                $user->weibo_link = is_null($user->weibo) ? $request->get('weibo') : $user->weibo;
+                $user->province = is_null($user->province) ? $request->get('province') : $user->province;
+                $user->city = is_null($user->city) ? $request->get('city') : $user->city;
+                $user->save();
+
+                break;
+            case 'github':
+                $user->realname = is_null($user->realname) ? $request->get('realname') : $user->realname;
+                $user->email = is_null($user->email) ? $request->get('email') : $user->email;
+                $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
+                $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
+                $user->weibo = is_null($user->nickname) ? $request->get('nickname') : $user->nickname;
+                $user->weibo_link = is_null($user->weibo) ? $request->get('weibo') : $user->weibo;
+                $user->github_link = is_null($user->github) ? $request->get('github') : $user->github;
+                $user->province = is_null($user->province) ? $request->get('province') : $user->province;
+                $user->city = is_null($user->city) ? $request->get('city') : $user->city;
+                $user->save();
+
+                break;
+        }
     }
 }

@@ -21,19 +21,19 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">绑定邮箱</label>
                             <div class="col-sm-5">
-                                <input type="password" class="form-control text-extra" id="original_password" placeholder="请输入绑定邮箱">
+                                <input type="text" class="form-control text-extra" id="email" name="email" placeholder="请输入绑定邮箱">
                             </div>
                             <div class="col-sm-2">
-                                <button type="button" class="btn btn-success btn-lg bind-btn">绑定</button>
+                                <button type="button" class="btn btn-success btn-lg email-bind">绑定</button>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">绑定手机</label>
                             <div class="col-sm-5">
-                                <input type="password" class="form-control text-extra" id="new_password" placeholder="请输入绑定手机">
+                                <input type="text" class="form-control text-extra" id="phone" name="phone" placeholder="请输入绑定手机">
                             </div>
                             <div class="col-sm-2">
-                                <button type="button" class="btn btn-success btn-lg bind-btn">绑定</button>
+                                <button type="button" class="btn btn-success btn-lg phone-bind">绑定</button>
                             </div>
                         </div>
                     </form>
@@ -44,4 +44,28 @@
 @stop
 
 @section('footer')
+    <script>
+        $('.email-bind').click(function () {
+            $.ajax({
+                type: 'post',
+                url: '{{ url('/user/email_bind') }}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    'email': $('#email').val(),
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code == 901) {
+                        layer.msg(res.message, {
+                            icon: 6,
+                            time: 3000,
+                        });
+                    }
+                },
+                error: function () {
+                    
+                }
+            })
+        })
+    </script>
 @stop

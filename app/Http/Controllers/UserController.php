@@ -18,6 +18,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 //use App\Services\OSS;
 
 class UserController extends Controller
@@ -441,6 +442,24 @@ class UserController extends Controller
         } else {
             return view('auth.login');
         }
+    }
+
+    /**
+     * 绑定邮箱
+     * @param Request $request
+     */
+    public function email_bind(Request $request)
+    {
+        $email = $request->input('email');
+
+        Mail::raw('Serenity 邮件测试', function ($message) use ($email) {
+            $message->to($email);
+        });
+        return $this->jsonResult(901);
+        /*$mailer::send('auth.login', ['username' => $user], function ($message) use ($email){
+            $message->from('13676225868@163.com', 'Serenity');
+            $message->to('1060684139@qq.com');
+        });*/
     }
 
     /**

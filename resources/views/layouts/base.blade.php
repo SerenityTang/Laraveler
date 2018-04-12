@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/iconfont/iconfont.css') }}">
 
         {{--bootstrap--}}
-        <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.min.css') }}">
         @section('css')
         @show
 
@@ -32,6 +32,7 @@
         <![endif]-->
 
         <script src="{{ asset('libs/jQuery/jQuery-2.2.0.min.js') }}"></script>
+        <script src="{{ asset('libs/layer/layer/layer.js') }}"></script>
     </head>
 
     <body>
