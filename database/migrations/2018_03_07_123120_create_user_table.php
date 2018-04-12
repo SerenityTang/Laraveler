@@ -35,15 +35,19 @@ class CreateUserTable extends Migration
             $table->string('personal_domain')->nullable()->unique()->comment('个性域名');
             $table->string('personal_website')->nullable()->unique()->comment('个人网站');
             $table->longText('description')->nullable()->comment('个人简介');
-            $table->integer('qq')->nullable()->comment('QQ');
-            $table->string('wechat')->nullable()->comment('微信');
+            $table->string('qq_name')->nullable()->comment('QQ名');
+            $table->integer('qq')->nullable()->comment('QQ号码');
+            $table->string('wechat_name')->nullable()->comment('微信名');
+            $table->string('wechat')->nullable()->comment('微信号');
             $table->string('wechat_qrcode')->nullable()->comment('微信二维码');
             $table->string('wechat_openid')->nullable();
             $table->index('wechat_openid');
             $table->string('wechat_unionid')->nullable();
             $table->index('wechat_unionid');
-            $table->string('weibo')->nullable()->comment('微博');
-            $table->string('weibo_link')->nullable();
+            $table->string('weibo_name')->nullable()->comment('微博名');
+            $table->string('weibo_link')->nullable()->comment('微博链接');
+            $table->string('github_name')->nullable()->comment('github名');
+            $table->string('github_link')->nullable()->comment('github链接');
             $table->tinyInteger('career_status')->nullable()->comment('职业状态：0->学生，1->在职，2->待业');
             $table->string('career_direction')->nullable()->comment('职业方向');
 

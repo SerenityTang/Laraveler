@@ -1,0 +1,45 @@
+html{overflow-y:auto;font-size:50px;-webkit-tap-highlight-color:transparent;height:100%;min-width:320px;overflow-x:auto}
+body{margin:0;height:100%;background:#16a085;}
+canvas{z-index:-1;position:absolute;}
+.bind{
+    width: 380px;
+    height: auto;
+    overflow: auto;
+    margin: 8% auto 0 auto;
+    padding: 40px;
+    box-shadow: 0 -15px 30px #0d957a;
+    border-radius: 5px;
+}
+.bind strong{display:block;text-align:center;font-size: 20px;color: #45bda6;}
+.bind em.title-eng {display:block;font-size:12px;margin-top:8px;text-align:center;margin-bottom: 10px;color: #45bda6;}
+.bind .form-group .help-block-clear {margin: 0px;position: relative;padding-bottom: 5px;}
+.bind .form-group .help-block em{display:block;font-size:11px;text-align: left;padding-left: 5px;color: #A01641;margin: 5px 0 0 0;position: absolute;}
+.bind .form-group .has-error{border-color: #A01641;}
+.bind .password {display: none;}
+.bind .form-group-bottom {margin-bottom: 18px;}
+.bind .form-input {padding-left: 0;padding-right: 0;}
+.bind .form-group .input-group .text{color: white; background-color: #55b7a4;height: 40px;line-height: 40px;border: 1px solid #53c6b0;border-radius: 4px;}
+.bind .text-clear{border: 1px solid #A01641;}
+.bind .text-focus {background: #5cbdaa;
+    -moz-box-shadow: 0px 0px 8px #53c6b0;/*firefox*/
+    -webkit-box-shadow: 0px 0px 8px #53c6b0;/*safari或chrome*/
+    box-shadow:0px 0px 8px #53c6b0;
+}
+.bind .text::-webkit-input-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.bind .text:-moz-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.bind .text::-moz-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
+.bind .submit {background-color: #048f74; height: 42px;border: none;font-size: 15px;color: #f4f4f4;}
+.bind .submit:hover {background:#0e8a70;color:#fff;}
+/*验证码*/
+.bind img:hover{cursor: pointer;}
+.bind .loc{padding-left: 10px;}
+.bind .loc:hover {cursor: pointer;}
+.bind .glyphicon-refresh{
+    animation:rotate 2s infinite;
+    -moz-animation:rotate 2s infinite;
+    -webkit-animation:rotate 2s infinite;
+    -o-animation:rotate 21s infinite;
+}
+/*获取验证码按钮*/
+.bind .get-btn {background-color: #048f74; height: 40px;border: none;font-size: 15px;color: #f4f4f4;}
+.bind .get-btn:hover {background:#0e8a70;color:#fff;}

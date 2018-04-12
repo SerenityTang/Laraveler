@@ -120,7 +120,7 @@ canvas{z-index:-1;position:absolute;}
 .auth .login-now{width: 200px;margin: 20px auto;padding: 3px;text-align: center;background-color: hsla(0,0%,71%,.4);border-radius: 15px;}
 .auth .login-now span{color: #fff;}
 .auth .login-now span a{color: #53c6b0;}
-
+/*注册成功提示*/
 .auth .login-toptip {width: 340px;position: relative;top: -20px;left: -20px;padding-right: 0;margin-bottom: 0;}
 .auth .login-toptip .btn-close {top: -12px;}
 .auth .login-toptip p.message {font-size: 13px;}

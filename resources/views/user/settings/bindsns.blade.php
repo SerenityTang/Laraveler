@@ -23,16 +23,16 @@
                             <span>Q Q</span>
                         </div>
                         <div class="col-sm-2">
-                            <a><button type="button" class="btn btn-success bind-btn">绑定账号</button></a>
+                            <a href="{{ url('auth/oauth/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-weixin fa-lg" style="color: #06b607;padding-right: 5px;"></i>
+                            <i class="fa fa-weixin fa-lg" style="color: #06b607;padding-right: 4px;"></i>
                             <span>微信</span>
                         </div>
                         <div class="col-sm-2">
-                            <a><button type="button" class="btn btn-success bind-btn">绑定账号</button></a>
+                            <a href="{{ url('auth/oauth/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                     <div class="row bind-account">
@@ -41,7 +41,16 @@
                             <span>微博</span>
                         </div>
                         <div class="col-sm-2">
-                            <a><button type="button" class="btn btn-success bind-btn">绑定账号</button></a>
+                            <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
+                        </div>
+                    </div>
+                    <div class="row bind-account">
+                        <div class="col-sm-4 bind-type">
+                            <i class="fa fa-github fa-lg" style="padding-right: 11px;"></i>
+                            <span>Github</span>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="{{ url('auth/oauth/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                     <div class="row bind-account">
@@ -50,7 +59,7 @@
                             <span>Google</span>
                         </div>
                         <div class="col-sm-2">
-                            <a><button type="button" class="btn btn-success bind-btn">绑定账号</button></a>
+                            <a role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                     <div class="row bind-account">
@@ -59,7 +68,7 @@
                             <span>Facebook</span>
                         </div>
                         <div class="col-sm-2">
-                            <a><button type="button" class="btn btn-success bind-btn">绑定账号</button></a>
+                            <a role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +78,5 @@
 @stop
 
 @section('footer')
-    <script>
 
-    </script>
 @stop

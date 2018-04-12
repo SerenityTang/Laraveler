@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/iconfont/iconfont.css') }}">
 
     {{--bootstrap--}}
-    <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.min.css') }}">
     @section('css')
     @show
 

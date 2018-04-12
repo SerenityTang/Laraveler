@@ -20,6 +20,7 @@ trait SocialiteHelper
 
     public function oauth($driver)
     {
+        return view('auth.oauth.callback');
         $driver = !isset($this->oauthDrivers[$driver]) ? $this->oauthDrivers['weixin'] : $this->oauthDrivers[$driver];
 
         if (Auth::check()) {
@@ -62,7 +63,7 @@ trait SocialiteHelper
 
         $user = User::getByDriver($driver, $oauthUser->id);
         if ($user) {
-            // 如果注册过，直接登录并跳转
+            // 如注册过，说明用户绑定第三方账号，直接登录并跳转
             if (!Auth::check()) {
                 Auth::login($user);
             }
@@ -72,7 +73,7 @@ trait SocialiteHelper
             // 注册新账号，或者绑定老账号
             $profile = $this->bindSocialiteUserByGuest($oauthUser, $driver);
 
-            return view('auth.oauth.callback')->with(['profile' => $profile]);
+            return view('auth.oauth.callback')->with(['profile' => $profile, 'driver' => $driver]);
         }
     }
 
@@ -99,6 +100,8 @@ trait SocialiteHelper
                 $profile->province = $oauthUser->user['province'];
                 $profile->city = $oauthUser->user['city'];
                 $profile->weibo = '';
+                $profile->qq = '';
+                $profile->github = '';
                 break;
             case 'weixinweb':
                 $profile->oauth_type = 'weixinweb';
@@ -113,6 +116,7 @@ trait SocialiteHelper
                 $profile->province = $oauthUser->user['province'];
                 $profile->city = $oauthUser->user['city'];
                 $profile->weibo = '';
+                $profile->github = '';
                 break;
             case 'qq':
                 $profile->oauth_type = 'qq';
@@ -127,6 +131,7 @@ trait SocialiteHelper
                 $profile->province = $oauthUser->user['province'];
                 $profile->city = $oauthUser->user['city'];
                 $profile->weibo = '';
+                $profile->github = '';
                 break;
             case 'weibo':
                 $profile->oauth_type = 'weibo';
@@ -150,7 +155,7 @@ trait SocialiteHelper
                 $profile->province = $province;
                 $profile->city = $city;
                 $profile->weibo = 'http://weibo.com/' . $oauthUser->user['profile_url'];
-
+                $profile->github = '';
                 break;
             case 'github':
                 $profile->oauth_type = 'github';
@@ -165,7 +170,7 @@ trait SocialiteHelper
                 $profile->province = '';
                 $profile->city = '';
                 $profile->weibo = '';
-
+                $profile->github = $oauthUser->user['html_url'];
                 break;
             default:
                 $profile->oauth_type = 'weixin';
@@ -180,6 +185,7 @@ trait SocialiteHelper
                 $profile->province = $oauthUser->user['province'];
                 $profile->city = $oauthUser->user['city'];
                 $profile->weibo = '';
+                $profile->github = '';
         }
 
         return $profile;

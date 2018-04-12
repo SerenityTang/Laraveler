@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    问答首页 | @parent
+    搜索 {{ $keyword }} | @parent
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ url('libs/tabs/css/component.css') }}">

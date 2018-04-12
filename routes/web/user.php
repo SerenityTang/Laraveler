@@ -38,6 +38,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('auth/profile/per_detail', ['as' => 'user.auth.profile.per_detail', 'uses' => 'UserController@per_detail']);    //修改个人信息
     Route::post('auth/profile/avatar', ['as' => 'user.auth.profile.avatar', 'uses' => 'UserController@post_avatar']);   //修改头像
     Route::post('profile/modify_password', ['as' => 'user.profile.modify_password', 'uses' => 'UserController@modify_password']);   //修改密码
+
+    /*账号安全*/
+    Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);    //邮箱绑定
 });
 
 

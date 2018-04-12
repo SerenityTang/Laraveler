@@ -27,8 +27,8 @@
                         </div>
                         @if ($errors->has('username'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('username') }}</em>
-                        </span>
+                                <em>{{ $errors->first('username') }}</em>
+                            </span>
                         @endif
                     </div>
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -38,8 +38,8 @@
                         </div>
                         @if ($errors->has('password'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('password') }}</em>
-                        </span>
+                                <em>{{ $errors->first('password') }}</em>
+                            </span>
                         @endif
                     </div>
                     <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}" style="margin-bottom: 8px;">
@@ -51,8 +51,8 @@
                         </div>
                         @if ($errors->has('captcha'))
                             <span class="help-block help-block-clear">
-                            <em>{{ $errors->first('captcha') }}</em>
-                        </span>
+                                <em>{{ $errors->first('captcha') }}</em>
+                            </span>
                         @endif
                     </div>
                     <div class="form-group">
