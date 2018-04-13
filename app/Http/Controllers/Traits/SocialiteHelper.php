@@ -27,6 +27,8 @@ trait SocialiteHelper
             $oauth = User_socialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
             if ($oauth && $oauth->oauth_type == $driver) {
                 return redirect('/');
+            } else {
+                return Socialite::driver($driver)->redirect();
             }
         } else {
             return Socialite::driver($driver)->redirect();

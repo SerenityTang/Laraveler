@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class RegisterController extends Controller
@@ -49,22 +50,19 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $input = $request->only(['username', 'password', 'password_confirmation','email','mobile','m_code']);
-        $rules = array(
-            'username' => 'required|string|max:255|unique:user',
-            'password' => 'required|string|between:6,20|confirmed',
-            'password_confirmation' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:user',
-            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
-            //'m_code' => 'required|string'
-        );
-
-        $validator = Validator::make($input, $rules);
+        $input = $request->only(['username', 'password', 'password_confirmation',/*'email',*/'mobile'/*,'m_code'*/]);
+        //验证表单
+        $validator = $this->validator($input);
+        //判断是否存在错误信息
         if ($validator->fails()) {
             return redirect('/register')->withInput()->withErrors($validator);
         } else {
+            //验证通过创建新用户
             $user = $this->create($input);
-            return $this->success(route('login'), '亲爱的' . $user->username . '，恭喜您注册成功，请登录...');
+            //创建后自动登录
+            Auth::login($user);
+
+            return $this->success(route('home'), '亲爱的 ' . $user->username . '，恭喜您注册成功 ^_^');
         }
     }
 
@@ -76,7 +74,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $rules = array(
+            'username' => 'required|string|max:255|unique:user',
+            'password' => 'required|string|between:6,20|confirmed',
+            'password_confirmation' => 'required|string',
+            //'email' => 'required|string|email|max:255',
+            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
+            //'m_code' => 'required|string'
+        );
 
+        $validator = Validator::make($data, $rules);
+        return $validator;
     }
 
     /**
@@ -89,7 +97,7 @@ class RegisterController extends Controller
     {
         $user_data = [
             'username' => $data['username'],
-            'email' => $data['email'],
+            //'email' => $data['email'],
             'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
             'user_status' => 1,

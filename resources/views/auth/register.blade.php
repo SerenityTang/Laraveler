@@ -50,7 +50,7 @@
                         @endif
                     </div>
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    {{--<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon e-icon{{ $errors->has('email') ? ' e-icon-clear' : '' }}"><i class="fa fa-envelope-o fa-fw"></i></span>
                             <input type="email" id="email" class="form-control text{{ $errors->has('email') ? ' text-clear' : '' }}" name="email" placeholder="邮箱" value="{{ old('email') }}">
@@ -59,8 +59,12 @@
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('email') }}</em>
                             </span>
+                        @elseif(session('message'))
+                            <span class="help-block help-block-clear">
+                                <em>{{ session('message') }}</em>
+                            </span>
                         @endif
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <div class="input-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
@@ -75,14 +79,14 @@
                     </div>
 
                     {{--<div class="form-group">
-                        <div class="input-group{{ $error->has('m_code') ? ' has-error' : '' }}">
-                            <span class="input-group-addon c-icon{{ $error->has('m_code') ? ' c-icon-clear' : '' }}"><i class="fa fa-comment fa-fw"></i></span>
-                            <input type="text" id="m_code" class="form-control text c-text{{ $error->has('m_code') ? ' text-clear' : '' }}" name="m_code" style="width: 180px;" maxlength="5" placeholder="验证码" autocomplete="off">&nbsp;
+                        <div class="input-group{{ $errors->has('m_code') ? ' has-error' : '' }}">
+                            <span class="input-group-addon c-icon{{ $errors->has('m_code') ? ' c-icon-clear' : '' }}"><i class="fa fa-comment fa-fw"></i></span>
+                            <input type="text" id="m_code" class="form-control text c-text{{ $errors->has('m_code') ? ' text-clear' : '' }}" name="m_code" style="width: 180px;" maxlength="5" placeholder="验证码" autocomplete="off">&nbsp;
                             <button  id="get-code" type="button" class="btn btn-success btn-flat get-btn" style="width: 105px;">获取验证码</button>
                         </div>
-                        @if ($error->has('m_code'))
+                        @if ($errors->has('m_code'))
                             <span class="help-block help-block-clear">
-                                <em>{{ $error->first('m_code') }}</em>
+                                <em>{{ $errors->first('m_code') }}</em>
                             </span>
                         @endif
                     </div>--}}

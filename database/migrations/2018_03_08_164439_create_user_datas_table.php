@@ -33,12 +33,6 @@ class CreateUserDatasTable extends Migration
             $table->integer('attention_count')->unsigned()->default(0)->comment('用户关注数');
             $table->integer('fan_count')->unsigned()->default(0)->comment('粉丝数');
             $table->integer('view_count')->unsigned()->default(0)->comment('主页被访问数');
-
-            $table->dateTime('approval_time')->nullable()->comment('实名认证时间');
-            $table->unsignedTinyInteger('approval_status')->nullable()->default(0)->comment('实名认证状态：0->未提交资料，1->待审核，2->审核通过');
-            $table->unsignedTinyInteger('email_status')->default(0)->comment('邮箱认证状态：0->未提交资料，1->待审核，2->审核通过');
-            $table->unsignedTinyInteger('mobile_status')->default(0)->comment('手机认证状态：0->未提交资料，1->待审核，2->审核通过');
-            $table->unsignedTinyInteger('expert_status')->default(0)->comment('达人认证状态：0->未提交资料，1->待审核，2->审核通过');
             $table->timestamps();
         });
     }

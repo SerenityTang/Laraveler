@@ -71,73 +71,83 @@ class OAuthController extends Controller
      */
     public function bind(Request $request)
     {
+        $username = $request->input('username');
+        $mobile = $request->input('mobile');
+        $password = $request->input('password');
+        $driver = $request->input('driver');
         $redirect_uri = $request->input('redirect_uri');
+        $rules = array(
+            'username' => 'required|string|max:255|unique:user',
+            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            'password' => 'required|string|between:6,20',
+            'captcha' => 'required|string|validateCaptcha',
+        );
 
-        if (Auth::check()) {
-            // 已登录，直接绑定
-            $openid = $request->input('oauth_id');
-            $driver = $request->input('oauth_type');
-
-            // 判断是否注册过
-            $user = User::getByDriver($driver, $openid);
-
-            if ($user != null) {
-                // 如果存在，直接跳转
-
-                // 更新已存在的关联信息
-                UserOauth::where('oauth_type', $driver)->where('oauth_id', $openid)->update(['nickname' => $request->input('name'), 'avatar' => $request->input('avatar')]);
-
-                return redirect($redirect_uri ? $redirect_uri : 'setting');
-            } else {
-                //否则，绑定老账号
-
-                //写入 OAuth 数据
-                $this->oauthSave($request, Auth::user()->id);
-
-                //写入 User Profile 数据
-                $profile = UserProfile::where('uid', Auth::user()->id)->first();//查看是否存在profile记录，如果存在，不做写入操作。
-                if ($profile == null) {
-                    $this->profileSave($request, Auth::user()->id);
-                }
-
-                return redirect($redirect_uri ? $redirect_uri : 'setting');
-            }
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->jsonResult(502, $validator->errors());
         } else {
-            $username = $request->input('username');
-            $mobile = $request->input('mobile');
-            $password = $request->input('password');
-            $driver = $request->input('driver');
-            if ($password) {
-                //密码不为空则新建账户
-                $user_data = [
-                    'username' => $username,
-                    'email' => 0,
-                    'mobile' => $mobile,
-                    'password' => bcrypt($password),
-                    'user_status' => 1,
-                    'personal_domain' => $username,
-                ];
-                $user = User::create($user_data);
+            if (Auth::check()) {
+                // 已登录，直接绑定
+                $openid = $request->input('oauth_id');
+                $driver = $request->input('oauth_type');
 
-                if ($user) {
-                    $data = [
-                        'user_id'       => $user->id,
+                // 判断是否注册过
+                $user = User::getByDriver($driver, $openid);
+
+                if ($user != null) {
+                    // 如果存在，直接跳转
+
+                    // 更新已存在的关联信息
+                    UserOauth::where('oauth_type', $driver)->where('oauth_id', $openid)->update(['nickname' => $request->input('name'), 'avatar' => $request->input('avatar')]);
+
+                    return redirect($redirect_uri ? $redirect_uri : 'setting');
+                } else {
+                    //否则，绑定老账号
+
+                    //写入 OAuth 数据
+                    $this->oauthSave($request, Auth::user()->id);
+
+                    //写入 User Profile 数据
+                    $profile = UserProfile::where('uid', Auth::user()->id)->first();//查看是否存在profile记录，如果存在，不做写入操作。
+                    if ($profile == null) {
+                        $this->profileSave($request, Auth::user()->id);
+                    }
+
+                    return redirect($redirect_uri ? $redirect_uri : 'setting');
+                }
+            } else {
+                if ($password) {
+                    //密码不为空则新建账户
+                    $user_data = [
+                        'username' => $username,
+                        'email' => 0,
+                        'mobile' => $mobile,
+                        'password' => bcrypt($password),
+                        'user_status' => 1,
+                        'personal_domain' => $username,
                     ];
-                    $user_data = User_data::create($data);
-                    if ($user_data) {
-                        $this->socialiteSave($request, $user->id);
+                    $user = User::create($user_data);
 
-                        $this->unRegisterUserSave($request, $user->id, $driver);
+                    if ($user) {
+                        $data = [
+                            'user_id'       => $user->id,
+                        ];
+                        $user_data = User_data::create($data);
+                        if ($user_data) {
+                            $this->socialiteSave($request, $user->id);
 
-                        Auth::login($user);
-                        return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
+                            $this->unRegisterUserSave($request, $user->id, $driver);
+
+                            Auth::login($user);
+                            return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
+                        }
+                    } else {
+                        return $this->error(route('home'), '用户注册失败');
                     }
                 } else {
-                    return $this->error(route('home'), '用户注册失败');
-                }
-            } else {
-                //密码为空则为此账户绑定第三方账号
-                //if (Auth::attempt(['mobile' => $mobile])) {
+                    //密码为空则为此账户绑定第三方账号
+                    //if (Auth::attempt(['mobile' => $mobile])) {
                     $user = User::where('mobile', $mobile)->first();
                     $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -156,7 +166,8 @@ class OAuthController extends Controller
                         return $this->error(route('home'), '用户不存在');
                     }
 
-                //}
+                    //}
+                }
             }
         }
     }
@@ -184,7 +195,7 @@ class OAuthController extends Controller
         switch ($driver) {
             case 'weibo':
                 $user->realname = $request->get('realname');
-                $user->email = $request->get('email');
+                $user->email = is_null($request->get('email')) ? $user->email : $request->get('email');
                 $user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->weibo_name = $request->get('nickname');
@@ -196,7 +207,7 @@ class OAuthController extends Controller
                 break;
             case 'github':
                 $user->realname = $request->get('realname');
-                $user->email = $request->get('email');
+                $user->email = is_null($request->get('email')) ? $user->email : $request->get('email');
                 $user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->github_name = $request->get('nickname');

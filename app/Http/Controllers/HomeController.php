@@ -42,7 +42,7 @@ class HomeController extends Controller
             ->orderBy('user_datas.answer_count','DESC')
             ->orderBy('user_datas.article_count','DESC')
             ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
             ->take(10)->get();
 
         //热门标签

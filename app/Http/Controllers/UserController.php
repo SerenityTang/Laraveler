@@ -8,15 +8,19 @@ use App\Models\Blog;
 use App\Models\Career_direction;
 use App\Models\Question;
 use App\Models\User_data;
+use App\Models\UserActivation;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 //use App\Services\OSS;
@@ -450,16 +454,100 @@ class UserController extends Controller
      */
     public function email_bind(Request $request)
     {
-        $email = $request->input('email');
+        if (Auth::check()) {
+            $email = $request->input('email');
+            $user_email = User::where('email', $email)->first();
+            $rules = array(
+                'email' => 'required|string|email',
+            );
 
-        Mail::raw('Serenity 邮件测试', function ($message) use ($email) {
-            $message->to($email);
-        });
-        return $this->jsonResult(901);
-        /*$mailer::send('auth.login', ['username' => $user], function ($message) use ($email){
-            $message->from('13676225868@163.com', 'Serenity');
-            $message->to('1060684139@qq.com');
-        });*/
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else if ($user_email) {
+                //用户输入邮箱已存在
+                return $this->jsonResult(908);
+            } else if (!$user_email) {
+                //用户输入邮箱不存在，则直接绑定
+                $user = User::where('id', Auth::user()->id)->first();
+                $user->email = $email;
+                $bool = $user->save();
+
+                if ($bool == true) {
+                    /*$user_code = json_encode(['uid' => $user->id,'username' => $user->username, 'email' => $email, 'time' => time()]);
+                    $sign_code = hash_hmac('sha256', Str::random(40), Config::get('key'));
+                    $verification_token = str_random(6) . '-' . md5($user_code);
+
+                    $data = [
+                        'email'             => $email,
+                        'username'          => $user->username,
+                        'uid'               => $user->id,
+                        'sign_code'         => $sign_code,
+                        'user_code'         => $user_code,
+                        'verification_token'=> $verification_token,
+                        'email_verify_url'  => url('user/email_bind/verify') . '?s=' . urlencode($sign_code) . '&u=' . urlencode($user_code) . '&v=' . $verification_token
+                    ];*/
+                    //方法一：发送纯文本格式
+                    /*Mail::raw('Serenity 邮件测试(邮件内容)', function ($message) use ($email) {
+                        $message->from('发送邮件邮箱', '发件人');
+                        $message->subject('邮件主题');
+                        $message->to('收件人');
+                    });*/
+
+                    //方法二：发送HTML格式
+                    //验证通过后发送邮件
+                    // 生成唯一 token
+                    $token = bcrypt($email.time());
+
+                    $data = [
+                        'email'             => $email,
+                        'user'              => $user,
+                        'token'             => $token,
+                        'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                    ];
+
+                    Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
+                        $message->subject('Laraveler 邮箱绑定验证');
+                        $message->to($data['email']);
+                    });
+
+                    // 数据库保存 token
+                    if ($user->activations){
+                        $user->activations()->update(['token' => $token, 'active' => 1]);
+                    } else {
+                        $user->activations()->save(new UserActivation([
+                            'token' => $token
+                        ]));
+                    }
+
+                    return $this->jsonResult(909, '邮箱地址绑定成功，请前往-> '. $email .' <-验证', $email);
+                } else {
+                    //邮箱绑定失败
+                    return $this->jsonResult(910);
+                }
+            }
+        }
+    }
+
+    /**
+     * 激活邮箱
+     * @param Request $request
+     */
+    public function activate_email_bind(Request $request)
+    {
+        $data = $request->all();
+        $token = $data['v'];
+
+        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()]);
+        if ($user_activation) {
+            $user_activation->active = 0;
+            $user_activation->save();
+
+            return view('user.partials.email_verify_callback')->with(['status' => 1]);
+        } else {
+
+            return view('user.partials.email_verify_callback')->with(['status' => 2]);
+        }
     }
 
     /**
@@ -494,7 +582,7 @@ class UserController extends Controller
             ->orderBy('user_datas.answer_count','DESC')
             ->orderBy('user_datas.article_count','DESC')
             ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
             ->take(10)->get();
 
         return view('user.partials.active_rank')->with(['active_users' => $active_users]);
@@ -510,7 +598,7 @@ class UserController extends Controller
         $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status','>',0)
             ->orderBy('user_datas.credits','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count','user_datas.expert_status')
+            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
             ->take(10)->get();
 
         return view('user.partials.credit_rank')->with(['credit_users' => $credit_users]);

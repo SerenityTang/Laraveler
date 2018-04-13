@@ -87,7 +87,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <a href="#" id="tishi" class="btn" rel="popover" data-content="请选择或输入心仪标签按空格键键入">
+                            <a href="javascript:void(0)" id="tishi" class="btn" rel="popover" data-content="请选择或输入心仪标签按空格键键入">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-tishi"></use>
                                 </svg>

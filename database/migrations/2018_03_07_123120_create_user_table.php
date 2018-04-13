@@ -16,7 +16,7 @@ class CreateUserTable extends Migration
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username')->unique()->comment('用户名');
-            $table->string('email')->unique()->comment('邮箱');
+            $table->string('email')->unique()->nullable()->comment('邮箱');
             $table->string('mobile', 50)->unique()->comment('电话号码');
             $table->string('password')->comment('密码');
             $table->tinyInteger('user_status')->default(0)->comment('用户状态：0->禁用，1->正常');
@@ -53,6 +53,13 @@ class CreateUserTable extends Migration
 
             $table->string('site_notifications')->nullable()->comment('站内通知');
             $table->string('email_notifications')->nullable()->comment('邮件通知策略');
+
+            $table->dateTime('approval_time')->nullable()->comment('实名认证时间');
+            $table->unsignedTinyInteger('approval_status')->nullable()->default(0)->comment('实名认证状态：0->未提交资料，1->待审核，2->审核通过');
+            $table->unsignedTinyInteger('email_status')->default(0)->comment('邮箱认证状态：0->未认证，1->已认证');
+            $table->unsignedTinyInteger('mobile_status')->default(0)->comment('手机认证状态：0->未提交资料，1->待审核，2->审核通过');
+            $table->unsignedTinyInteger('expert_status')->default(0)->comment('达人认证状态：0->未提交资料，1->待审核，2->审核通过');
+
             $table->dateTime('last_login_at')->nullable()->comment('最后登录时间');
             $table->dateTime('last_active_at')->nullable()->comment('最后活跃时间');
             $table->dateTime('last_login_ip')->nullable()->comment('最后登录IP');

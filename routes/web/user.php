@@ -9,6 +9,7 @@
 Route::group(['prefix' => 'user'], function() {
     Route::get('/active_rank', ['as' => 'user.active_rank', 'uses' => 'UserController@active_rank']);       //活跃排行榜
     Route::get('/credit_rank', ['as' => 'user.credit_rank', 'uses' => 'UserController@credit_rank']);       //积分排行榜
+    Route::get('/email_bind/verify', ['as' => 'user.email_bind', 'uses' => 'UserController@activate_email_bind']);    //激活邮箱绑定
 });
 /*个人主页*/
 Route::group(['prefix' => 'user/{personal_domain}'], function() {
@@ -40,7 +41,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('profile/modify_password', ['as' => 'user.profile.modify_password', 'uses' => 'UserController@modify_password']);   //修改密码
 
     /*账号安全*/
-    Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);    //邮箱绑定
+    Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);    //提交邮箱绑定
+
 });
 
 

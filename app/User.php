@@ -172,4 +172,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Blog');
     }
+
+    /*
+    * 获取用户点赞的博客
+    */
+    public function activations()
+    {
+        return $this->hasOne(\App\Models\UserActivation::class);
+    }
 }

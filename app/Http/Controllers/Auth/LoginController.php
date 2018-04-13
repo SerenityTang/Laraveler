@@ -7,7 +7,7 @@ use App\Http\Controllers\Traits\SocialiteHelper;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -39,7 +39,7 @@ class LoginController extends Controller
     public function __construct()
     {
         //$this->middleware('guest')->except('logout');
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'oauth', 'callback']]);
     }
 
     /**
@@ -57,12 +57,13 @@ class LoginController extends Controller
         //Validator::make($input, $rules, $messages, $attributes)->validate();  //如验证失败，将被自动重定向或者返回json响应给上一个位置
 
         $validator = Validator::make($input, $rules);
+        //判断是否存在错误信息
         if ($validator->fails()) {
             return redirect('/login')->withInput()->withErrors($validator);
         } else {
 
-            $credentials = $this->credentials($request);
-            $credentials['user_status'] = 1;
+            $credentials = $this->credentials($request);    //从请求获取登录需要的字段
+            $credentials['user_status'] = 1;    //添加条件用户状态为 1
 
             if ($this->hasTooManyLoginAttempts($request)) {
                 $this->fireLockoutEvent($request);
@@ -74,9 +75,9 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             }*/
             if ($this->guard()->attempt($credentials, $request->has('remember'))) {
-                return $this->sendLoginResponse($request);
+                return $this->sendLoginResponse($request);      //登录成功，触发自带的登录监听，记录登录时间，返回成功登录；登出也类似触发登出监听
             } else {
-                return $this->error('/login', '抱歉，您的帐号无法登录...');
+                return $this->error('/login', '抱歉，您的帐号被禁用无法登录，请联系管理员...');
             }
 
             $this->incrementLoginAttempts($request);

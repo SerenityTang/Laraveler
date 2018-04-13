@@ -111,8 +111,12 @@ span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;
 .main-container .panel-default.right-container button.btn-save {font-size: 16px;width: 90px;height:36px;line-height: 16px;background-color: #22d7bb;border: none;position: relative;left: 40%;margin-top: 25px;padding-left: 16px;}
 .main-container .panel-default.right-container button.btn-save:hover {background-color: #36ceb6;color: #fff;}
 /*绑定按钮除绑定第三方*/
-.email-bind, .phone-bind {font-size: 14px;width: 65px;height:30px;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 4%;}
-.email-bind:hover, .phone-bind:hover {background-color: #36ceb6;color: #fff;}
+.right-container .email {position: relative;}
+.email-bind, .phone-bind, .email-change, .email-verify, .email-submit, .email-cancel {font-size: 14px;width: 65px;height:30px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 4%;}
+.email-change, .email-submit {margin-right: 5px;}
+.cv-btn, .sc-btn {position: absolute;top: -8px;right: 0;}
+.show-active {display: none;}
+.email-bind:hover, .phone-bind:hover, .email-change:hover, .email-verify:hover, .email-submit:hover, .email-cancel:hover {background-color: #36ceb6;color: #fff;}
 /*绑定第三方列表样式和按钮*/
 .main-container .panel-default.right-container .bind-account {width: 861px;border-bottom: 1px solid #eee; padding: 8px 0;}
 .main-container .panel-default.right-container .bind-account .bind-type {padding-top: 8px;padding-left: 60px;}
@@ -128,6 +132,7 @@ span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;
     color: #fff;
 }
 .main-container .panel-default.right-container .bind-account a.bind-btn:hover {background-color: #36ceb6;color: #fff;}
+
 /*下拉菜单按钮样式*/
 .main-container .panel-default.right-container .bootstrap-select button {background-color: #22d7bb;border: none;color: #fff;height: 40px;}
 .main-container .panel-default.right-container .bootstrap-select button:hover {background-color: #36ceb6;border: none;color: #fff;}
