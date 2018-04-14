@@ -254,7 +254,7 @@
                         } else if (res.code == 501) {
                             layer.msg(res.message, {
                                 icon: 6,
-                                time: 2000,
+                                time: 3000,
                                 end : function(){
                                     location.href='{{ url("/") }}';
                                 }

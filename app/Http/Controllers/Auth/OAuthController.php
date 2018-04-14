@@ -75,12 +75,20 @@ class OAuthController extends Controller
         $mobile = $request->input('mobile');
         $password = $request->input('password');
         $driver = $request->input('driver');
-        $rules = array(
-            'username' => 'required|string|max:255|unique:user',
-            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
-            'password' => 'required|string|between:6,20',
-            'captcha' => 'required|string|validateCaptcha',
-        );
+        if ($password) {
+            $rules = array(
+                'username' => 'required|string|max:255|unique:user',
+                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+                'password' => 'required|string|between:6,20',
+                'captcha' => 'required|string|validateCaptcha',
+            );
+        } else {
+            $rules = array(
+                'username' => 'required|string|max:255|unique:user',
+                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+                'captcha' => 'required|string|validateCaptcha',
+            );
+        }
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
