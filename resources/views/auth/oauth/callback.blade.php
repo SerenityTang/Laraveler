@@ -234,21 +234,12 @@
     <script>
         $(function () {
             $('.submit').click(function () {
-                var username = $('#username').val();
-                var password = $('#password').val();
-                var mobile = $('#mobile').val();
-                var captcha = $('#captcha').val();
+                var data = $("form").serialize();
 
                 $.ajax({
                     url: '{{ url('/auth/bind') }}',
                     type: 'post',
-                    data: {
-                        _token: '{{csrf_token()}}',
-                        'username': username,
-                        'password': password,
-                        'mobile': mobile,
-                        'captcha': captcha,
-                    },
+                    data: data,
                     cache: false,
                     success: function (res) {console.log(res)
                         if (res.code == 502 && $('.bind .password').css('display') != 'none') {
