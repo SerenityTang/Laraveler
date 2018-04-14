@@ -244,8 +244,8 @@ class OAuthController extends Controller
                 $user->email = is_null($user->email) ? $request->get('email') : $user->email;
                 $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
                 $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
-                $user->weibo = is_null($user->nickname) ? $request->get('nickname') : $user->nickname;
-                $user->weibo_link = is_null($user->weibo) ? $request->get('weibo') : $user->weibo;
+                $user->weibo_name = is_null($user->weibo_name) ? $request->get('nickname') : $user->weibo_name;
+                $user->weibo_link = is_null($user->weibo_link) ? $request->get('weibo') : $user->weibo_link;
                 $user->province = is_null($user->province) ? $request->get('province') : $user->province;
                 $user->city = is_null($user->city) ? $request->get('city') : $user->city;
                 $user->save();
@@ -256,9 +256,8 @@ class OAuthController extends Controller
                 $user->email = is_null($user->email) ? $request->get('email') : $user->email;
                 $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
                 $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
-                $user->weibo = is_null($user->nickname) ? $request->get('nickname') : $user->nickname;
-                $user->weibo_link = is_null($user->weibo) ? $request->get('weibo') : $user->weibo;
-                $user->github_link = is_null($user->github) ? $request->get('github') : $user->github;
+                $user->github_name = is_null($user->github_name) ? $request->get('nickname') : $user->github_name;
+                $user->github_link = is_null($user->github_link) ? $request->get('github') : $user->github_link;
                 $user->province = is_null($user->province) ? $request->get('province') : $user->province;
                 $user->city = is_null($user->city) ? $request->get('city') : $user->city;
                 $user->save();
