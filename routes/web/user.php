@@ -42,7 +42,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
 
     /*账号安全*/
     Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);    //提交邮箱绑定
-
+    Route::post('/email_bind/send_verify', ['as' => 'user.email_bind.send_verify', 'uses' => 'UserController@send_verify']);    //提交邮箱绑定
 });
 
 

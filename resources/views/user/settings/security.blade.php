@@ -56,7 +56,8 @@
 
     <script>
         $(function () {
-            $('.email-bind, .email-submit, mail-verify').click(function () {
+            //绑定、提交邮箱地址
+            $('.email-bind, .email-submit, .email-verify').click(function () {
                 $.ajax({
                     type: 'post',
                     url: '{{ url('/user/email_bind') }}',
@@ -92,6 +93,38 @@
                                 time: 3000,
                             });
                             $('#email').val('');        //清空输入内容
+                        }
+                    },
+                    error: function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                });
+            });
+
+            //验证邮箱地址
+            $('.email-verify').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ url('/user/email_bind/send_verify') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'email': $('#email').val(),
+                    },
+                    cache: false,
+                    success: function (res) {
+                        if (res.code == 909) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 6000,
+                            });
+                        } else {
+                            layer.msg('系统错误！', {
+                                icon: 5,
+                                time: 2000,
+                            });
                         }
                     },
                     error: function () {

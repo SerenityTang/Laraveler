@@ -526,6 +526,56 @@ class UserController extends Controller
                     return $this->jsonResult(910);
                 }
             }
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    /**
+     * 验证邮箱（重新发送验证邮件）
+     * @param Request $request
+     */
+    public function send_verify(Request $request)
+    {
+        if (Auth::check()) {
+            $email = $request->input('email');
+            $user = User::where('email', $email)->first();
+            $rules = array(
+                'email' => 'required|string|email',
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else {
+                // 生成唯一 token
+                $token = bcrypt($email.time());
+
+                $data = [
+                    'email'             => $email,
+                    'user'              => $user,
+                    'token'             => $token,
+                    'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                ];
+
+                Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
+                    $message->subject('Laraveler 邮箱绑定验证');
+                    $message->to($data['email']);
+                });
+
+                // 数据库保存 token
+                if ($user->activations){
+                    $user->activations()->update(['token' => $token]);
+                } else {
+                    $user->activations()->save(new UserActivation([
+                        'token' => $token
+                    ]));
+                }
+
+                return $this->jsonResult(909, '一封验证邮件已发送至'. $email .'，请前往此邮箱进行验证 ^_^');
+            }
+        } else {
+            return view('auth.login');
         }
     }
 
