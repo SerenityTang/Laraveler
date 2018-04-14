@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="referrer" content="origin">
         <meta name="renderer" content="webkit" />
-        <title>Laraveler - 邮箱验证</title>
+        <title>Laraveler - 邮箱绑定验证</title>
         <style>
             body {background:#fff;color:#000;font-weight:normal;font-family:"lucida Grande",Verdana,"Microsoft YaHei";padding:0 7px 6px 4px;margin:0;}
             p.bind {font-size: 16px;}

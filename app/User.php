@@ -174,7 +174,7 @@ class User extends Authenticatable
     }
 
     /*
-    * 获取用户点赞的博客
+    * 获取用户邮箱验证的激活信息
     */
     public function activations()
     {

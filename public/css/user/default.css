@@ -21,7 +21,7 @@
 .homepage-header .homepage-middle .homepage-btn a i {padding-right: 3px;}
 .homepage-header .homepage-bottom {margin-top: 20px;}
 .homepage-header .homepage-bottom .dynamic {margin-top: 20px;}
-.homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 15px;margin-left: 20px;font-weight: 300;}
+.homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 14px;margin-left: 20px;font-weight: 300;}
 .homepage-header .homepage-bottom .item {float: left;margin: 0 15px;}
 .homepage-header .homepage-bottom span.count {display: block;color: #22d7bb;font-size: 35px;font-weight: 700;text-align: center;}
 .homepage-header .homepage-bottom span.text {display: block;font-weight: 400;text-align: center;}
@@ -80,7 +80,7 @@ span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;
 .edit-icon a {color: #999;text-decoration: none;font-size: 13px;}
 .edit-icon a:hover {color: #22d7bb;}
 
-    /*粉丝列表*/
+/*粉丝列表*/
 .main-container .right-container ul .list- a.att-u-name {font-size: 16px;color: #333;text-decoration: none;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
 .main-container .right-container ul .list- a.att-u-name:hover {color: #22d7bb;}
 .main-container .right-container ul .list- p.data {color: #666;font-size: 13px;}
@@ -110,13 +110,30 @@ span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;
 /*保存按钮除绑定第三方*/
 .main-container .panel-default.right-container button.btn-save {font-size: 16px;width: 90px;height:36px;line-height: 16px;background-color: #22d7bb;border: none;position: relative;left: 40%;margin-top: 25px;padding-left: 16px;}
 .main-container .panel-default.right-container button.btn-save:hover {background-color: #36ceb6;color: #fff;}
-/*绑定按钮除绑定第三方*/
+/*绑定按钮 除 绑定第三方*/
 .right-container .email {position: relative;}
-.email-bind, .phone-bind, .email-change, .email-verify, .email-submit, .email-cancel {font-size: 14px;width: 65px;height:30px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 4%;}
+.email-bind, .phone-bind, .email-change, .email-verify, .email-submit, .email-cancel, .email-changed {font-size: 14px;width: 65px;height:30px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 4%;}
 .email-change, .email-submit {margin-right: 5px;}
 .cv-btn, .sc-btn {position: absolute;top: -8px;right: 0;}
 .show-active {display: none;}
-.email-bind:hover, .phone-bind:hover, .email-change:hover, .email-verify:hover, .email-submit:hover, .email-cancel:hover {background-color: #36ceb6;color: #fff;}
+p.binded-email {font-size: 16px;position: relative;top: 7px;left: 13px;display: inline-block;}
+p.binded-email .binded-tip {color: #A01641;font-size: 15px;position: relative;bottom: 2px;left: 8px;font-weight: 500;}
+.email-bind:hover, .phone-bind:hover, .email-change:hover, .email-verify:hover, .email-submit:hover, .email-cancel:hover, .email-changed:hover {background-color: #36ceb6;color: #fff;}
+/*更改邮箱模态框*/
+.email-modify {width: 500px;}
+.email-modify .email-modify-header {padding: 10px 15px;}
+.email-modify .email-modify-header h4.email-modify-title {font-weight: 500;font-size: 16px;color: #333;}
+.email-modify .email-modify-header .email-modify-close {font-size: 15px;box-shadow: none;}
+.email-modify .email-modify-body p.email-icon {height: 96px;text-align: center;margin-bottom: 10px;}
+.email-modify .email-modify-body p.email-icon i {font-size: 100px;color: #ccc;line-height: 75px;}
+.email-modify .email-modify-body .new-email {margin-bottom: 0;}
+.email-modify .email-modify-body em {color: #A01641;position: relative;left: 135px;font-size: 13px;font-weight: 500;}
+.email-modify .email-modify-body label {padding-top: 7px;color: #666;font-size: 14px;}
+.email-modify .email-modify-body .extra input {border: 2px solid #e4e4e4;height: 40px;}
+.email-modify .email-modify-body .extra input:focus, .email-modify .email-modify-body .extra textarea:focus {border: 2px solid #22d7bb;}
+.email-modify .email-modify-footer {padding: 10px 15px;}
+.email-modify .email-modify-footer .email-submit-btn, .email-modify .email-modify-footer .email-cancel-btn {background-color: #22d7bb;color: #fff;padding: 4px 13px;margin-right: 10px;box-shadow: none;}
+.email-modify .email-modify-footer .email-submit-btn:hover, .email-modify .email-modify-footer .email-cancel-btn:hover {background-color: #36ceb6;}
 /*绑定第三方列表样式和按钮*/
 .main-container .panel-default.right-container .bind-account {width: 861px;border-bottom: 1px solid #eee; padding: 8px 0;}
 .main-container .panel-default.right-container .bind-account .bind-type {padding-top: 8px;padding-left: 60px;}
@@ -158,7 +175,7 @@ span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;
 .main-container .panel-default.right-container .bootstrap-filestyle input.filestyle-input {border: 2px solid #e4e4e4;height: 40px;}
 .main-container .panel-default.right-container .bootstrap-filestyle label.btn-select-qrcode {padding: 9px 12px;background-color: #22d7bb;color: #fff;border: 1px solid #22d7bb;}
 .main-container .panel-default.right-container .bootstrap-filestyle label.btn-select-qrcode:hover {background-color: #36ceb6;}
-
+/*职业状态*/
 .main-container .panel-default.right-container .career_status .dowebok p {font-size: 14px;color: #555;}
 .main-container .panel-default.right-container .career_status ul.dowebok {list-style-type: none;margin-left: 1px;margin-top: 2px;}
 .main-container .panel-default.right-container .career_status ul.dowebok li {margin-right: 25px;display: inline-block;}

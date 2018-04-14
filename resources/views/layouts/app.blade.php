@@ -61,7 +61,7 @@
 </div>
 
 {{--意见反馈模态框--}}
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content feedback">
             <div class="modal-header feedback-header">
@@ -72,7 +72,7 @@
             </div>
             <div class="modal-body feedback-body">
                 <div class="row">
-                    <form class="form-horizontal" role="form" method="post"  enctype="multipart/form-data" action="{{ url('/feedback') }}">
+                    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{{ url('/feedback') }}">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">意见类型</label>
                             <div class="col-sm-9 extra">
@@ -131,25 +131,28 @@
         $('.feedback input').labelauty();
 
         $('.feedback-btn').click(function () {
-            var data = $(".feedback .feedback-body form").serializeArray();
+            //var data = $(".feedback .feedback-body form").serialize();
             $.ajax({
                 url: "{{ url('/feedback') }}",
                 type: "post",
                 dataType: "json",
                 data: {
-                    'data': data,
                     _token: '{{csrf_token()}}',
+                    'feedback': $('.feedback input[name="feedback"]:checked ').val(),
+                    'description': $('#description').val(),
+                    'fb-url': $('#fb-url').val(),
+                    'fb-contact': $('#fb-contact').val(),
                 },
                 cache: false, //不允许有缓存
                 success: function(res){
                     if (res.code == 801) {
-                        $('#myModal').modal('hide');
+                        $('#feedback').modal('hide');
                         layer.msg(res.message, {
                             icon: 6,
                             time: 2000,
                         });
                     } else {
-                        $('#myModal').modal('hide');
+                        $('#feedback').modal('hide');
                         layer.msg('系统错误！', {
                             icon: 2,
                             time: 2000,
@@ -157,7 +160,7 @@
                     }
                 },
                 error: function(){
-                    $('#myModal').modal('hide');
+                    $('#feedback').modal('hide');
                     layer.msg('系统错误！', {
                         icon: 2,
                         time: 2000,

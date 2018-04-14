@@ -14,7 +14,7 @@
             <span class="toolbar-text">Q Q<br />咨询</span>
         </span>
     </a>
-    <a class="toolbar-item" data-toggle="modal" data-target="#myModal">
+    <a class="toolbar-item" data-toggle="modal" data-target="#feedback">
         <span class="toolbar-btn">
             <i class="iconfont icon-yijianfankui toolbar-icon toolbar-icon-opinion"></i>
             <span class="toolbar-text">意见<br />反馈</span>

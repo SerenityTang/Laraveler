@@ -56,14 +56,13 @@ class HomeController extends Controller
      */
     public function feedback(Request $request)
     {
-        $data = $_POST['data'];
         $feedback_data = [
             'user_id'       =>Auth::check() ? Auth::user()->id : 0,
-            'type'          =>$data[0]['value'],
-            'description'   =>$data[1]['value'],
-            'url'           =>$data[2]['value'],
-            //'picture'       =>$data[]['value'],
-            'contact'       =>$data[3]['value'],
+            'type'          =>$request->input('feedback'),
+            'description'   =>$request->input('description'),
+            'url'           =>$request->input('fb-url'),
+            //'picture'       $request->input('feedback'),
+            'contact'       =>$request->input('fb-contact'),
         ];
         $feedback_data = Feedback::create($feedback_data);
         if ($feedback_data) {

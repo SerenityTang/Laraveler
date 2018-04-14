@@ -559,7 +559,7 @@ class UserController extends Controller
                 ];
 
                 Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
-                    $message->subject('Laraveler 邮箱绑定验证');
+                    $message->subject('Laraveler - 中文领域的Laravel技术问答交流社区邮箱绑定验证');
                     $message->to($data['email']);
                 });
 
@@ -588,16 +588,25 @@ class UserController extends Controller
         $data = $request->all();
         $token = $data['v'];
 
-        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->first();
+        //Carbon::now()->subDay()：默认参数为1（天数），也就是获取昨天当前时刻
+        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->where('active', 1)->first();
         if ($user_activation) {
             $user_activation->active = 0;
-            $user_activation->save();
+            $bool = $user_activation->save();
+            if ($bool == true) {
+                $user = User::where('id', $user_activation->user_id)->first();
+                $user->email_status = 1;
+                $user->save();
+            }
 
             return view('user.partials.email_verify_callback')->with(['status' => 1]);
-        } else if ($user_activation->active == 0) {
-            return view('user.partials.email_verify_callback')->with(['status' => 2]);
         } else {
-            return view('user.partials.email_verify_callback')->with(['status' => 3]);
+            $u_a = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->first();
+            if (isset($u_a) && $u_a->active == 0) {
+                return view('user.partials.email_verify_callback')->with(['status' => 2]);
+            } else {
+                return view('user.partials.email_verify_callback')->with(['status' => 3]);
+            }
         }
     }
 
