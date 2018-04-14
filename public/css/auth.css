@@ -121,6 +121,6 @@ canvas{z-index:-1;position:absolute;}
 .auth .login-now span{color: #fff;}
 .auth .login-now span a{color: #53c6b0;}
 /*注册成功提示*/
-.auth .login-toptip {width: 340px;position: relative;top: -20px;left: -20px;padding-right: 0;margin-bottom: 0;}
+.auth .login-toptip {width: 340px;position: relative;top: -20px;left: -20px;/*padding-right: 0;*/margin-bottom: 0;}
 .auth .login-toptip .btn-close {top: -12px;}
-.auth .login-toptip p.message {font-size: 13px;}
+.auth .login-toptip p.message {font-size: 13px;text-align: center;}

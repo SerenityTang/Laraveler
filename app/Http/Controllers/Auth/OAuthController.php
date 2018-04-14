@@ -75,7 +75,6 @@ class OAuthController extends Controller
         $mobile = $request->input('mobile');
         $password = $request->input('password');
         $driver = $request->input('driver');
-        $redirect_uri = $request->input('redirect_uri');
         $rules = array(
             'username' => 'required|string|max:255|unique:user',
             'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
@@ -88,7 +87,7 @@ class OAuthController extends Controller
             return $this->jsonResult(502, $validator->errors());
         } else {
             if (Auth::check()) {
-                // 已登录，直接绑定
+                /*// 已登录，直接绑定
                 $openid = $request->input('oauth_id');
                 $driver = $request->input('oauth_type');
 
@@ -115,13 +114,12 @@ class OAuthController extends Controller
                     }
 
                     return redirect($redirect_uri ? $redirect_uri : 'setting');
-                }
+                }*/
             } else {
                 if ($password) {
                     //密码不为空则新建账户
                     $user_data = [
                         'username' => $username,
-                        'email' => 0,
                         'mobile' => $mobile,
                         'password' => bcrypt($password),
                         'user_status' => 1,
@@ -195,7 +193,7 @@ class OAuthController extends Controller
         switch ($driver) {
             case 'weibo':
                 $user->realname = $request->get('realname');
-                $user->email = is_null($request->get('email')) ? $user->email : $request->get('email');
+                $user->email = $request->get('email');
                 $user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->weibo_name = $request->get('nickname');
@@ -207,7 +205,7 @@ class OAuthController extends Controller
                 break;
             case 'github':
                 $user->realname = $request->get('realname');
-                $user->email = is_null($request->get('email')) ? $user->email : $request->get('email');
+                $user->email = $request->get('email');
                 $user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->github_name = $request->get('nickname');

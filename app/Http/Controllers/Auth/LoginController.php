@@ -42,6 +42,38 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => ['logout', 'oauth', 'callback']]);
     }
 
+    public function attemptLogin(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        // 验证用户名登录方式
+        $usernameLogin = $this->guard()->attempt(
+            ['username' => $username, 'password' => $password, 'user_status' => 1], $request->has('remember')
+        );
+        if ($usernameLogin) {
+            return true;
+        }
+
+        // 验证手机号登录方式
+        $mobileLogin = $this->guard()->attempt(
+            ['mobile' => $username, 'password' => $password, 'user_status' => 1], $request->has('remember')
+        );
+        if ($mobileLogin) {
+            return true;
+        }
+
+        // 验证邮箱登录方式
+        $emailLogin = $this->guard()->attempt(
+            ['email' => $username, 'password' => $password, 'user_status' => 1], $request->has('remember')
+        );
+        if ($emailLogin) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * 重写登录方法，把验证规则改写一并放里面
      *
@@ -62,8 +94,8 @@ class LoginController extends Controller
             return redirect('/login')->withInput()->withErrors($validator);
         } else {
 
-            $credentials = $this->credentials($request);    //从请求获取登录需要的字段
-            $credentials['user_status'] = 1;    //添加条件用户状态为 1
+            /*$credentials = $this->credentials($request);    //从请求获取登录需要的字段
+            $credentials['user_status'] = 1;    //添加条件用户状态为 1*/
 
             if ($this->hasTooManyLoginAttempts($request)) {
                 $this->fireLockoutEvent($request);
@@ -74,10 +106,10 @@ class LoginController extends Controller
             /*if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }*/
-            if ($this->guard()->attempt($credentials, $request->has('remember'))) {
+            if ($this->attemptLogin($request) == true) {
                 return $this->sendLoginResponse($request);      //登录成功，触发自带的登录监听，记录登录时间，返回成功登录；登出也类似触发登出监听
             } else {
-                return $this->error('/login', '抱歉，您的帐号被禁用无法登录，请联系管理员...');
+                return $this->error('/login', '抱歉，您输入用户名&密码错误或帐号被禁用，请检查登录信息或联系管理员...');
             }
 
             $this->incrementLoginAttempts($request);
@@ -93,10 +125,6 @@ class LoginController extends Controller
      */
     public function username()
     {
-        /*$account = request()->input('username');
-        if ($account) {
-            return Helpers::username($account);
-        }*/
         return 'username';
     }
 }

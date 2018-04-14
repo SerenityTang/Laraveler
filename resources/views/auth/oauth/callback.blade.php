@@ -11,7 +11,7 @@
             <div class="bind">
                 <form class="form-horizontal bs-example bs-example-form" role="form" method="POST" action="{{ url('/auth/bind') }}">
                     {{ csrf_field() }}
-                    {{--<input type="hidden" name="nickname" value="{{ $profile->nickname }}">
+                    <input type="hidden" name="nickname" value="{{ $profile->nickname }}">
                     <input type="hidden" name="realname" value="{{ $profile->realname }}">
                     <input type="hidden" name="avatar" value="{{ $profile->avatar }}">
                     <input type="hidden" name="gender" value="{{ $profile->gender }}">
@@ -24,13 +24,13 @@
                     <input type="hidden" name="oauth_expires" value="{{ $profile->oauth_expires }}">
                     <input type="hidden" name="driver" value="{{ $driver }}">
                     <input type="hidden" name="weibo" value="{{ $profile->weibo }}">
-                    <input type="hidden" name="github" value="{{ $profile->github }}">--}}
-                    {{--<input type="hidden" name="redirect_uri" value="{{ $redirect_uri }}">--}}
+                    <input type="hidden" name="github" value="{{ $profile->github }}">
+
                     <strong>完善基本资料</strong>
                     <em class="title-eng">Perfect The Info</em>
                     <div class="form-group form-group-bottom username">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名" value="{{--{{ $profile->nickname }}--}}">
+                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名" value="{{ $profile->nickname }}">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>

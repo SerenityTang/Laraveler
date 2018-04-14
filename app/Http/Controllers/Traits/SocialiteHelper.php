@@ -20,7 +20,7 @@ trait SocialiteHelper
 
     public function oauth($driver)
     {
-        return view('auth.oauth.callback');
+        //return view('auth.oauth.callback');
         $driver = !isset($this->oauthDrivers[$driver]) ? $this->oauthDrivers['weixin'] : $this->oauthDrivers[$driver];
 
         if (Auth::check()) {
