@@ -513,7 +513,7 @@ class UserController extends Controller
 
                     // 数据库保存 token
                     if ($user->activations){
-                        $user->activations()->update(['token' => $token, 'active' => 1]);
+                        $user->activations()->update(['token' => $token]);
                     } else {
                         $user->activations()->save(new UserActivation([
                             'token' => $token
@@ -538,15 +538,16 @@ class UserController extends Controller
         $data = $request->all();
         $token = $data['v'];
 
-        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()]);
+        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->first();
         if ($user_activation) {
             $user_activation->active = 0;
             $user_activation->save();
 
             return view('user.partials.email_verify_callback')->with(['status' => 1]);
-        } else {
-
+        } else if ($user_activation->active == 0) {
             return view('user.partials.email_verify_callback')->with(['status' => 2]);
+        } else {
+            return view('user.partials.email_verify_callback')->with(['status' => 3]);
         }
     }
 
