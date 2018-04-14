@@ -138,10 +138,12 @@ class OAuthController extends Controller
                             $this->unRegisterUserSave($request, $user->id, $driver);
 
                             Auth::login($user);
-                            return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
+                            //return $this->success('/', '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
+                            return $this->jsonResult(501, '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
                         }
                     } else {
-                        return $this->error(route('home'), '用户注册失败');
+                        //return $this->error('/', '用户注册失败');
+                        return $this->jsonResult(911);
                     }
                 } else {
                     //密码为空则为此账户绑定第三方账号
@@ -159,9 +161,11 @@ class OAuthController extends Controller
                         $this->registerUserSave($request, $user->id, $driver);
 
                         Auth::login($user);
-                        return $this->success(route('home'), '亲爱的' . $user->username . '，恭喜您成功绑定了社交账号 ^_^');
+                        //return $this->success('/', '亲爱的' . $user->username . '，恭喜您成功绑定了社交账号 ^_^');
+                        return $this->jsonResult(501, '亲爱的' . $user->username . '，恭喜您成功绑定了社交账号 ^_^');
                     } else {
-                        return $this->error(route('home'), '用户不存在');
+                        //return $this->error('/', '用户不存在');
+                        return $this->jsonResult(912);
                     }
 
                     //}

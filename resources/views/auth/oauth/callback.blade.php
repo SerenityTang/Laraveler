@@ -251,6 +251,24 @@
                             $('#username').parents('.username').find('.help-block em').html(res.message['username']);
                             $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
                             $('#captcha').parents('.captcha').find('.help-block em').html(res.message['captcha']);
+                        } else if (res.code == 501) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                                end : function(){
+                                    location.href='{{ url("/") }}';
+                                }
+                            });
+                        } else if (res.code == 911) {
+                            layer.msg(res.message, {
+                                icon: 2,
+                                time: 2000,
+                            });
+                        } else if (res.code == 912) {
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 2000,
+                            });
                         }
                     },
                     error: function () {
