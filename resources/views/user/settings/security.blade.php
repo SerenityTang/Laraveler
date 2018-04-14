@@ -56,7 +56,7 @@
 
     <script>
         $(function () {
-            $('.email-bind, .email-submit').click(function () {
+            $('.email-bind, .email-submit, mail-verify').click(function () {
                 $.ajax({
                     type: 'post',
                     url: '{{ url('/user/email_bind') }}',

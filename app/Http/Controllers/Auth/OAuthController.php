@@ -242,7 +242,7 @@ class OAuthController extends Controller
             case 'weibo':
                 $user->realname = is_null($user->realname) ? $request->get('realname') : $user->realname;
                 $user->email = is_null($user->email) ? $request->get('email') : $user->email;
-                $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
+                //$user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
                 $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
                 $user->weibo_name = is_null($user->weibo_name) ? $request->get('nickname') : $user->weibo_name;
                 $user->weibo_link = is_null($user->weibo_link) ? $request->get('weibo') : $user->weibo_link;
@@ -254,7 +254,7 @@ class OAuthController extends Controller
             case 'github':
                 $user->realname = is_null($user->realname) ? $request->get('realname') : $user->realname;
                 $user->email = is_null($user->email) ? $request->get('email') : $user->email;
-                $user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
+                //$user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
                 $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
                 $user->github_name = is_null($user->github_name) ? $request->get('nickname') : $user->github_name;
                 $user->github_link = is_null($user->github_link) ? $request->get('github') : $user->github_link;
