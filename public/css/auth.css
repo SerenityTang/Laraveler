@@ -46,7 +46,7 @@ canvas{z-index:-1;position:absolute;}
     -o-animation:rotate 21s infinite;
 }
 /*获取验证码按钮*/
-.auth .get-btn {background-color: #048f74; height: 40px;border: none;font-size: 15px;color: #f4f4f4;}
+.auth .get-btn {background-color: #048f74; height: 40px;border: none;font-size: 14px;color: #f4f4f4;}
 .auth .get-btn:hover {background:#0e8a70;color:#fff;}
 /*登录按钮*/
 .auth .log-btn {background-color: #048f74; height: 42px;border: none;font-size: 15px;color: #f4f4f4;}

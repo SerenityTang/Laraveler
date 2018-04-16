@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('title')
-    用户登录
+    用户登录 | @parent
 @stop
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}" />

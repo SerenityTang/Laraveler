@@ -168,6 +168,8 @@ return [
         //Laravel\Socialite\SocialiteServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Toplan\PhpSms\PhpSmsServiceProvider::class,
+        Toplan\Sms\SmsManagerServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -233,6 +235,8 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Baum' => Baum\Providers\BaumServiceProvider::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'PhpSms' => Toplan\PhpSms\Facades\Sms::class,
+        'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
     ],
 
 ];
