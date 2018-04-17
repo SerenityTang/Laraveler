@@ -153,5 +153,8 @@ return [
         'size' => '大小',
         'captcha' => '验证码',
         'm_code' => '手机验证码',
+        'verify_code' => '手机验证码',
+        'new_mobile' => '新手机号码',
+        'new_email' => '新邮箱地址',
     ],
 ];

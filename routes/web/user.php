@@ -42,7 +42,13 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
 
     /*账号安全*/
     Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);    //提交邮箱绑定
-    Route::post('/email_bind/send_verify', ['as' => 'user.email_bind.send_verify', 'uses' => 'UserController@send_verify']);    //提交邮箱绑定
+    Route::post('/email_bind/send_verify', ['as' => 'user.email_bind.send_verify', 'uses' => 'UserController@send_verify']);    //验证邮箱
+    Route::post('/verify_email', ['as' => 'user.verify_email', 'uses' => 'UserController@verify_email']);    //更换邮箱前验证
+
+    Route::post('/mobile_bind', ['as' => 'user.mobile_bind', 'uses' => 'UserController@mobile_bind']);    //提交手机绑定手机号
+    Route::post('/change_mobile_bind', ['as' => 'user.change_mobile_bind', 'uses' => 'UserController@change_mobile_bind']);    //提交更换手机绑定手机号
+    Route::post('/verify_mobile_code', ['as' => 'user.verify_mobile_code', 'uses' => 'UserController@verify_mobile_code']);    //提交手机绑定手机号
+    Route::post('/verify_mobile', ['as' => 'user.verify_mobile', 'uses' => 'UserController@verify_mobile']);    //更换手机前验证
 });
 
 

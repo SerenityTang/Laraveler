@@ -152,7 +152,7 @@ class RegisterController extends Controller
 
         //短信接口请求参数
         $appid = env('AppID');
-        $templateid = env('Template_Id');
+        $templateid = env('Template_Id_Register');
 
         $options['accountsid'] = env('Account_Sid');
         $options['token'] = env('Auth_Token');
@@ -166,7 +166,7 @@ class RegisterController extends Controller
             $verify_code .= random_int(0, 9);
         }
 
-        $param = "$verify_code, 5";
+        $param = "$verify_code,5";
 
         //发送短信前先删除此用户的短信验证码缓存
         if (Cache::has($mobile.'minute')) {
@@ -183,8 +183,8 @@ class RegisterController extends Controller
 
         if ($back_data['code'] == '000000') {
             //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
-            Cache::put($request->input('mobile'), $verify_code, 5);
-            Cache::put($request->input('mobile').'minute', 1, 1);
+            Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
+            Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
 
             return $this->jsonResult(900);
         } else {

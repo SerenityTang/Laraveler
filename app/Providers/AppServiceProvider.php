@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('validateCaptcha', function($attribute, $value) {
             return $value == strtolower(session('milkcaptcha'));
         });
-        //验证码手机规则
+        //验证码手机规则 $parameters：参数数组
         Validator::extend('validateMobile', function($attribute, $value, $parameters) {
             //通过传过来手机号参数获取验证码缓存
             $mobile_data = Cache::get($parameters[0]);
