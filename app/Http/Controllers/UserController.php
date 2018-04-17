@@ -9,6 +9,7 @@ use App\Models\Career_direction;
 use App\Models\Question;
 use App\Models\User_data;
 use App\Models\UserActivation;
+use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,8 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use SmsManager;
+use Cache;
 //use App\Services\OSS;
 
 class UserController extends Controller
@@ -455,10 +458,10 @@ class UserController extends Controller
     public function email_bind(Request $request)
     {
         if (Auth::check()) {
-            $email = $request->input('email');
+            $email = $request->input('new_email');
             $user_email = User::where('email', $email)->first();
             $rules = array(
-                'email' => 'required|string|email',
+                'new_email' => 'required|string|email',
             );
 
             $validator = Validator::make($request->all(), $rules);
@@ -607,6 +610,223 @@ class UserController extends Controller
             } else {
                 return view('user.partials.email_verify_callback')->with(['status' => 3]);
             }
+        }
+    }
+
+    /**
+     * 更换邮箱前验证
+     * @param Request $request
+     */
+    public function verify_email(Request $request)
+    {
+        if (Auth::check()) {
+            $email = $request->input('email');
+            $user = User::where('id', Auth::user()->id)->first();
+            //验证前先判断用户邮箱是否存在
+            if ($user->email) {
+                //用户邮箱存在，则验证邮箱
+                if (strcmp($user->email, $email) == 0) {
+                    return $this->jsonResult(890);
+                } else {
+                    return $this->jsonResult(891);
+                }
+            } else {
+                //用户邮箱不存在
+                return $this->jsonResult(892);
+            }
+        } else {
+            return $this->jsonResult(503);
+        }
+    }
+
+    /**
+     * 绑定手机号并发送验证码
+     * @param Request $request
+     */
+    public function mobile_bind(Request $request)
+    {
+        $data = $request->all();
+        $user = User::where('id', Auth::user()->id)->first();
+
+        //验证手机号
+        $validator = Validator::make($data, [
+            'mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else if (strcmp($user->mobile, $data['mobile']) != 0) {
+            //当前用户手机号与输入绑定手机号不相同，有可能用户换了注册手机号，此时需要查询输入绑定手机号是否存在，如存在，返回提示；不存在则往下保存并发送验证码
+            $user_mobile = User::where('mobile', $data['mobile'])->first();
+            if ($user_mobile) {
+                return $this->jsonResult(896);
+            }
+        } else {
+            //短信接口请求参数
+            $appid = env('AppID');
+            $templateid = env('Template_Id_Bind');
+
+            $options['accountsid'] = env('Account_Sid');
+            $options['token'] = env('Auth_Token');
+            $ucpass = new UcpaasAgent($options);
+
+            //获取手机号
+            $mobile = $data['mobile'];
+
+            $verify_code = '';
+            for ($i = 0; $i < 6; $i++) {
+                $verify_code .= random_int(0, 9);
+            }
+
+            $param = "$verify_code,5";
+
+            //发送短信前先删除此用户的短信验证码缓存
+            if (Cache::has($mobile.'minute')) {
+                return $this->jsonResult(899);
+            } else {
+                Cache::forget($mobile);
+                Cache::forget($mobile.'minute');
+            }
+
+            //发送短信验证码
+            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+            //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+            $back_data = json_decode($data, true);
+
+            if ($back_data['code'] == '000000') {
+                //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+                Cache::put($request->input('mobile'), $verify_code, 5);
+                Cache::put($request->input('mobile').'minute', 1, 1);
+
+                return $this->jsonResult(900);
+            } else {
+                //发送失败
+                return $this->jsonResult(901);
+            }
+        }
+    }
+
+    /**
+     * 更换绑定手机号并发送验证码
+     * @param Request $request
+     */
+    public function change_mobile_bind(Request $request)
+    {
+        $data = $request->all();
+        $user_mobile = User::where('mobile', $data['new_mobile'])->first();
+        //验证手机号
+        $validator = Validator::make($data, [
+            'new_mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else if ($user_mobile) {
+            //如存在，返回提示；不存在则往下保存并发送验证码
+            return $this->jsonResult(896);
+        } else {
+            //短信接口请求参数
+            $appid = env('AppID');
+            $templateid = env('Template_Id_Change');
+
+            $options['accountsid'] = env('Account_Sid');
+            $options['token'] = env('Auth_Token');
+            $ucpass = new UcpaasAgent($options);
+
+            //获取手机号
+            $mobile = $data['new_mobile'];
+
+            $verify_code = '';
+            for ($i = 0; $i < 6; $i++) {
+                $verify_code .= random_int(0, 9);
+            }
+
+            $param = "$verify_code,5";
+
+            //发送短信前先删除此用户的短信验证码缓存
+            if (Cache::has($mobile.'minute')) {
+                return $this->jsonResult(899);
+            } else {
+                Cache::forget($mobile);
+                Cache::forget($mobile.'minute');
+            }
+
+            //发送短信验证码
+            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+            //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+            $back_data = json_decode($data, true);
+
+            if ($back_data['code'] == '000000') {
+                //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+                Cache::put($request->input('new_mobile'), $verify_code, 5);
+                Cache::put($request->input('new_mobile').'minute', 1, 1);
+
+                return $this->jsonResult(900);
+            } else {
+                //发送失败
+                return $this->jsonResult(901);
+            }
+        }
+    }
+
+    /**
+     * 验证用户提交的手机验证码
+     * @param Request $request
+     */
+    public function verify_mobile_code(Request $request)
+    {
+        $data = $request->all();
+        //验证手机验证码
+        $validator = Validator::make($data, [
+            'verify_code' => 'required|validateMobile:'.$data['mobile'],
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else {
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->mobile = $data['mobile'];
+            $user->mobile_status = 1;
+            $bool = $user->save();
+
+            if ($bool == true) {
+                //绑定成功，删除此用户的短信验证码缓存
+                Cache::forget($data['mobile']);
+                Cache::forget($data['mobile'].'minute');
+
+                return $this->jsonResult(898, '恭喜您，手机号码绑定成功 ^_^', $user->username);
+            } else {
+                return $this->jsonResult(897);
+            }
+        }
+    }
+
+    /**
+     * 更换手机前验证
+     * @param Request $request
+     */
+    public function verify_mobile(Request $request)
+    {
+        if (Auth::check()) {
+            $old_mobile = $request->input('old_mobile');
+            $user = User::where('id', Auth::user()->id)->first();
+            //验证前先判断用户手机号码是否存在
+            if ($user->mobile) {
+                //用户手机号码存在，则验证号码
+                if (strcmp($user->mobile, $old_mobile) == 0) {
+                    return $this->jsonResult(893);
+                } else {
+                    return $this->jsonResult(894);
+                }
+            } else {
+                //用户手机号码不存在
+                return $this->jsonResult(895);
+            }
+        } else {
+            return $this->jsonResult(503);
         }
     }
 

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('title')
-    用户注册
+    用户注册 | @parent
 @stop
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}" />
@@ -23,6 +23,10 @@
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('username') }}</em>
                             </span>
+                        @else
+                            <span class="help-block help-block-clear username">
+                                <em></em>
+                            </span>
                         @endif
                     </div>
 
@@ -35,17 +39,25 @@
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('password') }}</em>
                             </span>
+                        @else
+                            <span class="help-block help-block-clear password">
+                                <em></em>
+                            </span>
                         @endif
                     </div>
 
                     <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon p-icon{{ $errors->has('password_confirmation') ? ' p-icon-clear' : '' }}"><i class="fa fa-lock fa-fw"></i></span>
-                            <input type="password" id="password_confirm" class="form-control text{{ $errors->has('password_confirmation') ? ' text-clear' : '' }}" name="password_confirmation" placeholder="确认密码">
+                            <input type="password" id="password_confirmation" class="form-control text{{ $errors->has('password_confirmation') ? ' text-clear' : '' }}" name="password_confirmation" placeholder="确认密码">
                         </div>
                         @if ($errors->has('password_confirmation'))
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('password_confirmation') }}</em>
+                            </span>
+                        @else
+                            <span class="help-block help-block-clear password_confirmation">
+                                <em></em>
                             </span>
                         @endif
                     </div>
@@ -69,27 +81,31 @@
                     <div class="form-group">
                         <div class="input-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
                             <span class="input-group-addon m-icon{{ $errors->has('mobile') ? ' m-icon-clear' : '' }}"><i class="fa fa-mobile-phone fa-fw fa-lg"></i></span>
-                            <input type="text" id="mobile" class="form-control text{{ $errors->has('mobile') ? ' text-clear' : '' }}" name="mobile" placeholder="手机号" value="{{ old('mobile') }}">
+                            <input type="text" id="mobile" name="mobile" class="form-control text{{ $errors->has('mobile') ? ' text-clear' : '' }}" placeholder="手机号" value="{{ old('mobile') }}">
                         </div>
                         @if ($errors->has('mobile'))
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('mobile') }}</em>
                             </span>
+                        @else
+                            <span class="help-block help-block-clear mobile">
+                                <em></em>
+                            </span>
                         @endif
                     </div>
 
-                    {{--<div class="form-group">
+                    <div class="form-group">
                         <div class="input-group{{ $errors->has('m_code') ? ' has-error' : '' }}">
                             <span class="input-group-addon c-icon{{ $errors->has('m_code') ? ' c-icon-clear' : '' }}"><i class="fa fa-comment fa-fw"></i></span>
-                            <input type="text" id="m_code" class="form-control text c-text{{ $errors->has('m_code') ? ' text-clear' : '' }}" name="m_code" style="width: 180px;" maxlength="5" placeholder="验证码" autocomplete="off">&nbsp;
-                            <button  id="get-code" type="button" class="btn btn-success btn-flat get-btn" style="width: 105px;">获取验证码</button>
+                            <input type="text" id="m_code" class="form-control text c-text{{ $errors->has('m_code') ? ' text-clear' : '' }}" name="m_code" style="width: 160px;" maxlength="6" placeholder="验证码" autocomplete="off">&nbsp;
+                            <button id="sendVerifySmsButton" type="button" class="btn btn-success btn-flat get-btn" style="width: 128px;">获取验证码</button>
                         </div>
                         @if ($errors->has('m_code'))
                             <span class="help-block help-block-clear">
                                 <em>{{ $errors->first('m_code') }}</em>
                             </span>
                         @endif
-                    </div>--}}
+                    </div>
 
                     <div class="form-group">
                         <div class="submit-btn">
@@ -118,8 +134,9 @@
 @stop
 
 @section('footer')
-    {{--粒子背景插件及效果--}}
     <script src="{{asset('libs/particleground/jquery.particleground.min.js')}}"></script>
+    {{--粒子背景插件及效果--}}
+    <script src="{{asset('js/laravel-sms.js')}}"></script>
     <script>
         $(document).ready(function() {
             //粒子背景特效
@@ -130,26 +147,133 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            var time = 10;
-            var timer;
-            function showTime() {
-                if (time < 1) {
-                    clearTimeout(timer);
-                    $('#get-code').attr('disabled', false);
-                    $('#get-code').html('重新获取');
-                    return false;
-                } else {
-                    time--;
-                    $('#get-code').html('请稍后'+ time +'s');
-                    //document.getElementById('get-code').innerHTML = '请稍后'+ time +'s';
-                }
-                timer = setTimeout(showTime, 1000);
-            }
-            $('#get-code').on('click', function () {
-                $(this).attr('disabled', true);
-                showTime();
+        //聚焦隐藏错误提示
+        $(function () {
+            $('#username').focus(function () {
+                $('.username em').html('');
+                //$(this).val('');
+            });
+            $('#password').focus(function () {
+                $('.password em').html('');
+                //$(this).val('');
+            });
+            $('#password_confirmation').focus(function () {
+                $('.password_confirmation em').html('');
+                //$(this).val('');
+            });
+            $('#mobile').focus(function () {
+                $('.mobile em').html('');
+                //$(this).val('');
             });
         });
+    </script>
+    <script>
+        //获取验证码
+        $(function () {
+            $('#sendVerifySmsButton').click(function () {
+                var self = $(this);
+                var opts = $.extend(true, {}, $.fn.sms.defaults);
+
+                changeBtn(opts.language.sending, true);
+                send(opts);
+            });
+
+            /*function btnOriginCon() {
+                var btnOriginContent = self.html() || self.val() || '';
+                return btnOriginContent;
+            }*/
+
+            //发送验证码后返回状态
+            function send(opts) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ url('note_verify_code') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'mobile': $('#mobile').val(),
+                        'username': $('#username').val(),
+                        'password': $('#password').val(),
+                        'password_confirmation': $('#password_confirmation').val(),
+                    },
+                    cache: false,
+                    success: function (res) {
+                        if (res.code == 502) {
+                            //console.log(res.message)
+                            $('.mobile em').html(res.message['mobile']);
+                            $('.username em').html(res.message['username']);
+                            $('.password em').html(res.message['password']);
+                            $('.password_confirmation em').html(res.message['password_confirmation']);
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 900) {
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                            });
+                            timer(opts.interval);
+                        } else if (res.code == 901) {
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 2000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 899) {
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 3000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                });
+            }
+
+            //倒计时
+            function timer(seconds) {
+                var timeId;
+                var opts = $.extend(true, {}, $.fn.sms.defaults);
+                var btnText = opts.language.resendable;
+                btnText = typeof btnText === 'string' ? btnText : '';
+                if (seconds < 0) {
+                    clearTimeout(timeId);
+                    changeBtn(opts.language.oricon, false);
+                } else {
+                    timeId = setTimeout(function() {
+                        clearTimeout(timeId);
+                        changeBtn(btnText.replace('60 秒后再次获取', (seconds--) + ' 秒后再次获取'), true);
+                        timer(seconds);
+                    }, 1000);
+                }
+            }
+
+            //发送验证码按钮
+            function changeBtn(content, disabled) {
+                $('#sendVerifySmsButton').html(content);
+                $('#sendVerifySmsButton').val(content);
+                $('#sendVerifySmsButton').prop('disabled', !!disabled);
+            }
+        });
+
+        $.fn.sms.defaults = {
+            token       : null,
+            interval    : 60,
+            voice       : false,
+            requestUrl  : null,
+            requestData : null,
+            notify      : function (msg, type) {
+                alert(msg);
+            },
+            language    : {
+                oricon     : '获取验证码',
+                sending    : '短信发送中...',
+                failed     : '请求失败，请重试',
+                resendable : '60 秒后再次获取'
+            }
+        };
     </script>
 @stop
