@@ -21,6 +21,7 @@ require __DIR__ . '/web/comment.php';
 require __DIR__.'/web/image.php';
 require __DIR__.'/web/user.php';
 require __DIR__.'/web/authentication.php';
+require __DIR__.'/api.php';
 
 //框架自带欢迎页
 /*Route::get('/', function () {

@@ -8,7 +8,7 @@
 
 return [
     'keywords' => env('KEYWORDS', 'Laraveler, php, Laravel, php问答, Laravel问答, Laraveler问答, php博客, Laravel博客, Laraveler博客'),
-    'description' => env('DESC', 'Laraveler技术问答交流社区平台聚集了优秀的Laravel开发者，致力于为国内广大Laravel程序员打造一个互助、交流、分享的开源社区'),
+    'description' => env('DESC', 'Laraveler技术问答交流社区平台聚集了优秀的Laravel开发者，致力于为国内广大Laravel程序员打造一个交流、互助、分享的开源社区'),
     'author' => env('AUTHOR', 'Serenity_Tang'),
     'title' => env('TITLE', 'Laraveler - 中文领域的Laravel技术问答交流社区'),
     /*
