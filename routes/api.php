@@ -17,6 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['prefix' => 'weixin'], function() {
-    Route::any('/token', ['as' => 'wechat.token', 'Api\WeixinController@token']);
-    Route::any('/api', ['as' => 'wechat.api', 'Api\WeixinController@api']);
+    Route::any('/token', ['as' => 'weixin.token', 'Api\WeixinController@token']);
+    Route::any('/api', ['as' => 'weixin.api', 'Api\WeixinController@api']);
 });
