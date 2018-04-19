@@ -50,7 +50,7 @@ class AnswerController extends Controller
                 return $this->success(route('question.show', ['id' => $question_id]), '回复成功^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -123,7 +123,7 @@ class AnswerController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -164,7 +164,7 @@ class AnswerController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -185,6 +185,6 @@ class AnswerController extends Controller
             $answers = Answer::where('question_id', $id)->where('status', 1)->orderBy('support_count', 'DESC')->get();
         }
 
-        return view('question.parts.answer')->with(['answers' => $answers, 'question' => $question]);
+        return view('pc.question.parts.answer')->with(['answers' => $answers, 'question' => $question]);
     }
 }

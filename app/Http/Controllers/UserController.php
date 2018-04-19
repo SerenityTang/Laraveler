@@ -43,7 +43,7 @@ class UserController extends Controller
             Event::fire(new HomepageViewEvent($user_data));
         }
 
-        return view('user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的问答
@@ -55,7 +55,7 @@ class UserController extends Controller
         //获取用户问答
         $questions = $user->questions;
 
-        return view('user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
+        return view('pc.user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
     }
 
     //用户个人主页之我的回复
@@ -65,7 +65,7 @@ class UserController extends Controller
         //获取用户回答
         $answers = $user->answers;
 
-        return view('user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
+        return view('pc.user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
     }
 
     //用户个人主页之我的文章
@@ -75,7 +75,7 @@ class UserController extends Controller
         //获取用户博客
         $blogs = $user->blogs;
 
-        return view('user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
+        return view('pc.user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
     }
 
     //用户个人主页之我的关注
@@ -89,7 +89,7 @@ class UserController extends Controller
         //关注的问答
         $atte_ques = $user->atte_ques;
 
-        return view('user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
+        return view('pc.user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
     }
 
     //用户个人主页之我的粉丝
@@ -98,7 +98,7 @@ class UserController extends Controller
         $user_data = User_data::where('user_id', $user->id)->first();
         $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
 
-        return view('user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
+        return view('pc.user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
     }
 
     //用户个人主页之我的支持
@@ -115,7 +115,7 @@ class UserController extends Controller
         //点赞的博客
         $like_blogs = $user->like_blog;
 
-        return view('user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
+        return view('pc.user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
     }
 
     //用户个人主页之我的收藏
@@ -129,7 +129,7 @@ class UserController extends Controller
         //收藏的问答
         $coll_ques = $user->coll_ques;
 
-        return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
+        return view('pc.user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
     }
 
     //用户个人主页之我的草稿
@@ -143,7 +143,7 @@ class UserController extends Controller
         //博客草稿
         $blogs = Blog::where('user_id', $user->id)->where('status', 2)->get();
 
-        return view('user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
+        return view('pc.user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
     }
 
     //用户个人主页之关注用户
@@ -191,49 +191,49 @@ class UserController extends Controller
     public function settings(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
+        return view('pc.user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
     }
 
     //用户个人设置之实名认证
     public function authenticate(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.authenticate')->with(['user' => $user]);
+        return view('pc.user.settings.authenticate')->with(['user' => $user]);
     }
 
     //用户个人设置之密码修改
     public function edit_password(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.edit_password')->with(['user' => $user]);
+        return view('pc.user.settings.edit_password')->with(['user' => $user]);
     }
 
     //用户个人设置之通知私信
     public function edit_notify(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.edit_notify')->with(['user' => $user]);
+        return view('pc.user.settings.edit_notify')->with(['user' => $user]);
     }
 
     //用户个人设置之账号安全
     public function security(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.security')->with(['user' => $user]);
+        return view('pc.user.settings.security')->with(['user' => $user]);
     }
 
     //用户个人设置之账号绑定
     public function bindsns(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.bindsns')->with(['user' => $user]);
+        return view('pc.user.settings.bindsns')->with(['user' => $user]);
     }
 
     //用户个人设置之职业状态
     public function career_status(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.partials.career_status')->with(['user' => $user]);
+        return view('pc.user.partials.career_status')->with(['user' => $user]);
     }
 
     /**
@@ -308,7 +308,7 @@ class UserController extends Controller
             $cur_user->save();
             return $this->success(route('user.settings', ['username' => $user->username]),'个人信息修改成功！！！');
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -447,7 +447,7 @@ class UserController extends Controller
                 return $this->success(route('login'), '密码修改成功，请重新登录...');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -530,7 +530,7 @@ class UserController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -578,7 +578,7 @@ class UserController extends Controller
                 return $this->jsonResult(909, '一封验证邮件已发送至'. $email .'，请前往此邮箱进行验证 ^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -602,13 +602,13 @@ class UserController extends Controller
                 $user->save();
             }
 
-            return view('user.partials.email_verify_callback')->with(['status' => 1]);
+            return view('pc.user.partials.email_verify_callback')->with(['status' => 1]);
         } else {
             $u_a = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->first();
             if (isset($u_a) && $u_a->active == 0) {
-                return view('user.partials.email_verify_callback')->with(['status' => 2]);
+                return view('pc.user.partials.email_verify_callback')->with(['status' => 2]);
             } else {
-                return view('user.partials.email_verify_callback')->with(['status' => 3]);
+                return view('pc.user.partials.email_verify_callback')->with(['status' => 3]);
             }
         }
     }
@@ -865,7 +865,7 @@ class UserController extends Controller
             ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
             ->take(10)->get();
 
-        return view('user.partials.active_rank')->with(['active_users' => $active_users]);
+        return view('pc.user.partials.active_rank')->with(['active_users' => $active_users]);
     }
 
     /**
@@ -881,6 +881,6 @@ class UserController extends Controller
             ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
             ->take(10)->get();
 
-        return view('user.partials.credit_rank')->with(['credit_users' => $credit_users]);
+        return view('pc.user.partials.credit_rank')->with(['credit_users' => $credit_users]);
     }
 }

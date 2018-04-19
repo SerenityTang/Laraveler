@@ -48,7 +48,7 @@ class HomeController extends Controller
         //热门标签
         $tags = Tag::where('status', 1)->get();
 
-        return view('home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
+        return view('pc.home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
     }
 
     /**
@@ -75,7 +75,7 @@ class HomeController extends Controller
      */
     public function about()
     {
-        return view('footer.about');
+        return view('pc.footer.about');
     }
 
     /**
@@ -83,7 +83,7 @@ class HomeController extends Controller
      */
     public function contact()
     {
-        return view('footer.contact');
+        return view('pc.footer.contact');
     }
 
     /**
@@ -91,6 +91,6 @@ class HomeController extends Controller
      */
     public function help()
     {
-        return view('footer.help');
+        return view('pc.footer.help');
     }
 }

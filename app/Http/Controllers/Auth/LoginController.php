@@ -42,6 +42,16 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => ['logout', 'oauth', 'callback']]);
     }
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        return view('pc.auth.login');
+    }
+
     public function attemptLogin(Request $request)
     {
         $username = $request->input('username');

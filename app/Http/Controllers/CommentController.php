@@ -46,10 +46,10 @@ class CommentController extends Controller
                 //用户评论数+1
                 $user_data->increment('comment_count');
 
-                return view('comment.comment_part_item')->with(['comment' => $comment]);
+                return view('pc.comment.comment_part_item')->with(['comment' => $comment]);
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -86,7 +86,7 @@ class CommentController extends Controller
                 return $this->success(route('blog.show', ['id' => $blog_id]), '评论成功^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -124,10 +124,10 @@ class CommentController extends Controller
                 //用户评论数+1
                 $user_data->increment('comment_count');
 
-                return view('comment.comment_child_blog')->with(['mutual_comment' => $mutual_comment]);
+                return view('pc.comment.comment_child_blog')->with(['mutual_comment' => $mutual_comment]);
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -142,7 +142,7 @@ class CommentController extends Controller
         $answer = Answer::where('id', $commentable_id)->first();
         $comments = Comment::where('commentable_id', $commentable_id)->where('commentable_type', get_class($answer))->orderBy('created_at','asc')->get();
 
-        return view('comment.comment_part')->with(['comments' => $comments, 'commentable_id' => $commentable_id, 'commentable_type' => $commentable_type, 'answer' => $answer]);
+        return view('pc.comment.comment_part')->with(['comments' => $comments, 'commentable_id' => $commentable_id, 'commentable_type' => $commentable_type, 'answer' => $answer]);
     }
 
     /**
@@ -192,7 +192,7 @@ class CommentController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 

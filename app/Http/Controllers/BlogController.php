@@ -42,9 +42,9 @@ class BlogController extends Controller
         }
 
         if (!isset($hot_tags)) {
-            return view('blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs]);
+            return view('pc.blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs]);
         }
-        return view('blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs, 'hot_tags' => $hot_tags]);
+        return view('pc.blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs, 'hot_tags' => $hot_tags]);
     }
 
     /**
@@ -56,7 +56,7 @@ class BlogController extends Controller
     {
         $tags = Tag::where('status', 1)->get();
 
-        return view('blog.create')->with(['tags' => $tags]);
+        return view('pc.blog.create')->with(['tags' => $tags]);
     }
 
     /**
@@ -106,7 +106,7 @@ class BlogController extends Controller
                 return $this->error('/blog', '发布博客失败^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -154,7 +154,7 @@ class BlogController extends Controller
                 return $this->jsonResult(502, '保存草稿失败^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -185,7 +185,7 @@ class BlogController extends Controller
             $query->whereIn('tag_id', $tag_id);
         })->where('status', 1)->orderBy('created_at','DESC')->take(8)->get();
 
-        return view('blog.show')->with(['blog' => $blog, 'other_blogs' => $other_blogs, 'correlation_blogs' => $correlation_blogs]);
+        return view('pc.blog.show')->with(['blog' => $blog, 'other_blogs' => $other_blogs, 'correlation_blogs' => $correlation_blogs]);
     }
 
     /**
@@ -206,7 +206,7 @@ class BlogController extends Controller
             $comments = Comment::where('commentable_id', $id)->where('commentable_type', get_class($blog))->where('status', 1)->where('depth', 0)->orderBy('support_count', 'DESC')->get();
         }
 
-        return view('blog.parts.blog_comment')->with(['comments' => $comments]);
+        return view('pc.blog.parts.blog_comment')->with(['comments' => $comments]);
     }
 
     /**
@@ -230,10 +230,10 @@ class BlogController extends Controller
         if (Auth::check()) {
             $user_data = User_data::where('user_id', Auth::user()->id)->first();
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
 
-        return view('blog.edit')->with(['blog' => $blog, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
+        return view('pc.blog.edit')->with(['blog' => $blog, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
     }
 
     /**
@@ -268,7 +268,7 @@ class BlogController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -365,7 +365,7 @@ class BlogController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -411,7 +411,7 @@ class BlogController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 }

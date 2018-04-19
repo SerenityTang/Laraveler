@@ -25,7 +25,7 @@ class SearchController extends Controller
             $ques_searchs = Question::search($keyword)->get();
             //搜索博客
             $blog_searchs = Blog::search($keyword)->get();
-            return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
+            return view('pc.search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
         } else {
             $keyword = $_GET['q'];
             switch ($filter) {
@@ -35,17 +35,17 @@ class SearchController extends Controller
                     //搜索博客
                     $blog_searchs = Blog::search($keyword)->get();
 
-                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
+                    return view('pc.search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs, 'blog_searchs' => $blog_searchs]);
                 case 'question':
                     //搜索问答
                     $ques_searchs = Question::search($keyword)->get();
 
-                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs]);
+                    return view('pc.search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'ques_searchs' => $ques_searchs]);
                 case 'blog':
                     //搜索博客
                     $blog_searchs = Blog::search($keyword)->get();
 
-                    return view('search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'blog_searchs' => $blog_searchs]);
+                    return view('pc.search.show')->with(['filter' => $filter, 'keyword' => $keyword, 'blog_searchs' => $blog_searchs]);
             }
         }
     }

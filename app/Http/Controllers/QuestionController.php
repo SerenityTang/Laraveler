@@ -58,21 +58,21 @@ class QuestionController extends Controller
             $end = Carbon::now()->addDays(7 - $week);
         }
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
+            ->where('user.user_status','>',0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
             ->orderBy('user_datas.answer_count','DESC')
             ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
             ->take(9)->get();
 
         if (!isset($new_answer_questions) && !isset($hot_tags)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users]);
+            return view('pc.question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users]);
         } else if (!isset($hot_tags)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users]);
+            return view('pc.question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users]);
         } else if (!isset($new_answer_questions)) {
-            return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'hot_tags' => $hot_tags, 'warm_users' => $warm_users]);
+            return view('pc.question.index')->with(['questions' => $questions, 'filter' => $filter, 'hot_tags' => $hot_tags, 'warm_users' => $warm_users]);
         }
 
-        return view('question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);
+        return view('pc.question.index')->with(['questions' => $questions, 'filter' => $filter, 'new_answer_questions' => $new_answer_questions, 'warm_users' => $warm_users, 'hot_tags' => $hot_tags]);
     }
 
     /**
@@ -86,10 +86,10 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user_data = User_data::where('user_id', Auth::user()->id)->first();
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
 
-        return view('question.create')->with(['tags' => $tags, 'user_data' => $user_data]);
+        return view('pc.question.create')->with(['tags' => $tags, 'user_data' => $user_data]);
     }
 
     /**
@@ -138,7 +138,7 @@ class QuestionController extends Controller
                 return $this->error('/question', '发布问答失败^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -185,7 +185,7 @@ class QuestionController extends Controller
                 return $this->jsonResult(502, '保存草稿失败^_^');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -221,10 +221,10 @@ class QuestionController extends Controller
         if ($question->question_status == 2 && $answers != null) {
             $best_answer = $answers->where('adopted_at', '>', '0')->first();
         } else {
-            return view('question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
+            return view('pc.question.show')->with(['question' => $question, 'answers' => $answers, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
         }
 
-        return view('question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
+        return view('pc.question.show')->with(['question' => $question, 'answers' => $answers, 'best_answer' => $best_answer, 'other_ques' => $other_ques, 'correlation_ques' => $correlation_ques]);
     }
 
     /**
@@ -238,7 +238,7 @@ class QuestionController extends Controller
         $best_answer = Answer::where('id', $id)->first();
         $question = Question::where('id', $best_answer->question_id)->first();
         if ($best_answer) {
-            return view('question.parts.best_answer')->with(['best_answer' => $best_answer, 'question' => $question]);
+            return view('pc.question.parts.best_answer')->with(['best_answer' => $best_answer, 'question' => $question]);
         }
     }
 
@@ -263,10 +263,10 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user_data = User_data::where('user_id', Auth::user()->id)->first();
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
 
-        return view('question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
+        return view('pc.question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
     }
 
     /**
@@ -298,7 +298,7 @@ class QuestionController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -376,7 +376,7 @@ class QuestionController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -422,7 +422,7 @@ class QuestionController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -468,7 +468,7 @@ class QuestionController extends Controller
                 }
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -481,7 +481,7 @@ class QuestionController extends Controller
     public function day_sort()
     {
         $day_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereDate('updated_at', date('Y-m-d'))->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
-        return view('question.parts.day_sort')->with(['day_hot_questions' => $day_hot_questions]);
+        return view('pc.question.parts.day_sort')->with(['day_hot_questions' => $day_hot_questions]);
     }
 
     /**
@@ -502,7 +502,7 @@ class QuestionController extends Controller
         }
 
         $week_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereBetween('updated_at', [$start, $end])->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
-        return view('question.parts.week_sort')->with(['week_hot_questions' => $week_hot_questions]);
+        return view('pc.question.parts.week_sort')->with(['week_hot_questions' => $week_hot_questions]);
     }
 
     /**
@@ -518,7 +518,7 @@ class QuestionController extends Controller
         $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
 
         $month_hot_questions = Question::where('status', 1)->where('view_count', '>', 10)->whereBetween('updated_at', [$start, $end])->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate(15);
-        return view('question.parts.month_sort')->with(['month_hot_questions' => $month_hot_questions]);
+        return view('pc.question.parts.month_sort')->with(['month_hot_questions' => $month_hot_questions]);
     }
 
     /**
@@ -539,12 +539,12 @@ class QuestionController extends Controller
         }
 
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
             ->orderBy('user_datas.answer_count','DESC')
             ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
             ->take(9)->get();
-        return view('question.parts.warm_week')->with(['warm_users' => $warm_users]);
+        return view('pc.question.parts.warm_week')->with(['warm_users' => $warm_users]);
     }
 
     /**
@@ -560,11 +560,11 @@ class QuestionController extends Controller
         $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
 
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
+            ->where('user.user_status','>',0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
             ->orderBy('user_datas.answer_count','DESC')
             ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
             ->take(9)->get();
-        return view('question.parts.warm_month')->with(['warm_users' => $warm_users]);
+        return view('pc.question.parts.warm_month')->with(['warm_users' => $warm_users]);
     }
 }
