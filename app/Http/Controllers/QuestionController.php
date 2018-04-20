@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Browser;
 
 class QuestionController extends Controller
 {
@@ -63,6 +64,17 @@ class QuestionController extends Controller
             ->orderBy('user_datas.answer_count','DESC')
             ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
             ->take(9)->get();
+
+        if (Browser::isMobile()) {
+            $question = new Question();
+            $newest_ques = call_user_func([$question, 'newest']);
+            $hottest_ques = call_user_func([$question, 'hottest']);
+            $reward_ques = call_user_func([$question, 'reward']);
+            $unanswer_ques = call_user_func([$question, 'unanswer']);
+            $adopt_ques = call_user_func([$question, 'adopt']);
+
+            return view('mobile.question.index')->with(['newest_ques' => $newest_ques, 'hottest_ques' => $hottest_ques, 'reward_ques' => $reward_ques, 'unanswer_ques' => $unanswer_ques, 'adopt_ques' => $adopt_ques]);
+        }
 
         if (!isset($new_answer_questions) && !isset($hot_tags)) {
             return view('pc.question.index')->with(['questions' => $questions, 'filter' => $filter, 'warm_users' => $warm_users]);

@@ -103,7 +103,7 @@
                                                     <span class="time" title="{{ $new_blog->created_at }}">
                                                         {!! $new_blog->created_at !!}
                                                     </span>
-                                                    <span title="回答数" class="badge h_q_answer">{{ $new_blog->answer_count }}</span>
+                                                    <span title="浏览数" class="badge h_q_answer">{{ $new_blog->view_count }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -137,7 +137,7 @@
                                                     <span class="time" title="{{ $hot_blog->created_at }}">
                                                         {!! $hot_blog->created_at !!}
                                                     </span>
-                                                    <span title="回答数" class="badge h_q_answer">{{ $hot_blog->answer_count }}</span>
+                                                    <span title="浏览数" class="badge h_q_answer">{{ $hot_blog->view_count }}</span>
                                                 </div>
                                             </div>
                                         </li>

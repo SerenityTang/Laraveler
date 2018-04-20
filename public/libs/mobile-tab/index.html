@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--禁止缩放-->
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<title>tab拨动</title>
+
+<link href="images/font/font-awesome.css" rel="stylesheet" type="text/css"><!--字体图标-->
+<link href="css/public.css" rel="stylesheet" type="text/css"><!--默认共用样式-->
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<link rel="stylesheet" href="swiper/swiper.min.css">
+<script src="swiper/swiper.min.js"></script>
+<link href="css/page_style.css" rel="stylesheet" type="text/css"><!--页面所需样式-->
+
+
+
+<style type="text/css">
+
+/* 用户绑定拨动框架 */
+.my-pagination .swiper-pagination-bullet { text-align: center; border-radius: 0; opacity: 1; }
+.my-pagination ul { display: -webkit-box; }
+.my-pagination li { display: block; background: #fff; overflow: hidden; box-flex: 1; -moz-box-flex: 1; -webkit-box-flex: 1; height: 40px; line-height: 40px; position: relative; font-size: 15px; }
+.my-pagination li:after { position: absolute; top: auto; right: auto; bottom: 0; left: 0; z-index: 1; display: block; width: 100%; height: 1px; content: ''; background-color: #dcdcdc; -webkit-transform-origin: 50% 100%; transform-origin: 50% 100%; -webkit-transform: scaleY(.5) }
+.my-pagination .swiper-pagination-bullet-active { color: #21a4f4; }
+.my-pagination .swiper-pagination-bullet-active:after { opacity: 1; background-color: #21a4f4; height: 4px; }
+
+
+/* 用户绑定 */
+.user_zc_body { margin: 0px auto; overflow: hidden; background: #fff; }
+.user_zc_body ul { margin: 0 20px; overflow: hidden; }
+.user_zc_body li { background: #fff; overflow: hidden; padding: 10px 0; position: relative; }
+.user_zc_body li:last-child { margin-bottom: 0; }
+.user_zc_body li:after { content: ""; display: block; position: absolute; left: 0; bottom: 0; z-index: 1; width: 100%; height: 1px; background: #dcdcdc; -webkit-transform: scaleY(.5); }
+.user_zc_body .p_input { padding-left: 40px; position: relative; }
+.user_zc_body .p_input input { width: 100%; padding: 0; margin: 0; height: 40px; color: #444; font-size: 15px; }
+.user_zc_body .p_input em { position: absolute; left: 0; top: 0; z-index: 1; width: 40px; height: 40px; line-height: 40px; text-align: center; color: #6ecb09; font-size: 16px; }
+.user_zc_body .p_wjmm { margin: 20px; text-align: right; }
+.user_zc_body .p_input_sm { padding-right: 50px; }
+.user_zc_body .p_input_sm .sp_btn { display: inline-block; position: absolute; right: 5px; top: 5px; z-index: 1; width: 40px; height: 30px; line-height: 30px; text-align: center; background: #f4f4f4; color: #666; border-radius: 4px; font-size: 12px; }
+.user_zc_body .p_input_sm .sp_btn i { font-size: 24px; margin-top: 4px; line-height: 32px; }
+.user_zc_body .p_input_yzm { padding-right: 90px; }
+.user_zc_body .p_input_yzm .sp_btn { display: inline-block; position: absolute; right: 5px; top: 5px; z-index: 1; width: 80px; height: 30px; line-height: 30px; text-align: center; background: #288eff; color: #fff; border-radius: 4px; font-size: 12px; }
+.user_zc_body .p_input_yzm .sp_btn:active { background: #2686ef; }
+.user_zc_body .p_input_yzm .sp_btn_dx { right: 70px; }
+.user_zc_body .p_input_yzm .sp_btn.no_hit { color: #bbb; }
+.user_wj_pw { overflow: hidden; padding: 0 10px; }
+.user_zc_btn { padding: 20px; overflow: hidden; background: #fff; }
+.user_zc_btn .p_btn { overflow: hidden; }
+.user_zc_btn .p_btn a { display: block; height: 40px; line-height: 40px; text-align: center; color: #fff; border-radius: 4px; font-size: 16px; }
+.user_zc_btn .p_btn a.c_1 { background: #f15145; }
+.user_zc_btn .p_btn a.c_1:active { background: #e44d41; }
+.user_zc_btn .p_btn a.c_2 { background: #00cfbe; }
+.user_zc_btn .p_btn a.c_2:active { background: #00c3b3; }
+.user_zc_btn .p_btn a.c_3 { background: #288eff; }
+.user_zc_btn .p_btn a.c_3:active { background: #2686ef; }
+.user_zc_btn .p_btn a.c_4 { background: #6ecb09; }
+.user_zc_btn .p_btn a.c_4:active { background: #66bc08; }
+</style>
+
+
+</head>
+
+<body ontouchstart>
+
+
+
+<div class="swiper-container">
+	<div class="my-pagination"><ul class="my-pagination-ul"></ul></div>
+	<div class="swiper-wrapper">
+    	
+		<div class="swiper-slide">
+        	<!--手机绑定GO-->
+        	<div class="user_zc_body">
+                <ul>
+                    
+                    <li>
+                        <p class="p_input"><em class="fa fa-tablet" style="font-size:18px;"></em><input type="tel" placeholder="请输入手机号"></p>
+                    </li>
+                    <li>
+                        <p class="p_input p_input_yzm"><em class="fa  fa-envelope" style="font-size:14px;"></em><input type="text" placeholder="请输入验证码"><span class="sp_btn">获取验证码</span></p>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="user_zc_btn"><p class="p_btn"><a href="#" class="c_4">立即绑定</a></p></div>
+            
+            <!--手机绑定END-->
+            
+        </div>
+        
+        
+		<div class="swiper-slide">
+        
+        	<!--固话绑定GO-->
+        	<div class="user_zc_body">
+                <ul>
+                    
+                    <li>
+                        <p class="p_input"><em class="fa fa-user" style=""></em><input type="text" placeholder="客户号 / 开户人姓名"></p>
+                    </li>
+                    <li>
+                        <p class="p_input "><em class="fa fa-lock"></em><input type="text" placeholder="服务密码 / 开户人身份证号"></p>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="user_zc_btn"><p class="p_btn"><a href="#" class="c_4">立即绑定</a></p></div>
+            
+            <!--固话绑定END-->
+        
+        </div>
+        <div class="swiper-slide">
+        
+            <!--固话绑定GO-->
+            <div class="user_zc_body">
+                <ul>
+                    
+                    <li>
+                        <p class="p_input"><em class="fa fa-user" style=""></em><input type="text" placeholder="客户号 / 开户人姓名"></p>
+                    </li>
+                    <li>
+                        <p class="p_input "><em class="fa fa-lock"></em><input type="text" placeholder="服务密码 / 开户人身份证号"></p>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="user_zc_btn"><p class="p_btn"><a href="#" class="c_4">立即绑定</a></p></div>
+            
+            <!--固话绑定END-->
+        
+        </div>
+        <div class="swiper-slide">
+        
+            <!--固话绑定GO-->
+            <div class="user_zc_body">
+                <ul>
+                    
+                    <li>
+                        <p class="p_input"><em class="fa fa-user" style=""></em><input type="text" placeholder="客户号 / 开户人姓名"></p>
+                    </li>
+                    <li>
+                        <p class="p_input "><em class="fa fa-lock"></em><input type="text" placeholder="服务密码 / 开户人身份证号"></p>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="user_zc_btn"><p class="p_btn"><a href="#" class="c_4">立即绑定</a></p></div>
+            
+            <!--固话绑定END-->
+        
+        </div>
+
+	</div>
+</div>
+
+<script> 
+var mySwiper = new Swiper('.swiper-container',{
+pagination: '.my-pagination-ul',
+paginationClickable: true,
+paginationBulletRender: function (index, className) {
+switch (index) {
+  case 0: name='手机';break;
+  case 1: name='固话';break;
+  case 2: name='你好';break;
+  case 3: name='我好';break;
+  default: name='';
+}
+      return '<li class="' + className + '">' + name + '</li>';
+  }
+})
+</script>
+
+
+
+</body>
+
+</html>

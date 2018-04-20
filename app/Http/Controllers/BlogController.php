@@ -13,6 +13,7 @@ use App\Models\User_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Browser;
 
 class BlogController extends Controller
 {
@@ -41,9 +42,18 @@ class BlogController extends Controller
             $hot_tags = array_unique($tags);
         }
 
+        if (Browser::isMobile()) {
+            $blog = new Blog();
+            $newest_blogs = call_user_func([$blog, 'newest']);
+            $hottest_blogs = call_user_func([$blog, 'hottest']);
+
+            return view('mobile.blog.index')->with(['newest_blogs' => $newest_blogs, 'hottest_blogs' => $hottest_blogs]);
+        }
+
         if (!isset($hot_tags)) {
             return view('pc.blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs]);
         }
+
         return view('pc.blog.index')->with(['blogs' => $blogs, 'filter' => $filter, 'stick_blogs' => $stick_blogs, 'promote_blogs' => $promote_blogs, 'hot_tags' => $hot_tags]);
     }
 

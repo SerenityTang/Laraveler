@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Browser;
 
 class HomeController extends Controller
 {
@@ -36,6 +37,11 @@ class HomeController extends Controller
         $new_blogs = $blog->newest(0, 6);       //最新博客
         $hot_blogs = $blog->hottest(0, 6);      //热门博客
 
+        $mnew_questions = $question->newest(0, 6);       //最新问答
+        $mhot_questions = $question->hottest(0, 6);      //热门问答
+        $mnew_blogs = $blog->newest(0, 6);       //最新博客
+        $mhot_blogs = $blog->hottest(0, 6);      //热门博客
+
         //排行榜
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status','>',0)
@@ -48,8 +54,12 @@ class HomeController extends Controller
         //热门标签
         $tags = Tag::where('status', 1)->get();
 
-        return view('pc.home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
-    }
+        if (Browser::isMobile()) {
+            return view('mobile.home')->with(['new_questions' => $mnew_questions, 'hot_questions' => $mhot_questions, 'tags' => $tags, 'new_blogs' => $mnew_blogs, 'hot_blogs' => $mhot_blogs]);
+        } else {
+            return view('pc.home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
+        }
+        }
 
     /**
      * 意见反馈
