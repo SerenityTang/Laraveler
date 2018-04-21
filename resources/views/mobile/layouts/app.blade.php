@@ -32,10 +32,29 @@
         @yield('content')
     </div>
 
-    {{--@include('mobile.layouts.partials.footer')--}}
+    @include('mobile.layouts.partials.footer')
     @include('mobile.layouts.partials.bottom_tabar')
 
     <script src="{{ asset('libs/jquery-weui/dist/js/jquery-weui.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //页面加载后先显示，因为在开头
+            $('.bottom-tabbar').removeClass('bottom-tabbar-display');
+            //$(document).height()：总高度；$(window).height()：窗体可见高度；$(document).scrollTop()：滚动距离顶部高度
+            $(window).scroll(function () {
+                var contentHeight =$(document).height();
+                var viewHeight = $(window).height();
+                var topScroll = $(document).scrollTop();
+                if (contentHeight - viewHeight - topScroll < 75) {
+                    $('.bottom-tabbar').addClass('bottom-tabbar-display');
+                    $('.line-between').parents('.footer-display').removeClass('footer-display');
+                } else {
+                    $('.bottom-tabbar').removeClass('bottom-tabbar-display');
+                    $('.line-between').parents('.footer-display').addClass('footer-display');
+                }
+            });
+        });
+    </script>
     @section('footer')
     @show
 </body>

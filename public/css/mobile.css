@@ -2,7 +2,7 @@ body {
     font-family: "STHeiti","Microsoft Yahei",Tahoma,Arial,Helvetica,STHeiti;
     background-color: #f4f4f4;
 }
-.content {margin-bottom: 65px;margin-top: 68px;}
+.content {/*margin-bottom: 65px;*/margin-top: 68px;}
 /*手机端首页*/
 
 /*顶部navbar*/
@@ -23,19 +23,22 @@ body {
 .bottom-item {padding: 0;}
 .bottom-item p {padding-top: 3px;}
 .bottom-item .weui-tabbar__icon>i {font-size: 22px;}
-.bottom-item .weui-tabbar__icon>i.shouye-icon {position: absolute;font-size: 20px;left: 24px;bottom: 17px;}
-.bottom-item .weui-tabbar__icon>i.blog-icon {position: absolute;left: 22px;bottom: 16px;}
-.bottom-item .weui-tabbar__icon>i.tag-icon {position: absolute;font-size: 21px;left: 23px;bottom: 16px;}
-.bottom-item .weui-tabbar__icon>i.wenda-icon {position: absolute;font-size: 24px;left: 21px;bottom: 15px;}
-.bottom-item .weui-tabbar__icon>i.web-icon {position: absolute;font-size: 23px;left: 22px;bottom: 15px;}
+.bottom-item .weui-tabbar__icon>i.shouye-icon {position: absolute;font-size: 20px;left: 26px;bottom: 14px;}
+.bottom-item .weui-tabbar__icon>i.blog-icon {position: absolute;left: 25px;bottom: 13px;}
+.bottom-item .weui-tabbar__icon>i.tag-icon {position: absolute;font-size: 21px;left: 25px;bottom: 13px;}
+.bottom-item .weui-tabbar__icon>i.wenda-icon {position: absolute;font-size: 24px;left: 23px;bottom: 12px;}
+.bottom-item .weui-tabbar__icon>i.web-icon {position: absolute;font-size: 23px;left: 24px;bottom: 12px;}
 .active .weui-tabbar__icon> i.active-color {color: #22d7bb;font-weight: 500;}
 /*底部footer分隔线*/
-.line-between {margin: 5.4em auto 0;}
+.footer-display {display: none;}
+.line-between {margin: 1.4em auto 0;}
 .line-between .dot {background-color: #f4f4f4;}
 /*底部footer*/
+.bottom-tabbar-display {display: none;}
 .bottom-tabbar {position: fixed;}
 .bottom-tabbar a.active p {color: #22d7bb;}
-.footer-link a.link {color: #666;text-decoration: none;font-size: 13px;}
+.footer-link {margin-bottom: 15px;}
+.footer-link a.link {color: #777;text-decoration: none;font-size: 13px;}
 .footer-link a.link-extra {color: #999;text-decoration: none;}
 
 /*最新问答*/

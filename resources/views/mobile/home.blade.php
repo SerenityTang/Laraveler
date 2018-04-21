@@ -23,7 +23,7 @@
             @endforeach
         </div>
         <div class="weui-panel__ft">
-            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+            <a href="{{ url('/question') }}" class="weui-cell weui-cell_access weui-cell_link">
                 <div class="weui-cell__bd more">查看更多</div>
                 <span class="weui-cell__ft"></span>
             </a>
@@ -52,7 +52,7 @@
             @endforeach
         </div>
         <div class="weui-panel__ft">
-            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+            <a href="{{ url('/blog') }}" class="weui-cell weui-cell_access weui-cell_link">
                 <div class="weui-cell__bd more">查看更多</div>
                 <span class="weui-cell__ft"></span>
             </a>
@@ -81,7 +81,7 @@
             @endforeach
         </div>
         <div class="weui-panel__ft">
-            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+            <a href="{{ url('/question') }}" class="weui-cell weui-cell_access weui-cell_link">
                 <div class="weui-cell__bd more">查看更多</div>
                 <span class="weui-cell__ft"></span>
             </a>
@@ -110,7 +110,7 @@
             @endforeach
         </div>
         <div class="weui-panel__ft">
-            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+            <a href="{{ url('/blog') }}" class="weui-cell weui-cell_access weui-cell_link">
                 <div class="weui-cell__bd more">查看更多</div>
                 <span class="weui-cell__ft"></span>
             </a>

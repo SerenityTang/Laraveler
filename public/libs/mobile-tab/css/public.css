@@ -27,7 +27,7 @@ textarea{resize:none}
 .text-right{ text-align:right!important;}
 .text-center{ text-align:center!important;}
 .hidden{display:none}
-header, footer, article, section, nav, menu, hgroup {display: block;clear:all;}
+header, footer, article, section, nav, menu, hgroup {display: block;clear:all;} 
 
 
 *{-webkit-tap-highlight-color:rgba(0, 0, 0, 0);}

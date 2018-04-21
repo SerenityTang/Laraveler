@@ -1,4 +1,4 @@
-<div class="weui-tabbar bottom-tabbar">
+<div class="weui-tabbar bottom-tabbar bottom-tabbar-display">
     <a href="/" class="weui-tabbar__item bottom-item {{ App\Helpers\Helpers::setActive('/', 'active') }}">
         {{--<span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;"></span>--}}
         <div class="weui-tabbar__icon">

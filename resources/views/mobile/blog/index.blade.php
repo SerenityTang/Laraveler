@@ -29,7 +29,7 @@
 
             <div class="swiper-slide">
                 <div class="weui-cells blog-list">
-                    @foreach($hottest_blogs as $question)
+                    @foreach($hottest_blogs as $blog)
                         <a class="weui-cell weui-cell_access" href="{{ url('blog/show/' . $blog->id) }}">
                             <div class="weui-cell__bd">
                                 <p class="blog-title">{{ $blog->title }}</p>
@@ -50,6 +50,7 @@
         var mySwiper = new Swiper('.swiper-container',{
             pagination: '.my-pagination-ul',
             paginationClickable: true,
+            hashNavigation: true,
             paginationBulletRender: function (index, className) {
                 switch (index) {
                     case 0: name='最新博客';break;
