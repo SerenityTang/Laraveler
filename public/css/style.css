@@ -291,7 +291,8 @@ body, html {
 
 /*底部*/
 .footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 20px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
-.footer p.footer-link {text-align: center;font-size: 14px;color: #333;}
+.footer p {font: 14px/1.5 "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;}
+.footer p.footer-link {text-align: center;font-size: 14px;color: #333;margin-bottom: 10px;}
 .footer p.footer-link a {color: #333;text-decoration: none;}
 .footer p.footer-link a:hover {color: #22d7bb;}
 .footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 12px;}

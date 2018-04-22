@@ -59,7 +59,7 @@
                             <span>微博</span>
                         </div>
                         <div class="col-sm-4">
-                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weibo') != null)
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weibo') == null)
                                 <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>

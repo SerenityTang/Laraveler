@@ -37,5 +37,12 @@
                 QQ群号码：
             </p>
         </div>
+
+        <div class="contact-con">
+            <p class="intro">Laraveler官方微信：</p>
+            <p class="desc">
+                <img src="imgs/contact.jpg" alt="官方微信">
+            </p>
+        </div>
     </div>
 @stop

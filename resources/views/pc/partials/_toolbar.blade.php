@@ -2,10 +2,10 @@
     <a href="javascript:void(0)" class="toolbar-item">
         <span class="toolbar-btn">
             <i class="iconfont icon-qr-code toolbar-icon"></i>
-            <span class="toolbar-text">联系<br />站主</span>
+            <span class="toolbar-text">官方<br />微信</span>
         </span>
         <span class="toolbar-layer">
-            <img src="{{ url('imgs/serenity.jpg') }}" alt="联系站主" width="120" height="145">
+            <img src="{{ url('imgs/public.jpg') }}" alt="官方微信" width="120" height="145">
         </span>
     </a>
     <a href="http://wpa.qq.com/msgrd?v=3&uin=1060684139&site=qq&menu=yes" class="toolbar-item">
