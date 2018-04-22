@@ -20,10 +20,13 @@ trait SocialiteHelper
 
     public function oauth($driver)
     {
-        //return view('auth.oauth.callback');
+        //return view('pc.auth.oauth.callback');
         $driver = !isset($this->oauthDrivers[$driver]) ? $this->oauthDrivers['weixin'] : $this->oauthDrivers[$driver];
 
         if (Auth::check()) {
+            $request = request();
+            $redirect_uri = $request->get('redirect_uri');
+            $request->session()->put('socialite_oauth_redirect_uri', $redirect_uri);
             $oauth = User_socialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
             if ($oauth && $oauth->oauth_type == $driver) {
                 return redirect('/');
@@ -65,17 +68,26 @@ trait SocialiteHelper
 
         $user = User::getByDriver($driver, $oauthUser->id);
         if ($user) {
-            // 如注册过，说明用户绑定第三方账号，直接登录并跳转
+            // 如注册过，说明用户绑定第三方账号，直接登录并跳转（第三方登录）
             if (!Auth::check()) {
                 Auth::login($user);
             }
 
             return redirect('/');
         } else {
-            // 注册新账号，或者绑定老账号
-            $profile = $this->bindSocialiteUserByGuest($oauthUser, $driver);
+            //绑定第三方账号
+            if (Auth::check()) {
+                $redirect_uri = request()->session()->get('socialite_oauth_redirect_uri');
+                $userSocialite->user_id = Auth::user()->id;
+                $bool = $userSocialite->save();
 
-            return view('auth.oauth.callback')->with(['profile' => $profile, 'driver' => $driver]);
+                if ($bool == true) {
+                    return $this->success($redirect_uri, '恭喜您，社交账号绑定成功 ^_^');
+                }
+            }
+            // 注册新账号
+            $profile = $this->bindSocialiteUserByGuest($oauthUser, $driver);
+            return view('pc.auth.oauth.callback')->with(['profile' => $profile, 'driver' => $driver]);
         }
     }
 

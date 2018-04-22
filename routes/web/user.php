@@ -49,6 +49,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::post('/change_mobile_bind', ['as' => 'user.change_mobile_bind', 'uses' => 'UserController@change_mobile_bind']);    //提交更换手机绑定手机号
     Route::post('/verify_mobile_code', ['as' => 'user.verify_mobile_code', 'uses' => 'UserController@verify_mobile_code']);    //提交手机绑定手机号
     Route::post('/verify_mobile', ['as' => 'user.verify_mobile', 'uses' => 'UserController@verify_mobile']);    //更换手机前验证
+
+    /*账号解除绑定*/
+    Route::get('/unbind/{driver}', ['as' => 'user.unbind', 'uses' => 'UserController@social_unbind']);    //提交手机绑定手机号
 });
 
 

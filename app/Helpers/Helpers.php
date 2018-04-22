@@ -16,6 +16,7 @@ use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Support_opposition;
 use App\Models\User_data;
+use App\Models\User_socialite;
 use App\Models\Vote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -203,6 +204,17 @@ class Helpers {
                 return null;
             }
         }
+        return null;
+    }
+
+    //判断是否第三方绑定
+    public static function bindsns($user_id, $oauth_type)
+    {
+        $user_socialite = User_socialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
+        if ($user_socialite) {
+            return $user_socialite;
+        }
+
         return null;
     }
 

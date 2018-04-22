@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\Career_direction;
 use App\Models\Question;
 use App\Models\User_data;
+use App\Models\User_socialite;
 use App\Models\UserActivation;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
@@ -827,6 +828,25 @@ class UserController extends Controller
             }
         } else {
             return $this->jsonResult(503);
+        }
+    }
+
+    /**
+     * 社交账号解除绑定
+     * @param Request $request
+     */
+    public function social_unbind(Request $request, $driver)
+    {
+        $redirect_uri = $request->get('redirect_uri');
+        $user = Auth::user();
+        $us = User_socialite::where('user_id', $user->id)->where('oauth_type', $driver)->first();
+        if ($us) {
+            $bool = $us->delete();
+            if ($bool == true) {
+                return $this->success($redirect_uri, '社交账号解除绑定成功 ^_^');
+            } else {
+                return $this->error($redirect_uri, '社交账号解除绑定失败');
+            }
         }
     }
 

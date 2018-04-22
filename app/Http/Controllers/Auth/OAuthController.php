@@ -24,6 +24,9 @@ class OAuthController extends Controller
         if (isset($input['username']) && $input['username'] != null) {
             $username = User::where('username', $input['username'])->first();
             if ($username) {
+                if (Auth::check() && Auth::user()->username == $input['username']) {
+                    return $this->jsonResult(907);
+                }
                 return $this->jsonResult(906);
             } else {
                 return $this->jsonResult(907);

@@ -19,55 +19,91 @@
                     <h4 class="title"><i class="iconfont icon-msnui-bind-circle"></i>账号绑定</h4>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-qq fa-lg" style="color: #0197e6;padding-right: 6px;"></i>
+                            <i class="fa fa-qq qq"></i>
                             <span>Q Q</span>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="{{ url('auth/oauth/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
+                        <div class="col-sm-4">
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'qq') == null)
+                                <a href="{{ url('auth/oauth/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                    绑定账号
+                                </a>
+                            @else
+                                <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
+                                <a class="btn unbinded">
+                                    <i class="iconfont icon-bind-remove"></i>解除绑定
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-weixin fa-lg" style="color: #06b607;padding-right: 4px;"></i>
+                            <i class="fa fa-weixin weixin"></i>
                             <span>微信</span>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="{{ url('auth/oauth/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
+                        <div class="col-sm-4">
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weixin') == null)
+                                <a href="{{ url('auth/oauth/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                    绑定账号
+                                </a>
+                            @else
+                                <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
+                                <a class="btn unbinded">
+                                    <i class="iconfont icon-bind-remove"></i>解除绑定
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-weibo fa-lg" style="color: #ec0217;padding-right: 8px;"></i>
+                            <i class="fa fa-weibo weibo"></i>
                             <span>微博</span>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
+                        <div class="col-sm-4">
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weibo') != null)
+                                <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                    绑定账号
+                                </a>
+                            @else
+                                <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
+                                <a href="{{ url('user/unbind/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                    <i class="iconfont icon-bind-remove"></i>解除绑定
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-github fa-lg" style="padding-right: 11px;"></i>
+                            <i class="fa fa-github github"></i>
                             <span>Github</span>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="{{ url('auth/oauth/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">绑定账号</a>
+                        <div class="col-sm-4">
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'github') == null)
+                                <a href="{{ url('auth/oauth/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                    绑定账号
+                                </a>
+                            @else
+                                <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
+                                <a class="btn unbinded">
+                                    <i class="iconfont icon-bind-remove"></i>解除绑定
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-google fa-lg" style="color: #3182f7;padding-right: 11px;"></i>
+                            <i class="fa fa-google google"></i>
                             <span>Google</span>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <a role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
                     <div class="row bind-account">
                         <div class="col-sm-4 bind-type">
-                            <i class="fa fa-facebook fa-lg" style="color: #4861a3;padding-left:3px;padding-right: 13px;"></i>
+                            <i class="fa fa-facebook facebook"></i>
                             <span>Facebook</span>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <a role="button" class="btn bind-btn">绑定账号</a>
                         </div>
                     </div>
@@ -78,5 +114,16 @@
 @stop
 
 @section('footer')
-
+    <script>
+        //鼠标经过显示解除绑定按钮
+        $(function () {
+            $('.bind-account').hover(function () {
+                var icon = $(this);
+                icon.find('a.unbinded').css('display', 'inline-block');
+            }, function () {
+                var icon = $(this);
+                icon.find('a.unbinded').css('display', 'none');
+            });
+        })
+    </script>
 @stop
