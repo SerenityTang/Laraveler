@@ -140,7 +140,7 @@ trait SocialiteHelper
                 $profile->avatar = $oauthUser->avatar;
                 $profile->nickname = $oauthUser->nickname;
                 $profile->realname = $oauthUser->name;
-                $profile->gender = $oauthUser->gender = '男' ? 0 : 1;
+                $profile->gender = $oauthUser->user['gender'] = '男' ? 0 : 1;
                 $profile->email = $oauthUser->email;
                 $profile->province = $oauthUser->user['province'];
                 $profile->city = $oauthUser->user['city'];

@@ -29,7 +29,7 @@
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a class="btn unbinded">
+                                <a href="{{ url('user/unbind/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -47,7 +47,7 @@
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a class="btn unbinded">
+                                <a href="{{ url('user/unbind/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -83,7 +83,7 @@
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a class="btn unbinded">
+                                <a href="{{ url('user/unbind/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif

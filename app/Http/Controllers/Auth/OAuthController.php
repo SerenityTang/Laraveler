@@ -209,7 +209,7 @@ class OAuthController extends Controller
             case 'weibo':
                 $user->realname = $request->get('realname');
                 $user->email = $request->get('email');
-                $user->avatar = $request->get('avatar');
+                //$user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->weibo_name = $request->get('nickname');
                 $user->weibo_link = $request->get('weibo');
@@ -221,10 +221,22 @@ class OAuthController extends Controller
             case 'github':
                 $user->realname = $request->get('realname');
                 $user->email = $request->get('email');
-                $user->avatar = $request->get('avatar');
+                //$user->avatar = $request->get('avatar');
                 $user->gender = $request->get('gender');
                 $user->github_name = $request->get('nickname');
                 $user->github_link = $request->get('github');
+                $user->province = $request->get('province');
+                $user->city = $request->get('city');
+                $user->save();
+
+                break;
+            case 'qq':
+                $user->realname = $request->get('realname');
+                $user->email = $request->get('email');
+                //$user->avatar = $request->get('avatar');
+                $user->gender = $request->get('gender');
+                $user->qq_name = $request->get('nickname');
+                //$user->qq = $request->get('qq');
                 $user->province = $request->get('province');
                 $user->city = $request->get('city');
                 $user->save();
@@ -261,6 +273,18 @@ class OAuthController extends Controller
                 $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
                 $user->github_name = is_null($user->github_name) ? $request->get('nickname') : $user->github_name;
                 $user->github_link = is_null($user->github_link) ? $request->get('github') : $user->github_link;
+                $user->province = is_null($user->province) ? $request->get('province') : $user->province;
+                $user->city = is_null($user->city) ? $request->get('city') : $user->city;
+                $user->save();
+
+                break;
+            case 'qq':
+                $user->realname = is_null($user->realname) ? $request->get('realname') : $user->realname;
+                $user->email = is_null($user->email) ? $request->get('email') : $user->email;
+                //$user->avatar = is_null($user->avatar) ? $request->get('avatar') : $user->avatar;
+                $user->gender = is_null($user->gender) ? $request->get('gender') : $user->gender;
+                $user->qq_name = is_null($user->qq_name) ? $request->get('nickname') : $user->qq_name;
+                //$user->qq = is_null($user->qq) ? $request->get('qq') : $user->qq;
                 $user->province = is_null($user->province) ? $request->get('province') : $user->province;
                 $user->city = is_null($user->city) ? $request->get('city') : $user->city;
                 $user->save();
