@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['prefix' => 'weixin'], function() {
-    Route::any('/token', ['as' => 'weixin.token', 'uses' => 'Api\WeixinController@token']);
-    Route::any('/api', ['as' => 'weixin.api', 'uses' => 'Api\WeixinController@api']);
+Route::group(['prefix' => 'wechat'], function() {
+    //Route::any('/api', ['as' => 'weixin.api', 'uses' => 'Api\WeixinController@api']);
+    Route::any('/', ['as' => 'wechat', 'uses' => 'Api\WeChatController@serve']);
 });
