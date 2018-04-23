@@ -95,7 +95,16 @@
                             <span>Google</span>
                         </div>
                         <div class="col-sm-4">
-                            <a role="button" class="btn bind-btn">绑定账号</a>
+                            @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'google') == null)
+                                <a href="{{ url('auth/oauth/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                    绑定账号
+                                </a>
+                            @else
+                                <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
+                                <a href="{{ url('user/unbind/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                    <i class="iconfont icon-bind-remove"></i>解除绑定
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row bind-account">
