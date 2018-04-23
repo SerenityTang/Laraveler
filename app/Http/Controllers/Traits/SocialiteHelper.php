@@ -16,7 +16,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 trait SocialiteHelper
 {
-    protected $oauthDrivers = ['qq' => 'qq', 'weibo' => 'weibo', 'weixin' => 'weixin', 'github' => 'github'];
+    protected $oauthDrivers = ['qq' => 'qq', 'weibo' => 'weibo', 'weixin' => 'weixin', 'github' => 'github', 'google' => 'google'];
 
     public function oauth($driver)
     {
