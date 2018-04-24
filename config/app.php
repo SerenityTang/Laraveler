@@ -164,8 +164,14 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
-
+        Baum\Providers\BaumServiceProvider::class,
+        //Laravel\Socialite\SocialiteServiceProvider::class,
+        SocialiteProviders\Manager\ServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        Toplan\PhpSms\PhpSmsServiceProvider::class,
+        Toplan\Sms\SmsManagerServiceProvider::class,
+        \hisorange\BrowserDetect\ServiceProvider::class,
+        Overtrue\LaravelWeChat\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -228,7 +234,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-
+        'Baum' => Baum\Providers\BaumServiceProvider::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'PhpSms' => Toplan\PhpSms\Facades\Sms::class,
+        'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
+        'Browser' => \hisorange\BrowserDetect\Facade::class,
+        'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
     ],
 
 ];

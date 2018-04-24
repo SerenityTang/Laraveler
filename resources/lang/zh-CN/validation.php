@@ -86,6 +86,7 @@ return [
     'unique' => ':attribute 已经存在。',
     'uploaded' => ':attribute 上传失败。',
     'validate_captcha' => ':attribute 不正确',
+    'validate_mobile' => ':attribute 不正确',
 
     /*
     |--------------------------------------------------------------------------
@@ -152,5 +153,8 @@ return [
         'size' => '大小',
         'captcha' => '验证码',
         'm_code' => '手机验证码',
+        'verify_code' => '手机验证码',
+        'new_mobile' => '新手机号码',
+        'new_email' => '新邮箱地址',
     ],
 ];

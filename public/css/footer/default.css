@@ -1,0 +1,20 @@
+body {background-color: #f8f9fa;}
+.logo {padding: 5px 15px;border-bottom: 1px solid #ddd;box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);}
+.logo img {display: inline-block;}
+.logo a {float: inherit;}
+/*关于我们*/
+.about-us h3 {text-align: center;font-size: 26px;margin: 0;color: #333;margin-top: 50px;}
+.about-us p.intro {text-align: left;padding: 0 80px;color: #555;font-size: 16px;font-weight: 500;}
+.about-us p.description {text-align: center;margin: 10px auto 30px;padding: 10px 80px;color: #666;line-height: 23px;}
+.about-us p.description span.name {font-size: 20px;}
+.about-us p.aim {text-align: left;}
+
+/*联系我们*/
+h3 {text-align: center;font-size: 26px;margin: 0;color: #333;margin-top: 50px;}
+p.description {text-align: center;margin: 10px auto 30px;padding: 10px 80px;color: #666;line-height: 23px;}
+.contact-us .contact-con {width: 700px;margin: 0 auto;}
+.contact-us p.intro {text-align: left;padding: 30px 80px 0;color: #555;font-size: 16px;font-weight: 500;}
+.contact-us p.desc {text-align: left;padding: 0 80px;color: #666;line-height: 23px;}
+
+/*帮助中心*/
+.logo span.title {font-size: 23px;font-weight: 500;color: #333;position: absolute;top: 21px;}

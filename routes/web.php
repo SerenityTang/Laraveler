@@ -20,17 +20,28 @@ require __DIR__.'/web/blog.php';
 require __DIR__ . '/web/comment.php';
 require __DIR__.'/web/image.php';
 require __DIR__.'/web/user.php';
+require __DIR__.'/web/authentication.php';
+require __DIR__.'/api.php';
 
 //框架自带欢迎页
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 //执行认证生成的路由
 Auth::routes();
 
 //执行认证生成的首页
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 //登录页面验证码
 Route::get('/captcha/verify', ['as' => 'captcha.verify', 'uses' => 'CaptchaController@verify']);
+
+//意见反馈
+Route::post('/feedback', ['as' => 'feedback', 'uses' => 'HomeController@feedback']);
+//关于我们
+Route::get('/about', ['as' => 'about', 'uses' => 'HomeController@about']);
+//联系我们
+Route::get('/contact', ['as' => 'contact', 'uses' => 'HomeController@contact']);
+//帮助中心
+Route::get('/help', ['as' => 'help', 'uses' => 'HomeController@help']);

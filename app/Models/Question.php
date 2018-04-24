@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Question extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
     protected $dates = ['delete_at'];
 
     protected $fillable = [
@@ -24,6 +25,16 @@ class Question extends Model
     ];
 
     /**
+     * 获取模型的索引名称.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'titles_index';
+    }
+
+    /**
      * 获取问答对应的用户
      */
     public function user()
@@ -37,6 +48,14 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany('App\Models\Answer', 'question_id');
+    }
+
+    /**
+     * 获取问答对应的标签
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Models\Tag', 'taggable');
     }
 
     //最新问答
@@ -57,7 +76,7 @@ class Question extends Model
         if( $categoryId > 0 ){
             $query->where('category_id','=',$categoryId);
         }
-        $hottest = $query->where('status', 1)->where('view_count', '>', 20)->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $hottest = $query->where('status', 1)->where('view_count', '>', 10)->whereDate('updated_at', date('Y-m-d'))->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $hottest;
     }
 

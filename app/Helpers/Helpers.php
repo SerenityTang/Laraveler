@@ -10,10 +10,13 @@ namespace App\Helpers;
 
 use App\Models\Answer;
 use App\Models\Attention;
+use App\Models\Blog;
 use App\Models\Collection;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Support_opposition;
 use App\Models\User_data;
+use App\Models\User_socialite;
 use App\Models\Vote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +25,7 @@ class Helpers {
     /*生成头像图片地址*/
     //if(! function_exists('get_user_avatar')){
         public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
-            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'.'.$extension]);
+            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
         }
     //}
 
@@ -48,6 +51,12 @@ class Helpers {
     public static function get_question($question_id){
         $question = Question::where('id', $question_id)->first();
         return $question;
+    }
+
+    /*获取博客*/
+    public static function get_blog($blog_id){
+        $blog = Blog::where('id', $blog_id)->first();
+        return $blog;
     }
 
     /**
@@ -87,6 +96,22 @@ class Helpers {
             } else if ($mode_type === 'Answer' && $mode === 'opposition') {
                 $answer = Answer::where('id', $mode_id)->first();
                 $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
+                if ($sup_opp) {
+                    return $sup_opp;
+                }
+
+                return null;
+            } else if ($mode_type === 'Comment' && $mode === 'support') {
+                $comment = Comment::where('id', $mode_id)->first();
+                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', $mode)->first();
+                if ($sup_opp) {
+                    return $sup_opp;
+                }
+
+                return null;
+            } else if ($mode_type === 'Blog' && $mode === 'like') {
+                $blog = Blog::where('id', $mode_id)->first();
+                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -169,8 +194,27 @@ class Helpers {
                 }
 
                 return null;
+            } else if ($mode_type === 'Blog') {
+                $blog = Blog::where('id', $mode_id)->first();
+                $collection = Collection::where('user_id', Auth::user()->id)->where('entityable_id', $mode_id)->where('entityable_type', get_class($blog))->first();
+                if ($collection) {
+                    return $collection;
+                }
+
+                return null;
             }
         }
+        return null;
+    }
+
+    //判断是否第三方绑定
+    public static function bindsns($user_id, $oauth_type)
+    {
+        $user_socialite = User_socialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
+        if ($user_socialite) {
+            return $user_socialite;
+        }
+
         return null;
     }
 

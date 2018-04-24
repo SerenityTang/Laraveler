@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Comment;
+use Laravel\Scout\Searchable;
 
 class Blog extends Model
 {
+    use SoftDeletes, Searchable;
+    protected $dates = ['delete_at'];
+
     protected $fillable = [
         'bcategory_id',
         'user_id',
@@ -17,6 +23,16 @@ class Blog extends Model
         'source_link',
         'status',
     ];
+
+    /**
+     * 获取模型的索引名称.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'titles_index';
+    }
 
     /**
      * 获取博客对应的用户
@@ -44,7 +60,23 @@ class Blog extends Model
         if( $categoryId > 0 ){
             $query->where('category_id','=',$categoryId);
         }
-        $hottest = $query->where('status', 1)->where('view_count', '>', 50)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $hottest = $query->where('status', 1)->where('view_count', '>', 10)->orderBy('view_count', 'DESC')->orderBy('comment_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $hottest;
+    }
+
+    /**
+     * 获取博客父评论
+     */
+    public function parent_comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->where('depth', 0)->where('status', 1)->orderBy('id', 'DESC');
+    }
+
+    /**
+     * 获取博客对应的标签
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Models\Tag', 'taggable');
     }
 }

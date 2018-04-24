@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\QuestionViewEvent' => [
             'App\Listeners\QuestionViewListener',
         ],
+        'App\Events\BlogViewEvent' => [
+            'App\Listeners\BlogViewListener',
+        ],
         'App\Events\HomepageViewEvent' => [
             'App\Listeners\HomepageViewListener',
         ],
@@ -27,6 +30,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\UserLogoutListener',
+        ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'SocialiteProviders\QQ\QqExtendSocialite@handle',
+            'SocialiteProviders\Weibo\WeiboExtendSocialite@handle',
+            'SocialiteProviders\Weixin\WeixinExtendSocialite@handle',
+            'SocialiteProviders\Google\GoogleExtendSocialite@handle',
         ],
     ];
 

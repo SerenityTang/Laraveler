@@ -4,19 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Events\HomepageViewEvent;
 use App\Models\Attention;
+use App\Models\Blog;
 use App\Models\Career_direction;
 use App\Models\Question;
 use App\Models\User_data;
+use App\Models\User_socialite;
+use App\Models\UserActivation;
+use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use SmsManager;
+use Cache;
 //use App\Services\OSS;
 
 class UserController extends Controller
@@ -34,7 +44,7 @@ class UserController extends Controller
             Event::fire(new HomepageViewEvent($user_data));
         }
 
-        return view('user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
     }
 
     //用户个人主页之我的问答
@@ -46,7 +56,7 @@ class UserController extends Controller
         //获取用户问答
         $questions = $user->questions;
 
-        return view('user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
+        return view('pc.user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
     }
 
     //用户个人主页之我的回复
@@ -56,15 +66,17 @@ class UserController extends Controller
         //获取用户回答
         $answers = $user->answers;
 
-        return view('user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
+        return view('pc.user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
     }
 
     //用户个人主页之我的文章
     public function blogs($personal_domain) {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
+        //获取用户博客
+        $blogs = $user->blogs;
 
-        return view('user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data]);
+        return view('pc.user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
     }
 
     //用户个人主页之我的关注
@@ -78,7 +90,7 @@ class UserController extends Controller
         //关注的问答
         $atte_ques = $user->atte_ques;
 
-        return view('user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
+        return view('pc.user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
     }
 
     //用户个人主页之我的粉丝
@@ -87,7 +99,7 @@ class UserController extends Controller
         $user_data = User_data::where('user_id', $user->id)->first();
         $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
 
-        return view('user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
+        return view('pc.user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
     }
 
     //用户个人主页之我的支持
@@ -101,7 +113,10 @@ class UserController extends Controller
         //反对的回答
         $oppo_answers = $user->oppo_answer;
 
-        return view('user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers]);
+        //点赞的博客
+        $like_blogs = $user->like_blog;
+
+        return view('pc.user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
     }
 
     //用户个人主页之我的收藏
@@ -110,11 +125,26 @@ class UserController extends Controller
         $user_data = User_data::where('user_id', $user->id)->first();
 
         //收藏的博客
+        $coll_blogs = $user->coll_blog;
 
         //收藏的问答
         $coll_ques = $user->coll_ques;
 
-        return view('user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques]);
+        return view('pc.user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
+    }
+
+    //用户个人主页之我的草稿
+    public function drafts($personal_domain) {
+        $user = User::where('personal_domain', $personal_domain)->first();
+        $user_data = User_data::where('user_id', $user->id)->first();
+
+        //问答草稿
+        $questions = Question::where('user_id', $user->id)->where('status', 2)->get();
+
+        //博客草稿
+        $blogs = Blog::where('user_id', $user->id)->where('status', 2)->get();
+
+        return view('pc.user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
     }
 
     //用户个人主页之关注用户
@@ -162,49 +192,49 @@ class UserController extends Controller
     public function settings(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
+        return view('pc.user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
     }
 
     //用户个人设置之实名认证
     public function authenticate(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.authenticate')->with(['user' => $user]);
+        return view('pc.user.settings.authenticate')->with(['user' => $user]);
     }
 
     //用户个人设置之密码修改
     public function edit_password(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.edit_password')->with(['user' => $user]);
+        return view('pc.user.settings.edit_password')->with(['user' => $user]);
     }
 
     //用户个人设置之通知私信
     public function edit_notify(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.edit_notify')->with(['user' => $user]);
+        return view('pc.user.settings.edit_notify')->with(['user' => $user]);
     }
 
     //用户个人设置之账号安全
     public function security(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.security')->with(['user' => $user]);
+        return view('pc.user.settings.security')->with(['user' => $user]);
     }
 
     //用户个人设置之账号绑定
     public function bindsns(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.settings.bindsns')->with(['user' => $user]);
+        return view('pc.user.settings.bindsns')->with(['user' => $user]);
     }
 
     //用户个人设置之职业状态
     public function career_status(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
-        return view('user.partials.career_status')->with(['user' => $user]);
+        return view('pc.user.partials.career_status')->with(['user' => $user]);
     }
 
     /**
@@ -279,7 +309,7 @@ class UserController extends Controller
             $cur_user->save();
             return $this->success(route('user.settings', ['username' => $user->username]),'个人信息修改成功！！！');
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
         }
     }
 
@@ -418,7 +448,405 @@ class UserController extends Controller
                 return $this->success(route('login'), '密码修改成功，请重新登录...');
             }
         } else {
-            return view('auth.login');
+            return view('pc.auth.login');
+        }
+    }
+
+    /**
+     * 绑定邮箱
+     * @param Request $request
+     */
+    public function email_bind(Request $request)
+    {
+        if (Auth::check()) {
+            $email = $request->input('new_email');
+            $user_email = User::where('email', $email)->first();
+            $rules = array(
+                'new_email' => 'required|string|email',
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else if ($user_email) {
+                //用户输入邮箱已存在
+                return $this->jsonResult(908);
+            } else if (!$user_email) {
+                //用户输入邮箱不存在，则直接绑定
+                $user = User::where('id', Auth::user()->id)->first();
+                $user->email = $email;
+                $bool = $user->save();
+
+                if ($bool == true) {
+                    /*$user_code = json_encode(['uid' => $user->id,'username' => $user->username, 'email' => $email, 'time' => time()]);
+                    $sign_code = hash_hmac('sha256', Str::random(40), Config::get('key'));
+                    $verification_token = str_random(6) . '-' . md5($user_code);
+
+                    $data = [
+                        'email'             => $email,
+                        'username'          => $user->username,
+                        'uid'               => $user->id,
+                        'sign_code'         => $sign_code,
+                        'user_code'         => $user_code,
+                        'verification_token'=> $verification_token,
+                        'email_verify_url'  => url('user/email_bind/verify') . '?s=' . urlencode($sign_code) . '&u=' . urlencode($user_code) . '&v=' . $verification_token
+                    ];*/
+                    //方法一：发送纯文本格式
+                    /*Mail::raw('Serenity 邮件测试(邮件内容)', function ($message) use ($email) {
+                        $message->from('发送邮件邮箱', '发件人');
+                        $message->subject('邮件主题');
+                        $message->to('收件人');
+                    });*/
+
+                    //方法二：发送HTML格式
+                    //验证通过后发送邮件
+                    // 生成唯一 token
+                    $token = bcrypt($email.time());
+
+                    $data = [
+                        'email'             => $email,
+                        'user'              => $user,
+                        'token'             => $token,
+                        'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                    ];
+
+                    Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
+                        $message->subject('Laraveler 邮箱绑定验证');
+                        $message->to($data['email']);
+                    });
+
+                    // 数据库保存 token
+                    if ($user->activations){
+                        $user->activations()->update(['token' => $token]);
+                    } else {
+                        $user->activations()->save(new UserActivation([
+                            'token' => $token
+                        ]));
+                    }
+
+                    return $this->jsonResult(909, '邮箱地址绑定成功，请前往-> '. $email .' <-验证', $email);
+                } else {
+                    //邮箱绑定失败
+                    return $this->jsonResult(910);
+                }
+            }
+        } else {
+            return view('pc.auth.login');
+        }
+    }
+
+    /**
+     * 验证邮箱（重新发送验证邮件）
+     * @param Request $request
+     */
+    public function send_verify(Request $request)
+    {
+        if (Auth::check()) {
+            $email = $request->input('email');
+            $user = User::where('email', $email)->first();
+            $rules = array(
+                'email' => 'required|string|email',
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else {
+                // 生成唯一 token
+                $token = bcrypt($email.time());
+
+                $data = [
+                    'email'             => $email,
+                    'user'              => $user,
+                    'token'             => $token,
+                    'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                ];
+
+                Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
+                    $message->subject('Laraveler - 中文领域的Laravel技术问答交流社区邮箱绑定验证');
+                    $message->to($data['email']);
+                });
+
+                // 数据库保存 token
+                if ($user->activations){
+                    $user->activations()->update(['token' => $token]);
+                } else {
+                    $user->activations()->save(new UserActivation([
+                        'token' => $token
+                    ]));
+                }
+
+                return $this->jsonResult(909, '一封验证邮件已发送至'. $email .'，请前往此邮箱进行验证 ^_^');
+            }
+        } else {
+            return view('pc.auth.login');
+        }
+    }
+
+    /**
+     * 激活邮箱
+     * @param Request $request
+     */
+    public function activate_email_bind(Request $request)
+    {
+        $data = $request->all();
+        $token = $data['v'];
+
+        //Carbon::now()->subDay()：默认参数为1（天数），也就是获取昨天当前时刻
+        $user_activation = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->where('active', 1)->first();
+        if ($user_activation) {
+            $user_activation->active = 0;
+            $bool = $user_activation->save();
+            if ($bool == true) {
+                $user = User::where('id', $user_activation->user_id)->first();
+                $user->email_status = 1;
+                $user->save();
+            }
+
+            return view('pc.user.partials.email_verify_callback')->with(['status' => 1]);
+        } else {
+            $u_a = UserActivation::where('token', $token)->whereBetween('updated_at', [Carbon::now()->subDay(), Carbon::now()])->first();
+            if (isset($u_a) && $u_a->active == 0) {
+                return view('pc.user.partials.email_verify_callback')->with(['status' => 2]);
+            } else {
+                return view('pc.user.partials.email_verify_callback')->with(['status' => 3]);
+            }
+        }
+    }
+
+    /**
+     * 更换邮箱前验证
+     * @param Request $request
+     */
+    public function verify_email(Request $request)
+    {
+        if (Auth::check()) {
+            $email = $request->input('email');
+            $user = User::where('id', Auth::user()->id)->first();
+            //验证前先判断用户邮箱是否存在
+            if ($user->email) {
+                //用户邮箱存在，则验证邮箱
+                if (strcmp($user->email, $email) == 0) {
+                    return $this->jsonResult(890);
+                } else {
+                    return $this->jsonResult(891);
+                }
+            } else {
+                //用户邮箱不存在
+                return $this->jsonResult(892);
+            }
+        } else {
+            return $this->jsonResult(503);
+        }
+    }
+
+    /**
+     * 绑定手机号并发送验证码
+     * @param Request $request
+     */
+    public function mobile_bind(Request $request)
+    {
+        $data = $request->all();
+        $user = User::where('id', Auth::user()->id)->first();
+
+        //验证手机号
+        $validator = Validator::make($data, [
+            'mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else if (strcmp($user->mobile, $data['mobile']) != 0) {
+            //当前用户手机号与输入绑定手机号不相同，有可能用户换了注册手机号，此时需要查询输入绑定手机号是否存在，如存在，返回提示；不存在则往下保存并发送验证码
+            $user_mobile = User::where('mobile', $data['mobile'])->first();
+            if ($user_mobile) {
+                return $this->jsonResult(896);
+            }
+        } else {
+            //短信接口请求参数
+            $appid = env('AppID');
+            $templateid = env('Template_Id_Bind');
+
+            $options['accountsid'] = env('Account_Sid');
+            $options['token'] = env('Auth_Token');
+            $ucpass = new UcpaasAgent($options);
+
+            //获取手机号
+            $mobile = $data['mobile'];
+
+            $verify_code = '';
+            for ($i = 0; $i < 6; $i++) {
+                $verify_code .= random_int(0, 9);
+            }
+
+            $param = "$verify_code,5";
+
+            //发送短信前先删除此用户的短信验证码缓存
+            if (Cache::has($mobile.'minute')) {
+                return $this->jsonResult(899);
+            } else {
+                Cache::forget($mobile);
+                Cache::forget($mobile.'minute');
+            }
+
+            //发送短信验证码
+            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+            //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+            $back_data = json_decode($data, true);
+
+            if ($back_data['code'] == '000000') {
+                //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+                Cache::put($request->input('mobile'), $verify_code, 5);
+                Cache::put($request->input('mobile').'minute', 1, 1);
+
+                return $this->jsonResult(900);
+            } else {
+                //发送失败
+                return $this->jsonResult(901);
+            }
+        }
+    }
+
+    /**
+     * 更换绑定手机号并发送验证码
+     * @param Request $request
+     */
+    public function change_mobile_bind(Request $request)
+    {
+        $data = $request->all();
+        $user_mobile = User::where('mobile', $data['new_mobile'])->first();
+        //验证手机号
+        $validator = Validator::make($data, [
+            'new_mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else if ($user_mobile) {
+            //如存在，返回提示；不存在则往下保存并发送验证码
+            return $this->jsonResult(896);
+        } else {
+            //短信接口请求参数
+            $appid = env('AppID');
+            $templateid = env('Template_Id_Change');
+
+            $options['accountsid'] = env('Account_Sid');
+            $options['token'] = env('Auth_Token');
+            $ucpass = new UcpaasAgent($options);
+
+            //获取手机号
+            $mobile = $data['new_mobile'];
+
+            $verify_code = '';
+            for ($i = 0; $i < 6; $i++) {
+                $verify_code .= random_int(0, 9);
+            }
+
+            $param = "$verify_code,5";
+
+            //发送短信前先删除此用户的短信验证码缓存
+            if (Cache::has($mobile.'minute')) {
+                return $this->jsonResult(899);
+            } else {
+                Cache::forget($mobile);
+                Cache::forget($mobile.'minute');
+            }
+
+            //发送短信验证码
+            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+            //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+            $back_data = json_decode($data, true);
+
+            if ($back_data['code'] == '000000') {
+                //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+                Cache::put($request->input('new_mobile'), $verify_code, 5);
+                Cache::put($request->input('new_mobile').'minute', 1, 1);
+
+                return $this->jsonResult(900);
+            } else {
+                //发送失败
+                return $this->jsonResult(901);
+            }
+        }
+    }
+
+    /**
+     * 验证用户提交的手机验证码
+     * @param Request $request
+     */
+    public function verify_mobile_code(Request $request)
+    {
+        $data = $request->all();
+        //验证手机验证码
+        $validator = Validator::make($data, [
+            'verify_code' => 'required|validateMobile:'.$data['mobile'],
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return $this->jsonResult(502, $validator->errors()->all());
+        } else {
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->mobile = $data['mobile'];
+            $user->mobile_status = 1;
+            $bool = $user->save();
+
+            if ($bool == true) {
+                //绑定成功，删除此用户的短信验证码缓存
+                Cache::forget($data['mobile']);
+                Cache::forget($data['mobile'].'minute');
+
+                return $this->jsonResult(898, '恭喜您，手机号码绑定成功 ^_^', $user->username);
+            } else {
+                return $this->jsonResult(897);
+            }
+        }
+    }
+
+    /**
+     * 更换手机前验证
+     * @param Request $request
+     */
+    public function verify_mobile(Request $request)
+    {
+        if (Auth::check()) {
+            $old_mobile = $request->input('old_mobile');
+            $user = User::where('id', Auth::user()->id)->first();
+            //验证前先判断用户手机号码是否存在
+            if ($user->mobile) {
+                //用户手机号码存在，则验证号码
+                if (strcmp($user->mobile, $old_mobile) == 0) {
+                    return $this->jsonResult(893);
+                } else {
+                    return $this->jsonResult(894);
+                }
+            } else {
+                //用户手机号码不存在
+                return $this->jsonResult(895);
+            }
+        } else {
+            return $this->jsonResult(503);
+        }
+    }
+
+    /**
+     * 社交账号解除绑定
+     * @param Request $request
+     */
+    public function social_unbind(Request $request, $driver)
+    {
+        $redirect_uri = $request->get('redirect_uri');
+        $user = Auth::user();
+        $us = User_socialite::where('user_id', $user->id)->where('oauth_type', $driver)->first();
+        if ($us) {
+            $bool = $us->delete();
+            if ($bool == true) {
+                return $this->success($redirect_uri, '社交账号解除绑定成功 ^_^');
+            } else {
+                return $this->error($redirect_uri, '社交账号解除绑定失败');
+            }
         }
     }
 
@@ -440,5 +868,39 @@ class UserController extends Controller
         }
         //dd($taxonomies);
         return $taxonomies;
+    }
+
+    /**
+     * 活跃排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function active_rank()
+    {
+        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.answer_count','DESC')
+            ->orderBy('user_datas.article_count','DESC')
+            ->orderBy('user.updated_at','DESC')
+            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
+            ->take(10)->get();
+
+        return view('pc.user.partials.active_rank')->with(['active_users' => $active_users]);
+    }
+
+    /**
+     * 积分排行榜
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function credit_rank()
+    {
+        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status','>',0)
+            ->orderBy('user_datas.credits','DESC')
+            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
+            ->take(10)->get();
+
+        return view('pc.user.partials.credit_rank')->with(['credit_users' => $credit_users]);
     }
 }

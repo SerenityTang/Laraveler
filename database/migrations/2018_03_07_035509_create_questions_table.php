@@ -31,12 +31,9 @@ class CreateQuestionsTable extends Migration
             $table->integer('comment_count')->unsigned()->default(0)->comment('评论数');
             $table->tinyInteger('device')->default(1)->comment('提问设备类型：1->pc,2->安卓,3->IOS,4->weixin');
             $table->tinyInteger('question_status')->default(0)->comment('问题状态：0->待回答，1->已回答，2->已采纳');
-            $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是');
+            $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是，2->草稿');
             $table->softDeletes();
             $table->timestamps();
-
-            $table->index('created_at');
-            $table->index('updated_at');
         });
     }
 

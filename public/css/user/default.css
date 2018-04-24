@@ -20,7 +20,7 @@
 .homepage-header .homepage-middle .homepage-btn a.active {border: 1px solid #fff;background-color: #22d7bb;color: #fff;box-shadow: 0px 1px 2px 0px #22d7bb;}
 .homepage-header .homepage-middle .homepage-btn a i {padding-right: 3px;}
 .homepage-header .homepage-bottom {margin-top: 20px;}
-.homepage-header .homepage-bottom .dynamic {margin-top: 15px;}
+.homepage-header .homepage-bottom .dynamic {margin-top: 20px;}
 .homepage-header .homepage-bottom .dynamic p {color: #888;font-size: 14px;margin-left: 20px;font-weight: 300;}
 .homepage-header .homepage-bottom .item {float: left;margin: 0 15px;}
 .homepage-header .homepage-bottom span.count {display: block;color: #22d7bb;font-size: 35px;font-weight: 700;text-align: center;}
@@ -76,6 +76,9 @@
 .main-container .right-container ul .list-tab p.data {color: #666;font-size: 13px;}
 .main-container .right-container ul .list-tab a.attention-icon, .main-container .right-container ul .list-tab a.pri-letter-icon {text-decoration: none;font-size: 13px;border: 1px solid #22d7bb;line-height: 23px;border-radius: 3px;color: #999;display: block;width: 50px;text-align: center;}
 .main-container .right-container ul .list- p.answer-content {font-size: 13px;color: #666;display: inline-block;}
+span.seperator, span.seperator {position: absolute;right: -13px;font-size: 13px;color: #666;}
+.edit-icon a {color: #999;text-decoration: none;font-size: 13px;}
+.edit-icon a:hover {color: #22d7bb;}
 
 /*粉丝列表*/
 .main-container .right-container ul .list- a.att-u-name {font-size: 16px;color: #333;text-decoration: none;font-weight: 500;font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;}
@@ -107,13 +110,59 @@
 /*保存按钮除绑定第三方*/
 .main-container .panel-default.right-container button.btn-save {font-size: 16px;width: 90px;height:36px;line-height: 16px;background-color: #22d7bb;border: none;position: relative;left: 40%;margin-top: 25px;padding-left: 16px;}
 .main-container .panel-default.right-container button.btn-save:hover {background-color: #36ceb6;color: #fff;}
-/*绑定按钮除绑定第三方*/
-.main-container .panel-default.right-container button.bind-btn {font-size: 16px;width: 75px;height:33px;line-height: 15px;background-color: #22d7bb;border: none;position: relative;left: 3%;margin-top: 3%;}
-.main-container .panel-default.right-container button.bind-btn:hover {background-color: #36ceb6;color: #fff;}
+/*绑定按钮 除 绑定第三方*/
+.right-container .email {position: relative;}
+.email-bind, .email-change, .email-verify, .email-submit, .email-cancel, .email-changed, .mobile-changed {font-size: 14px;width: 65px;height:30px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 4%;}
+.email-change, .email-submit {margin-right: 5px;}
+.cv-btn, .sc-btn {position: absolute;top: -8px;right: 0;}
+.show-active {display: none;}
+p.binded-email, p.binded-mobile {font-size: 15px;position: relative;top: 7px;left: 13px;display: inline-block;}
+p.binded-email .email-binded-tip {color: #A01641;font-size: 14px;position: relative;bottom: 2px;left: 8px;font-weight: 500;}
+p.binded-mobile .mobile-binded-tip {color: #A01641;font-size: 14px;position: relative;bottom: 2px;left: 68px;font-weight: 500;}
+.email-bind:hover, .mobile-bind:hover, .email-change:hover, .email-verify:hover, .email-submit:hover, .email-cancel:hover, .email-changed:hover, .mobile-changed:hover {background-color: #36ceb6;color: #fff;}
+/*更改邮箱模态框*/
+.email-modify, .mobile-modify {width: 500px;}
+.email-modify .email-modify-header, .mobile-modify .mobile-modify-header {padding: 10px 15px;}
+.email-modify .email-modify-header h4.email-modify-title, .mobile-modify .mobile-modify-header h4.mobile-modify-title {font-weight: 500;font-size: 16px;color: #333;}
+.email-modify .email-modify-header .email-modify-close, .mobile-modify .mobile-modify-header .mobile-modify-close {font-size: 15px;box-shadow: none;}
+.email-modify .email-modify-body p.email-icon, .mobile-modify .mobile-modify-body p.mobile-icon {height: 96px;text-align: center;margin-bottom: 10px;}
+.email-modify .email-modify-body p.email-icon i, .mobile-modify .mobile-modify-body p.mobile-icon i {font-size: 100px;color: #ccc;line-height: 75px;}
+.email-modify .email-modify-body .new-email, .mobile-modify .mobile-modify-body .new-mobile, .mobile-modify .mobile-modify-body .old-mobile {margin-bottom: 0;}
+.email-modify .email-modify-body em, .mobile-modify .mobile-modify-body em {color: #A01641;position: relative;left: 135px;font-size: 13px;font-weight: 500;}
+.mobile-modify .mobile-modify-body p.new-mobile-em, .mobile-modify .mobile-modify-body em.new-verify-em {color: #A01641;position: relative;left: 135px;font-size: 13px;font-weight: 500;padding: 5px 0;}
+.email-modify .email-modify-body label, .mobile-modify .mobile-modify-body label {padding-top: 7px;color: #666;font-size: 14px;}
+.email-modify .email-modify-body .extra input, .mobile-modify .mobile-modify-body .extra input {border: 2px solid #e4e4e4;height: 40px;}
+.email-modify .email-modify-body .extra input:focus, .email-modify .email-modify-body .extra textarea:focus, .mobile-modify .mobile-modify-body .extra input:focus, .mobile-modify .mobile-modify-body .extra textarea:focus {border: 2px solid #22d7bb;}
+.email-modify .email-modify-footer, .mobile-modify .mobile-modify-footer {padding: 10px 15px;}
+
+.email-modify .email-modify-footer .email-submit-btn, .email-modify .email-modify-footer .email-verify-submit-btn, .email-modify .email-modify-footer .email-cancel-btn,
+.mobile-modify .mobile-modify-footer .mobile-submit-btn, .mobile-modify .mobile-modify-footer .mobile-cancel-btn,
+.mobile-modify .mobile-modify-footer .mobile-verify-submit-btn {background-color: #22d7bb;color: #fff;padding: 4px 13px;margin-right: 10px;box-shadow: none;}
+
+.email-modify .email-modify-footer .email-submit-btn:hover, .email-modify .email-modify-footer .email-verify-submit-btn:hover, .email-modify .email-modify-footer .email-cancel-btn:hover,
+.mobile-modify .mobile-modify-footer .mobile-submit-btn:hover, .mobile-modify .mobile-modify-footer .mobile-cancel-btn:hover,
+.mobile-modify .mobile-modify-footer .mobile-verify-submit-btn:hover {background-color: #36ceb6;}
+/*手机绑定验证码*/
+.verify {display: none;}
+.verify .mobile-bind-btn {position: relative;left: -35px;}
+.verify .get-vcode {width: 100px;font-size: 14px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 3%;padding: 12px 16px;line-height: 10px;}
+.verify .mobile-bind {font-size: 14px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 3%;padding: 12px 16px;line-height: 10px;}
+.verify .get-vcode:hover, .verify .mobile-bind:hover {color: #fff;background-color: #36ceb6;}
+/*手机绑定模态框验证码*/
+.verify-modal {display: none;margin-bottom: 0;}
+.verify-modal .get-mvcode {width: 100px;font-size: 14px;color: #fff;line-height: 11px;background-color: #22d7bb;border: none;position: relative;margin-top: 3%;padding: 12px 16px;line-height: 10px;}
+.verify-modal .get-mvcode:hover {color: #fff;background-color: #36ceb6;}
 /*绑定第三方列表样式和按钮*/
-.main-container .panel-default.right-container .bind-account {width: 861px;border-bottom: 1px solid #eee; padding: 8px 0;}
-.main-container .panel-default.right-container .bind-account .bind-type {padding-top: 8px;padding-left: 60px;}
-.main-container .panel-default.right-container .bind-account button.bind-btn {
+.main-container .panel-default.right-container .bind-account {width: 848px;border-bottom: 1px solid #eee; padding: 8px 0;margin-left: 0;}
+.main-container .panel-default.right-container .bind-account:hover {background-color: #eee;}
+.main-container .panel-default.right-container .bind-account .bind-type {padding-top: 6px;padding-left: 60px;}
+.main-container .panel-default.right-container .bind-account .bind-type .qq {color: #0197e6;padding-right: 8px;font-size: 16px;}
+.main-container .panel-default.right-container .bind-account .bind-type .weixin {color: #06b607;padding-right: 6px;font-size: 16px;}
+.main-container .panel-default.right-container .bind-account .bind-type .weibo {color: #ec0217;padding-right: 8px;font-size: 17px;}
+.main-container .panel-default.right-container .bind-account .bind-type .github {padding-right: 7px;font-size: 20px;}
+.main-container .panel-default.right-container .bind-account .bind-type .google {color: #ec6149;padding-right: 9px;font-size: 18px;}
+.main-container .panel-default.right-container .bind-account .bind-type .facebook {color: #4861a3;padding-left:3px;padding-right: 12px;font-size: 18px;}
+.main-container .panel-default.right-container .bind-account a.bind-btn {
     font-size: 13px;
     width: 70px;
     height:30px;
@@ -121,9 +170,37 @@
     background-color: #22d7bb;
     border: none;
     padding-left: 10px;
-    margin-bottom: 3px;
+    margin-top: 3px;
+    color: #fff;
 }
-.main-container .panel-default.right-container .bind-account button.bind-btn:hover {background-color: #36ceb6;color: #fff;}
+.main-container .panel-default.right-container .bind-account a.bind-btn:hover, .main-container .panel-default.right-container .bind-account a.unbinded:hover {background-color: #36ceb6;color: #fff;}
+.main-container .panel-default.right-container .bind-account a.binded {
+    font-size: 13px;
+    width: 70px;
+    height:30px;
+    line-height: 20px;
+    background-color: #66d2c1;
+    border: none;
+    padding-left: 6px;
+    margin-top: 3px;
+    color: #fff;
+    margin-right: 5px;
+}
+.main-container .panel-default.right-container .bind-account a.binded:hover {cursor: text;}
+.main-container .panel-default.right-container .bind-account a.binded i, .main-container .panel-default.right-container .bind-account a.unbinded i {font-size: 13px;padding-right: 3px;font-weight: bold;}
+.main-container .panel-default.right-container .bind-account a.unbinded {
+    display: none;
+    font-size: 13px;
+    width: 80px;
+    height:30px;
+    line-height: 20px;
+    background-color: #22d7bb;
+    border: none;
+    padding-left: 6px;
+    margin-top: 3px;
+    color: #fff;
+}
+
 /*下拉菜单按钮样式*/
 .main-container .panel-default.right-container .bootstrap-select button {background-color: #22d7bb;border: none;color: #fff;height: 40px;}
 .main-container .panel-default.right-container .bootstrap-select button:hover {background-color: #36ceb6;border: none;color: #fff;}
@@ -149,7 +226,7 @@
 .main-container .panel-default.right-container .bootstrap-filestyle input.filestyle-input {border: 2px solid #e4e4e4;height: 40px;}
 .main-container .panel-default.right-container .bootstrap-filestyle label.btn-select-qrcode {padding: 9px 12px;background-color: #22d7bb;color: #fff;border: 1px solid #22d7bb;}
 .main-container .panel-default.right-container .bootstrap-filestyle label.btn-select-qrcode:hover {background-color: #36ceb6;}
-
+/*职业状态*/
 .main-container .panel-default.right-container .career_status .dowebok p {font-size: 14px;color: #555;}
 .main-container .panel-default.right-container .career_status ul.dowebok {list-style-type: none;margin-left: 1px;margin-top: 2px;}
 .main-container .panel-default.right-container .career_status ul.dowebok li {margin-right: 25px;display: inline-block;}
