@@ -1,14 +1,34 @@
 <p align="center"><img src="https://www.laraveler.net/imgs/logo.png"></p>
 
-## About Laraveler
+## 关于Laraveler
 
 Laraveler(https://www.laraveler.net) 创立于2018年，是中文领域的Laravel技术问答交流社区平台。Laravel是一个好框架，给我们开发带来了方便，但是在开发过程中难免遇到各种问题， 我们条件反射会通过技术问答交流社区寻求我们心仪的答案与解决方法，在国内技术问答交流社区涉及面广，专门为Laravel打造的技术问答交流社区却比较少，所以诞生了Laraveler技术社区。 在这里，您可以把自己遇到的问题以问答的方式发向平台，耐心等待热心者给予帮助、解答，也可搜索相关的问题，寻找您想要的答案；解决问题都是我们提高，吸收，进步的过程，此时不妨通过 博客方式把您的体验分享到平台，与广大开发者交流学习。
 
-## Learning Laravel
+## 安装Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+1. 克隆源代码
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+<code>$ git clone https://github.com/SerenityTang/Laraveler.git</code>
+
+2. 安装扩展包依赖
+
+<code>$ composer install</code>
+
+3. 安装扩展包依赖
+
+<code>$ composer install</code>
+
+4. 生成配置文件
+
+<code>$ cp .env.example .env</code>
+
+5. 生成应用秘钥
+
+<code>$ php artisan key:generate</code>
+
+6. 生成数据表以及默认填充数据
+
+<code>$ php artisan migrate --seed</code>
 
 ## Laravel Sponsors
 
