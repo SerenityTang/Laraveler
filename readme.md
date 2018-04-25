@@ -8,27 +8,27 @@ Laraveler(https://www.laraveler.net) 创立于2018年，是中文领域的Larave
 
 1. 克隆源代码
 
-<code>$ git clone https://github.com/SerenityTang/Laraveler.git</code>
+    <code>$ git clone https://github.com/SerenityTang/Laraveler.git</code>
 
 2. 安装扩展包依赖
 
-<code>$ composer install</code>
+    <code>$ composer install</code>
 
 3. 安装扩展包依赖
 
-<code>$ composer install</code>
+    <code>$ composer install</code>
 
 4. 生成配置文件
 
-<code>$ cp .env.example .env</code>
+    <code>$ cp .env.example .env</code>
 
 5. 生成应用秘钥
 
-<code>$ php artisan key:generate</code>
+    <code>$ php artisan key:generate</code>
 
 6. 生成数据表以及默认填充数据
 
-<code>$ php artisan migrate --seed</code>
+    <code>$ php artisan migrate --seed</code>
 
 ## Laravel Sponsors
 
