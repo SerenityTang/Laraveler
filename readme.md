@@ -14,19 +14,15 @@ Laraveler(https://www.laraveler.net) 创立于2018年，是中文领域的Larave
 
     <code>$ composer install</code>
 
-3. 安装扩展包依赖
-
-    <code>$ composer install</code>
-
-4. 生成配置文件
+3. 生成配置文件
 
     <code>$ cp .env.example .env</code>
 
-5. 生成应用秘钥
+4. 生成应用秘钥
 
     <code>$ php artisan key:generate</code>
 
-6. 生成数据表以及默认填充数据
+5. 生成数据表以及默认填充数据
 
     <code>$ php artisan migrate --seed</code>
 
