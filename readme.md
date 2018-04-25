@@ -1,18 +1,8 @@
 <p align="center"><img src="https://www.laraveler.net/imgs/logo.png"></p>
 
-## About Laravel
+## About Laraveler
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+Laraveler(https://www.laraveler.net)创立于2018年，是中文领域的Laravel技术问答交流社区平台。Laravel是一个好框架，给我们开发带来了方便，但是在开发过程中难免遇到各种问题， 我们条件反射会通过技术问答交流社区寻求我们心仪的答案与解决方法，在国内技术问答交流社区涉及面广，专门为Laravel打造的技术问答交流社区却比较少，所以诞生了Laraveler技术社区。 在这里，您可以把自己遇到的问题以问答的方式发向平台，耐心等待热心者给予帮助、解答，也可搜索相关的问题，寻找您想要的答案；解决问题都是我们提高，吸收，进步的过程，此时不妨通过 博客方式把您的体验分享到平台，与广大开发者交流学习。
 
 ## Learning Laravel
 
