@@ -1,5 +1,5 @@
 body {background-color: #f8f9fa;}
-.logo {padding: 5px 15px;border-bottom: 1px solid #ddd;box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);}
+.logo {padding: 5px 15px;border-bottom: 1px solid #ddd;box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);border-top: 3px solid #22d7bb;}
 .logo img {display: inline-block;}
 .logo a {float: inherit;}
 /*关于我们*/
