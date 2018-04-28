@@ -20,6 +20,6 @@
         </p>
 
         <p class="intro">我们的宗旨：</p>
-        <p class="description aim">为国内广大Laravel程序员打造一个互助、交流、分享的开源社区</p>
+        <p class="description aim">为国内广大Laravel程序员打造一个互助、交流、分享的开源社区。</p>
     </div>
 @stop
