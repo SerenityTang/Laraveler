@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\WelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\SocialiteHelper;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -117,6 +118,8 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             }*/
             if ($this->attemptLogin($request) == true) {
+                event(new WelcomeEvent());
+
                 return $this->sendLoginResponse($request);      //登录成功，触发自带的登录监听，记录登录时间，返回成功登录；登出也类似触发登出监听
             } else {
                 return $this->error('/login', '抱歉，您输入用户名&密码错误或帐号被禁用，请检查登录信息或联系管理员...');
