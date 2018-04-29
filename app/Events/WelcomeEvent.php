@@ -9,19 +9,22 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Event;
 
-class WelcomeEvent implements ShouldBroadcast
+class WelcomeEvent extends Event implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $username;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($username)
     {
-        //
+        $this->username = $username;
     }
 
     /**
@@ -31,7 +34,7 @@ class WelcomeEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('welcome');
+        return ['welcome'];
     }
 
     /**
@@ -39,17 +42,17 @@ class WelcomeEvent implements ShouldBroadcast
      *
      * @return string
      */
-    public function broadcastAs()
+    /*public function broadcastAs()
     {
         return 'welcome';
-    }
+    }*/
 
     /**
      * 获取广播数据
      *
      * @return array
      */
-    public function broadcastWith(){
+    /*public function broadcastWith(){
         return ['data' => '欢迎回来(⊙o⊙)哦'];
-    }
+    }*/
 }
