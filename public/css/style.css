@@ -253,7 +253,7 @@ body, html {
 .home-bg .home-body .home-list-item a.h_q_user {font-size: 11px;text-decoration: none;color: #999;}
 .home-bg .home-body .home-list-item a.h_q_user:hover {color: #333;}
 .home-bg .home-body .home-list-item span.time {font-size: 11px;color: #999;}
-.home-bg .home-body .home-list-item span.h_q_answer {position: absolute;top: 18px;right: 8px;background-color: #22d7bb;}
+.home-bg .home-body .home-list-item span.h_q_answer {position: absolute;top: 18px;right: 0px;background-color: #22d7bb;}
 .sign-in {padding: 0;height: 90px;border-radius: 3px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
 .sign-in p.sign-in-title {text-align: center;font-size: 15px;padding: 5px 0;font-weight: 500;}
 .sign-in .sign-in-content .btn-signin {width: 80px;color: #fff;background-color: #22d7bb;margin: 5px auto;display: block;}
