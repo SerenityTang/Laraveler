@@ -203,9 +203,6 @@
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
     <script src="{{ asset('libs/tag-cloud/tagscloud.js') }}"></script>
     <script>
-
-    </script>
-    <script>
         $(".time").timeago();
     </script>
     <script>

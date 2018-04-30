@@ -118,7 +118,7 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             }*/
             if ($this->attemptLogin($request) == true) {
-                event(new WelcomeEvent($input['username']));
+                //event(new WelcomeEvent($input['username']));
 
                 return $this->sendLoginResponse($request);      //登录成功，触发自带的登录监听，记录登录时间，返回成功登录；登出也类似触发登出监听
             } else {

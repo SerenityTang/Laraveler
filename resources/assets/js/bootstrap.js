@@ -53,7 +53,4 @@ window.Echo = new Echo({
     cluster: 'ap1',
     encrypted: true
 });
-Echo.channel('welcome')
-    .listen('welcome', function (data) {
-        console.log(data);
-    });
+
