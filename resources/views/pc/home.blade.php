@@ -205,7 +205,7 @@
     <script>
         Echo.channel('welcome')
             .listen('WelcomeEvent', function (data) {
-                console.log(data);
+                console.log('sss   '+data);
             });
     </script>
     <script>
