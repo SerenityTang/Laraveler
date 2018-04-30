@@ -42,10 +42,10 @@ class WelcomeEvent extends Event implements ShouldBroadcast
      *
      * @return string
      */
-    /*public function broadcastAs()
+    public function broadcastAs()
     {
         return 'welcome';
-    }*/
+    }
 
     /**
      * 获取广播数据

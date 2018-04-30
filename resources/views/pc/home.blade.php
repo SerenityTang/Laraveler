@@ -203,10 +203,7 @@
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
     <script src="{{ asset('libs/tag-cloud/tagscloud.js') }}"></script>
     <script>
-        Echo.channel('welcome')
-            .listen('WelcomeEvent', function (data) {
-                console.log('sss   '+data);
-            });
+
     </script>
     <script>
         $(".time").timeago();

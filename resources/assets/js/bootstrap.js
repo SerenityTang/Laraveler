@@ -54,6 +54,6 @@ window.Echo = new Echo({
     encrypted: true
 });
 Echo.channel('welcome')
-    .listen('WelcomeEvent', function (data) {
+    .listen('welcome', function (data) {
         console.log(data);
     });
