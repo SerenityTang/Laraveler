@@ -57,7 +57,7 @@ class UcpaasAgent
                 'Content-Type:application/json;charset=utf-8',
             );
             $ch = curl_init($url);      //初始化一个新的会话
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);        //为给定的cURL会话句柄设置一个选项
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//为给定的cURL会话句柄设置一个选项(CURLOPT_RETURNTRANSFER get/post请求都设置，如1，curl_exec($ch)有返回值；0，直接输出请求内容)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
             if($method == 'post'){
                 curl_setopt($ch, CURLOPT_POST, 1);
