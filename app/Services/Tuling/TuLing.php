@@ -5,7 +5,7 @@
  * Date: 2018/5/1
  * Time: 下午9:10
  */
-namespace   App\Services\Tuling;
+namespace App\Services\Tuling;
 
 use GuzzleHttp\Client;
 use Log;
@@ -29,7 +29,7 @@ class TuLing
         ];
         $client = new Client();
         $response = $client->request('POST', $this->apiUrl, ['json' => $data]);
-        $result = json_decode((string)$response->getBody());
+        $result = json_decode((string) $response->getBody(), true);
         Log::info($result);
         return $result['results'][0];
     }

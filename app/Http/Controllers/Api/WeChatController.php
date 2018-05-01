@@ -25,11 +25,13 @@ class WeChatController extends Controller
                     return "Hello, welcome to Laraveler-中文领域的Laravel技术问答交流社区官方微信 ^_^ 官方网站：https://www.laraveler.net，欢迎加入O(∩_∩)O";
                     break;
                 case 'text':
-                    if ($message['Content'] == '机器人') {
-                        $tuling = new TuLing();
-                        $res = $tuling->bot($message['Content'], $message['FromUserName']);
-                        return $res['values'][$res['resultType']];
+                    if ($message['Content'] == '') {
+
                     }
+                    $tuling = new TuLing();
+                    $res = $tuling->bot($message['Content'], $message['FromUserName']);
+                    return $res['values'][$res['resultType']];
+
                     break;
                 case 'image':
                     return '收到图片消息';
