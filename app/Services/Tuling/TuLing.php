@@ -12,7 +12,7 @@ use Log;
 
 class TuLing
 {
-    private $apiKey = '0eb9fd86269c42a2b974a873597e6283';
+    private $apiKey = '5e1fc541df9b4822b816a96e320787ce';
     private $apiUrl = 'http://openapi.tuling123.com/openapi/api/v2';
 
     public function bot($content, $toUserId = 1) {
