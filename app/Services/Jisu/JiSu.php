@@ -17,15 +17,19 @@ class JiSu
 
     //获取新闻
     public function news($channel) {
-        $data = [
-            'channel' => $channel,
-            'apiKey' => $this->apiKey,
-        ];
-
         $client = new Client();
-        $response = $client->request('POST', 'http://api.jisuapi.com/news/get', ['json' => $data]);
+        $response = $client->request('POST', 'http://api.jisuapi.com/news/get?channel=' . $channel . '&appkey=' . $this->apiKey);
         $result = json_decode((string) $response->getBody(), true);
         Log::info($result);
         return $result['result']['list'];
+    }
+
+    //公交线路查询
+    public function bus($city, $transitno) {
+        $client = new Client();
+        $response = $client->request('POST', 'http://api.jisuapi.com/transit/line?appkey=' . $this->apiKey . '&city=' . $city . '&transitno=' . $transitno);
+        $result = json_decode((string) $response->getBody(), true);
+        Log::info($result);
+        return $result['result'];
     }
 }

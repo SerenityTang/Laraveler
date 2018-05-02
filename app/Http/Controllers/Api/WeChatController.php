@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Services\Jisu\JiSu;
 use App\Services\Tuling\TuLing;
+use EasyWeChat\Kernel\Messages\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Log;
@@ -26,10 +27,54 @@ class WeChatController extends Controller
                     return "Hello, welcome to Laraveler-中文领域的Laravel技术问答交流社区官方微信 ^_^ 官方网站：https://www.laraveler.net，欢迎加入O(∩_∩)O";
                     break;
                 case 'text':
-                    if (in_array($message['Content'], ['头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
-                        $jisu = new JiSu();
-                        $res = $jisu->news($message['Content']);
-                        return $res;
+                    $param = explode(' ', $message['Content']);
+                    $jisu = new JiSu();
+                    if (in_array($param[0], ['头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
+                        $result = $jisu->news($message['Content']);
+                        $results = [];
+                        $order = 1;
+                        foreach ($result as $res) {
+                            array_push($results, '<a href="' . $res['url'] . '">' . $order . '、' . $res['title'] . '</a>');
+                            $order++;
+                        }
+                        return implode("\n\r", $results);
+                    } else if (is_numeric($param[1])) {
+                        $result = $jisu->bus($param[0], $param[1]);
+                        $results = [];
+                        $data1 = [
+                            '车次' => $result[0]['transitno'],
+                            '票价' => $result[0]['price'],
+                        ];
+                        $data2 = [
+                            '始发站' => $result[0]['startstation'],
+                            '终点站' => $result[0]['endstation'],
+                        ];
+                        $data3 = [
+                            '早班车' => $result[0]['starttime'],
+                            '晚班车' => $result[0]['endtime'],
+                        ];
+                        array_push($results, $data1, $data2, $data3);
+                        foreach ($result[0]['list'] as $res) {
+                            array_push($results, $res['sequenceno'] . '.' . $res['station']);
+                        }
+
+                        $data4 = [
+                            '车次' => $result[1]['transitno'],
+                            '票价' => $result[1]['price'],
+                        ];
+                        $data5 = [
+                            '始发站' => $result[1]['startstation'],
+                            '终点站' => $result[1]['endstation'],
+                        ];
+                        $data6 = [
+                            '早班车' => $result[1]['starttime'],
+                            '晚班车' => $result[1]['endtime'],
+                        ];
+                        array_push($results, $data4, $data5, $data6);
+                        foreach ($result[1]['list'] as $res) {
+                            array_push($results, $res['sequenceno'] . '.' . $res['station']);
+                        }
+                        return implode("\n\r", $results);
                     }
                     $tuling = new TuLing();
                     $res = $tuling->bot($message['Content'], $message['FromUserName']);
