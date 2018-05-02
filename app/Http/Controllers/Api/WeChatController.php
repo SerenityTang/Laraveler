@@ -73,15 +73,21 @@ class WeChatController extends Controller
                                 ,'老鹰','骑士','步行者','雄鹿','活塞','公牛','猛龙','凯尔特人','76人','尼克斯','篮网'])) {
                         $result = $juhe->nba($param[0], $param[1]);
                         $results = [];
-                        array_push($results, $result['title']);
+                        $part_results = [];
+                        array_push($results, $result['title']."\n");
                         foreach ($result['list'] as $res) {
                             $data = [
                                 '比赛球队：' . $res['player1'] . ' VS ' . $res['player2'],
                                 '比赛时间：' . $res['m_time'],
                                 '比赛结果：' . $res['score'],
-                                '<a href="'. $res['m_link1url'] .'">' . $res['link1text'] . '</a>' . '<a href="'. $res['m_link2url'] .'">' . $res['link2text'] . '</a>' . "\n",
+                                '<a href="'. $res['m_link1url'] .'">' . $res['link1text'] . '</a>' . '   <a href="'. $res['m_link2url'] .'">' . $res['link2text'] . '</a>' . "\n",
                             ];
-                            array_push($results, $data);
+                            array_push($part_results, $data);
+                        }
+                        foreach ($part_results as $part_res) {
+                            for ($i=0;$i<4;$i++) {
+                                array_push($results, $part_res[$i]);
+                            }
                         }
                         return implode("\n", $results);
                     }
