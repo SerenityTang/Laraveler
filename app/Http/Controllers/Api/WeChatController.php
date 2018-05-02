@@ -41,40 +41,30 @@ class WeChatController extends Controller
                     } else if (is_numeric($param[1])) {
                         $result = $jisu->bus($param[0], $param[1]);
                         $results = [];
-                        $data1 = [
-                            '车次' => $result[0]['transitno'],
-                            '票价' => $result[0]['price'],
+                        $go = [
+                            '车次：' . $result[0]['transitno'] . '  票价：' . $result[0]['price'],
+                            '始发站：' . $result[0]['startstation'] . '  终点站：' . $result[0]['endstation'],
+                            '早班车：' . $result[0]['starttime'] . '  晚班车：' . $result[0]['endtime'],
                         ];
-                        $data2 = [
-                            '始发站' => $result[0]['startstation'],
-                            '终点站' => $result[0]['endstation'],
-                        ];
-                        $data3 = [
-                            '早班车' => $result[0]['starttime'],
-                            '晚班车' => $result[0]['endtime'],
-                        ];
-                        array_push($results, $data1, $data2, $data3);
+                        for ($i = 0; $i < 3; $i++) {
+                            array_push($results, $go[$i]);
+                        }
                         foreach ($result[0]['list'] as $res) {
                             array_push($results, $res['sequenceno'] . '.' . $res['station']);
                         }
 
-                        $data4 = [
-                            '车次' => $result[1]['transitno'],
-                            '票价' => $result[1]['price'],
+                        $back = [
+                            '车次：' . $result[0]['transitno'] . '  票价：' . $result[0]['price'],
+                            '始发站：' . $result[0]['startstation'] . '  终点站：' . $result[0]['endstation'],
+                            '早班车：' . $result[0]['starttime'] . '  晚班车：' . $result[0]['endtime'],
                         ];
-                        $data5 = [
-                            '始发站' => $result[1]['startstation'],
-                            '终点站' => $result[1]['endstation'],
-                        ];
-                        $data6 = [
-                            '早班车' => $result[1]['starttime'],
-                            '晚班车' => $result[1]['endtime'],
-                        ];
-                        array_push($results, $data4, $data5, $data6);
+                        for ($i = 0; $i < 3; $i++) {
+                            array_push($results, $back[$i]);
+                        }
                         foreach ($result[1]['list'] as $res) {
                             array_push($results, $res['sequenceno'] . '.' . $res['station']);
                         }
-                        return implode("\n\r", $results);
+                        return implode("\n", $results);
                     }
                     $tuling = new TuLing();
                     $res = $tuling->bot($message['Content'], $message['FromUserName']);
