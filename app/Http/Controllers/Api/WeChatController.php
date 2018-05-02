@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\Jisu\JiSu;
 use App\Services\Tuling\TuLing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,8 +26,10 @@ class WeChatController extends Controller
                     return "Hello, welcome to Laraveler-中文领域的Laravel技术问答交流社区官方微信 ^_^ 官方网站：https://www.laraveler.net，欢迎加入O(∩_∩)O";
                     break;
                 case 'text':
-                    if ($message['Content'] == '') {
-
+                    if (in_array($message['Content'], ['头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
+                        $jisu = new JiSu();
+                        $res = $jisu->news($message['Content']);
+                        return $res;
                     }
                     $tuling = new TuLing();
                     $res = $tuling->bot($message['Content'], $message['FromUserName']);
