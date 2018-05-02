@@ -17,13 +17,8 @@ class JiSu
 
     //获取新闻
     public function news($channel) {
-        $data = [
-            'channel' => $channel,
-            'apiKey' => $this->apiKey,
-        ];
-
         $client = new Client();
-        $response = $client->request('POST', 'http://api.jisuapi.com/news/get', ['json' => $data]);
+        $response = $client->request('POST', 'http://api.jisuapi.com/news/get?channel=' . $channel . '&appkey=' . $this->apiKey);
         $result = json_decode((string) $response->getBody(), true);
         Log::info($result);
         return $result['result']['list'];

@@ -28,8 +28,12 @@ class WeChatController extends Controller
                 case 'text':
                     if (in_array($message['Content'], ['头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
                         $jisu = new JiSu();
-                        $res = $jisu->news($message['Content']);
-                        return $res;
+                        $result = $jisu->news($message['Content']);
+                        $results = [];
+                        foreach ($result as $res) {
+                            array_push($results, '<a href="'.$res['url'].'">'.$res['title'].'</a><br>');
+                        }
+                        return $results;
                     }
                     $tuling = new TuLing();
                     $res = $tuling->bot($message['Content'], $message['FromUserName']);
