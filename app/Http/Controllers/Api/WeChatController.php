@@ -47,7 +47,7 @@ class WeChatController extends Controller
                             $order++;
                         }
                         return implode("\n\r", $results);
-                    } else if (is_numeric($param[1])) {
+                    } else if (count($param) > 1 && is_numeric($param[1])) {
                         $result = $jisu->bus($param[0], $param[1]);
                         $results = [];
                         $go = [
@@ -100,7 +100,7 @@ class WeChatController extends Controller
                         return implode("\n", $results);
                     }
                     $tuling = new TuLing();
-                    $res = $tuling->bot($message['Content'], $message['FromUserName']);
+                    $res = $tuling->bot($param[0], $message['FromUserName']);
                     return $res['values'][$res['resultType']];
 
                     break;
