@@ -24,6 +24,15 @@ class JiSu
         return $result['result']['list'];
     }
 
+    //获取新闻频道
+    public function getChannels() {
+        $client = new Client();
+        $response = $client->request('GET', 'http://api.jisuapi.com/news/channel?appkey=' . $this->apiKey);
+        $result = json_decode((string) $response->getBody(), true);
+        Log::info($result);
+        return $result['result'];
+    }
+
     //公交线路查询
     public function bus($city, $transitno) {
         $client = new Client();
