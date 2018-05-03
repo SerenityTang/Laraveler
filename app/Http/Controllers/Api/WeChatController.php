@@ -31,7 +31,14 @@ class WeChatController extends Controller
                     $param = explode(' ', $message['Content']);
                     $jisu = new JiSu();
                     $juhe = new JuHe();
-                    if (in_array($param[0], ['头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
+                    if ($param[0] == '新闻频道' || $param[0] == 'channel') {
+                        $result = $jisu->getChannels();
+                        $results = '';
+                        foreach ($result as $res) {
+                            $results = $results . $res . "\n";
+                        }
+                        return $results . '回复您想要的新闻频道，新闻马上呈现...';
+                    } else if (in_array($param[0], ['新闻','头条','财经','体育','娱乐','军事','教育','科技','NBA','股票','星座','女性','健康','育儿'])) {
                         $result = $jisu->news($message['Content']);
                         $results = [];
                         $order = 1;
@@ -73,7 +80,7 @@ class WeChatController extends Controller
                                 ,'老鹰','骑士','步行者','雄鹿','活塞','公牛','猛龙','凯尔特人','76人','尼克斯','篮网'])) {
                         $result = $juhe->nba($param[0], $param[1]);
                         $results = [];
-                        $part_results = [];
+                        $part_result = [];
                         array_push($results, $result['title']."\n");
                         foreach ($result['list'] as $res) {
                             $data = [
@@ -82,11 +89,12 @@ class WeChatController extends Controller
                                 '比赛结果：' . $res['score'],
                                 '<a href="'. $res['m_link1url'] .'">' . $res['link1text'] . '</a>' . '   <a href="'. $res['m_link2url'] .'">' . $res['link2text'] . '</a>' . "\n",
                             ];
-                            array_push($part_results, $data);
+                            array_push($part_result, $data);
+                            $part_results = array_reverse($part_result);
                         }
-                        foreach ($part_results as $part_res) {
-                            for ($i=0;$i<4;$i++) {
-                                array_push($results, $part_res[$i]);
+                        for ($j = 0; $j < 6; $j++) {
+                            for ($i = 0; $i < 4; $i++) {
+                                array_push($results, $part_results[$j][$i]);
                             }
                         }
                         return implode("\n", $results);
