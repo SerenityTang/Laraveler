@@ -119,7 +119,7 @@
     @include('pc.layouts.partials.footer')
 @show
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 <script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('libs/typeahead.js/dist/typeahead.bundle.min.js') }}"></script>
