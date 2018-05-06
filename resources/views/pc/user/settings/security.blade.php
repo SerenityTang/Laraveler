@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <label for="" class="col-sm-2 control-label">手机</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control text-extra" id="mobile" name="mobile" placeholder="请输入绑定手机" value="{{ $user->mobile }}">
+                                    <input type="text" class="form-control text-extra" id="mobile" name="mobile" placeholder="请输入绑定手机" value="{{--{{ $user->mobile }}--}}">
                                 </div>
                             </div>
                             <div class="form-group verify">

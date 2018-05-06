@@ -19,6 +19,16 @@ canvas{z-index:-1;position:absolute;}
 .bind .form-group-bottom {margin-bottom: 18px;}
 .bind .form-input {padding-left: 0;padding-right: 0;}
 .bind .form-group .input-group .text{color: white; background-color: #55b7a4;height: 40px;line-height: 40px;border: 1px solid #53c6b0;border-radius: 4px;}
+.bind .form-group .input-group .get-vcode {
+    background-color: #048f74;
+    height: 40px;
+    border: none;
+    font-size: 14px;
+    color: #f4f4f4;
+    margin-left: 10px;
+    padding-left: 12px;
+}
+.bind .form-group .input-group .get-vcode:hover {background-color: #0e8a70;color:#fff;}
 .bind .text-clear{border: 1px solid #A01641;}
 .bind .text-focus {background: #5cbdaa;
     -moz-box-shadow: 0px 0px 8px #53c6b0;/*firefox*/

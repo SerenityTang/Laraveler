@@ -22,6 +22,10 @@ class Photos
         $jar = new CookieJar();
         $client = new Client(['base_uri' => $this->base_url, 'cookies' => true]);
         $response = $client->request('GET', '', ['cookies' => $jar]);
+
+        /*$client = new Client();
+        $response = $client->request('GET', $this->base_url);*/
+
         $dom->load((string) $response->getBody());//dd($dom->load((string) $response->getBody()));
 
         $photo = $dom->find('.photo_thumbnail');
