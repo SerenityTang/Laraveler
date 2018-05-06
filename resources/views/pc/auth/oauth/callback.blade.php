@@ -52,7 +52,16 @@
                             <em></em>
                         </span>
                     </div>
-                    <div class="form-group form-group-bottom captcha">
+                    <div class="form-group form-group-bottom verify">
+                        <div class="input-group">
+                            <input type="text" class="form-control text" id="verify_code" name="verify_code" maxlength="6" placeholder="请输入验证码" style="width: 190px;">
+                            <button type="button" class="btn btn-lg get-vcode" style="width: 128px;">获取验证码</button>
+                        </div>
+                        <span class="help-block help-block-clear">
+                            <em></em>
+                        </span>
+                    </div>
+                    {{--<div class="form-group form-group-bottom captcha">
                         <div class="input-group">
                             <input type="text" class="form-control text" id="captcha" name="captcha" style="width: 180px" maxlength="5" placeholder="验证码">&nbsp;
                             <img id="captcha-img" src="{{ url('/captcha/verify') }}" >
@@ -61,7 +70,7 @@
                         <span class="help-block help-block-clear">
                             <em>{{ $errors->first('captcha') }}</em>
                         </span>
-                    </div>
+                    </div>--}}
                     <div class="form-group">
                         <div class="submit-btn">
                             <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat submit" data-loading-text="正在提交..." onautocomplete="off">提 交</button>
@@ -104,7 +113,7 @@
     </script>
     <script>
         $(function () {
-            $('#username').focusout(function () {
+            /*$('#username').focusout(function () {
                 var username = $('#username').val();
                 if (username == '') {
                     $('#username').parents('.username').find('.help-block em').html('用户名 不可为空。');
@@ -133,7 +142,7 @@
                         }
                     });
                 }
-            });
+            });*/
             $('#password').focusout(function () {
                 var password = $('#password').val();
                 if (password == '') {
@@ -165,6 +174,7 @@
                 }
             });
             $('#mobile').focusout(function () {
+                var username = $('#username').val();
                 var mobile = $('#mobile').val();
                 if (mobile == '') {
                     $('#mobile').parents('.mobile').find('.help-block em').html('手机号 不可为空。');
@@ -176,6 +186,7 @@
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
+                            'username': username,
                             'mobile': mobile,
                         },
                         cache: false,
@@ -184,10 +195,13 @@
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                                 $('.password').fadeOut('slow');
                             } else if (res.code == 903) {
+                                $('#username').parents('.username').find('.help-block em').html('用户名可用。');
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
                             } else if (res.code == 502) {
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                            } else if (res.code == 906) {
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
                             }
                         },
                         error: function(){
@@ -199,25 +213,25 @@
                     });
                 }
             });
-            $('#captcha').focusout(function () {
-                var captcha = $('#captcha').val();
-                if (captcha == '') {
-                    $('#captcha').parents('.captcha').find('.help-block em').html('验证码 不可为空。');
+            $('#verify_code').focusout(function () {
+                var verify_code = $('#verify_code').val();
+                if (verify_code == '') {
+                    $('#verify_code').parents('.verify').find('.help-block em').html('验证码 不能为空。');
                 } else {
-                    $('#captcha').parents('.captcha').find('.help-block em').html('');
+                    $('#verify_code').parents('.verify').find('.help-block em').html('');
                     $.ajax({
                         url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
-                            'captcha': captcha,
+                            'verify_code': verify_code,
                         },
                         cache: false,
                         success: function(res){
                             if (res.code == 905) {
-                                $('#captcha').parents('.captcha').find('.help-block em').html(res.message);
+                                $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
                             } else if (res.code == 502) {
-                                $('#captcha').parents('.captcha').find('.help-block em').html(res.message);
+                                $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
                             }
                         },
                         error: function(){
@@ -241,16 +255,16 @@
                     type: 'post',
                     data: data,
                     cache: false,
-                    success: function (res) {console.log(res)
+                    success: function (res) {
                         if (res.code == 502 && $('.bind .password').css('display') != 'none') {
                             $('#username').parents('.username').find('.help-block em').html(res.message['username']);
                             $('#password').parents('.password').find('.help-block em').html(res.message['password']);
                             $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                            $('#captcha').parents('.captcha').find('.help-block em').html(res.message['captcha']);
+                            $('#verify_code').parents('.verify').find('.help-block em').html(res.message['verify_code']);
                         } else if (res.code == 502 && $('.bind .password').css('display') == 'none') {
                             $('#username').parents('.username').find('.help-block em').html(res.message['username']);
                             $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                            $('#captcha').parents('.captcha').find('.help-block em').html(res.message['captcha']);
+                            $('#verify_code').parents('.verify').find('.help-block em').html(res.message['verify_code']);
                         } else if (res.code == 501) {
                             layer.msg(res.message, {
                                 icon: 6,
@@ -280,5 +294,115 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        //手机获取验证码
+        $(function () {
+            $('.get-vcode').click(function () {
+                var self = $(this);
+                var opts = $.extend(true, {}, options);
+
+                changeBtn(opts.language.sending, true);
+                send(opts);
+            });
+
+            //发送验证码后返回状态
+            function send(opts) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ url('/auth/get_mobile_code') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'username': $('#username').val(),
+                        'password': $('#password').val(),
+                        'mobile': $('#mobile').val(),
+                    },
+                    cache: false,
+                    success: function (res) {
+                        if (res.code == 502) {
+                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
+                            $('#password').parents('.password').find('.help-block em').html(res.message['password']);
+                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 906) {   //用户名已存在
+                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
+                            changeBtn(opts.language.oricon, false);
+                        } /*else if (res.code == 903) {   //手机号可用
+                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                            $('.password').fadeIn('slow');
+                            changeBtn(opts.language.oricon, false);
+                        } */else if (res.code == 900) {   //发送成功
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                            });
+                            timer(opts.interval);
+                        } else if (res.code == 901) {   //发送失败
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 2000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 899) {   //重复获取
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 3000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                        changeBtn(opts.language.oricon, false);
+                    }
+                });
+            }
+
+            //倒计时
+            function timer(seconds) {
+                var timeId;
+                var opts = $.extend(true, {}, options);
+                var btnText = opts.language.resendable;
+                btnText = typeof btnText === 'string' ? btnText : '';
+                if (seconds < 0) {
+                    clearTimeout(timeId);
+                    changeBtn(opts.language.oricon, false);
+                } else {
+                    timeId = setTimeout(function() {
+                        clearTimeout(timeId);
+                        changeBtn(btnText.replace('60 秒后再次获取', (seconds--) + ' 秒后再次获取'), true);
+                        timer(seconds);
+                    }, 1000);
+                }
+            }
+
+            //发送验证码按钮
+            function changeBtn(content, disabled) {
+                $('.get-vcode').html(content);
+                $('.get-vcode').val(content);
+                $('.get-vcode').prop('disabled', !!disabled);
+            }
+        });
+
+        var options = {
+            token       : null,
+            interval    : 60,
+            voice       : false,
+            requestUrl  : null,
+            requestData : null,
+            notify      : function (msg, type) {
+                alert(msg);
+            },
+            language    : {
+                oricon     : '获取验证码',
+                sending    : '短信发送中...',
+                failed     : '请求失败，请重试',
+                resendable : '60 秒后再次获取'
+            }
+        };
     </script>
 @stop
