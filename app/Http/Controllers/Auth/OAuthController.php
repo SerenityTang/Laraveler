@@ -65,7 +65,7 @@ class OAuthController extends Controller
             } else {
                 return $this->jsonResult(904);
             }
-        } else if (isset($input['verify_code']) && $input['verify_code'] != null) {
+        } /*else if (isset($input['verify_code']) && $input['verify_code'] != null) {
             $rules = array(
                 'verify_code' => 'required|validateMobile:'.$input['mobile'],
             );
@@ -75,7 +75,7 @@ class OAuthController extends Controller
             } else {
                 return $this->jsonResult(905);
             }
-        }
+        }*/
     }
 
     /**

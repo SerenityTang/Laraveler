@@ -326,6 +326,7 @@
                             $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
                             changeBtn(opts.language.oricon, false);
                         } else if (res.code == 906) {   //用户名已存在
+                            $('#username').parents('.username').find('.help-block em').html('');
                             $('#username').parents('.username').find('.help-block em').html(res.message['username']);
                             changeBtn(opts.language.oricon, false);
                         } /*else if (res.code == 903) {   //手机号可用
