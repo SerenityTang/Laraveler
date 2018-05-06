@@ -359,7 +359,7 @@
                 lang: 'zh-CN',
                 width: 845,
                 height: 200,
-                placeholder:'请输入您的问题描述......',
+                placeholder:'请输入您的博客内容......',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
                     ['style', ['bold', 'italic', 'underline', 'clear']],

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\Crawl\Photos;
 use App\Services\Jisu\JiSu;
 use App\Services\Juhe\JuHe;
 use App\Services\Tuling\TuLing;
 use EasyWeChat\Kernel\Messages\Article;
+use EasyWeChat\Kernel\Messages\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Log;
@@ -22,7 +24,7 @@ class WeChatController extends Controller
         Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
         $app = app('wechat.official_account');
-        $app->server->push(function($message){
+        $app->server->push(function($message) use ($app){
             switch ($message['MsgType']) {
                 case 'event':
                     return "Hello, welcome to Laraveler-中文领域的Laravel技术问答交流社区官方微信 ^_^ 官方网站：https://www.laraveler.net，欢迎加入O(∩_∩)O";
@@ -98,6 +100,11 @@ class WeChatController extends Controller
                             }
                         }
                         return implode("\n", $results);
+                    } else if ($param[0] == '图片') {
+                        $photo = new Photos();
+                        $upload = $app->media->uploadImage($photo);
+                        $image = new Image($upload['media_id']);
+                        return $image;
                     }
                     $tuling = new TuLing();
                     $res = $tuling->bot($param[0], $message['FromUserName']);
