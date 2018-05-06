@@ -329,11 +329,11 @@
                             $('#username').parents('.username').find('.help-block em').html('');
                             $('#username').parents('.username').find('.help-block em').html(res.message['username']);
                             changeBtn(opts.language.oricon, false);
-                        } /*else if (res.code == 903) {   //手机号可用
+                        } else if (res.code == 903) {   //手机号可用
                             $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
                             $('.password').fadeIn('slow');
                             changeBtn(opts.language.oricon, false);
-                        } */else if (res.code == 900) {   //发送成功
+                        } else if (res.code == 900) {   //发送成功
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,

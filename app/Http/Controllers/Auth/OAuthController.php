@@ -99,56 +99,65 @@ class OAuthController extends Controller
             return $this->jsonResult(502, $validator->errors());
         } else {
             $mobile_user = User::where('mobile', $mobile)->first();
-            if (!$mobile_user) {
+            if (!$mobile_user && $password != null) {
+                $this->send($request, $mobile);
+            } else if (!$mobile_user && $password == null) {
                 //手机号不存在，则注册并绑定账号
                 $username = User::where('username', $username)->first();
                 if ($username) {
                     return $this->jsonResult(906);
-                } /*else {
+                } else {
                     return $this->jsonResult(903);
-                }*/
+                }
             }
-            /**
-             * 验证成功，发送验证码
-             * 短信接口请求参数
-             **/
-            $appid = env('AppID');
-            $templateid = env('Template_Id_Register');
+            $this->send($request, $mobile);
+        }
+    }
 
-            $options['accountsid'] = env('Account_Sid');
-            $options['token'] = env('Auth_Token');
-            $ucpass = new UcpaasAgent($options);
+    /**
+     * 手机验证码发送
+     */
+    public function send(Request $request, $mobile){
+        /**
+         * 验证成功，发送验证码
+         * 短信接口请求参数
+         **/
+        $appid = env('AppID');
+        $templateid = env('Template_Id_Register');
 
-            $verify_code = '';
-            for ($i = 0; $i < 6; $i++) {
-                $verify_code .= random_int(0, 9);
-            }
+        $options['accountsid'] = env('Account_Sid');
+        $options['token'] = env('Auth_Token');
+        $ucpass = new UcpaasAgent($options);
 
-            $param = "$verify_code,5";
+        $verify_code = '';
+        for ($i = 0; $i < 6; $i++) {
+        $verify_code .= random_int(0, 9);
+        }
 
-            //发送短信前先删除此用户的短信验证码缓存
-            if (Cache::has($mobile.'minute')) {
-                return $this->jsonResult(899);
-            } else {
-                Cache::forget($mobile);
-                Cache::forget($mobile.'minute');
-            }
+        $param = "$verify_code,5";
 
-            //发送短信验证码
-            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
-            //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
-            $back_data = json_decode($data, true);
+        //发送短信前先删除此用户的短信验证码缓存
+        if (Cache::has($mobile.'minute')) {
+            return $this->jsonResult(899);
+        } else {
+            Cache::forget($mobile);
+            Cache::forget($mobile.'minute');
+        }
 
-            if ($back_data['code'] == '000000') {
-                //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
-                Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
-                Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+        //发送短信验证码
+        $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+        //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+        $back_data = json_decode($data, true);
 
-                return $this->jsonResult(900);
-            } else {
-                //发送失败
-                return $this->jsonResult(901);
-            }
+        if ($back_data['code'] == '000000') {
+            //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+            Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
+            Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+
+            return $this->jsonResult(900);
+        } else {
+            //发送失败
+            return $this->jsonResult(901);
         }
     }
 
