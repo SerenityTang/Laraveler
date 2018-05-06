@@ -101,7 +101,8 @@ class WeChatController extends Controller
                         }
                         return implode("\n", $results);
                     } else if ($param[0] == '图片') {
-                        $photo = new Photos();
+                        $photos = new Photos();
+                        $photo = $photos->crawlDxs();
                         $upload = $app->media->uploadImage($photo);
                         $image = new Image($upload['media_id']);
                         return $image;
