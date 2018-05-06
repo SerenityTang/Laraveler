@@ -89,7 +89,7 @@ class OAuthController extends Controller
         $mobile = $request->input('mobile');
         $password = $request->input('password');
         $rules = array(
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:user',
             'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
             'password' => 'required|string|between:6,20',
         );
