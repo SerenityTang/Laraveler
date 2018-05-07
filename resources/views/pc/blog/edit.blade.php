@@ -110,7 +110,7 @@
     {{--<script type="text/javascript" src="{{ url('libs/wangEditor/release/wangEditor.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/wangEditor-fullscreen/wangEditor-fullscreen-plugin.js') }}"></script>--}}
     <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/lang/summernote-zh-CN.js') }}"></script>
     <script src="{{ asset('libs/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap-select/js/i18n/defaults-zh_CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/amazeui-tagsinput/amazeui.tagsinput.min.js') }}"></script>
@@ -258,14 +258,15 @@
                 placeholder:'请输入您的问题描述......',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
+                    ['para', ['style']],
                     ['style', ['bold', 'italic', 'underline', 'clear']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],
+                    ['height', ['height']],
                     ['para', ['ul', 'ol', 'paragraph']],
-                    //['height', ['height']],
-                    ['insert', ['picture', 'link']],
-                    ['misc', ['undo', 'redo', 'fullscreen']]
+                    ['insert', ['picture', 'link', 'table']],
+                    ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
                     onChange:function (contents, $editable) {

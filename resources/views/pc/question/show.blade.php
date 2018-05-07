@@ -204,7 +204,7 @@
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/lang/summernote-zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/zeroModal/zeroModal.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('css/iconfont/iconfont.js') }}"></script>
     <script>
@@ -227,14 +227,15 @@
                 placeholder:'您对此问题有何见解？赶紧回复探讨吧^_^',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
+                    ['para', ['style']],
                     ['style', ['bold', 'italic', 'underline', 'clear']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],
-                    //['para', ['ul', 'ol', 'paragraph']],
-                    //['height', ['height']],
-                    ['insert', ['picture', 'link']],
-                    ['misc', ['fullscreen']]
+                    ['height', ['height']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture', 'link', 'table']],
+                    ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
                     onChange:function (contents, $editable) {

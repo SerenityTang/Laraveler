@@ -110,7 +110,7 @@
     {{--<script type="text/javascript" src="{{ url('libs/wangEditor/release/wangEditor.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/wangEditor-fullscreen/wangEditor-fullscreen-plugin.js') }}"></script>--}}
     <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/lang/summernote-zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/bootstrap-select/js/i18n/defaults-zh_CN.js') }}"></script>
