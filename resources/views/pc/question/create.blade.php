@@ -5,7 +5,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ url('css/question/default.css') }}">
     {{--<link rel="stylesheet" href="{{ url('libs/wangEditor-fullscreen/wangEditor-fullscreen-plugin.css') }}">--}}
-    <link rel="stylesheet" href="{{ url('libs/summernote/summernote.css') }}">
+    <link rel="stylesheet" href="{{ url('libs/summernote/dist/summernote.css') }}">
     <link rel="stylesheet" href="{{ url('libs/bootstrap-select/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ url('libs/amazeui-tagsinput/amazeui.tagsinput.css') }}">
 @stop
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default main-content">
-                    <h4><i class="iconfont icon-fabu1"></i>发布问答</h4>
+                    <h4 class="big-title"><i class="iconfont icon-fabu1"></i>发布问答</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/store') }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" id="desc" name="desc" value="">
@@ -109,7 +109,7 @@
 @section('footer')
     {{--<script type="text/javascript" src="{{ url('libs/wangEditor/release/wangEditor.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/wangEditor-fullscreen/wangEditor-fullscreen-plugin.js') }}"></script>--}}
-    <script type="text/javascript" src="{{ url('libs/summernote/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
@@ -319,14 +319,15 @@
                 placeholder:'请输入您的问题描述......',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
+                    ['para', ['style']],
                     ['style', ['bold', 'italic', 'underline', 'clear']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],
+                    ['height', ['height']],
                     ['para', ['ul', 'ol', 'paragraph']],
-                    //['height', ['height']],
-                    ['insert', ['picture', 'link']],
-                    ['misc', ['undo', 'redo', 'fullscreen']]
+                    ['insert', ['picture', 'link', 'table']],
+                    ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
                     onChange:function (contents, $editable) {
@@ -342,6 +343,9 @@
             $('.note-editor').addClass('panel-extra');
             $('.modal .modal-dialog .modal-content .modal-header, .modal .modal-dialog .modal-content .modal-body, .modal .modal-dialog .modal-content .checkbox input').addClass('modal-extra');
             $('.modal .modal-dialog .modal-content .modal-body input.note-image-input').addClass('form-control');
+            //富文本工具栏标题按钮下拉菜单
+            $('ul.dropdown-style').css('min-width', '150px');
+            $('ul.dropdown-style li a').css('padding', '0');
         });
     </script>
     <script>

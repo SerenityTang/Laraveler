@@ -104,7 +104,6 @@ class OAuthController extends Controller
             $rules = array(
                 'username' => 'required|string|max:255',
                 'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
-                'password' => 'string|between:6,20',
             );
         }
 

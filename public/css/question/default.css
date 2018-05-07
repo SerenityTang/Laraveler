@@ -1,7 +1,7 @@
 /*发布问题*/
 /*标题*/
-.main-content h4:first-child {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin-bottom: 30px;}
-.main-content h4 i {font-size: 22px;padding-right: 5px;}
+.main-content h4.big-title {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin-bottom: 30px;}
+.main-content h4.big-title i {font-size: 22px;padding-right: 5px;}
 /*输入框样式*/
 .main-content .text-extra {border: 2px solid #e4e4e4;height: 40px;}
 .main-content textarea {border: 2px solid #e4e4e4;}

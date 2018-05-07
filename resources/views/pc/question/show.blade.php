@@ -4,7 +4,7 @@
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ url('css/question/default.css') }}">
-    <link rel="stylesheet" href="{{ url('libs/summernote/summernote.css') }}">
+    <link rel="stylesheet" href="{{ url('libs/summernote/dist/summernote.css') }}">
     <link rel="stylesheet" href="{{ url('libs/zeroModal/zeroModal.css') }}">
 @stop
 
@@ -203,7 +203,7 @@
 @section('footer')
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/zeroModal/zeroModal.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('css/iconfont/iconfont.js') }}"></script>

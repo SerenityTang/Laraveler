@@ -5,7 +5,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ url('css/blog/default.css') }}">
-    <link rel="stylesheet" href="{{ url('libs/summernote/summernote.css') }}">
+    <link rel="stylesheet" href="{{ url('libs/summernote/dist/summernote.css') }}">
     <link rel="stylesheet" href="{{ url('libs/zeroModal/zeroModal.css') }}">
 @stop
 
@@ -287,8 +287,8 @@
 @stop
 
 @section('footer')
-    <script src="{{ url('libs/summernote/summernote.min.js') }}"></script>
-    <script src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ asset('libs/zeroModal/zeroModal.min.js') }}"></script>
