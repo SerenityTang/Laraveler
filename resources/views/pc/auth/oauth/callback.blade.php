@@ -177,6 +177,7 @@
                                 if (username == '') {
                                     $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
                                     $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                    $('.password').fadeIn('slow');
                                     return false;
                                 }
                             } else if (res.code == 902) {      //用户先输入手机号，且手机号存在
@@ -188,6 +189,8 @@
                                 }
                             } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
+
                             } else if (res.code == 501) {   //用户按顺序输入用户名手机号，手机号存在，隐藏密码栏
                                 $('.password').fadeOut('slow');
                             }
