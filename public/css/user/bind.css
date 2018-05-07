@@ -15,7 +15,6 @@ canvas{z-index:-1;position:absolute;}
 .bind .form-group .help-block-clear {margin: 0px;position: relative;padding-bottom: 5px;}
 .bind .form-group .help-block em{display:block;font-size:11px;text-align: left;padding-left: 5px;color: #A01641;margin: 5px 0 0 0;position: absolute;}
 .bind .form-group .has-error{border-color: #A01641;}
-.bind .password {display: none;}
 .bind .form-group-bottom {margin-bottom: 18px;}
 .bind .form-input {padding-left: 0;padding-right: 0;}
 .bind .form-group .input-group .text{color: white; background-color: #55b7a4;height: 40px;line-height: 40px;border: 1px solid #53c6b0;border-radius: 4px;}

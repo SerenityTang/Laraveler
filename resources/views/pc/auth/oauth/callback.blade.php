@@ -11,7 +11,7 @@
             <div class="bind">
                 <form class="form-horizontal bs-example bs-example-form" role="form" method="POST" action="{{ url('/auth/bind') }}">
                     {{ csrf_field() }}
-                    <input type="hidden" name="nickname" value="{{ $profile->nickname }}">
+                    {{--<input type="hidden" name="nickname" value="{{ $profile->nickname }}">
                     <input type="hidden" name="realname" value="{{ $profile->realname }}">
                     <input type="hidden" name="avatar" value="{{ $profile->avatar }}">
                     <input type="hidden" name="gender" value="{{ $profile->gender }}">
@@ -24,13 +24,13 @@
                     <input type="hidden" name="oauth_expires" value="{{ $profile->oauth_expires }}">
                     <input type="hidden" name="driver" value="{{ $driver }}">
                     <input type="hidden" name="weibo" value="{{ $profile->weibo }}">
-                    <input type="hidden" name="github" value="{{ $profile->github }}">
+                    <input type="hidden" name="github" value="{{ $profile->github }}">--}}
 
                     <strong>完善基本资料</strong>
                     <em class="title-eng">Perfect The Info</em>
                     <div class="form-group form-group-bottom username">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名" value="{{ $profile->nickname }}">
+                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名" value="{{--{{ $profile->nickname }}--}}">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group form-group-bottom mobile">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="mobile" name="mobile" placeholder="手机号" value="{{ old('mobile') }}">
+                            <input type="text" class="form-control text" id="mobile" name="mobile" maxlength="11" placeholder="手机号" value="{{ old('mobile') }}">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -73,7 +73,7 @@
                     </div>--}}
                     <div class="form-group">
                         <div class="submit-btn">
-                            <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat submit" data-loading-text="正在提交..." onautocomplete="off">提 交</button>
+                            <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat submit" data-loading-text="正在提交..." onautocomplete="off" disabled>提 交</button>
                         </div>
                     </div>
                 </form>
@@ -113,24 +113,31 @@
     </script>
     <script>
         $(function () {
-            /*$('#username').focusout(function () {
+            $('#username').focus(function () {
+                $('#username').parents('.username').find('.help-block em').html('');
+            });
+            $('#username').focusout(function () {
                 var username = $('#username').val();
+                var mobile = $('#mobile').val();
                 if (username == '') {
-                    $('#username').parents('.username').find('.help-block em').html('用户名 不可为空。');
+                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
                 } else {
-                    $('#username').parents('.username').find('.help-block em').html('');
                     $.ajax({
                         url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
                             'username': username,
+                            'mobile': mobile,
                         },
                         cache: false,
                         success: function(res){
-                            if (res.code == 906) {
+                            if (res.code == 502) {
+                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                            } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不为空，用户名存在手机号不存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
-                            } else if (res.code == 907) {
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，用户名存在修改后提示
+                                $('#mobile').parents('.mobile').find('.help-block em').html('提交信息即创建新账号。');
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                             }
                         },
@@ -142,13 +149,64 @@
                         }
                     });
                 }
-            });*/
+            });
+            $('#mobile').focus(function () {
+                $('#mobile').parents('.mobile').find('.help-block em').html('');
+            });
+            $('#mobile').focusout(function () {
+                var username = $('#username').val();
+                var mobile = $('#mobile').val();
+                if (mobile == '') {
+                    $('#mobile').parents('.mobile').find('.help-block em').html('手机号 不能为空。');
+                } else {
+                    $.ajax({
+                        url: '{{ url('/auth/bind_verify') }}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            'username': username,
+                            'mobile': mobile,
+                        },
+                        cache: false,
+                        success: function(res){
+                            if (res.code == 502) {   //表单验证
+                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                            } else if (res.code == 903) {   //用户先输入手机号，且用户名手机号不存在
+                                if (username == '') {
+                                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
+                                    $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                    return false;
+                                }
+                            } else if (res.code == 902) {      //用户先输入手机号，且手机号存在
+                                if (username == '') {
+                                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
+                                    $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                    $('.password').fadeOut('slow');
+                                    return false;
+                                }
+                            } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                            } else if (res.code == 501) {   //用户按顺序输入用户名手机号，手机号存在，隐藏密码栏
+                                $('.password').fadeOut('slow');
+                            }
+                        },
+                        error: function(){
+                            layer.msg('系统错误！', {
+                                icon: 2,
+                                time: 2000,
+                            });
+                        }
+                    });
+                }
+            });
+            $('#password').focus(function () {
+                $('#password').parents('.password').find('.help-block em').html('');
+            });
             $('#password').focusout(function () {
                 var password = $('#password').val();
                 if (password == '') {
-                    $('#password').parents('.password').find('.help-block em').html('密码 不可为空。');
+                    $('#password').parents('.password').find('.help-block em').html('密码 不能为空。');
                 } else {
-                    $('#password').parents('.password').find('.help-block em').html('');
                     $.ajax({
                         url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
@@ -173,52 +231,14 @@
                     });
                 }
             });
-            $('#mobile').focusout(function () {
-                var username = $('#username').val();
-                var mobile = $('#mobile').val();
-                if (mobile == '') {
-                    $('#mobile').parents('.mobile').find('.help-block em').html('手机号 不可为空。');
-                    $('.password').fadeOut('slow');
-                } else {
-                    $('#mobile').parents('.mobile').find('.help-block em').html('');
-                    $.ajax({
-                        url: '{{ url('/auth/bind_verify') }}',
-                        type: 'post',
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            'username': username,
-                            'mobile': mobile,
-                        },
-                        cache: false,
-                        success: function(res){
-                            if (res.code == 902) {
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
-                                $('.password').fadeOut('slow');
-                            } else if (res.code == 903) {
-                                $('#username').parents('.username').find('.help-block em').html('用户名可用。');
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
-                                $('.password').fadeIn('slow');
-                            } else if (res.code == 502) {
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
-                            } else if (res.code == 906) {
-                                $('#username').parents('.username').find('.help-block em').html(res.message);
-                            }
-                        },
-                        error: function(){
-                            layer.msg('系统错误！', {
-                                icon: 2,
-                                time: 2000,
-                            });
-                        }
-                    });
-                }
+            $('#verify_code').focus(function () {
+                $('#verify_code').parents('.verify').find('.help-block em').html('');
             });
             $('#verify_code').focusout(function () {
                 var verify_code = $('#verify_code').val();
                 if (verify_code == '') {
                     $('#verify_code').parents('.verify').find('.help-block em').html('验证码 不能为空。');
                 } else {
-                    $('#verify_code').parents('.verify').find('.help-block em').html('');
                     $.ajax({
                         url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
@@ -256,14 +276,7 @@
                     data: data,
                     cache: false,
                     success: function (res) {
-                        if (res.code == 502 && $('.bind .password').css('display') != 'none') {
-                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                            $('#password').parents('.password').find('.help-block em').html(res.message['password']);
-                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                            $('#verify_code').parents('.verify').find('.help-block em').html(res.message['verify_code']);
-                        } else if (res.code == 502 && $('.bind .password').css('display') == 'none') {
-                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                        if (res.code == 502) {
                             $('#verify_code').parents('.verify').find('.help-block em').html(res.message['verify_code']);
                         } else if (res.code == 501) {
                             layer.msg(res.message, {
@@ -309,58 +322,110 @@
 
             //发送验证码后返回状态
             function send(opts) {
-                $.ajax({
-                    type: 'post',
-                    url: '{{ url('/auth/get_mobile_code') }}',
-                    data: {
-                        _token: '{{csrf_token()}}',
-                        'username': $('#username').val(),
-                        'password': $('#password').val(),
-                        'mobile': $('#mobile').val(),
-                    },
-                    cache: false,
-                    success: function (res) {
-                        if (res.code == 502) {
-                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                            $('#password').parents('.password').find('.help-block em').html(res.message['password']);
-                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                            changeBtn(opts.language.oricon, false);
-                        } else if (res.code == 906) {   //用户名已存在
-                            $('#username').parents('.username').find('.help-block em').html('');
-                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                            changeBtn(opts.language.oricon, false);
-                        } else if (res.code == 903) {   //手机号可用
-                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                            $('.password').fadeIn('slow');
-                            changeBtn(opts.language.oricon, false);
-                        } else if (res.code == 900) {   //发送成功
-                            layer.msg(res.message, {
-                                icon: 6,
+                if ($('.bind .password').css('display') != 'none') {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ url('/auth/get_mobile_code') }}',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            'username': $('#username').val(),
+                            'password': $('#password').val(),
+                            'mobile': $('#mobile').val(),
+                            'pwd_status': 0,
+                        },
+                        cache: false,
+                        success: function (res) {
+                            if (res.code == 502) {
+                                $('.help-block em').html('');
+                                $('#username').parents('.username').find('.help-block em').html(res.message['username']);
+                                $('#password').parents('.password').find('.help-block em').html(res.message['password']);
+                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 906) {   //用户名已存在
+                                $('.help-block em').html('');
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 900) {   //发送成功
+                                layer.msg(res.message, {
+                                    icon: 6,
+                                    time: 2000,
+                                });
+                                timer(opts.interval);
+                                $('.submit').attr('disabled', false);
+                            } else if (res.code == 901) {   //发送失败
+                                layer.msg(res.message, {
+                                    icon: 5,
+                                    time: 2000,
+                                });
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 899) {   //重复获取
+                                layer.msg(res.message, {
+                                    icon: 5,
+                                    time: 3000,
+                                });
+                                changeBtn(opts.language.oricon, false);
+                            }
+                        },
+                        error: function () {
+                            layer.msg('系统错误！', {
+                                icon: 2,
                                 time: 2000,
-                            });
-                            timer(opts.interval);
-                        } else if (res.code == 901) {   //发送失败
-                            layer.msg(res.message, {
-                                icon: 5,
-                                time: 2000,
-                            });
-                            changeBtn(opts.language.oricon, false);
-                        } else if (res.code == 899) {   //重复获取
-                            layer.msg(res.message, {
-                                icon: 5,
-                                time: 3000,
                             });
                             changeBtn(opts.language.oricon, false);
                         }
-                    },
-                    error: function () {
-                        layer.msg('系统错误！', {
-                            icon: 2,
-                            time: 2000,
-                        });
-                        changeBtn(opts.language.oricon, false);
-                    }
-                });
+                    });
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ url('/auth/get_mobile_code') }}',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            'username': $('#username').val(),
+                            'mobile': $('#mobile').val(),
+                        },
+                        cache: false,
+                        success: function (res) {
+                            if (res.code == 502) {
+                                $('.help-block em').html('');
+                                $('#username').parents('.username').find('.help-block em').html(res.message['username']);
+                                $('#password').parents('.password').find('.help-block em').html(res.message['password']);
+                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 906) {   //用户名已存在
+                                $('.help-block em').html('');
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 900) {   //发送成功
+                                layer.msg(res.message, {
+                                    icon: 6,
+                                    time: 2000,
+                                });
+                                timer(opts.interval);
+                                $('.submit').attr('disabled', false);
+                            } else if (res.code == 901) {   //发送失败
+                                layer.msg(res.message, {
+                                    icon: 5,
+                                    time: 2000,
+                                });
+                                changeBtn(opts.language.oricon, false);
+                            } else if (res.code == 899) {   //重复获取
+                                layer.msg(res.message, {
+                                    icon: 5,
+                                    time: 3000,
+                                });
+                                changeBtn(opts.language.oricon, false);
+                            }
+                        },
+                        error: function () {
+                            layer.msg('系统错误！', {
+                                icon: 2,
+                                time: 2000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        }
+                    });
+                }
+
             }
 
             //倒计时
