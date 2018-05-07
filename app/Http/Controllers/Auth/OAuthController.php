@@ -120,11 +120,11 @@ class OAuthController extends Controller
                     //获取验证码前判断手机号不存在且用户名存在
                     return $this->jsonResult(906);
                 } else {
-                    $this->send($request, $mobile);
+                    return $this->send($request, $mobile);
                 }
             } else {
                 //手机号存在
-                $this->send($request, $mobile);
+                return $this->send($request, $mobile);
             }
         }
     }
