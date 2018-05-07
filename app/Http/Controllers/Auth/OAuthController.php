@@ -94,13 +94,13 @@ class OAuthController extends Controller
         $username = $request->input('username');
         $mobile = $request->input('mobile');
         $password = $request->input('password');
-        if ($request->input('pwd_status') == 0 && $request->input('pwd_status') != null) {
+        if ($request->input('pwd_status') == 0) {
             $rules = array(
                 'username' => 'required|string|max:255',
                 'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
                 'password' => 'required|string|between:6,20',
             );
-        } else {
+        } else if ($request->input('pwd_status') == 1) {
             $rules = array(
                 'username' => 'required|string|max:255',
                 'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
@@ -146,7 +146,7 @@ class OAuthController extends Controller
 
         $verify_code = '';
         for ($i = 0; $i < 6; $i++) {
-        $verify_code .= random_int(0, 9);
+            $verify_code .= random_int(0, 9);
         }
 
         $param = "$verify_code,5";

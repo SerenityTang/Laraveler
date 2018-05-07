@@ -134,10 +134,10 @@
                         success: function(res){
                             if (res.code == 502) {
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
-                            } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不为空，用户名存在手机号不存在
+                            } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不存在用户名存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
-                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，用户名存在修改后提示
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号且手机号不存在用户名不存在
                                 $('#mobile').parents('.mobile').find('.help-block em').html('提交信息即创建新账号。');
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
@@ -187,10 +187,10 @@
                                     $('.password').fadeOut('slow');
                                     return false;
                                 }
-                            } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
+                            } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且输入存在手机号隐藏密码栏再输入不存在手机号显示密码栏，用户名存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
-                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，且输入存在手机号隐藏密码栏再输入不存在手机号显示密码栏，用户名不存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
                             } else if (res.code == 501) {   //用户按顺序输入用户名手机号，手机号存在，隐藏密码栏
@@ -331,6 +331,8 @@
             function send(opts) {
                 if ($('.bind .password').css('display') != 'none') {
                     var pwd_status = 0;
+                } else {
+                    var pwd_status = 1;
                 }
                 $.ajax({
                     type: 'post',
