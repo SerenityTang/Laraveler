@@ -190,7 +190,9 @@
                             } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
-
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，且用户名存在手机号不存在
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
                             } else if (res.code == 501) {   //用户按顺序输入用户名手机号，手机号存在，隐藏密码栏
                                 $('.password').fadeOut('slow');
                             }
