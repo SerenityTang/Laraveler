@@ -323,109 +323,59 @@
             //发送验证码后返回状态
             function send(opts) {
                 if ($('.bind .password').css('display') != 'none') {
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ url('/auth/get_mobile_code') }}',
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            'username': $('#username').val(),
-                            'password': $('#password').val(),
-                            'mobile': $('#mobile').val(),
-                            'pwd_status': 0,
-                        },
-                        cache: false,
-                        success: function (res) {
-                            if (res.code == 502) {
-                                $('.help-block em').html('');
-                                $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                                $('#password').parents('.password').find('.help-block em').html(res.message['password']);
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 906) {   //用户名已存在
-                                $('.help-block em').html('');
-                                $('#username').parents('.username').find('.help-block em').html(res.message);
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 900) {   //发送成功
-                                layer.msg(res.message, {
-                                    icon: 6,
-                                    time: 2000,
-                                });
-                                timer(opts.interval);
-                                $('.submit').attr('disabled', false);
-                            } else if (res.code == 901) {   //发送失败
-                                layer.msg(res.message, {
-                                    icon: 5,
-                                    time: 2000,
-                                });
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 899) {   //重复获取
-                                layer.msg(res.message, {
-                                    icon: 5,
-                                    time: 3000,
-                                });
-                                changeBtn(opts.language.oricon, false);
-                            }
-                        },
-                        error: function () {
-                            layer.msg('系统错误！', {
-                                icon: 2,
-                                time: 2000,
-                            });
-                            changeBtn(opts.language.oricon, false);
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ url('/auth/get_mobile_code') }}',
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            'username': $('#username').val(),
-                            'mobile': $('#mobile').val(),
-                        },
-                        cache: false,
-                        success: function (res) {
-                            if (res.code == 502) {
-                                $('.help-block em').html('');
-                                $('#username').parents('.username').find('.help-block em').html(res.message['username']);
-                                $('#password').parents('.password').find('.help-block em').html(res.message['password']);
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 906) {   //用户名已存在
-                                $('.help-block em').html('');
-                                $('#username').parents('.username').find('.help-block em').html(res.message);
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 900) {   //发送成功
-                                layer.msg(res.message, {
-                                    icon: 6,
-                                    time: 2000,
-                                });
-                                timer(opts.interval);
-                                $('.submit').attr('disabled', false);
-                            } else if (res.code == 901) {   //发送失败
-                                layer.msg(res.message, {
-                                    icon: 5,
-                                    time: 2000,
-                                });
-                                changeBtn(opts.language.oricon, false);
-                            } else if (res.code == 899) {   //重复获取
-                                layer.msg(res.message, {
-                                    icon: 5,
-                                    time: 3000,
-                                });
-                                changeBtn(opts.language.oricon, false);
-                            }
-                        },
-                        error: function () {
-                            layer.msg('系统错误！', {
-                                icon: 2,
-                                time: 2000,
-                            });
-                            changeBtn(opts.language.oricon, false);
-                        }
-                    });
+                    var pwd_status = 0;
                 }
-
+                $.ajax({
+                    type: 'post',
+                    url: '{{ url('/auth/get_mobile_code') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        'username': $('#username').val(),
+                        'password': $('#password').val(),
+                        'mobile': $('#mobile').val(),
+                        'pwd_status': pwd_status,
+                    },
+                    cache: false,
+                    success: function (res) {
+                        if (res.code == 502) {
+                            $('.help-block em').html('');
+                            $('#username').parents('.username').find('.help-block em').html(res.message['username']);
+                            $('#password').parents('.password').find('.help-block em').html(res.message['password']);
+                            $('#mobile').parents('.mobile').find('.help-block em').html(res.message['mobile']);
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 906) {   //用户名已存在
+                            $('.help-block em').html('');
+                            $('#username').parents('.username').find('.help-block em').html(res.message);
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 900) {   //发送成功
+                            layer.msg(res.message, {
+                                icon: 6,
+                                time: 2000,
+                            });
+                            timer(opts.interval);
+                            $('.submit').attr('disabled', false);
+                        } else if (res.code == 901) {   //发送失败
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 2000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        } else if (res.code == 899) {   //重复获取
+                            layer.msg(res.message, {
+                                icon: 5,
+                                time: 3000,
+                            });
+                            changeBtn(opts.language.oricon, false);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                        changeBtn(opts.language.oricon, false);
+                    }
+                });
             }
 
             //倒计时

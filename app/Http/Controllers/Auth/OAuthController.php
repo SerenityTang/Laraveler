@@ -183,7 +183,9 @@ class OAuthController extends Controller
      */
     public function bind(Request $request)
     {
+        $username = $request->input('username');
         $mobile = $request->input('mobile');
+        $password = $request->input('password');
         $verify_code = $request->input('verify_code');
         $driver = $request->input('driver');
         $rules = array(
