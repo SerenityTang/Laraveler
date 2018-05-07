@@ -136,9 +136,11 @@
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                             } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不为空，用户名存在手机号不存在
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
                             } else if (res.code == 907) {   //用户按顺序输入用户名手机号，用户名存在修改后提示
                                 $('#mobile').parents('.mobile').find('.help-block em').html('提交信息即创建新账号。');
                                 $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
                             }
                         },
                         error: function(){
@@ -157,7 +159,7 @@
                 var username = $('#username').val();
                 var mobile = $('#mobile').val();
                 if (mobile == '') {
-                    $('#mobile').parents('.mobile').find('.help-block em').html('手机号 不能为空。');
+                    $('#mobile').parents('.mobile').find('.help-block em').html('手机号码 不能为空。');
                 } else {
                     $.ajax({
                         url: '{{ url('/auth/bind_verify') }}',
