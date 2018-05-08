@@ -222,7 +222,7 @@
                             });
                             changeBtn(opts.language.oricon, false);
                         } else if (res.code == 899) {
-                            layer.msg('您一分钟内已发送过验证码，您可重新输入已获取的手机验证码', {
+                            layer.msg('您一分钟内已发送过验证码，您可重新输入已获取的手机验证码 ^_^', {
                                 icon: 5,
                                 time: 3000,
                             });
@@ -235,6 +235,7 @@
                             icon: 2,
                             time: 2000,
                         });
+                        changeBtn(opts.language.oricon, false);
                     }
                 });
             }
