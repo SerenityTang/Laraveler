@@ -62,7 +62,7 @@ class ForgotPasswordController extends Controller
             return $this->jsonResult(895);
         }else if ($validator->fails()) {
             return $this->jsonResult(502, $validator->errors());
-        } else {return $this->jsonResult(900);
+        } else {
             //短信接口请求参数
             $appid = env('AppID');
             $templateid = env('Template_Id_Forget');
