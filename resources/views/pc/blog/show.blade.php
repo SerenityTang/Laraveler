@@ -658,6 +658,9 @@
             $('.modal .modal-dialog .modal-content .modal-header, .modal .modal-dialog .modal-content .modal-body, .modal .modal-dialog .modal-content .checkbox input').addClass('modal-extra');
             $('.modal .modal-dialog .modal-content .modal-body input.note-image-input').addClass('form-control');
             $('.blog-show-main .panel-footer .note-editor .note-statusbar').addClass('note-statusbar-extra');
+            //富文本工具栏标题按钮下拉菜单
+            $('ul.dropdown-style').css('min-width', '150px');
+            $('ul.dropdown-style li a').css('padding', '0');
         });
     </script>
 @stop

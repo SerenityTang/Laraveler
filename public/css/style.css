@@ -260,7 +260,7 @@ body, html {
 .sign-in .sign-in-content .btn-signin:hover {background-color: #36ceb6;}
 
 /*首页热门标签*/
-.side-tag h3.hot-tag {font-weight: 500;font-size: 15px;}
+.side-tag h3.hot-tag {font-weight: 500;font-size: 15px;margin: 0;}
 .side-tag h3.hot-tag i {padding-right: 5px;}
 #tagscloud {height:170px;position:relative;font-size:12px;color:#333;margin:20px auto 0;text-align:center;}
 #tagscloud a{position:absolute;top:0px;left:0px;color:#333;font-family:Arial;text-decoration:none;margin:0 10px 15px 0;line-height:18px;text-align:center;font-size:12px;padding:1px 5px;display:inline-block;border-radius:3px;}
@@ -276,7 +276,7 @@ body, html {
 #tagscloud a:hover{color:#fff;background:#22d7bb;}
 
 /*首页栏排行榜*/
-.side-rank .side-question-rank h3.side-question-title {font-weight: 500;font-size: 15px;}
+.side-rank .side-question-rank h3.side-question-title {font-weight: 500;font-size: 15px;margin: 0;}
 .side-rank .side-question-rank h3.side-question-title i {padding-right: 5px;font-size: 18px;}
 .side-rank .side-question-rank {position: relative;}
 .side-rank .panel-heading .rank {font-size: 10px;position: absolute;top: 6px;right: 6px;}

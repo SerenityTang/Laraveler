@@ -165,7 +165,7 @@
                     <div class="panel-body">
                         <div id="tagscloud">
                             @foreach($tags as $tag)
-                                <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                             @endforeach
                         </div>
                     </div>
