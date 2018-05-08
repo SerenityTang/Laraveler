@@ -62,8 +62,6 @@ class ForgotPasswordController extends Controller
             return $this->jsonResult(895);
         } else if ($validator->fails()) {
             return $this->jsonResult(502, $validator->errors());
-        } else if (Cache::has($input['username'].'minute')) {   //获取验证码后刷新页面，一分钟内把提交按钮设置为可点击
-            return $this->jsonResult(501);
         } else {
             //短信接口请求参数
             $appid = env('AppID');
