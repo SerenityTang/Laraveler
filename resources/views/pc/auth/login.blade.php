@@ -45,8 +45,8 @@
                     <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}" style="margin-bottom: 8px;">
                         <div class="input-group">
                             <span class="input-group-addon c-icon{{ $errors->has('captcha') ? ' c-icon-clear' : '' }}"><i class="fa fa-check-square fa-fw"></i></span>
-                            <input type="text" class="form-control text c-text{{ $errors->has('captcha') ? ' text-clear' : '' }}" id="captcha" name="captcha" style="width: 150px" maxlength="5" placeholder="验证码">&nbsp;
-                            <img id="captcha-img" src="{{ url('/captcha/verify') }}" >
+                            <input type="text" class="form-control text c-text{{ $errors->has('captcha') ? ' text-clear' : '' }}" id="captcha" name="captcha" style="width: 150px" maxlength="4" placeholder="验证码">&nbsp;
+                            <img id="captcha-img" class="captcha" src="{{ url('/captcha/verify') }}" >
                             <span class="glyphicon glyphicon-refresh loc" title="点击换一张"></span>
                         </div>
                         @if ($errors->has('captcha'))
@@ -60,7 +60,7 @@
                             <label style="margin-left: 15px;">
                                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }} /> 保持登录
                             </label>
-                            <a href="{{ route('password.request') }}" style="display: inline-block;float: right;padding-right: 7px;" class="forget-pwd">忘记密码？</a>
+                            <a href="{{ url('/user/forgot') }}" style="display: inline-block;float: right;padding-right: 7px;" class="forget-pwd">忘记密码？</a>
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,7 +104,10 @@
         $('.glyphicon').click(function () {
             var captcha = $(this).prev('img');
             captcha.attr('src', 'captcha/verify?key=login&t='+(new Date()).getTime());
-        })
+        });
+        $('.captcha').click(function () {
+            $(this).attr('src', '/captcha/verify?key=login&t='+(new Date()).getTime());
+        });
     </script>
     {{--按下回车登录相当于鼠标点击登录按钮--}}
     <script>

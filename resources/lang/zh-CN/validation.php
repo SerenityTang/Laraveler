@@ -85,8 +85,8 @@ return [
     'timezone' => ':attribute 必须是一个合法的时区值。',
     'unique' => ':attribute 已经存在。',
     'uploaded' => ':attribute 上传失败。',
-    'validate_captcha' => ':attribute 不正确',
-    'validate_mobile' => ':attribute 不正确',
+    'validate_captcha' => ':attribute 不正确。',
+    'validate_mobile' => ':attribute 不正确。',
 
     /*
     |--------------------------------------------------------------------------
