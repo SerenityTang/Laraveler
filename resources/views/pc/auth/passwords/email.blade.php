@@ -205,6 +205,8 @@
                         if (res.code == 502) {
                             $('.p-captcha em').html(res.message['captcha']);
                             changeBtn(opts.language.oricon, false);
+                        }else if (res.code == 501) {
+                            $('.forget-btn').attr('disabled', false);
                         } else if (res.code == 895) {
                             $('.forget-u em').html(res.message);
                             changeBtn(opts.language.oricon, false);
