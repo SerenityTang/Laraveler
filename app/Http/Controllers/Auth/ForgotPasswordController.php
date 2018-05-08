@@ -93,8 +93,8 @@ class ForgotPasswordController extends Controller
 
             if ($back_data['code'] == '000000') {
                 //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
-                Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
-                Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+                Cache::put($input['username'], $verify_code, 5);     //短信验证码
+                Cache::put($input['username'].'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
 
                 return $this->jsonResult(900);
             } else {
