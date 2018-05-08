@@ -73,7 +73,7 @@
             <div class="modal-body feedback-body">
                 <div class="row">
                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{{ url('/feedback') }}">
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label for="" class="col-sm-2 control-label">意见类型</label>
                             <div class="col-sm-9 extra">
                                 <ul class="feedback">

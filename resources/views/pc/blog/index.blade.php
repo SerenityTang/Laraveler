@@ -92,7 +92,7 @@
                         <div id="tagscloud">
                             @if(isset($hot_tags))
                                 @foreach($hot_tags as $tag)
-                                    <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                                 @endforeach
                             @endif
                         </div>

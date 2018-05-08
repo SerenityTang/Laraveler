@@ -15,6 +15,8 @@ use App\Models\Collection;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Support_opposition;
+use App\Models\Tag;
+use App\Models\Taggable;
 use App\Models\User_data;
 use App\Models\User_socialite;
 use App\Models\Vote;
@@ -57,6 +59,13 @@ class Helpers {
     public static function get_blog($blog_id){
         $blog = Blog::where('id', $blog_id)->first();
         return $blog;
+    }
+
+    /*获取标签下的实体数*/
+    public static function getByTag($tag_id){
+        $taggable = Taggable::where('tag_id', $tag_id)->get();
+        $tag_count = count($taggable);
+        return $tag_count;
     }
 
     /**
@@ -164,6 +173,15 @@ class Helpers {
                 //关注用户
                 $user = User::where('id', $mode_id)->first();
                 $attention = Attention::where('user_id', $curr_userid)->where('entityable_id', $mode_id)->where('entityable_type', get_class($user))->first();
+                if ($attention) {
+                    return $attention;
+                }
+
+                return null;
+            } else if ($mode_type === 'Tag') {
+                //关注标签
+                $tag = new Tag();
+                $attention = Attention::where('user_id', $curr_userid)->where('entityable_id', $mode_id)->where('entityable_type', get_class($tag))->first();
                 if ($attention) {
                     return $attention;
                 }

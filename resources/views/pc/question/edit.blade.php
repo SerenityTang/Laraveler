@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default main-content">
-                    <h4><i class="iconfont icon-fabu1"></i>编辑问答</h4>
+                    <h4 class="big-title"><i class="iconfont icon-fabu1"></i>编辑问答</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/edit/'.$question->id) }}">
                         <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" id="desc" name="desc" value="">
@@ -276,6 +276,9 @@
             $('.note-editor').addClass('panel-extra');
             $('.modal .modal-dialog .modal-content .modal-header, .modal .modal-dialog .modal-content .modal-body, .modal .modal-dialog .modal-content .checkbox input').addClass('modal-extra');
             $('.modal .modal-dialog .modal-content .modal-body input.note-image-input').addClass('form-control');
+            //富文本工具栏标题按钮下拉菜单
+            $('ul.dropdown-style').css('min-width', '150px');
+            $('ul.dropdown-style li a').css('padding', '0');
         });
     </script>
     <script>

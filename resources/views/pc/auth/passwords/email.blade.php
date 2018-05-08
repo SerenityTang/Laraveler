@@ -19,7 +19,7 @@
                         <div class="form-group forget-u">
                             <div class="input-group">
                                 <span class="input-group-addon u-icon"><i class="fa fa-user fa-fw"></i></span>
-                                <input type="text" class="form-control text" id="username" name="username" placeholder="请输入登录手机号 / 邮箱" value="{{ old('username') }}" autofocus>
+                                <input type="text" class="form-control text" id="username" name="username" placeholder="请输入登录手机号 {{--/ 邮箱--}}" value="{{ old('username') }}" autofocus>
                             </div>
                             <span class="help-block help-block-clear">
                             <em></em>
