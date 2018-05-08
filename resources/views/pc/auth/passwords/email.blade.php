@@ -205,8 +205,6 @@
                         if (res.code == 502) {
                             $('.p-captcha em').html(res.message['captcha']);
                             changeBtn(opts.language.oricon, false);
-                        }else if (res.code == 501) {
-                            $('.forget-btn').attr('disabled', false);
                         } else if (res.code == 895) {
                             $('.forget-u em').html(res.message);
                             changeBtn(opts.language.oricon, false);
@@ -224,11 +222,12 @@
                             });
                             changeBtn(opts.language.oricon, false);
                         } else if (res.code == 899) {
-                            layer.msg(res.message, {
+                            layer.msg('您一分钟内已发送过验证码，您可重新输入已获取的手机验证码', {
                                 icon: 5,
                                 time: 3000,
                             });
                             changeBtn(opts.language.oricon, false);
+                            $('.forget-btn').attr('disabled', false);
                         }
                     },
                     error: function () {
