@@ -62,7 +62,7 @@ class ForgotPasswordController extends Controller
             return $this->jsonResult(895);
         }else if ($validator->fails()) {
             return $this->jsonResult(502, $validator->errors());
-        } else {return $this->jsonResult(900);
+        } else {
             //短信接口请求参数
             $appid = env('AppID');
             $templateid = env('Template_Id_Forget');
@@ -70,9 +70,6 @@ class ForgotPasswordController extends Controller
             $options['accountsid'] = env('Account_Sid');
             $options['token'] = env('Auth_Token');
             $ucpass = new UcpaasAgent($options);
-
-            //获取手机号
-            $mobile = $request->get('mobile');
 
             $verify_code = '';
             for ($i = 0; $i < 6; $i++) {
@@ -82,15 +79,15 @@ class ForgotPasswordController extends Controller
             $param = "$verify_code,5";
 
             //发送短信前先删除此用户的短信验证码缓存
-            if (Cache::has($mobile.'minute')) {
+            if (Cache::has($input['username'].'minute')) {
                 return $this->jsonResult(899);
             } else {
-                Cache::forget($mobile);
-                Cache::forget($mobile.'minute');
+                Cache::forget($input['username']);
+                Cache::forget($input['username'].'minute');
             }
 
             //发送短信验证码
-            $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+            $data = $ucpass->SendSms($appid, $templateid, $param, $input['username'], $uid = null);
             //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
             $back_data = json_decode($data, true);
 
