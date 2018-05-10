@@ -337,6 +337,14 @@ class UserController extends Controller
                 //上传到七牛云
                 if (config('global.qiniu_kodo')) {
                     $qiniu = new QiNiuCloud();
+
+                    if (!is_dir(storage_path('/app/' . config('global.upload_folder')))) {
+                        mkdir(storage_path('/app/' . config('global.upload_folder')));
+                        chmod(storage_path('/app/' . config('global.upload_folder')), 0777);
+                    } else {
+                        chmod(storage_path('/app/' . config('global.upload_folder')), 0777);
+                    }
+
                     $path = $file->store($avatarDir);
                     $qiniu->qiniu_upload($path);
 
