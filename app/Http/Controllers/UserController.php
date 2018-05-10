@@ -10,6 +10,7 @@ use App\Models\Question;
 use App\Models\User_data;
 use App\Models\User_socialite;
 use App\Models\UserActivation;
+use App\Services\Qiniu\QiNiuCloud;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
 use Carbon\Carbon;
@@ -333,12 +334,11 @@ class UserController extends Controller
             $extArray = array('png', 'gif', 'jpeg', 'jpg');
 
             if(in_array($extension, $extArray)) {
-                //上传到阿里云oss
-                if (config('global.aliyun_oss')) {
-                    OSS::publicUpload(config('global.aliyun_oss_bucket'), $avatarDir . '/' . User::getAvatarFileName($user_id,'origin'), $file, [
-                        //'ContentType' => 'image/png'
-                        'ContentType' => $file->getMimeType()
-                    ]);
+                //上传到七牛云
+                if (config('global.qiniu_kodo')) {
+                    $qiniu = new QiNiuCloud();
+                    $path = $file->store($avatarDir);
+                    $qiniu->qiniu_upload($path);
 
                     //上传到本地服务器
                     if($extension != 'jpg'){
