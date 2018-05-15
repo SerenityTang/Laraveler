@@ -211,7 +211,7 @@ body, html {
 .feedback .feedback-body .extra input {border: 2px solid #e4e4e4;height: 40px;}
 .feedback .feedback-body .extra textarea {border: 2px solid #e4e4e4;}
 .feedback .feedback-body .extra input:focus, .feedback .feedback-body .extra textarea:focus {border: 2px solid #22d7bb;}
-.feedback .feedback-body ul.feedback {list-style-type: none;margin-left: 1px;margin-top: 2px;}
+.feedback .feedback-body ul.feedback {list-style-type: none;margin-top: 2px;margin-left: -40px;}
 .feedback .feedback-body ul.feedback li {margin-right: 25px;display: inline-block;}
 .feedback .feedback-body ul.feedback li label {padding: 0px 12px 8px 5px;font-size: 13px;}
 .feedback .feedback-footer {padding: 10px 15px;}

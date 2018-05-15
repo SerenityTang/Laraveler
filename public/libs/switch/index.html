@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="switch,honeySwitch,switch button">
+    <meta name="author" content="Luo Liang" qq="821981232" description="欢迎技术交流">
+    <title>Honey Switch</title>
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<link rel="stylesheet" href="lib/honeySwitch.css">
+	<script src="lib/honeySwitch.js"></script>
+	<style>
+		html {
+			margin: 0;
+			padding: 0;
+			background: #d9d9d9;
+		}
+		body {
+			margin: 0;
+			padding: 0;
+			word-break: break-all;
+			word-wrap: break-word;
+			overflow-x:hidden;
+		}
+		.page {
+			width: 800px;
+			margin: 0 auto;
+			padding: 15px;
+			background: white;
+		}
+		h1, h2 {
+			margin: 0;
+			text-align: center;
+			margin-bottom: 15px;
+		}
+		.common-row {
+			width: 100%;
+			height: 50px;
+			border-bottom: 1px solid lightgrey;
+		}
+		.cell-left, .cell-right {
+			width: 49%;
+			height: 100%;
+			float: left;
+			line-height: 50px;
+		}
+		.cell-right {
+			text-align: right;
+		}
+		.switch-on, .switch-off {
+			margin-top: 9px;
+		}
+		.showBox {
+			width: 100%;
+			border: 1px solid lightgrey;
+			border-radius: 6px;
+			font-size: 16px;
+			background: #CCFF99;
+		}
+		.paragraph {
+			white-space: pre-wrap;
+			margin: 15px 0;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		textarea {
+			width: 80%;
+			border: none;
+			outline: none;
+			resize: none;
+			font-size: 16px;
+			height: auto;
+			overflow: visible;
+		}
+		.hidden {
+			display: none;
+		}
+		@media screen and (max-width: 800px) {
+			.page {
+				width: 100%;
+				box-sizing: border-box;
+			}
+		}
+	</style>
+	<script>
+		//honeySwitch.themeColor="lightblue";
+		$(function(){
+			switchEvent("#fly",function(){
+				$("#network").slideUp();
+			},function(){
+				$("#network").slideDown();
+			});
+			switchEvent("#directory",function(){
+				$("#directory_content").fadeIn();
+			},function(){
+				$("#directory_content").fadeOut();
+			});
+		});
+	</script>
+  </head>
+  <body>
+  <div class="page">
+	<h2>设置</h2>
+	
+	<div class="common-row">
+		<div class="cell-left">飞行模式</div>
+		<div class="cell-right"><span class="switch-on" themeColor="gold" id="fly"></span></div>
+	</div>
+	<div class="common-row hidden" id="network">
+		<div class="cell-left">蜂窝移动网络</div>
+		<div class="cell-right">></div>
+	</div>
+	<div class="common-row">
+		<div class="cell-left">无线局域网</div>
+		<div class="cell-right"><span class="switch-on" id="wifi"></span></div>
+	</div>
+	<div class="common-row">
+		<div class="cell-left">蓝牙</div>
+		<div class="cell-right"><span class="switch-off" id="bluetooth"></span></div>
+	</div>
+	<div class="common-row">
+		<div class="cell-left">热点（禁用）</div>
+		<div class="cell-right"><span class="switch-on switch-disabled" id="hotspot"></span></div>
+	</div>
+	<div class="common-row">
+		<div class="cell-left">位置（禁用）</div>
+		<div class="cell-right"><span class="switch-off switch-disabled" id="position"></span></div>
+	</div>
+	<div class="common-row">
+		<div class="cell-left">查看使用说明</div>
+		<div class="cell-right"><span class="switch-on" themeColor="#6d9eeb" id="directory"></span></div>
+	</div>
+	<div id="directory_content">
+		<div style="margin-top:20px;"><b>如何快速使用</b></div>
+		<div class="showBox">
+			<div class="paragraph">1.引入honeySwitch.css，honeySwitch.js</div>
+			<div class="paragraph"><xmp>2.例如：<span class="switch-off"></span></xmp>switch-off表示默认关闭，switch-on表示默认开启</div>
+		</div>
+		<div style="margin-top:20px;"><b>如何禁用元素</b></div>
+		<div class="showBox">
+			<div class="paragraph">添加class:switch-disabled.</div>
+			<div class="paragraph">例如开启禁用：<xmp><span>class="switch-on switch-disabled"</span></xmp></div>
+			<div class="paragraph">例如关闭禁用：<xmp><span>class="switch-off switch-disabled"</span></xmp></div>
+		</div>
+		<div style="margin-top:20px;"><b>API</b></div>
+		<div class="showBox">
+			<div class="paragraph">switchEvent方法给元素绑定开启关闭动作执行的内容。需要传入三个参数，第一个是id，字符串类型;第二个匿名函数表示开启执行的内容；第三个匿名函数表示关闭执行的内容。</div>
+			<div class="paragraph">例如：<xmp>switchEvent("#id",function(){开啦},function(){关啦});</xmp></div>
+			<div class="paragraph">在项目中，初始化时，需要根据服务器返回的状态值设定开关的显示状态，你可以直接改变class.或者使用honeySwitch.showOn("#id"),honeySwitch.showOff("#id")控制开关显示状态。</div>
+		</div>
+		<div style="margin-top:20px;"><b>主题色</b></div>
+		<div class="showBox">
+			<div class="paragraph"><xmp>1.默认主题色为绿色,直接使用<script>honeySwitch.themeColor="颜色值";</script>修改默认主题色。</xmp></div>
+			<div class="paragraph">2.定制单个元素主题色，给元素添加themeColor属性</span></xmp></div>
+			<div class="paragraph"><xmp>例如：<span class="switch-on" themeColor="颜色值"></span></xmp></div>
+		</div>
+		<div style="margin-top:20px;"><b>大小</b></div>
+		<div class="showBox">
+			<div class="paragraph">可以通过css zoom属性自由定制任意大小，这里不做过多描述。</div>
+		</div>
+		<div style="margin-top:20px;"><b>特色</b></div>
+		<div class="showBox">
+			<div class="paragraph">honeySwitch提供了类似手机switch开关的效果风格，它不仅适用于PC端，也适用于移动端。</div>
+		</div>
+	</div>
+	</div>
+  </body>
+</html>
+

@@ -852,6 +852,48 @@ class UserController extends Controller
     }
 
     /**
+     * 通知私信
+     */
+    public function notify(Request $request)
+    {
+        $type = $request->get('type');
+        if (Auth::check()) {
+            $user = User::where('id', Auth::user()->id)->first();
+            switch ($type) {
+                case 0:
+                    if ($user->ques_ans_notifications == 0) {
+                        $user->ques_ans_notifications = 1;
+                        $user->save();
+                    } else {
+                        $user->ques_ans_notifications = 0;
+                        $user->save();
+                    }
+                    break;
+                case 1:
+                    if ($user->blog_comm_notifications == 0) {
+                        $user->blog_comm_notifications = 1;
+                        $user->save();
+                    } else {
+                        $user->blog_comm_notifications = 0;
+                        $user->save();
+                    }
+                    break;
+                case 2:
+                    if ($user->user_atte_notifications == 0) {
+                        $user->user_atte_notifications = 1;
+                        $user->save();
+                    } else {
+                        $user->user_atte_notifications = 0;
+                        $user->save();
+                    }
+                    break;
+            }
+        } else {
+            return view('pc.auth.login');
+        }
+    }
+
+    /**
      * 获取职业方向以下拉菜单方式返回
      * @param $ids 职业名称
      */

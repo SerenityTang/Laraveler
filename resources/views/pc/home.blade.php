@@ -61,7 +61,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ $question->title }}</a>
+                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ str_limit($question->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$question->user->personal_domain) }}" class="h_q_user">{{ $question->user->username }} / </a>
                                                     <span class="time" title="{{ $question->created_at }}">
@@ -97,7 +97,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 43) }}</a>
+                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$new_blog->user->personal_domain) }}" class="h_q_user">{{ $new_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $new_blog->created_at }}">
@@ -131,7 +131,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 43) }}</a>
+                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$hot_blog->user->personal_domain) }}" class="h_q_user">{{ $hot_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $hot_blog->created_at }}">

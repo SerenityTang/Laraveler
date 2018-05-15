@@ -103,4 +103,28 @@ class HomeController extends Controller
     {
         return view('pc.footer.help');
     }
+
+    /**
+     * 帮助中心之积分介绍
+     */
+    public function credit_introduce()
+    {
+        return view('pc.footer.credit.credit_introduce');
+    }
+
+    /**
+     * 帮助中心之积分规则
+     */
+    public function credit_rule()
+    {
+        return view('pc.footer.credit.credit_rule');
+    }
+
+    /**
+     * 帮助中心之L币介绍
+     */
+    public function coin_introduce()
+    {
+        return view('pc.footer.coin.coin_introduce');
+    }
 }

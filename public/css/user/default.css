@@ -231,3 +231,28 @@ p.binded-mobile .mobile-binded-tip {color: #A01641;font-size: 14px;position: rel
 .main-container .panel-default.right-container .career_status ul.dowebok {list-style-type: none;margin-left: 1px;margin-top: 2px;}
 .main-container .panel-default.right-container .career_status ul.dowebok li {margin-right: 25px;display: inline-block;}
 .main-container .panel-default.right-container .career_status ul.dowebok li label {padding: 0px 12px 8px 5px;font-size: 13px;}
+
+.page {
+    width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+}
+.common-row {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid lightgrey;
+}
+.c-l {
+    padding-left: 40px;
+}
+.cell-left, .cell-right {
+    width: 49%;
+    height: 100%;
+    float: left;
+    line-height: 50px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.switch-on, .switch-off {
+    margin-top: 9px;
+}
