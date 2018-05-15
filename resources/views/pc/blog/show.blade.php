@@ -190,7 +190,7 @@
                                     <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                                     <input type="hidden" id="comment_content" name="comment_content" value="">
                                     <input type="hidden" id="blog_id" name="blog_id" value="{{ $blog->id }}">
-                                    <div id="blog_comment_summernote" class="col-sm-9"></div>
+                                    <div id="blog_comment_summernote" class="col-sm-9" data-blog-id="{{ $blog->id }}"></div>
                                     <div class="blog_comment_bottom">
                                         <button type="submit" class="btn btn-reply">发表评论</button>
                                     </div>
@@ -648,9 +648,9 @@
                         var code = $(this).summernote("code");
                         $("#comment_content").val(code);
                     },
-                    /*onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'question_summernote', 'blog');
-                    }*/
+                    onImageUpload: function(files) {
+                        upload_editor_image(files[0], 'blog_comment_summernote', 'blog', $(this).data('blog-id'));
+                    }
                 }
             });
 

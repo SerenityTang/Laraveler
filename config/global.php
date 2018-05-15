@@ -50,5 +50,6 @@ return [
     |
     */
     'qiniu_kodo' => env('QINIU_KODO', true), //是否开启上传到oss
+    'qiniu_url'  => 'http://photo.laraveler.net/'
     //'qiniu_kodo_bucket' => env('QINIU_KODO_BUCKET', 'laraveler'),
 ];

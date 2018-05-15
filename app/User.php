@@ -73,6 +73,8 @@ class User extends Authenticatable
             'origin'=>'user_origin_'.$userId
         ];
         return $avatarNames[$size];
+
+        //return 'user_' . $userId . '_' . substr(md5(time()), 0, 30);
     }
 
     /**

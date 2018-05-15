@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客内容</label>
                             {{--<div id="editor" class="col-sm-9"><p style="color: #ccc;">请输入您的博客内容......</p></div>--}}
-                            <div id="blog_summernote" class="col-sm-9">{!! $blog->description !!}</div>
+                            <div id="blog_summernote" class="col-sm-9" data-blog-id="{{ $blog->id }}">{!! $blog->description !!}</div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客分类</label>
@@ -274,7 +274,7 @@
                         $("#desc").val($('#blog_summernote').summernote('code'));*/
                     },
                     onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'blog_summernote', 'blog');
+                        upload_editor_image(files[0], 'blog_summernote', 'blog', 'blog', $(this).data('blog-id'));
                     }
                 }
             });

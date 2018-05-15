@@ -9,7 +9,7 @@
  * @param editor
  * @param image_type
  */
-function upload_editor_image(file, editorId, image_type){
+function upload_editor_image(file, editorId, image_type, id){
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -18,6 +18,7 @@ function upload_editor_image(file, editorId, image_type){
 
     data = new FormData();
     data.append("file", file);
+    data.append("type_id", id);
     $.ajax({
         data: data,             //发送到服务器的数据
         type: "POST",           //请求方式
@@ -35,7 +36,7 @@ function upload_editor_image(file, editorId, image_type){
                 return false;
             }
             $('#'+editorId).summernote('insertImage', url, function ($image) {
-                $image.css('width', $image.width() / 2);
+                $image.css('width', $image.width() / 4);
                 $image.addClass('img-responsive');
             });
         },

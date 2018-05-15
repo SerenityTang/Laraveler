@@ -38,7 +38,7 @@
                         <div class="form-group" style="margin-bottom: 5px;">
                             <label for="" class="col-sm-2 control-label">问题描述</label>
                             {{--<div id="editor" class="col-sm-9"><p style="color: #ccc;">请输入您的问题描述......</p></div>--}}
-                            <div id="question_summernote" class="col-sm-9"></div>
+                            <div id="question_summernote" class="col-sm-9" data-question-id="{{ $question->id }}"></div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">问题分类</label>
@@ -335,7 +335,7 @@
                         $("#desc").val(code);
                     },
                     onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'question_summernote', 'question');
+                        upload_editor_image(files[0], 'question_summernote', 'question', $(this).data('question-id'));
                     }
                 }
             });

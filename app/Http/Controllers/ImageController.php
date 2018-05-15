@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Qiniu\QiNiuCloud;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,7 @@ class ImageController extends Controller
     //编辑器图片上传
     public function upload(Request $request)
     {
+        $type_id = $request->input('type_id');
         $image_type = $_GET['image_type'];
         $validateRules = [
             'file' => 'required|image|max:'.config('global.upload.image.max_size'),
@@ -48,23 +50,21 @@ class ImageController extends Controller
             $this->validate($request,$validateRules);
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
-            //上传到阿里云oss
-            if (config('global.aliyun_oss')) {
-                /*OSS::publicUpload(config('global.aliyun_oss_bucket'), $avatarDir . '/' . User::getAvatarFileName($user_id,'origin'), $file, [
-                    //'ContentType' => 'image/png'
-                    'ContentType' => $file->getMimeType()
-                ]);*/
-
-                //上传到本地服务器
-                $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .uniqid(str_random(8)).'.'.$extension;
+            //上传到七牛云Kodo
+            if (config('global.qiniu_kodo')) {
+                $qiniu = new QiNiuCloud();
+                $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .'typeid_'.$type_id.'_'.uniqid(str_random(8)).'.'.$extension;
                 Storage::disk('local')->put($filePath, File::get($file));
+                $qiniu->qiniu_upload($filePath);
+
+                return config('global.qiniu_url') . $filePath;
             } else {
                 //只上传到本地服务器
                 $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .uniqid(str_random(8)).'.'.$extension;
                 Storage::disk('local')->put($filePath, File::get($file));
-            }
 
-            return response(route("image.show",['image_name'=>str_replace("/","-",$filePath)]));
+                return response(route("image.show",['image_name'=>str_replace("/","-",$filePath)]));
+            }
         }
         return response('errors');
     }

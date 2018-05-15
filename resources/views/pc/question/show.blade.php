@@ -106,7 +106,7 @@
                                     <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                                     <input type="hidden" id="answer-content" name="answer-content" value="">
                                     <input type="hidden" id="question_id" name="question_id" value="{{ $question->id }}">
-                                    <div id="ques_comment_summernote" class="col-sm-9"></div>
+                                    <div id="ques_comment_summernote" class="col-sm-9" data-question-id="{{ $question->id }}"></div>
                                     <div class="ques_comment_bottom">
                                         <button type="submit" class="btn btn-reply">提交回答</button>
                                     </div>
@@ -243,7 +243,7 @@
                         $("#answer-content").val(code);
                     },
                     onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'question_summernote', 'question');
+                        upload_editor_image(files[0], 'ques_comment_summernote', 'question', $(this).data('question-id'));
                     }
                 }
             });

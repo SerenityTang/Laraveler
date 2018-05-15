@@ -73,9 +73,9 @@ return [
         'qiniu' => [
             'driver'  => 'qiniu',
             'domains' => [
-                'default'   => 'p8gh7wjc9.bkt.clouddn.com', //你的七牛域名
-                'https'     => 'p8gh7wjc9.bkt.clouddn.com',         //你的HTTPS域名
-                'custom'    => 'p8gh7wjc9.bkt.clouddn.com',                //Useless 没啥用，请直接使用上面的 default 项
+                'default'   => 'photo.laraveler.net', //你的七牛域名
+                'https'     => 'photo.laraveler.net',         //你的HTTPS域名
+                'custom'    => 'photo.laraveler.net',                //Useless 没啥用，请直接使用上面的 default 项
             ],
             'access_key'=> env("QINIU_KODO_AccessKey"),  //AccessKey
             'secret_key'=> env("QINIU_KODO_SecretKey"),  //SecretKey

@@ -22,14 +22,47 @@ use App\Models\User_socialite;
 use App\Models\Vote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Qiniu\Config;
+use Qiniu\Storage\BucketManager;
 
 class Helpers {
     /*生成头像图片地址*/
-    //if(! function_exists('get_user_avatar')){
-        public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
-            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
+    public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
+        return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
+    }
+
+    /**
+     * 图片外链
+     *
+     **/
+    public static function photo_link($user_id, $type){
+        $accessKey = config('filesystems.disks.qiniu.access_key');
+        $secretKey = config('filesystems.disks.qiniu.secret_key');
+        $bucket = config('filesystems.disks.qiniu.bucket');
+
+        $url = config('global.qiniu_url');
+        $folder = config('global.upload_folder');
+
+        $key = $url . $folder . '/' . $type . '/' . $user_id . '/' . 'user_' . $user_id . '.' . 'jpg';
+        $auth = new \Qiniu\Auth($accessKey, $secretKey);
+        $config = new Config();
+        $bucketManager = new BucketManager($auth, $config);
+        list($fileInfo, $err) = $bucketManager->stat($bucket, $key);
+
+        if ($fileInfo) {
+            return $key;
+        } else {
+            return $url . $folder . '/' . $type . '/default_avatar.' . 'jpg';
         }
-    //}
+    }
+
+    /**
+     * 图片缩略图
+     *
+     **/
+    public static function get_thumb(){
+
+    }
 
     /*获取用户*/
     public static function get_user($user_id){

@@ -191,7 +191,7 @@
 .list-side-related .related-panel {background-color: inherit;}
 .list-side-related h3.related-ques {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-related h3.related-ques i.related-icon {padding-right: 5px;}
-.list-side-related ul.correlation-list {margin-bottom: 0;}
+.list-side-related ul.correlation-list {margin-bottom: 0;list-style: none;}
 .list-side-related ul.correlation-list p {text-align: center;color: #999;}
 .list-side-related ul li.correlation-ques a {color: #333;text-decoration: none;}
 .list-side-related ul li.correlation-ques a:hover {color: #22d7bb;}
