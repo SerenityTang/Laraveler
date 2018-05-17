@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                         </form>
-                    @elseif(Auth::user()->approval_status == 2)
+                    @elseif(Auth::user()->approval_status == 1)
                         <div class="col-md-12 wait-check">
                             <p class="check-icon"><i class="iconfont icon-daishenhe"></i></p>
                             <p>{{ explode('，', $user_auth->feeback)[0] }}</p>
