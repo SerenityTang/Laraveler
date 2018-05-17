@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Feedback;
 use App\Models\Question;
 use App\Models\Tag;
+use App\Models\UserCreditConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -117,7 +118,8 @@ class HomeController extends Controller
      */
     public function credit_rule()
     {
-        return view('pc.footer.credit.credit_rule');
+        $user_credit_configs = UserCreditConfig::get();
+        return view('pc.footer.credit.credit_rule')->with(['user_credit_configs' => $user_credit_configs]);
     }
 
     /**

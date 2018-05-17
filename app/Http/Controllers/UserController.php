@@ -10,6 +10,8 @@ use App\Models\Question;
 use App\Models\User_data;
 use App\Models\User_socialite;
 use App\Models\UserActivation;
+use App\Models\UserCreditConfig;
+use App\Models\UserCreditStatement;
 use App\Services\Qiniu\QiNiuCloud;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
@@ -887,6 +889,32 @@ class UserController extends Controller
                         $user->save();
                     }
                     break;
+            }
+        } else {
+            return view('pc.auth.login');
+        }
+    }
+
+    /**
+     * 签到
+     */
+    public function signIn()
+    {
+        if (Auth::check()) {
+            $credit_config = UserCreditConfig::where('slug', 'signIn')->first();
+            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+
+            $data = [
+                'user_id'   => Auth::user()->id,
+                'type'      => $credit_config->slug,
+                'credits'   => $credit_config->credits,
+            ];
+            $credit_sta = UserCreditStatement::create($data);
+            if ($credit_sta) {
+                $user_data->credits = $user_data->credits + $credit_config->credits;
+                $user_data->save();
+
+                return response('signIn');
             }
         } else {
             return view('pc.auth.login');

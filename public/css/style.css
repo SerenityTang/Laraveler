@@ -256,7 +256,7 @@ body, html {
 .home-bg .home-body .home-list-item span.h_q_answer {position: absolute;top: 18px;right: 0px;background-color: #22d7bb;}
 .sign-in {padding: 0;height: 90px;border-radius: 3px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
 .sign-in p.sign-in-title {text-align: center;font-size: 15px;padding: 5px 0;font-weight: 500;}
-.sign-in .sign-in-content .btn-signin {width: 80px;color: #fff;background-color: #22d7bb;margin: 5px auto;display: block;}
+.sign-in .sign-in-content .btn-signin, .sign-in .sign-in-content .btn-signined {width: 80px;color: #fff;background-color: #22d7bb;margin: 5px auto;display: block;}
 .sign-in .sign-in-content .btn-signin:hover {background-color: #36ceb6;}
 
 /*首页热门标签*/

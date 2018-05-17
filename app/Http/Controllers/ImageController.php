@@ -53,7 +53,13 @@ class ImageController extends Controller
             //上传到七牛云Kodo
             if (config('global.qiniu_kodo')) {
                 $qiniu = new QiNiuCloud();
-                $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .'typeid_'.$type_id.'_'.uniqid(str_random(8)).'.'.$extension;
+
+                if ($type_id) {
+                    $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .'typeid_'.$type_id.'_'.uniqid(str_random(8)).'.'.$extension;
+                } else {
+                    $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .$image_type. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .uniqid(str_random(13)).'.'.$extension;
+                }
+
                 Storage::disk('local')->put($filePath, File::get($file));
                 $qiniu->qiniu_upload($filePath);
 

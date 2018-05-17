@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LoginCreditEvent;
 use App\Events\WelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\SocialiteHelper;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
@@ -119,6 +121,8 @@ class LoginController extends Controller
             }*/
             if ($this->attemptLogin($request) == true) {
                 //event(new WelcomeEvent($input['username']));
+                $user = User::where('username', $input['username'])->first();
+                event(new LoginCreditEvent($user));
 
                 return $this->sendLoginResponse($request);      //登录成功，触发自带的登录监听，记录登录时间，返回成功登录；登出也类似触发登出监听
             } else {

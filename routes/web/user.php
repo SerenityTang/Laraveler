@@ -54,6 +54,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
     Route::get('/unbind/{driver}', ['as' => 'user.unbind', 'uses' => 'UserController@social_unbind']);    //提交手机绑定手机号
 
     Route::post('/notify', ['as' => 'user.notify', 'uses' => 'UserController@notify']);    //通知私信
+
+    Route::post('/signIn', ['as' => 'user.signIn', 'uses' => 'UserController@signIn']);    //签到
 });
 
 

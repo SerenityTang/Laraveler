@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(Career_directionSeeder::class);
         $this->call(TagCategorySeeder::class);
         $this->call(TagSeeder::class);
+        $this->call(UserCreditConfigSeeder::class);
     }
 }

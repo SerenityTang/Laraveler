@@ -19,6 +19,7 @@ use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User_data;
 use App\Models\User_socialite;
+use App\Models\UserCreditStatement;
 use App\Models\Vote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -264,6 +265,17 @@ class Helpers {
         $user_socialite = User_socialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
         if ($user_socialite) {
             return $user_socialite;
+        }
+
+        return null;
+    }
+
+    //判断是否签到
+    public static function signIn($user_id, $type)
+    {
+        $credit_sta = UserCreditStatement::where('user_id', $user_id)->where('type', $type)->whereDate('created_at', '=', \Carbon\Carbon::today()->toDateString())->first();
+        if ($credit_sta) {
+            return $credit_sta;
         }
 
         return null;

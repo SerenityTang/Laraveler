@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuesOperationCreditEvent;
+use App\Events\QuestionCreditEvent;
 use App\Events\QuestionViewEvent;
 use App\Models\Answer;
 use App\Models\Attention;
@@ -135,13 +137,16 @@ class QuestionController extends Controller
                 $tags = explode(',', $request->input('tags'));
                 foreach ($tags as $tag) {
                     $taggables = [
-                        'tag_id'            =>$tag,
+                        'tag_id'          =>$tag,
                         'taggable_id'     =>$question->id,
                         'taggable_type'   =>get_class($question),
                     ];
                     $taggable = Taggable::create($taggables);
                 }
                 if ($taggable) {
+                    //触发添加积分事件
+                    Event::fire(new QuestionCreditEvent($user));
+
                     return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^');
                 } else {
                     return $this->error('/question', '发布问答失败，未绑定标签^_^');
@@ -364,12 +369,18 @@ class QuestionController extends Controller
             $user = Auth::user();
             $question = Question::where('id', $id)->first();
             $vote = Vote::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
+            $ques_user = $question->user;
+
             //如果此用户投票过此问答，则属于取消投票
             if ($vote) {
                 $vote_bool = $vote->delete();
                 if ($vote_bool == true) {
                     $question->decrement('vote_count');     //投票数-1
                     $question->save();
+
+                    //取消投票，扣取投票添加的积分
+                    Event::fire(new QuesOperationCreditEvent($ques_user, 'vote', 'no'));
+
                     return response('unvote');
                 }
             } else {
@@ -384,6 +395,10 @@ class QuestionController extends Controller
                 if ($new_vote) {
                     $question->increment('vote_count');     //投票数+1
                     $question->save();
+
+                    //投票，添加投票积分
+                    Event::fire(new QuesOperationCreditEvent($ques_user, 'vote', 'yes'));
+
                     return response('vote');
                 }
             }
@@ -452,6 +467,8 @@ class QuestionController extends Controller
             $curr_user_data = User_data::where('user_id', $user->id)->first();
             $user_data = User_data::where('user_id', $question->user_id)->first();
             $collection = Collection::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
+            $ques_user = $question->user;
+
             //如果此用户关注过此问答，则属于取消收藏
             if ($collection) {
                 $collection_bool = $collection->delete();
@@ -459,6 +476,9 @@ class QuestionController extends Controller
                     $question->decrement('collection_count');     //收藏数-1
                     $curr_user_data->decrement('collection_count'); //当前用户收藏数-1
                     $user_data->decrement('collectioned_count'); //回答所属用户被收藏数-1
+
+                    //取消收藏，扣取收藏添加的积分
+                    Event::fire(new QuesOperationCreditEvent($ques_user, 'collection', 'no'));
 
                     return response('uncollection');
                 }
@@ -475,6 +495,9 @@ class QuestionController extends Controller
                     $question->increment('collection_count');     //收藏数+1
                     $curr_user_data->increment('collection_count'); //当前用户收藏数+1
                     $user_data->increment('collectioned_count'); //回答所属用户被收藏数+1
+
+                    //收藏，添加收藏积分
+                    Event::fire(new QuesOperationCreditEvent($ques_user, 'collection', 'yes'));
 
                     return response('collection');
                 }

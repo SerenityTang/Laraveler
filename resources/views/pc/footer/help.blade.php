@@ -63,15 +63,13 @@
                                 <h4 class="panel-title">
                                     <a class="title" data-toggle="collapse" data-parent="#accordion"
                                        href="#collapseThree">
-                                        点击我进行展开，再次点击我进行折叠。第 3 部分
+
                                     </a>
                                 </h4>
                             </div>
                             <div id="collapseThree" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-                                    vice lomo.
+
                                 </div>
                             </div>
                         </div>

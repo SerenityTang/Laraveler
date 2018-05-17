@@ -33,86 +33,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>登录</td>
-                            <td>+2</td>
-                            <td>1</td>
-                            <td>每天登录Laraveler官网</td>
-                        </tr>
-                        <tr>
-                            <td>签到</td>
-                            <td>+2</td>
-                            <td>1</td>
-                            <td>每天Laraveler官网首页签到</td>
-                        </tr>
-
-                        <tr>
-                            <td>发布问答</td>
-                            <td>+3</td>
-                            <td>10</td>
-                            <td>发布问答到平台</td>
-                        </tr>
-                        <tr>
-                            <td>问答被投票</td>
-                            <td>+5</td>
-                            <td>5</td>
-                            <td>问答被其他用户投票</td>
-                        </tr>
-                        <tr>
-                            <td>问答被收藏</td>
-                            <td>+5</td>
-                            <td>5</td>
-                            <td>问答被其他用户收藏</td>
-                        </tr>
-                        <tr>
-                            <td>回答问题</td>
-                            <td>+5</td>
-                            <td>10</td>
-                            <td>回答平台用户发布的问答</td>
-                        </tr>
-                        <tr>
-                            <td>回答问题被采纳</td>
-                            <td>+10</td>
-                            <td>5</td>
-                            <td>回答平台用户发布的问答后被采纳</td>
-                        </tr>
-                        <tr>
-                            <td>回答问题被支持</td>
-                            <td>+5</td>
-                            <td>5</td>
-                            <td>回答平台用户发布的问答后被支持</td>
-                        </tr>
-
-                        <tr>
-                            <td>发布博客</td>
-                            <td>+10</td>
-                            <td>10</td>
-                            <td>发布博客到平台</td>
-                        </tr>
-                        <tr>
-                            <td>博客被点赞</td>
-                            <td>+5</td>
-                            <td>5</td>
-                            <td>博客被其他用户收藏</td>
-                        </tr>
-                        <tr>
-                            <td>博客被收藏</td>
-                            <td>+5</td>
-                            <td>5</td>
-                            <td>博客被其他用户收藏</td>
-                        </tr>
-                        <tr>
-                            <td>博客被置顶</td>
-                            <td>+10</td>
-                            <td>2</td>
-                            <td>博客被置顶</td>
-                        </tr>
-                        <tr>
-                            <td>博客被推荐</td>
-                            <td>+10</td>
-                            <td>2</td>
-                            <td>博客被推荐</td>
-                        </tr>
+                        @foreach($user_credit_configs as $user_credit_config)
+                            <tr>
+                                <td>{{ $user_credit_config->behavior }}</td>
+                                <td>+{{ $user_credit_config->credits }}</td>
+                                <td>{{ $user_credit_config->time }}</td>
+                                <td>{{ $user_credit_config->description }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

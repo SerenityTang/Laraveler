@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogCreditEvent;
+use App\Events\BlogOperationCreditEvent;
 use App\Events\BlogViewEvent;
 use App\Models\Blog;
 use App\Models\Collection;
@@ -108,6 +110,9 @@ class BlogController extends Controller
                     $taggable = Taggable::create($taggables);
                 }
                 if ($taggable) {
+                    //触发添加积分事件
+                    Event::fire(new BlogCreditEvent($user));
+
                     return $this->success('/blog', '发布博客成功^_^');
                 } else {
                     return $this->error('/blog', '发布博客失败，未绑定标签^_^');
@@ -346,6 +351,8 @@ class BlogController extends Controller
             $curr_user_data = User_data::where('user_id', $user->id)->first();
             $user_data = User_data::where('user_id', $blog->user_id)->first();
             $supp_oppo = Support_opposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', 'like')->first();
+            $blog_user = $blog->user;
+
             //如果此用户点赞过此博客，则属于取消点赞
             if ($supp_oppo) {
                 $bool = $supp_oppo->delete();
@@ -353,6 +360,9 @@ class BlogController extends Controller
                     $blog->decrement('like_count');     //点赞数-1
                     $curr_user_data->decrement('support_count'); //当前用户点赞数-1
                     $user_data->decrement('supported_count'); //回答所属用户被点赞数-1
+
+                    //取消点赞，扣取点赞添加的积分
+                    Event::fire(new BlogOperationCreditEvent($blog_user, 'like', 'no'));
 
                     return response('unlike');
                 }
@@ -370,6 +380,9 @@ class BlogController extends Controller
                     $blog->increment('like_count');     //点赞数+1
                     $curr_user_data->increment('support_count'); //当前用户点赞数+1
                     $user_data->increment('supported_count'); //回答所属用户被点赞数+1
+
+                    //点赞，添加点赞积分
+                    Event::fire(new BlogOperationCreditEvent($blog_user, 'like', 'yes'));
 
                     return response('like');
                 }
@@ -393,6 +406,8 @@ class BlogController extends Controller
             $curr_user_data = User_data::where('user_id', $user->id)->first();
             $user_data = User_data::where('user_id', $blog->user_id)->first();
             $collection = Collection::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($blog))->first();
+            $blog_user = $blog->user;
+
             //如果此用户收藏过此博客，则属于取消收藏
             if ($collection) {
                 $bool = $collection->delete();
@@ -400,6 +415,9 @@ class BlogController extends Controller
                     $blog->decrement('favorite_count');     //收藏数-1
                     $curr_user_data->decrement('collection_count'); //当前用户收藏数-1
                     $user_data->decrement('collectioned_count'); //回答所属用户被收藏数-1
+
+                    //取消收藏，扣取收藏添加的积分
+                    Event::fire(new BlogOperationCreditEvent($blog_user, 'favorite', 'no'));
 
                     return response('unfavorite');
                 }
@@ -416,6 +434,9 @@ class BlogController extends Controller
                     $blog->increment('favorite_count');     //收藏数+1
                     $curr_user_data->increment('collection_count'); //当前用户收藏数+1
                     $user_data->increment('collectioned_count'); //回答所属用户被收藏数+1
+
+                    //收藏，添加收藏积分
+                    Event::fire(new BlogOperationCreditEvent($blog_user, 'favorite', 'yes'));
 
                     return response('favorite');
                 }

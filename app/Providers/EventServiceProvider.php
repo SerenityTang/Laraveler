@@ -31,6 +31,25 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\UserLogoutListener',
         ],
+        'App\Events\LoginCreditEvent' => [
+            'App\Listeners\LoginCreditListener',
+        ],
+        'App\Events\QuestionCreditEvent' => [
+            'App\Listeners\QuestionCreditListener',
+        ],
+        'App\Events\QuesOperationCreditEvent' => [
+            'App\Listeners\QuesOperationCreditListener',
+        ],
+        'App\Events\BlogCreditEvent' => [
+            'App\Listeners\BlogCreditListener',
+        ],
+        'App\Events\BlogOperationCreditEvent' => [
+            'App\Listeners\BlogOperationCreditListener',
+        ],
+        'App\Events\AnswerOperationCreditEvent' => [
+            'App\Listeners\AnswerOperationCreditListener',
+        ],
+
         'App\Events\WelcomeEvent' => [
             'App\Listeners\WelcomeListener',
         ],

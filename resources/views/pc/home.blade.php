@@ -153,7 +153,11 @@
                 <div class="well well-lg sign-in">
                     <p class="sign-in-title">今天，您签到了吗？</p>
                     <div class="sign-in-content">
-                        <button type="button" class="btn btn-signin">签到</button>
+                        @if(\App\Helpers\Helpers::signIn(Auth::check() ? Auth::user()->id : 0, 'signIn') == null)
+                            <button type="button" class="btn btn-signin">签到</button>
+                        @else
+                            <button type="button" class="btn btn-signined" disabled>已签到</button>
+                        @endif
                     </div>
                 </div>
 
@@ -207,8 +211,32 @@
     </script>
     <script>
         $('.btn-signin').click(function () {
-            $(this).html('已签到');
-            $(this).css('background-color', '#66d2c1');
+            var icon = $(this);
+            @if(Auth::check())
+                $.ajax({
+                    type: 'POST',
+                    url : '{{ url('user/signIn') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function (data) {
+                        if (data == 'signIn') {
+                            icon.html('已签到');
+                            icon.removeClass('btn-signin');
+                            icon.addClass('btn-signined');
+                            icon.attr('disabled', true);
+                        }
+                    },
+                    error : function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                });
+            @else
+                window.location.href = '{{ url('/login') }}';
+            @endif
         });
     </script>
     <script>
