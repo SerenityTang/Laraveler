@@ -156,5 +156,8 @@ return [
         'verify_code' => '手机验证码',
         'new_mobile' => '新手机号码',
         'new_email' => '新邮箱地址',
+        'front' => '身份证正面照',
+        'verso' => '身份证反面照',
+        'hand' => '手持身份证照',
     ],
 ];

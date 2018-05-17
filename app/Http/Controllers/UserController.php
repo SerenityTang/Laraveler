@@ -10,6 +10,7 @@ use App\Models\Question;
 use App\Models\User_data;
 use App\Models\User_socialite;
 use App\Models\UserActivation;
+use App\Models\UserAuthenticate;
 use App\Models\UserCreditConfig;
 use App\Models\UserCreditStatement;
 use App\Services\Qiniu\QiNiuCloud;
@@ -202,6 +203,10 @@ class UserController extends Controller
     public function authenticate(Request $request) {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
+        $user_auth = UserAuthenticate::where('user_id', $user->id)->first();
+        if ($user_auth) {
+            return view('pc.user.settings.authenticate')->with(['user' => $user, 'user_auth' => $user_auth]);
+        }
         return view('pc.user.settings.authenticate')->with(['user' => $user]);
     }
 
@@ -918,6 +923,91 @@ class UserController extends Controller
             }
         } else {
             return view('pc.auth.login');
+        }
+    }
+
+    /**
+     * 实名认证
+     */
+    public function post_authenticate(Request $request)
+    {
+        $input = $request->only('real_name', 'id_card', 'front', 'verso', 'hand', 'redirect_uri');
+        $rule = [
+            'front' => 'required|image',
+            'verso' => 'required|image',
+            'hand' => 'required|image',
+        ];
+
+        $validator = Validator::make($input, $rule);
+        if ($input['real_name'] == null) {
+            return $this->error($input['redirect_uri'], config('errors.915'));
+        } else if ($input['id_card'] == null) {
+            return $this->error($input['redirect_uri'], config('errors.916'));
+        }else if ($validator->fails()) {
+            return $this->error($input['redirect_uri'], config('errors.917'));
+            //return back()->withInput()->withErrors($validator);
+        } else if($request->hasFile('front') && $request->hasFile('verso') && $request->hasFile('hand')) {
+            $user_id = Auth::user()->id;
+            //获取图片
+            $front_file = $request->file('front');
+            $verso_file = $request->file('verso');
+            $hand_file = $request->file('hand');
+            //图片保存相对路径
+            $idcardDir = config('global.upload_folder') . '/' . 'idcard' . '/' . $user_id;
+            //图片后缀名
+            $front_exte = strtolower($front_file->getClientOriginalExtension());
+            $verso_exte = strtolower($verso_file->getClientOriginalExtension());
+            $hand_exte = strtolower($hand_file->getClientOriginalExtension());
+            $extArray = array('png', 'gif', 'jpeg', 'jpg');
+
+            if (in_array($front_exte, $extArray) && in_array($verso_exte, $extArray) && in_array($hand_exte, $extArray)) {
+                //上传到七牛云Kodo
+                if (config('global.qiniu_kodo')) {
+                    $qiniu = new QiNiuCloud();
+                    //上传七牛云相对路径定义
+                    $front_part_path = $idcardDir . '/' . uniqid(str_random(16)) . '.' . $front_exte;
+                    $verso_part_path = $idcardDir . '/' . uniqid(str_random(16)) . '.' . $verso_exte;
+                    $hand_part_path = $idcardDir . '/' . uniqid(str_random(16)) . '.' . $hand_exte;
+
+                    $path = $front_file->store($front_part_path);
+                    $qiniu->qiniu_upload($path);
+
+                    $path = $verso_file->store($verso_part_path);
+                    $qiniu->qiniu_upload($path);
+
+                    $path = $hand_file->store($hand_part_path);
+                    $qiniu->qiniu_upload($path);
+
+                    $data = [
+                        'user_id'       => $user_id,
+                        'realname'      => $input['real_name'],
+                        'idcard'        => $input['id_card'],
+                        'front_img'     => config('global.qiniu_url') . $front_part_path,
+                        'verso_img'     => config('global.qiniu_url') . $verso_part_path,
+                        'hand_img'      => config('global.qiniu_url') . $hand_part_path,
+                        'status'        => 0,
+                        'feeback'       => '实名认证资料提交成功，我们将在3个工作日内完成审核并反馈，请耐心等待并留意实名认证进度......',
+                    ];
+                    $user_auth = UserAuthenticate::create($data);
+                    if ($user_auth) {
+                        Auth::user()->approval_status = 1;
+                        Auth::user()->save();
+
+                        return redirect($input['redirect_uri']);
+                    }
+                } else {
+                    //只上传到本地服务器
+                    /*if ($extension != 'jpg') {
+                        Image::make(File::get($file))->save(storage_path('app/' . User::getAvatarPath($user_id, 'origin')));
+                    } else {
+                        Storage::disk('local')->put($avatarDir . DIRECTORY_SEPARATOR . User::getAvatarFileName($user_id, 'origin') . '.' . $extension, File::get($file));
+                    }*/
+                }
+            } else {
+                return $this->error($input['redirect_uri'], config('errors.914'));
+            }
+        } else {
+
         }
     }
 

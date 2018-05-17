@@ -378,7 +378,7 @@
                         $("#desc").val(code);
                     },
                     onImageUpload: function(files) {
-                        upload_image(files[0], 'blog_summernote', 'blog', 'blog');
+                        upload_image(files[0], 'blog_summernote', 'blog');
                     }
                 }
             });

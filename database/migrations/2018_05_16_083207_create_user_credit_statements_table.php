@@ -15,9 +15,9 @@ class CreateUserCreditStatementsTable extends Migration
     {
         Schema::create('user_credit_statements', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->nullable()->comment('用户id');
-            $table->string('type')->nullable()->comment('行为');
-            $table->integer('credits')->nullable()->comment('获得积分');
+            $table->integer('user_id')->comment('用户id');
+            $table->string('type')->comment('行为');
+            $table->integer('credits')->comment('获得积分');
             $table->timestamps();
         });
     }

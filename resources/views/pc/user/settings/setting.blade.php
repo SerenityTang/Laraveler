@@ -33,7 +33,7 @@
                                 <div class="wu-example">
                                     <div class="change-avatar">
                                         <button type="button" class="btn avatar-btn" data-toggle="modal" data-target="#avatar_modal">修改头像</button>
-                                        <p class="text-muted">图像大小不要超过 2 MB<br>只支持JPG/JPEG/PNG/GIF等格式的图片</p>
+                                        <p class="text-muted">图像大小不超过 2 MB<br>只支持 JPG / JPEG / PNG / GIF 等格式的图片</p>
                                         <div class="modal fade" id="avatar_modal" tabindex="-1" role="dialog" aria-labelledby="avatar_model_label">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
