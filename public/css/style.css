@@ -296,12 +296,27 @@ body, html {
 .footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 30px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0);}
 .footer-content {margin: 30px auto;width: 1170px;}
 .footer .footer-left p {font: 14px/1.5 "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;}
-.footer .footer-left p.footer-link a {font-size: 13px;color: #333;text-decoration: none;}
+.footer .footer-left p.footer-link, .footer .footer-left p.footer-link a {font-size: 15px;color: #333;text-decoration: none;font-weight: bold;}
 .footer .footer-left p.footer-link a:hover {color: #22d7bb;}
 .footer p.copyright {color: #666;font-size: 12px;margin: 5px 0;}
 .footer p.record {color: #666;font-size: 12px;margin-bottom: 5px;}
 .footer p.copyright a, .footer p.record a {color: #666;text-decoration: none;}
 .footer p.copyright a:hover, .footer p.record a:hover {color: #22d7bb;}
+.footer .footer-middle {position: relative;margin-bottom: 30px;}
+.footer .footer-middle i {font-size: 40px;margin-right: 15px;color: #999;}
+.footer .footer-middle i:hover {cursor: pointer;}
+.footer .footer-middle .footer-qq, .footer .footer-middle .footer-weibo {position: relative;top: 3px;}
+.footer .footer-middle span.foooter-official {position: absolute;border: 3px solid #ddd;left: 40px;bottom: 47px;}
+.footer .footer-middle span.qr-arrow {position: absolute;top: 12px;left: 73px;}
+.footer .footer-middle p.footer-qrcode, .footer .footer-middle p.footer-qqgroup {display: none;}
+.footer .footer-middle p span.footer-qqgroup-num {color: #fff;background-color: #22d7bb;border: 3px solid #ddd;padding: 5px 10px;position: absolute;bottom: 47px;left: -45px;}
+.footer .footer-middle p span.qg-arrow {position: absolute;top: 12px;left: 15px;}
+.footer .footer-middle p.attention-us {margin-bottom: 8px;font-weight: bold;color: #333;font-size: 15px;}
+.footer .footer-middle i.footer-qq:hover {color: #0197e6;}
+.footer .footer-middle i.footer-weixin:hover {color: #06b607;}
+.footer .footer-middle i.footer-weibo:hover {color: #ec0217;}
+.footer .footer-middle i.footer-github:hover {color: #25292f;}
+p.sponsor {font-weight: bold;color: #333;font-size: 15px;}
 
 /*全文搜索*/
 /*tab栏顶部*/

@@ -284,6 +284,24 @@
         }
     });
 </script>
+{{--底部--}}
+<script>
+    $(function () {
+        $('.footer-qq').mouseover(function () {
+            $('.footer .footer-middle p.footer-qqgroup').stop().fadeIn('slow');
+        });
+        $('.footer-qq').mouseout(function () {
+            $('.footer .footer-middle p.footer-qqgroup').stop().fadeOut('slow');
+        });
+
+        $('.footer-weixin').mouseover(function () {
+            $('.footer .footer-middle p.footer-qrcode').stop().fadeIn('slow');
+        });
+        $('.footer-weixin').mouseout(function () {
+            $('.footer .footer-middle p.footer-qrcode').stop().fadeOut('slow');
+        });
+    });
+</script>
 @section('footer')
 @show
 @section('toolbar')
