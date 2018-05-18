@@ -27,7 +27,7 @@
 
         <div class="col-md-3">
             <p>服务赞助商</p>
-            <img src="imgs/ypy.png" alt="又拍云logo" width="80" height="40">
+            <a href="https://www.upyun.com/"><img src="imgs/ypy.png" alt="又拍云logo" width="80" height="40"></a>
         </div>
     </div>
 </div>
