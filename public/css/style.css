@@ -293,14 +293,15 @@ body, html {
 .side-rank .panel-body ol .list-active .credit {color: #888;font-size: 10px;float: right;}
 
 /*底部*/
-.footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 20px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0)}
-.footer p {font: 14px/1.5 "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;}
-.footer p.footer-link {text-align: center;font-size: 14px;color: #333;margin-bottom: 10px;}
-.footer p.footer-link a {color: #333;text-decoration: none;}
-.footer p.footer-link a:hover {color: #22d7bb;}
-.footer p.copyright, .footer p.author {text-align: center;color: #666;font-size: 12px;}
-.footer p.copyright a, .footer p.author a {color: #666;text-decoration: none;}
-.footer p.copyright a:hover, .footer p.author a:hover {color: #22d7bb;}
+.footer {background-color: #f4f4f4;border-top: 2px solid #ddd;margin-top: 30px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);-moz-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0);}
+.footer-content {margin: 30px auto;width: 1170px;}
+.footer .footer-left p {font: 14px/1.5 "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;}
+.footer .footer-left p.footer-link a {font-size: 13px;color: #333;text-decoration: none;}
+.footer .footer-left p.footer-link a:hover {color: #22d7bb;}
+.footer p.copyright {color: #666;font-size: 12px;margin: 5px 0;}
+.footer p.record {color: #666;font-size: 12px;margin-bottom: 5px;}
+.footer p.copyright a, .footer p.record a {color: #666;text-decoration: none;}
+.footer p.copyright a:hover, .footer p.record a:hover {color: #22d7bb;}
 
 /*全文搜索*/
 /*tab栏顶部*/
