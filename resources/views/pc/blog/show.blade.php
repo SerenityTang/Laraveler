@@ -16,7 +16,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="blog-show-top">
-                            <h1 class="blog-show-title">{{ $blog->title }}</h1>
+                            <div>
+                                <h1 class="blog-show-title">{{ $blog->title }}</h1>
+                                @foreach($blog->tags as $tag)
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-content-tag">{{ $tag->name }}</a>
+                                @endforeach
+                            </div>
+
                             <a class="author" href="{{ url('user/'.$blog->user->personal_domain) }}">
                                 <span class="username"><i class="iconfont icon-gaojian-zuozhe"></i>{{ $blog->user->username }}</span>
                             </a>
