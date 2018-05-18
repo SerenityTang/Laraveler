@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url('css/workshow/default.css') }}">
 @stop
 @section('content')
-    <p>作品展示模块处于开发中，敬请期待 ^_^ ......</p>
+    <p class="develop">作品展示模块处于开发中，敬请期待 ^_^ ......</p>
 @stop
 
 @section('footer')
