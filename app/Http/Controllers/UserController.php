@@ -6,6 +6,7 @@ use App\Events\HomepageViewEvent;
 use App\Models\Attention;
 use App\Models\Blog;
 use App\Models\Career_direction;
+use App\Models\PersonalDynamic;
 use App\Models\Question;
 use App\Models\User_data;
 use App\Models\User_socialite;
@@ -48,7 +49,10 @@ class UserController extends Controller
             Event::fire(new HomepageViewEvent($user_data));
         }
 
-        return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data]);
+        //个人动态信息
+        $per_dyns = PersonalDynamic::where('user_id', $user->id)->get();
+
+        return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data, 'per_dyns' => $per_dyns]);
     }
 
     //用户个人主页之我的问答

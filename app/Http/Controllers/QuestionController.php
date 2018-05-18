@@ -8,6 +8,7 @@ use App\Events\QuestionViewEvent;
 use App\Models\Answer;
 use App\Models\Attention;
 use App\Models\Collection;
+use App\Models\PersonalDynamic;
 use App\Models\Question;
 use App\Models\Tag;
 use App\Models\Taggable;
@@ -46,7 +47,7 @@ class QuestionController extends Controller
         $taggables = Taggable::where('taggable_type', get_class($question))->get();
         $tags = array();
         foreach ($taggables as $taggable) {
-             $tag = Tag::where('id', $taggable->tag_id)->first();
+            $tag = Tag::where('id', $taggable->tag_id)->first();
             array_push($tags, $tag);
             $hot_tags = array_unique($tags);
         }
@@ -147,7 +148,20 @@ class QuestionController extends Controller
                     //触发添加积分事件
                     Event::fire(new QuestionCreditEvent($user));
 
-                    return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $question->id,
+                        'source_type'   => get_class($question),
+                        'action'        => 'publishQues',
+                        'title'         => $question->title,
+                        'content'       => $question->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return $this->success('/question', '发布问答成功，请耐心等待并留意热心朋友为您提供解答^_^');
+                    }
+
                 } else {
                     return $this->error('/question', '发布问答失败，未绑定标签^_^');
                 }
@@ -399,7 +413,19 @@ class QuestionController extends Controller
                     //投票，添加投票积分
                     Event::fire(new QuesOperationCreditEvent($ques_user, 'vote', 'yes'));
 
-                    return response('vote');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $question->id,
+                        'source_type'   => get_class($question),
+                        'action'        => 'voteQues',
+                        'title'         => $question->title,
+                        'content'       => $question->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return response('vote');
+                    }
                 }
             }
         } else {
@@ -445,7 +471,19 @@ class QuestionController extends Controller
                     $curr_user_data->increment('atten_count'); //当前用户关注数+1
                     $user_data->increment('attened_count'); //回答所属用户被关注数+1
 
-                    return response('attention');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $question->id,
+                        'source_type'   => get_class($question),
+                        'action'        => 'attentionQues',
+                        'title'         => $question->title,
+                        'content'       => $question->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return response('attention');
+                    }
                 }
             }
         } else {
@@ -499,7 +537,19 @@ class QuestionController extends Controller
                     //收藏，添加收藏积分
                     Event::fire(new QuesOperationCreditEvent($ques_user, 'collection', 'yes'));
 
-                    return response('collection');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $question->id,
+                        'source_type'   => get_class($question),
+                        'action'        => 'collectionQues',
+                        'title'         => $question->title,
+                        'content'       => $question->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return response('collection');
+                    }
                 }
             }
         } else {

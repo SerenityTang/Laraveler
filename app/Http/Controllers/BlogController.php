@@ -8,6 +8,7 @@ use App\Events\BlogViewEvent;
 use App\Models\Blog;
 use App\Models\Collection;
 use App\Models\Comment;
+use App\Models\PersonalDynamic;
 use App\Models\Support_opposition;
 use App\Models\Tag;
 use App\Models\Taggable;
@@ -113,7 +114,19 @@ class BlogController extends Controller
                     //触发添加积分事件
                     Event::fire(new BlogCreditEvent($user));
 
-                    return $this->success('/blog', '发布博客成功^_^');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $blog->id,
+                        'source_type'   => get_class($blog),
+                        'action'        => 'publishBlog',
+                        'title'         => $blog->title,
+                        'content'       => $blog->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return $this->success('/blog', '发布博客成功^_^');
+                    }
                 } else {
                     return $this->error('/blog', '发布博客失败，未绑定标签^_^');
                 }
@@ -384,7 +397,19 @@ class BlogController extends Controller
                     //点赞，添加点赞积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'like', 'yes'));
 
-                    return response('like');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $blog->id,
+                        'source_type'   => get_class($blog),
+                        'action'        => 'likeBlog',
+                        'title'         => $blog->title,
+                        'content'       => $blog->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return response('like');
+                    }
                 }
             }
         } else {
@@ -438,7 +463,19 @@ class BlogController extends Controller
                     //收藏，添加收藏积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'favorite', 'yes'));
 
-                    return response('favorite');
+                    //添加动态
+                    $data = [
+                        'user_id'       => $user->id,
+                        'source_id'     => $blog->id,
+                        'source_type'   => get_class($blog),
+                        'action'        => 'favoriteBlog',
+                        'title'         => $blog->title,
+                        'content'       => $blog->description,
+                    ];
+                    $per_dyn = PersonalDynamic::create($data);
+                    if ($per_dyn) {
+                        return response('favorite');
+                    }
                 }
             }
         } else {

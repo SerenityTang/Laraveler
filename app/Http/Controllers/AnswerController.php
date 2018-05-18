@@ -53,7 +53,19 @@ class AnswerController extends Controller
                 //触发回答问题加分事件
                 Event::fire(new AnswerOperationCreditEvent($user, 'answer'));
 
-                return $this->success(route('question.show', ['id' => $question_id]), '回复成功^_^');
+                //添加动态
+                $data = [
+                    'user_id'       => $user->id,
+                    'source_id'     => $answer->id,
+                    'source_type'   => get_class($answer),
+                    'action'        => 'answerQues',
+                    'title'         => $answer->title,
+                    'content'       => $answer->description,
+                ];
+                $per_dyn = PersonalDynamic::create($data);
+                if ($per_dyn) {
+                    return $this->success(route('question.show', ['id' => $question_id]), '回复成功^_^');
+                }
             }
         } else {
             return view('pc.auth.login');

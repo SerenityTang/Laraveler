@@ -181,6 +181,7 @@
                var source_name = $('#source_name').val();
                var source_link = $('#source_link').val();
                var blog_title = $('#blog_title').val();
+               var blog_intro = $('#blog_intro').val();
                var desc = $('#desc').val();
                var bcategory_id = $('#bcategory_id').val();
                var tags = $('#tags').val();
@@ -214,6 +215,15 @@
                        time: 2000,
                    });
                    return false;
+               }
+               if (blog_intro != '') {
+                   if (blog_intro.length > 191) {
+                       layer.msg('博客简介有点长，请简短概括喔(⊙o⊙)', {
+                           icon: 2,
+                           time: 2000,
+                       });
+                       return false;
+                   }
                }
                if (desc == '') {
                    layer.msg('博客内容不可为空喔(⊙o⊙)', {
