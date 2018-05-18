@@ -102,6 +102,12 @@ class Helpers {
         return $tag_count;
     }
 
+    /*获取所有标签*/
+    public static function getAllTag(){
+        $tags = Tag::where('status', 1)->get();
+        return $tags;
+    }
+
     /**
      * 验证是否是中国验证码.
      *

@@ -45,6 +45,9 @@
                                         <li class="list-group-item hot-list-item">
                                             <h2 class="title">
                                                 <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                                @foreach($question->tags as $tag)
+                                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                                @endforeach
                                             </h2>
                                             <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                                 <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
@@ -73,6 +76,9 @@
                                     <li class="list-group-item global-list-item">
                                         <h2 class="title">
                                             <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                            @foreach($question->tags as $tag)
+                                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                            @endforeach
                                         </h2>
                                         <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                             <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">

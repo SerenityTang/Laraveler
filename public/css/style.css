@@ -83,17 +83,20 @@ body, html {
     left: 22px;
 }
 #navbar-serenity .navbar-nav li.search-bar .hot-search .search-content {
-    padding: 20px 20px 10px;
+    padding: 10px;
     border: 1px solid #f0f0f0;
 }
+#navbar-serenity .navbar-nav li.search-bar .hot-search .search-content ul {padding-left: 0;}
 #navbar-serenity .navbar-nav li.search-bar .hot-search .search-content ul li {margin-right: 10px;display: inline-block;line-height: 28px;}
 #navbar-serenity .navbar-nav li.search-bar .hot-search .search-content ul li a {
+    text-decoration: none;
     padding: 2px 6px;
     font-size: 12px;
     color: #787878;
     border: 1px solid #ddd;
     border-radius: 3px;
 }
+#navbar-serenity .navbar-nav li.search-bar .hot-search .search-content ul li a:hover {color: #22d7bb;border: 1px solid #fff;background-color: rgba(34,215,187,0.18);}
 #navbar-serenity .navbar-nav li.search-bar .search-tip {
     display: none;
     list-style: none;
@@ -129,7 +132,7 @@ body, html {
 #navbar-serenity .nav-column {margin-left: 10px;margin-top: 17px;}
 #navbar-serenity .nav-column li a.active {color: #22d7bb;background-color: #eee;}
 
-    /*导航右侧*/
+/*导航右侧*/
 #navbar-serenity .navbar-right>li.dropdown>a>i {color: #757575;}
 #navbar-serenity .navbar-right>li {margin-right: 15px;}
 #navbar-serenity .navbar-right>li.dropdown a.notify-icon, #navbar-serenity .navbar-right>li.dropdown a.publish-icon{padding: 8px 10px 6px 10px;margin-top: 15px;border-radius: 4px;}
@@ -322,5 +325,10 @@ body, html {
 .search-main .panel-body ul li .search-count span {color: #777;font-size: 13px;}
 .search-main .panel-body ul li .search-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
 
+/*问答、博客首页与内页标签样式*/
+.panel-body ul li h2.title a.qb-tag {text-decoration: none;background-color: #22d7bb;color: #fff;font-size: 13px;padding: 4px 6px;border-radius: 3px;position: relative;bottom: 3px;}
+.panel-body ul li h2.title a.qb-tag:hover {color: #fff;}
+a.qb-content-tag {border: 1px solid #22d7bb;color: #22d7bb;text-decoration: none;padding: 3px 5px;position: relative;bottom: 2px;margin-right: 3px;border-radius: 2px;font-size: 13px;}
+a.qb-content-tag:hover {background-color: #22d7bb;color: #fff;border: 1px solid #fff;}
 
 
