@@ -6,6 +6,7 @@ use App\Models\Attention;
 use App\Models\Tag;
 use App\Models\User_data;
 use Illuminate\Support\Facades\Auth;
+use Browser;
 
 class TagController extends Controller
 {
@@ -18,6 +19,9 @@ class TagController extends Controller
     {
         $tags = Tag::where('status', 1)->get();
 
+        if (Browser::isMobile()) {
+            return view('mobile.tag.index')->with(['tags' => $tags]);
+        }
         return view('pc.tag.index')->with(['tags' => $tags]);
     }
 
