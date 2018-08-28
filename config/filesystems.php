@@ -70,6 +70,20 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => 'photo.laraveler.net', //你的七牛域名
+                'https'     => 'photo.laraveler.net',         //你的HTTPS域名
+                'custom'    => 'photo.laraveler.net',                //Useless 没啥用，请直接使用上面的 default 项
+            ],
+            'access_key'=> env("QINIU_KODO_AccessKey"),  //AccessKey
+            'secret_key'=> env("QINIU_KODO_SecretKey"),  //SecretKey
+            'bucket'    => env("QINIU_KODO_BUCKET"),  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+            'access'    => 'public'  //空间访问控制 public 或 private
+        ],
+
     ],
 
 ];

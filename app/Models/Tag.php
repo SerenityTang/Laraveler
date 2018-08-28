@@ -17,4 +17,20 @@ class Tag extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * 获取所有分配该标签的问答
+     */
+    public function questions()
+    {
+        return $this->morphedByMany('App\Models\Question', 'taggable');
+    }
+
+    /**
+     * 获取分配该标签的所有博客
+     */
+    public function blogs()
+    {
+        return $this->morphedByMany('App\Models\Blog', 'taggable');
+    }
 }

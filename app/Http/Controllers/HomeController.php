@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Feedback;
 use App\Models\Question;
 use App\Models\Tag;
+use App\Models\UserCreditConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -102,5 +103,30 @@ class HomeController extends Controller
     public function help()
     {
         return view('pc.footer.help');
+    }
+
+    /**
+     * 帮助中心之积分介绍
+     */
+    public function credit_introduce()
+    {
+        return view('pc.footer.credit.credit_introduce');
+    }
+
+    /**
+     * 帮助中心之积分规则
+     */
+    public function credit_rule()
+    {
+        $user_credit_configs = UserCreditConfig::get();
+        return view('pc.footer.credit.credit_rule')->with(['user_credit_configs' => $user_credit_configs]);
+    }
+
+    /**
+     * 帮助中心之L币介绍
+     */
+    public function coin_introduce()
+    {
+        return view('pc.footer.coin.coin_introduce');
     }
 }

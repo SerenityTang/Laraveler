@@ -16,7 +16,7 @@ class CreateUserDatasTable extends Migration
         Schema::create('user_datas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('用户id');
-            $table->integer('coins')->unsigned()->default(0)->comment('金币数');
+            $table->integer('coins')->unsigned()->default(0)->comment('L币数');
             $table->integer('credits')->unsigned()->default(0)->comment('积分数');
 
             $table->integer('question_count')->unsigned()->default(0)->comment('问答数');

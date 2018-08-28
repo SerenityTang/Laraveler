@@ -15,19 +15,55 @@ use App\Models\Collection;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Support_opposition;
+use App\Models\Tag;
+use App\Models\Taggable;
 use App\Models\User_data;
 use App\Models\User_socialite;
+use App\Models\UserCreditStatement;
 use App\Models\Vote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Qiniu\Config;
+use Qiniu\Storage\BucketManager;
 
 class Helpers {
     /*生成头像图片地址*/
-    //if(! function_exists('get_user_avatar')){
-        public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
-            return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
+    public static function get_user_avatar($user_id, $size='middle', $extension='jpg'){
+        return route('image.avatar',['avatar_name' => $user_id.'_'.$size.'_'.$extension]);
+    }
+
+    /**
+     * 图片外链
+     *
+     **/
+    public static function photo_link($user_id, $type){
+        $accessKey = config('filesystems.disks.qiniu.access_key');
+        $secretKey = config('filesystems.disks.qiniu.secret_key');
+        $bucket = config('filesystems.disks.qiniu.bucket');
+
+        $url = config('global.qiniu_url');
+        $folder = config('global.upload_folder');
+
+        $key = $url . $folder . '/' . $type . '/' . $user_id . '/' . 'user_' . $user_id . '.' . 'jpg';
+        $auth = new \Qiniu\Auth($accessKey, $secretKey);
+        $config = new Config();
+        $bucketManager = new BucketManager($auth, $config);
+        list($fileInfo, $err) = $bucketManager->stat($bucket, $key);
+
+        if ($fileInfo) {
+            return $key;
+        } else {
+            return $url . $folder . '/' . $type . '/default_avatar.' . 'jpg';
         }
-    //}
+    }
+
+    /**
+     * 图片缩略图
+     *
+     **/
+    public static function get_thumb(){
+
+    }
 
     /*获取用户*/
     public static function get_user($user_id){
@@ -57,6 +93,19 @@ class Helpers {
     public static function get_blog($blog_id){
         $blog = Blog::where('id', $blog_id)->first();
         return $blog;
+    }
+
+    /*获取标签下的实体数*/
+    public static function getByTag($tag_id){
+        $taggable = Taggable::where('tag_id', $tag_id)->get();
+        $tag_count = count($taggable);
+        return $tag_count;
+    }
+
+    /*获取所有标签*/
+    public static function getAllTag(){
+        $tags = Tag::where('status', 1)->get();
+        return $tags;
     }
 
     /**
@@ -169,6 +218,15 @@ class Helpers {
                 }
 
                 return null;
+            } else if ($mode_type === 'Tag') {
+                //关注标签
+                $tag = new Tag();
+                $attention = Attention::where('user_id', $curr_userid)->where('entityable_id', $mode_id)->where('entityable_type', get_class($tag))->first();
+                if ($attention) {
+                    return $attention;
+                }
+
+                return null;
             }
         }
         return null;
@@ -213,6 +271,17 @@ class Helpers {
         $user_socialite = User_socialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
         if ($user_socialite) {
             return $user_socialite;
+        }
+
+        return null;
+    }
+
+    //判断是否签到
+    public static function signIn($user_id, $type)
+    {
+        $credit_sta = UserCreditStatement::where('user_id', $user_id)->where('type', $type)->whereDate('created_at', '=', \Carbon\Carbon::today()->toDateString())->first();
+        if ($credit_sta) {
+            return $credit_sta;
         }
 
         return null;

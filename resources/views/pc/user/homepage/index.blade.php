@@ -27,7 +27,107 @@
                         </ul>
 
                         <div id="per_dynamic">
-
+                            <ul class="list-group">
+                                @foreach($per_dyns as $per_dyn)
+                                    @if($per_dyn->action == 'publishQues')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 发布了问答于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'answerQues')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 回答了问答于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'voteQues')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 投票了问答于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <<a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'attentionQues')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 关注了问答于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'collectionQues')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 收藏了问答于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'publishBlog')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 发布了博客于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <div class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </div>
+                                        </li>
+                                    @elseif($per_dyn->action == 'likeBlog')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 点赞了博客于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @elseif($per_dyn->action == 'favoriteBlog')
+                                        <li class="list-group-item dyn-item">
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 收藏了博客于
+                                                <span class="time" title="{{ $per_dyn->created_at }}">
+                                                    {!! $per_dyn->created_at !!}
+                                                </span>
+                                            </p>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <p class="dyn-content">
+                                                {!! str_limit($per_dyn->content, 1000) !!}
+                                            </p>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
                         </div>
 
                         <div id="">
@@ -42,6 +142,11 @@
 
 @section('footer')
     <script src="{{ asset('libs/tabs-homepage/js/jquery.responsiveTabs.js') }}"></script>
+    <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
+    <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
+    <script>
+        $(".time").timeago();
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             var $tabs = $('#horizontalTab');

@@ -51,8 +51,10 @@ class CreateUserTable extends Migration
             $table->tinyInteger('career_status')->nullable()->comment('职业状态：0->学生，1->在职，2->待业');
             $table->string('career_direction')->nullable()->comment('职业方向');
 
-            $table->string('site_notifications')->nullable()->comment('站内通知');
-            $table->string('email_notifications')->nullable()->comment('邮件通知策略');
+            $table->string('ques_ans_notifications')->default(0)->comment('问答被回复：0->关闭，1->开启');
+            $table->string('blog_comm_notifications')->default(0)->comment('博客被评论：0->关闭，1->开启');
+            $table->string('user_atte_notifications')->default(0)->comment('被用户关注：0->关闭，1->开启');
+            $table->string('email_notifications')->default(0)->comment('邮件通知策略：0->关闭，1->开启');
 
             $table->dateTime('approval_time')->nullable()->comment('实名认证时间');
             $table->unsignedTinyInteger('approval_status')->nullable()->default(0)->comment('实名认证状态：0->未提交资料，1->待审核，2->审核通过');

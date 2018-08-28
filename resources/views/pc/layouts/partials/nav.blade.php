@@ -40,19 +40,12 @@
                             <i class="iconfont icon-jiantouarrow492"></i>
                             <div class="search-content">
                                 <ul>
-                                    <li><a href="">Laravel</a></li>
+                                    @foreach(\App\Helpers\Helpers::getAllTag() as $tag)
+                                        <li><a href="{{ url('/tag/tag_show/'. $tag->id) }}">{{ $tag->name }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
-                        {{--<div class="search-tip">
-                            <i class="iconfont icon-jiantouarrow492"></i>
-                            <div class="search-content">
-                                <ul>
-                                    <li><a href="">前端开发</a></li>
-                                    <li><a href="">Bootstrap</a></li>
-                                </ul>
-                            </div>
-                        </div>--}}
                     </form>
                 </li>
 

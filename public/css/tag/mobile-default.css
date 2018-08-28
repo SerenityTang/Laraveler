@@ -1,0 +1,29 @@
+h4.tag-title {padding-left: 8px;font-weight: 500;margin-bottom: 5px;}
+p.tag-des {display: inherit;text-align: center;padding: 0 8px;line-height: 18px;}
+.tag-content {margin: 30px 8px 0px;}
+span.tag-item a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #22d7bb;
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    padding: 3px 3px 3px 8px;
+    line-height: 16px;
+    white-space: nowrap;
+    background-color: rgba(34,215,187,0.18);
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+span.tag-item em {
+    font-style: normal;
+    color: #ccc;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 2px 4px;
+    line-height: 12px;
+    background-color: #fff;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+}

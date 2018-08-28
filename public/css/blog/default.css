@@ -1,6 +1,6 @@
 /*body {background-color: #f4f4f4;}*/
-.main-content h4:first-child {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin-bottom: 30px;}
-.main-content h4 i {font-size: 22px;padding-right: 5px;}
+.main-content h4.big-title {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin: 0 0 30px 0;}
+.main-content h4.big-title i {font-size: 22px;padding-right: 5px;}
 /*发布文章输入框样式*/
 .main-content .text-extra {border: 2px solid #e4e4e4;height: 40px;}
 .main-content textarea {border: 2px solid #e4e4e4;}
@@ -56,7 +56,7 @@
 .blog-main .blog-body {padding: 0 15px 15px 15px;}
 .blog-main .panel-body ul li {border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}
 .blog-main  .panel-body ul li.global-list-item {padding: 8px 15px 3px;border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
-.blog-main .panel-body ul li h2.title {margin-bottom: 3px;}
+.blog-main .panel-body ul li h2.title {margin: -10px 0 3px 0;}
 .blog-main .panel-body ul li h2.title a {font-weight: 500;color: #555;font-size: 17px;}
 .blog-main .panel-body ul li h2.title a:hover {text-decoration: none;color: #22d7bb;}
 .blog-main .panel-body ul li a.author {text-decoration: none;}
@@ -65,7 +65,7 @@
 .blog-main .panel-body ul li .ques-count span {color: #777;font-size: 13px;}
 .blog-main .panel-body ul li .ques-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
 /*侧栏置顶、推荐博客*/
-.side-blog h3.side-blog-title {font-weight: bold;}
+.side-blog h3.side-blog-title {margin: 0;font-size: 16px;}
 .side-blog h3.side-blog-title i.stick-icon, .side-blog h3.side-blog-title i.promote-icon, .side-blog  .side-blog-tag {padding-right: 6px;}
 .side-blog .stick-body, .side-blog .promote-body {padding: 10px;}
 .side-blog ul.stick-list, .side-blog ul.promote-list {margin-bottom: 10px;}
@@ -75,7 +75,7 @@
 
 /*博客展示页*/
 .blog-show-main .panel-heading .blog-show-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 10px;}
-.blog-show-main .panel-heading .blog-show-top h1.blog-show-title {font-size: 20px;padding-bottom: 5px;color: #333;font-weight: bold;}
+.blog-show-main .panel-heading .blog-show-top h1.blog-show-title {font-size: 20px;padding-bottom: 5px;color: #333;font-weight: bold;margin: 0;display: inline-block;padding-right: 10px;}
 .blog-show-main .panel-heading .blog-show-top a.author {text-decoration: none;}
 .blog-show-main .panel-heading .blog-show-top a.author span, .blog-show-main .panel-heading span.title-extra, .blog-show-main .panel-heading span.time {color: #999;font-size: 10px;}
 .blog-show-main .panel-heading .blog-show-top a.author {padding-right: 10px;}
@@ -105,7 +105,7 @@
 .blog-support .handle-bottom a.admire-btn i {font-size: 18px;position: relative;top: 1px;}
 /*问答右侧栏博主介绍*/
 .list-side-top .other-panel {background-color: inherit;}
-.list-side-top h3.blogger {font-weight: bold;font-size: 16px;}
+.list-side-top h3.blogger {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-top h3.blogger i.other-icon {padding-right: 5px;}
 .list-side-top .media a.blogger-avatar {padding-top: 5px;}
 .list-side-top .media a.blogger-avatar img {border: 1px solid #ccc;}
@@ -116,7 +116,7 @@
 .list-side-top .media .media-body p.blogger-data {color: #999;font-size: 12px;}
 /*问答右侧栏其它问答*/
 .list-side-other .other-panel {background-color: inherit;}
-.list-side-other h3.other-blog {font-weight: bold;font-size: 16px;}
+.list-side-other h3.other-blog {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-other h3.other-blog i.other-icon {padding-right: 5px;}
 .list-side-other .other-panel .list-others {margin-bottom: 0;}
 .list-side-other .other-panel .list-others li a {color: #666;word-wrap: break-word;text-decoration: none;}
@@ -124,7 +124,7 @@
 .list-side-other .other-panel .list-others p.list-other-empty {text-align: center;color: #999;}
 /*问答右侧栏相关问答*/
 .list-side-related .related-panel {background-color: inherit;}
-.list-side-related h3.related-blog {font-weight: bold;font-size: 16px;}
+.list-side-related h3.related-blog {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-related h3.related-blog i.related-icon {padding-right: 5px;}
 .list-side-related ul.correlation-list {margin-bottom: 0;}
 .list-side-related ul.correlation-list p {text-align: center;color: #999;}
@@ -136,7 +136,7 @@
 /*评论头部*/
 .blog-show-main .panel-body {background-color: #f4f4f4;}
 .blog-show-main .panel-body .comment-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 15px;position: relative;}
-.blog-show-main .panel-body .comment-top h3.comment-count {font-size: 20px;font-weight: 500;}
+.blog-show-main .panel-body .comment-top h3.comment-count {font-size: 20px;font-weight: 500;margin: 0;}
 .blog-show-main .panel-body .comment-top .comment-rank {position: absolute;right: 0;top: -2px;}
 .blog-show-main .panel-body .comment-top .comment-rank label {color: #737171;font-size: 10px;height: 25px;background-color: #ddd;line-height: 13px;font-weight: 500;}
 .blog-show-main .panel-body .comment-top .comment-rank label:hover {background-color: #e6e6e6;}

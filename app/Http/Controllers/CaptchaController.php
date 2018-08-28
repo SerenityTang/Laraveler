@@ -32,10 +32,9 @@ class CaptchaController extends Controller
         $phrase = $builder->getText();
         //Session::flash('milkcaptcha', $phrase);
         //  session(['milkcaptcha' => $phrase]);
-        Session::put('milkcaptcha',$phrase);
+        Session::put('milkcaptcha', $phrase);
         // $_SESSION['milkcaptcha'] = $phrase;
         Session::save();
-        Cookie::make('aaa','fff');
 
 //        header('Content-type: image/jpeg');
 //        $fonts = Storage::allFiles('fonts');

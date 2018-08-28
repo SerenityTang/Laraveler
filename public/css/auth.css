@@ -36,6 +36,7 @@ canvas{z-index:-1;position:absolute;}
 .auth .text::-moz-placeholder {color:#eee;line-height:inherit;font-size: 15px;}
 .auth .form-group .input-group .c-text{border-radius: 4px;border-top-left-radius: 0;border-bottom-left-radius: 0;}
 /*验证码*/
+.auth img.captcha {border-radius: 4px;}
 .auth img:hover{cursor: pointer;}
 .auth .loc{padding-left: 10px;}
 .auth .loc:hover {cursor: pointer;}
@@ -124,3 +125,11 @@ canvas{z-index:-1;position:absolute;}
 .auth .login-toptip {width: 340px;position: relative;top: -20px;left: -20px;/*padding-right: 0;*/margin-bottom: 0;}
 .auth .login-toptip .btn-close {top: -12px;}
 .auth .login-toptip p.message {font-size: 13px;text-align: center;}
+
+
+.auth .forget-verify {display: none;}
+.auth .forget-u, .auth .p-captcha, .auth .forget-verify {margin-bottom: 5px;}
+.auth .forget-sub-btn {margin-top: 10px;}
+.auth .forget-btn, .auth .reset-btn {background-color: #048f74; height: 42px;border: none;font-size: 15px;color: #f4f4f4;}
+.auth .forget-btn:hover, .auth .reset-btn:hover {background:#0e8a70;color:#fff;}
+.auth .second-step {display: none;}

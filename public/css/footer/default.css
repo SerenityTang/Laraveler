@@ -10,7 +10,7 @@ body {background-color: #f8f9fa;}
 .about-us p.aim {text-align: left;}
 
 /*联系我们*/
-h3 {text-align: center;font-size: 26px;margin: 0;color: #333;margin-top: 50px;}
+h3.contact-title {text-align: center;font-size: 26px;margin: 0;color: #333;margin-top: 50px;}
 p.description {text-align: center;margin: 10px auto 30px;padding: 10px 80px;color: #666;line-height: 23px;}
 .contact-us .contact-con {width: 700px;margin: 0 auto;}
 .contact-us p.intro {text-align: left;padding: 30px 80px 0;color: #555;font-size: 16px;font-weight: 500;}
@@ -18,3 +18,10 @@ p.description {text-align: center;margin: 10px auto 30px;padding: 10px 80px;colo
 
 /*帮助中心*/
 .logo span.title {font-size: 23px;font-weight: 500;color: #333;position: absolute;top: 21px;}
+a.title:link {text-decoration: none;}
+.container-top {margin-top: 25px;}
+.panel-item {padding: 5px 35px;}
+ol.item {font-size: 13px;margin-bottom: 0px;}
+ol.item li {line-height: 25px;}
+.content {font-size: 15px;padding-top: 10px;}
+.media-item {margin-bottom: 30px;}

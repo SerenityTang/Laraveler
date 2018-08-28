@@ -4,7 +4,7 @@
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ url('css/question/default.css') }}">
-    <link rel="stylesheet" href="{{ url('libs/summernote/summernote.css') }}">
+    <link rel="stylesheet" href="{{ url('libs/summernote/dist/summernote.css') }}">
     <link rel="stylesheet" href="{{ url('libs/zeroModal/zeroModal.css') }}">
 @stop
 
@@ -26,7 +26,13 @@
                 <div class="panel">
                     <div class="panel-heading panel-heading-extra">
                         <div class="ques-show-top">
-                            <h1 class="ques-show-title">{{ $question->title }}</h1>
+                            <div>
+                                <h1 class="ques-show-title">{{ $question->title }}</h1>
+                                @foreach($question->tags as $tag)
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-content-tag">{{ $tag->name }}</a>
+                                @endforeach
+                            </div>
+
                             <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                 <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
                                 <span class="username">{{ $question->user->username }}</span>
@@ -106,7 +112,7 @@
                                     <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
                                     <input type="hidden" id="answer-content" name="answer-content" value="">
                                     <input type="hidden" id="question_id" name="question_id" value="{{ $question->id }}">
-                                    <div id="ques_comment_summernote" class="col-sm-9"></div>
+                                    <div id="ques_comment_summernote" class="col-sm-9" data-question-id="{{ $question->id }}"></div>
                                     <div class="ques_comment_bottom">
                                         <button type="submit" class="btn btn-reply">提交回答</button>
                                     </div>
@@ -203,8 +209,8 @@
 @section('footer')
     <script src="{{ asset('libs/jquery-timeago/jquery.timeago.js') }}"></script>
     <script src="{{ asset('libs/jquery-timeago/locales/jquery.timeago.zh-CN.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/summernote.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('libs/summernote/lang/summernote-zh-CN.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('libs/summernote/dist/lang/summernote-zh-CN.js') }}"></script>
     <script type="text/javascript" src="{{ url('libs/zeroModal/zeroModal.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('css/iconfont/iconfont.js') }}"></script>
     <script>
@@ -227,14 +233,15 @@
                 placeholder:'您对此问题有何见解？赶紧回复探讨吧^_^',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
+                    ['para', ['style']],
                     ['style', ['bold', 'italic', 'underline', 'clear']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],
-                    //['para', ['ul', 'ol', 'paragraph']],
-                    //['height', ['height']],
-                    ['insert', ['picture', 'link']],
-                    ['misc', ['fullscreen']]
+                    ['height', ['height']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture', 'link', 'table']],
+                    ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
                     onChange:function (contents, $editable) {
@@ -242,7 +249,7 @@
                         $("#answer-content").val(code);
                     },
                     onImageUpload: function(files) {
-                        upload_editor_image(files[0], 'question_summernote', 'question');
+                        upload_editor_image(files[0], 'ques_comment_summernote', 'question', $(this).data('question-id'));
                     }
                 }
             });
@@ -251,6 +258,9 @@
             $('.modal .modal-dialog .modal-content .modal-header, .modal .modal-dialog .modal-content .modal-body, .modal .modal-dialog .modal-content .checkbox input').addClass('modal-extra');
             $('.modal .modal-dialog .modal-content .modal-body input.note-image-input').addClass('form-control');
             $('.ques-show-main .panel-footer .note-editor .note-statusbar').addClass('note-statusbar-extra');
+            //富文本工具栏标题按钮下拉菜单
+            $('ul.dropdown-style').css('min-width', '150px');
+            $('ul.dropdown-style li a').css('padding', '0');
         });
     </script>
     <script>

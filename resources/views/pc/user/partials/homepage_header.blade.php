@@ -46,7 +46,7 @@
                     <div class="col-md-12">
                         <div class="item">
                             <span class="count">{{ $user_data->coins }}</span>
-                            <span class="text">金币</span>
+                            <span class="text">L币</span>
                         </div>
                         <div class="item">
                             <span class="count">{{ $user_data->credits }}</span>

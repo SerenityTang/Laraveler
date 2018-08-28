@@ -61,7 +61,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ $question->title }}</a>
+                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ str_limit($question->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$question->user->personal_domain) }}" class="h_q_user">{{ $question->user->username }} / </a>
                                                     <span class="time" title="{{ $question->created_at }}">
@@ -97,7 +97,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 43) }}</a>
+                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$new_blog->user->personal_domain) }}" class="h_q_user">{{ $new_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $new_blog->created_at }}">
@@ -131,7 +131,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 43) }}</a>
+                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 40) }}</a>
                                                     </h4>
                                                     <a href="{{ url('user/'.$hot_blog->user->personal_domain) }}" class="h_q_user">{{ $hot_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $hot_blog->created_at }}">
@@ -153,7 +153,11 @@
                 <div class="well well-lg sign-in">
                     <p class="sign-in-title">今天，您签到了吗？</p>
                     <div class="sign-in-content">
-                        <button type="button" class="btn btn-signin">签到</button>
+                        @if(\App\Helpers\Helpers::signIn(Auth::check() ? Auth::user()->id : 0, 'signIn') == null)
+                            <button type="button" class="btn btn-signin">签到</button>
+                        @else
+                            <button type="button" class="btn btn-signined" disabled>已签到</button>
+                        @endif
                     </div>
                 </div>
 
@@ -165,7 +169,7 @@
                     <div class="panel-body">
                         <div id="tagscloud">
                             @foreach($tags as $tag)
-                                <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -207,8 +211,32 @@
     </script>
     <script>
         $('.btn-signin').click(function () {
-            $(this).html('已签到');
-            $(this).css('background-color', '#66d2c1');
+            var icon = $(this);
+            @if(Auth::check())
+                $.ajax({
+                    type: 'POST',
+                    url : '{{ url('user/signIn') }}',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function (data) {
+                        if (data == 'signIn') {
+                            icon.html('已签到');
+                            icon.removeClass('btn-signin');
+                            icon.addClass('btn-signined');
+                            icon.attr('disabled', true);
+                        }
+                    },
+                    error : function () {
+                        layer.msg('系统错误！', {
+                            icon: 2,
+                            time: 2000,
+                        });
+                    }
+                });
+            @else
+                window.location.href = '{{ url('/login') }}';
+            @endif
         });
     </script>
     <script>

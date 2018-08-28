@@ -28,6 +28,9 @@
                                 <li class="list-group-item global-list-item">
                                     <h2 class="title">
                                         <a href="{{ url('blog/show/'.$blog->id) }}" title="{{ $blog->title }}">{{ $blog->title }}</a>
+                                        @foreach($blog->tags as $tag)
+                                            <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                        @endforeach
                                     </h2>
                                     <a class="author" href="{{ url('') }}">
                                         <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-24" alt="{{ $blog->user->username }}">
@@ -92,7 +95,7 @@
                         <div id="tagscloud">
                             @if(isset($hot_tags))
                                 @foreach($hot_tags as $tag)
-                                    <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                                 @endforeach
                             @endif
                         </div>

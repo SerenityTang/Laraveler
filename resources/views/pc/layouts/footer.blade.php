@@ -37,6 +37,13 @@
 </head>
 
 <body>
+@section('nav')
+    <div class="logo">
+        <a class="navbar-brand all-index-logo" href="{{ url('/') }}" title="Serenity" style="padding: inherit;">
+            <img class="all-index-logo-img" src="/imgs/logo.png" width="190" height="50"/>
+        </a>
+    </div>
+@show
 @yield('content')
 
 <script src="{{ asset('libs/bootstrap/js/bootstrap.min.js') }}"></script>

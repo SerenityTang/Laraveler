@@ -4,11 +4,6 @@
 @stop
 
 @section('content')
-    <div class="logo">
-        <a class="navbar-brand all-index-logo" href="{{ url('/') }}" title="Serenity" style="padding: inherit;">
-            <img class="all-index-logo-img" src="/imgs/logo.png" width="190" height="50"/>
-        </a>
-    </div>
     <div class="about-us">
         <h3>关于Laraveler</h3>
         <p class="intro">简介：</p>

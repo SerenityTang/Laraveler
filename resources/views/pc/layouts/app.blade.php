@@ -73,7 +73,7 @@
             <div class="modal-body feedback-body">
                 <div class="row">
                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{{ url('/feedback') }}">
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label for="" class="col-sm-2 control-label">意见类型</label>
                             <div class="col-sm-9 extra">
                                 <ul class="feedback">
@@ -282,6 +282,24 @@
                 $('#backTop').fadeOut();
             }
         }
+    });
+</script>
+{{--底部--}}
+<script>
+    $(function () {
+        $('.footer-qq').mouseover(function () {
+            $('.footer .footer-middle p.footer-qqgroup').stop().fadeIn('slow');
+        });
+        $('.footer-qq').mouseout(function () {
+            $('.footer .footer-middle p.footer-qqgroup').stop().fadeOut('slow');
+        });
+
+        $('.footer-weixin').mouseover(function () {
+            $('.footer .footer-middle p.footer-qrcode').stop().fadeIn('slow');
+        });
+        $('.footer-weixin').mouseout(function () {
+            $('.footer .footer-middle p.footer-qrcode').stop().fadeOut('slow');
+        });
     });
 </script>
 @section('footer')

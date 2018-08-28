@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User_data;
 use App\Models\User_socialite;
+use App\Services\Ucpaas\Agents\UcpaasAgent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserOauth;
@@ -11,25 +12,34 @@ use App\User;
 use App\Models\UserProfile;
 use BrowserDetect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Validator;
 
 class OAuthController extends Controller
 {
     /**
-     * 第三方授权认证登录后的本地平台用户绑定处理表单ajax验证
+     * 第三方授权认证用户绑定处理表单ajax验证
      */
     public function bind_verify(Request $request)
     {
-        $input = $request->only(['username', 'password', 'mobile','captcha']);
-        if (isset($input['username']) && $input['username'] != null) {
+        $input = $request->only(['username', 'password', 'mobile','verify_code']);
+        if (isset($input['username']) && $input['username'] != null && $input['mobile'] != null) {
             $username = User::where('username', $input['username'])->first();
-            if ($username) {
-                if (Auth::check() && Auth::user()->username == $input['username']) {
+            $rules = array(
+                'mobile' => 'bail|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            );
+            $validator = Validator::make($input, $rules);
+            $mobile_user = User::where('mobile', $input['mobile'])->first();
+            if ($validator->fails()) {
+                return $this->jsonResult(502, $validator->errors()->all());
+            } else if (!$mobile_user) {
+                if ($username) {
+                    return $this->jsonResult(906);
+                } else {
                     return $this->jsonResult(907);
                 }
-                return $this->jsonResult(906);
             } else {
-                return $this->jsonResult(907);
+                return $this->jsonResult(501);
             }
         } else if (isset($input['mobile']) && $input['mobile'] != null) {
             $rules = array(
@@ -40,9 +50,16 @@ class OAuthController extends Controller
             if ($validator->fails()) {
                 return $this->jsonResult(502, $validator->errors()->all());
             } else if ($mobile_user) {
+                //手机号存在，则绑定账号
                 return $this->jsonResult(902);
-            } else {
-                return $this->jsonResult(903);
+            } else if (!$mobile_user) {
+                //手机号不存在，则注册并绑定账号
+                $username = User::where('username', $input['username'])->first();
+                if ($username) {
+                    return $this->jsonResult(906);
+                } else {
+                    return $this->jsonResult(903);
+                }
             }
         } else if (isset($input['password']) && $input['password'] != null) {
             $rules = array(
@@ -54,9 +71,9 @@ class OAuthController extends Controller
             } else {
                 return $this->jsonResult(904);
             }
-        } else if (isset($input['captcha']) && $input['captcha'] != null) {
+        } /*else if (isset($input['verify_code']) && $input['verify_code'] != null) {
             $rules = array(
-                'captcha' => 'required|validateCaptcha',
+                'verify_code' => 'required|validateMobile:'.$input['mobile'],
             );
             $validator = Validator::make($input, $rules);
             if ($validator->fails()) {
@@ -64,6 +81,97 @@ class OAuthController extends Controller
             } else {
                 return $this->jsonResult(905);
             }
+        }*/
+    }
+
+    /**
+     * callback获取手机验证码
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function get_mobile_code(Request $request)
+    {
+        $username = $request->input('username');
+        $mobile = $request->input('mobile');
+        $password = $request->input('password');
+        if ($request->input('pwd_status') == 0) {
+            $rules = array(
+                'username' => 'required|string|max:255',
+                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+                'password' => 'required|string|between:6,20',
+            );
+        } else if ($request->input('pwd_status') == 1) {
+            $rules = array(
+                'username' => 'required|string|max:255',
+                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            );
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->jsonResult(502, $validator->errors());
+        } else {
+            $mobile_user = User::where('mobile', $mobile)->first();
+            if (!$mobile_user) {
+                //手机号不存在，则注册并绑定账号
+                $user = User::where('username', $username)->first();
+                if ($user) {
+                    //获取验证码前判断手机号不存在且用户名存在
+                    return $this->jsonResult(906);
+                } else {
+                    return $this->send($request, $mobile);
+                }
+            } else {
+                //手机号存在
+                return $this->send($request, $mobile);
+            }
+        }
+    }
+
+    /**
+     * 手机验证码发送
+     */
+    public function send(Request $request, $mobile){
+        /**
+         * 验证成功，发送验证码
+         * 短信接口请求参数
+         **/
+        $appid = env('AppID');
+        $templateid = env('Template_Id_Register');
+
+        $options['accountsid'] = env('Account_Sid');
+        $options['token'] = env('Auth_Token');
+        $ucpass = new UcpaasAgent($options);
+
+        $verify_code = '';
+        for ($i = 0; $i < 6; $i++) {
+            $verify_code .= random_int(0, 9);
+        }
+
+        $param = "$verify_code,5";
+
+        //发送短信前先删除此用户的短信验证码缓存
+        if (Cache::has($mobile.'minute')) {
+            return $this->jsonResult(899);
+        } else {
+            Cache::forget($mobile);
+            Cache::forget($mobile.'minute');
+        }
+
+        //发送短信验证码
+        $data = $ucpass->SendSms($appid, $templateid, $param, $mobile, $uid = null);
+        //json格式的字符串进行解码，返回对象变量，如第二个参数true，返回数组 | json_encode()对变量进行 JSON 编码
+        $back_data = json_decode($data, true);
+
+        if ($back_data['code'] == '000000') {
+            //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
+            Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
+            Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+
+            return $this->jsonResult(900);
+        } else {
+            //发送失败
+            return $this->jsonResult(901);
         }
     }
 
@@ -77,21 +185,11 @@ class OAuthController extends Controller
         $username = $request->input('username');
         $mobile = $request->input('mobile');
         $password = $request->input('password');
+        $verify_code = $request->input('verify_code');
         $driver = $request->input('driver');
-        if ($password) {
-            $rules = array(
-                'username' => 'required|string|max:255|unique:user',
-                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
-                'password' => 'required|string|between:6,20',
-                'captcha' => 'required|string|validateCaptcha',
-            );
-        } else {
-            $rules = array(
-                'username' => 'required|string|max:255|unique:user',
-                'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
-                'captcha' => 'required|string|validateCaptcha',
-            );
-        }
+        $rules = array(
+            'verify_code' => 'required|string|validateMobile:'.$mobile,
+        );
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {

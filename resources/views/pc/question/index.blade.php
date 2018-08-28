@@ -45,6 +45,9 @@
                                         <li class="list-group-item hot-list-item">
                                             <h2 class="title">
                                                 <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                                @foreach($question->tags as $tag)
+                                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                                @endforeach
                                             </h2>
                                             <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                                 <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
@@ -73,6 +76,9 @@
                                     <li class="list-group-item global-list-item">
                                         <h2 class="title">
                                             <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                            @foreach($question->tags as $tag)
+                                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                            @endforeach
                                         </h2>
                                         <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
                                             <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
@@ -102,7 +108,7 @@
             <div class="col-xs-12 col-md-3 side-question">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="side-question-title"><i class="iconfont icon-zuixin1 new-icon"></i>最新回答</h3>
+                        <h4 class="side-question-title"><i class="iconfont icon-zuixin1 new-icon"></i>最新回答</h4>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group list-new-answers">
@@ -119,13 +125,13 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading ">
-                        <h3 class="side-question-title"><i class="iconfont icon-biaoqian side-ques-tag"></i>问答标签</h3>
+                        <h4 class="side-question-title"><i class="iconfont icon-biaoqian side-ques-tag"></i>问答标签</h4>
                     </div>
                     <div class="panel-body">
                         <div id="tagscloud">
                             @if(isset($hot_tags))
                                 @foreach($hot_tags as $tag)
-                                    <a href="#" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                                 @endforeach
                             @endif
                         </div>
@@ -134,7 +140,7 @@
 
                 <div class="panel panel-default warm">
                     <div class="panel-heading warm-panel-heading">
-                        <h3 class="side-question-title"><i class="iconfont icon-remen warm-icon"></i>热心排行榜</h3>
+                        <h4 class="side-question-title"><i class="iconfont icon-remen warm-icon"></i>热心排行榜</h4>
                         <div class="date">
                             <a class="week" href="javascript:void(0)">周榜</a>
                             <span> · </span>

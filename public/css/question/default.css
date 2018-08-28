@@ -1,7 +1,7 @@
 /*发布问题*/
 /*标题*/
-.main-content h4:first-child {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin-bottom: 30px;}
-.main-content h4 i {font-size: 22px;padding-right: 5px;}
+.main-content h4.big-title {font-size: 22px;font-weight:bold;padding: 15px 0 15px 18px;border-bottom: 1px solid #d0d6d9;margin: 0 0 30px 0;}
+.main-content h4.big-title i {font-size: 22px;padding-right: 5px;}
 /*输入框样式*/
 .main-content .text-extra {border: 2px solid #e4e4e4;height: 40px;}
 .main-content textarea {border: 2px solid #e4e4e4;}
@@ -54,7 +54,7 @@
 .question-main  .question-body {padding: 0 15px 15px 15px;}
 .question-main  .panel-body ul li.hot-list-item {padding: 3px 15px;border: none;margin-top: 15px;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
 .question-main  .panel-body ul li.global-list-item {padding: 8px 15px 3px;border: none;margin-bottom: 0px;border-bottom: 1px solid #ddd;border-radius: 0px;}
-.question-main  .panel-body ul li h2.title {margin-bottom: 3px;}
+.question-main  .panel-body ul li h2.title {margin: -10px 0 3px 0;}
 .question-main  .panel-body ul li h2.title a {font-weight: 500;color: #555;font-size: 17px;}
 .question-main  .panel-body ul li h2.title a:hover {text-decoration: none;color: #22d7bb;}
 .question-main  .panel-body ul li a.author {text-decoration: none;}
@@ -64,11 +64,11 @@
 .question-main .panel-body ul li .ques-count span i {padding-right: 5px;font-weight: bolder;font-size: 13px;}
 /*热门回答*/
 .question-main .hot-date {position: relative;}
-.question-main .hot-date .date {position: absolute;top: -3px;right: 18px;z-index: 1000;background-color: #eee;border-radius: 4px;}
+.question-main .hot-date .date {position: absolute;top: -6px;right: 18px;z-index: 1000;background-color: #eee;border-radius: 4px;}
 .question-main .hot-date .date label {padding: 2px 8px;font-size: 10px;color: #666;}
 /*侧边栏最新回答*/
-.side-question h3.side-question-title {font-weight: bold;}
-.side-question h3.side-question-title i.new-icon, .side-question h3.side-question-title i.warm-icon, .side-question h3.side-question-title i.side-ques-tag {padding-right: 6px;font-weight: normal;}
+.side-question h4.side-question-title {margin: 0;font-size: 16px;}
+.side-question h4.side-question-title i.new-icon, .side-question h4.side-question-title i.warm-icon, .side-question h4.side-question-title i.side-ques-tag {padding-right: 6px;font-weight: normal;}
 .side-question .panel-body ul .list-new-answer {border: 0;padding: 0;border-bottom: 1px solid #ddd;margin-bottom: 6px;padding-bottom: 3px;border-radius: 0;}
 .side-question .panel-body ul.list-new-answers {margin-bottom: 10px;}
 .side-question .panel-body ul .list-new-answer a.new-answer {font-size: 15px;color: #555;text-decoration: none;}
@@ -88,7 +88,7 @@
 .ques-show-main div:first-child {border-color: #e0e0e0;}
 .ques-show-main .panel-heading-extra {background-color: #f4f4f4;}
 .ques-show-main .panel-heading .ques-show-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 10px;}
-.ques-show-main .panel-heading .ques-show-top h1.ques-show-title {font-size: 20px;padding-bottom: 5px;color: #333;font-weight: bold;}
+.ques-show-main .panel-heading .ques-show-top h1.ques-show-title {font-size: 20px;padding-bottom: 5px;color: #333;font-weight: bold;margin: 0;display: inline-block;padding-right: 10px;}
 .ques-show-main .panel-heading .ques-show-top a.author {text-decoration: none;}
 .ques-show-main .panel-heading .ques-show-top a.author span, .ques-show-main .panel-heading span.title-extra, .ques-show-main .panel-heading span.time {color: #999;font-size: 10px;}
 .ques-show-main .panel-heading .ques-show-top .ques-operate {display: inline-block;padding-left: 15px;}
@@ -116,7 +116,7 @@
 
 .ques-show-main .panel-body {background-color: #f4f4f4;}
 .ques-show-main .panel-body .answer-top {border-bottom: 1px solid #e0e0e0;padding-bottom: 15px;position: relative;}
-.ques-show-main .panel-body .answer-top h3.answer-count {font-size: 20px;font-weight: 500;}
+.ques-show-main .panel-body .answer-top h3.answer-count {font-size: 20px;font-weight: 500;margin: 0;}
 .ques-show-main .panel-body .answer-top .answer-rank {position: absolute;right: 0;top: -2px;}
 .ques-show-main .panel-body .answer-top .answer-rank label {color: #737171;font-size: 10px;height: 25px;background-color: #ddd;line-height: 13px;font-weight: 500;}
 .ques-show-main .panel-body .answer-top .answer-rank label:hover {background-color: #e6e6e6;}
@@ -181,17 +181,17 @@
 .list-side-top ul li span.vote-count, .list-side-top ul li span.attention-count, .list-side-top ul li span.collection-count {float: right;padding-top: 4px;}
 /*问答右侧栏其它问答*/
 .list-side-other .other-panel {background-color: inherit;}
-.list-side-other h3.other-ques {font-weight: bold;font-size: 16px;}
+.list-side-other h3.other-ques {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-other h3.other-ques i.other-icon {padding-right: 5px;}
-.list-side-other .other-panel .list-others {margin-bottom: 0;}
+.list-side-other .other-panel .list-others {margin-bottom: 0;list-style: none;}
 .list-side-other .other-panel .list-others li a {color: #666;word-wrap: break-word;text-decoration: none;}
 .list-side-other .other-panel .list-others li a:hover {color: #22d7bb;}
 .list-side-other .other-panel .list-others p.list-other-empty {text-align: center;color: #999;}
 /*问答右侧栏相关问答*/
 .list-side-related .related-panel {background-color: inherit;}
-.list-side-related h3.related-ques {font-weight: bold;font-size: 16px;}
+.list-side-related h3.related-ques {font-weight: bold;font-size: 16px;margin: 0;}
 .list-side-related h3.related-ques i.related-icon {padding-right: 5px;}
-.list-side-related ul.correlation-list {margin-bottom: 0;}
+.list-side-related ul.correlation-list {margin-bottom: 0;list-style: none;}
 .list-side-related ul.correlation-list p {text-align: center;color: #999;}
 .list-side-related ul li.correlation-ques a {color: #333;text-decoration: none;}
 .list-side-related ul li.correlation-ques a:hover {color: #22d7bb;}
