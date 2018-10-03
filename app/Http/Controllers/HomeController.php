@@ -45,11 +45,11 @@ class HomeController extends Controller
 
         //排行榜
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.answer_count','DESC')
-            ->orderBy('user_datas.article_count','DESC')
-            ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
+            ->where('user.user_status', '>', 0)
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->orderBy('user_datas.article_count', 'DESC')
+            ->orderBy('user.updated_at', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
         //热门标签
@@ -60,7 +60,7 @@ class HomeController extends Controller
         } else {
             return view('pc.home')->with(['new_questions' => $new_questions, 'hot_questions' => $hot_questions, 'active_users' => $active_users, 'tags' => $tags, 'new_blogs' => $new_blogs, 'hot_blogs' => $hot_blogs]);
         }
-        }
+    }
 
     /**
      * 意见反馈
@@ -68,12 +68,12 @@ class HomeController extends Controller
     public function feedback(Request $request)
     {
         $feedback_data = [
-            'user_id'       =>Auth::check() ? Auth::user()->id : 0,
-            'type'          =>$request->input('feedback'),
-            'description'   =>$request->input('description'),
-            'url'           =>$request->input('fb-url'),
+            'user_id' => Auth::check() ? Auth::user()->id : 0,
+            'type' => $request->input('feedback'),
+            'description' => $request->input('description'),
+            'url' => $request->input('fb-url'),
             //'picture'       $request->input('feedback'),
-            'contact'       =>$request->input('fb-contact'),
+            'contact' => $request->input('fb-contact'),
         ];
         $feedback_data = Feedback::create($feedback_data);
         if ($feedback_data) {
