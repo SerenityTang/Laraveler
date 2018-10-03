@@ -11,19 +11,19 @@
 |
 */
 
-require __DIR__.'/web/admin.php';
-require __DIR__.'/web/auth.php';
-require __DIR__.'/web/search.php';
-require __DIR__.'/web/answer.php';
+require __DIR__ . '/web/admin.php';
+require __DIR__ . '/web/auth.php';
+require __DIR__ . '/web/search.php';
+require __DIR__ . '/web/answer.php';
 require __DIR__ . '/web/question.php';
-require __DIR__.'/web/blog.php';
+require __DIR__ . '/web/blog.php';
 require __DIR__ . '/web/comment.php';
-require __DIR__.'/web/image.php';
-require __DIR__.'/web/user.php';
-require __DIR__.'/web/authentication.php';
-require __DIR__.'/web/tag.php';
-require __DIR__.'/web/workshow.php';
-require __DIR__.'/api.php';
+require __DIR__ . '/web/image.php';
+require __DIR__ . '/web/user.php';
+require __DIR__ . '/web/authentication.php';
+require __DIR__ . '/web/tag.php';
+require __DIR__ . '/web/workshow.php';
+require __DIR__ . '/api.php';
 
 //框架自带欢迎页
 /*Route::get('/', function () {
@@ -46,7 +46,7 @@ Route::get('/about', ['as' => 'about', 'uses' => 'HomeController@about']);
 //联系我们
 Route::get('/contact', ['as' => 'contact', 'uses' => 'HomeController@contact']);
 //帮助中心
-Route::group(['prefix' => 'help'], function() {
+Route::group(['prefix' => 'help'], function () {
     Route::get('/', ['as' => 'help', 'uses' => 'HomeController@help']);
     Route::get('/credit/introduce', ['as' => 'help.credit.introduce', 'uses' => 'HomeController@credit_introduce']);    //积分介绍
     Route::get('/credit/rule', ['as' => 'help.credit.rule', 'uses' => 'HomeController@credit_rule']);    //积分规则
