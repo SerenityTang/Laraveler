@@ -9,8 +9,8 @@ use Laravel\Scout\Searchable;
 class Question extends Model
 {
     use SoftDeletes, Searchable;
+    protected $table = 'questions';
     protected $dates = ['delete_at'];
-
     protected $fillable = [
         'user_id',
         'qcategory_id',
@@ -36,6 +36,8 @@ class Question extends Model
 
     /**
      * 获取问答对应的用户
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -43,8 +45,10 @@ class Question extends Model
     }
 
     /**
-    * 获取问答对应的答案
-    */
+     * 获取问答对应的答案
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function answers()
     {
         return $this->hasMany('App\Models\Answer', 'question_id');
@@ -52,75 +56,120 @@ class Question extends Model
 
     /**
      * 获取问答对应的标签
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function tags()
     {
         return $this->morphToMany('App\Models\Tag', 'taggable');
     }
 
-    //最新问答
+    /**
+     * 最新问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function newest($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $newest = $query->where('status', 1)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $newest = $query->where('status', 1)->orderByDesc('created_at')->paginate($pageSize);
+
         return $newest;
     }
 
-    //热门问答
+    /**
+     * 热门问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function hottest($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $hottest = $query->where('status', 1)->where('view_count', '>', 10)/*->whereDate('updated_at', date('Y-m-d'))*/->orderBy('view_count', 'DESC')->orderBy('answer_count', 'DESC')->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $hottest = $query->where('status', 1)->where('view_count', '>', 10)/*->whereDate('updated_at', date('Y-m-d'))*/
+        ->orderByDesc('view_count')->orderByDesc('answer_count')->orderByDesc('created_at')->paginate($pageSize);
+
         return $hottest;
     }
 
-    //悬赏问答
+    /**
+     * 悬赏问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function reward($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $reward = $query->where('status', 1)->where('price', '>', 0)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $reward = $query->where('status', 1)->where('price', '>', 0)->orderByDesc('created_at')->paginate($pageSize);
+
         return $reward;
     }
 
-    //待回答问答
+    /**
+     * 待回答问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function unanswer($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $unanswer = $query->where('status', 1)->where('question_status', 0)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $unanswer = $query->where('status', 1)->where('question_status', 0)->orderByDesc('created_at')->paginate($pageSize);
+
         return $unanswer;
     }
 
-    //待解决问答
+    /**
+     * 待解决问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function unsolve($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $unanswer = $query->where('status', 1)->where('question_status', '<', 2)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $unanswer = $query->where('status', 1)->where('question_status', '<', 2)->orderByDesc('created_at')->paginate($pageSize);
+
         return $unanswer;
     }
 
-    //已采纳问答
+    /**
+     * 已采纳问答
+     *
+     * @param int $categoryId
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function adopt($categoryId = 0, $pageSize = 15)
     {
         $query = self::query();
-        if( $categoryId > 0 ){
-            $query->where('category_id','=',$categoryId);
+        if ($categoryId > 0) {
+            $query->where('qcategory_id', $categoryId);
         }
-        $adopt = $query->where('status', 1)->where('question_status', 2)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $adopt = $query->where('status', 1)->where('question_status', 2)->orderByDesc('created_at')->paginate($pageSize);
+
         return $adopt;
     }
 }
