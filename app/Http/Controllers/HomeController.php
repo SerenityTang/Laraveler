@@ -7,6 +7,8 @@ use App\Models\Feedback;
 use App\Models\Question;
 use App\Models\Tag;
 use App\Models\UserCreditConfig;
+use App\Types\BlogType;
+use App\Types\QuestionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,24 +28,27 @@ class HomeController extends Controller
 
     /**
      * 首页
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $question = new Question();
         $blog = new Blog();
-        //$new_questions = call_user_func([$question, 'newest']);     //最新问答
-        //$hot_questions = call_user_func([$question, 'hottest']);    //热门问答
-        $new_questions = $question->newest(0, 6);       //最新问答
-        $hot_questions = $question->hottest(0, 6);      //热门问答
-        $new_blogs = $blog->newest(0, 6);       //最新博客
-        $hot_blogs = $blog->hottest(0, 6);      //热门博客
+        /*$new_questions = call_user_func([$question, 'newest']);
+        $hot_questions = call_user_func([$question, 'hottest']);*/
+        // pc端
+        $new_questions = $question->newest(QuestionType::$newest, 6);       //最新问答
+        $hot_questions = $question->hottest(QuestionType::$hottest, 6);     //热门问答
+        $new_blogs = $blog->newest(BlogType::$newest, 6);                   //最新博客
+        $hot_blogs = $blog->hottest(BlogType::$hottest, 6);                 //热门博客
+        // 手机端
+        $mnew_questions = $question->newest(QuestionType::$newest, 6);      //最新问答
+        $mhot_questions = $question->hottest(QuestionType::$hottest, 6);    //热门问答
+        $mnew_blogs = $blog->newest(BlogType::$newest, 6);                  //最新博客
+        $mhot_blogs = $blog->hottest(BlogType::$hottest, 6);                //热门博客
 
-        $mnew_questions = $question->newest(0, 6);       //最新问答
-        $mhot_questions = $question->hottest(0, 6);      //热门问答
-        $mnew_blogs = $blog->newest(0, 6);       //最新博客
-        $mhot_blogs = $blog->hottest(0, 6);      //热门博客
-
-        //排行榜
+        // 排行榜
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status', '>', 0)
             ->orderBy('user_datas.answer_count', 'DESC')
@@ -52,7 +57,7 @@ class HomeController extends Controller
             ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
-        //热门标签
+        // 热门标签
         $tags = Tag::where('status', 1)->get();
 
         if (Browser::isMobile()) {
@@ -64,6 +69,9 @@ class HomeController extends Controller
 
     /**
      * 意见反馈
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function feedback(Request $request)
     {
@@ -76,6 +84,7 @@ class HomeController extends Controller
             'contact' => $request->input('fb-contact'),
         ];
         $feedback_data = Feedback::create($feedback_data);
+
         if ($feedback_data) {
             return $this->jsonResult(801);
         }
@@ -83,6 +92,8 @@ class HomeController extends Controller
 
     /**
      * 关于我们
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function about()
     {
@@ -91,6 +102,8 @@ class HomeController extends Controller
 
     /**
      * 联系我们
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function contact()
     {
@@ -99,6 +112,8 @@ class HomeController extends Controller
 
     /**
      * 帮助中心
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function help()
     {
@@ -107,6 +122,8 @@ class HomeController extends Controller
 
     /**
      * 帮助中心之积分介绍
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function credit_introduce()
     {
@@ -115,6 +132,8 @@ class HomeController extends Controller
 
     /**
      * 帮助中心之积分规则
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function credit_rule()
     {
@@ -124,6 +143,8 @@ class HomeController extends Controller
 
     /**
      * 帮助中心之L币介绍
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function coin_introduce()
     {
