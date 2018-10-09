@@ -6,8 +6,8 @@ use App\Models\Answer;
 use App\Models\Blog;
 use App\Models\Comment;
 use App\Models\Question;
-use App\Models\Support_opposition;
-use App\Models\User_data;
+use App\Models\SupportOpposition;
+use App\Models\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +26,7 @@ class CommentController extends Controller
             $answer = Answer::where('id', $answer_id)->first();
             $question = Question::where('id', $answer->question_id)->first();
             $user = Auth::user();
-            $user_data = User_data::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $user->id)->first();
 
             $data = [
                 'user_id' => $user->id,
@@ -44,7 +44,7 @@ class CommentController extends Controller
                 //问题评论数+1
                 $question->increment('comment_count');
                 //用户评论数+1
-                $user_data->increment('comment_count');
+                $UserData->increment('comment_count');
 
                 return view('pc.comment.comment_part_item')->with(['comment' => $comment]);
             }
@@ -65,7 +65,7 @@ class CommentController extends Controller
             $blog_id = $request->input('blog_id');
             $blog = Blog::where('id', $blog_id)->first();
             $user = Auth::user();
-            $user_data = User_data::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $user->id)->first();
 
             $data = [
                 'user_id' => $user->id,
@@ -81,7 +81,7 @@ class CommentController extends Controller
                 //博客评论数+1
                 $blog->increment('comment_count');
                 //用户评论数+1
-                $user_data->increment('comment_count');
+                $UserData->increment('comment_count');
 
                 return $this->success(route('blog.show', ['id' => $blog_id]), '评论成功^_^');
             }
@@ -103,7 +103,7 @@ class CommentController extends Controller
             $comment = Comment::where('id', $comment_id)->first();
             $blog = Blog::where('id', $comment->commentable_id)->first();
             $user = Auth::user();
-            $user_data = User_data::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $user->id)->first();
             $data = [
                 'user_id' => $user->id,
                 'content' => $request->input('comment_child'),
@@ -122,7 +122,7 @@ class CommentController extends Controller
                 //博客评论数+1
                 $blog->increment('comment_count');
                 //用户评论数+1
-                $user_data->increment('comment_count');
+                $UserData->increment('comment_count');
 
                 return view('pc.comment.comment_child_blog')->with(['mutual_comment' => $mutual_comment]);
             }
@@ -155,9 +155,9 @@ class CommentController extends Controller
     {
         if (Auth::check()) {
             $comment = Comment::where('id', $comment_id)->first();
-            $supp_oppo = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $comment_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', 'support')->first();
-            $user_data = User_data::where('user_id', $comment->user_id)->first();   //评论所属用户
-            $curr_user_data = User_data::where('user_id', Auth::user()->id)->first();   //当前用户
+            $supp_oppo = SupportOpposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $comment_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', 'support')->first();
+            $UserData = UserData::where('user_id', $comment->user_id)->first();   //评论所属用户
+            $curr_UserData = UserData::where('user_id', Auth::user()->id)->first();   //当前用户
             //存在支持记录，则属于取消支持
             if ($supp_oppo) {
                 $bool = $supp_oppo->delete();
@@ -165,9 +165,9 @@ class CommentController extends Controller
                     //评论支持数-1
                     $comment->decrement('support_count');
                     //用户被支持数-1
-                    $user_data->decrement('supported_count');
+                    $UserData->decrement('supported_count');
                     //当前用户支持数-1
-                    $curr_user_data->decrement('support_count');
+                    $curr_UserData->decrement('support_count');
                 }
 
                 return response('unsupport');
@@ -179,14 +179,14 @@ class CommentController extends Controller
                     'sup_opp_able_type' => get_class($comment),
                     'sup_opp_mode' => 'support',
                 ];
-                $s_o = Support_opposition::create($data);
+                $s_o = SupportOpposition::create($data);
                 if ($s_o) {
                     //评论支持数-1
                     $comment->increment('support_count');
                     //用户被支持数-1
-                    $user_data->increment('supported_count');
+                    $UserData->increment('supported_count');
                     //当前用户支持数-1
-                    $curr_user_data->increment('support_count');
+                    $curr_UserData->increment('support_count');
 
                     return response('support');
                 }
@@ -224,10 +224,10 @@ class CommentController extends Controller
     public function destroy($comment_id)
     {
         $comment = Comment::where('id', $comment_id)->first();
-        $user_data = User_data::where('user_id', $comment->user_id)->first();
+        $UserData = UserData::where('user_id', $comment->user_id)->first();
         $comment->delete();
         if ($comment->trashed()) {
-            $user_data->decrement('comment_count');
+            $UserData->decrement('comment_count');
 
             return $this->jsonResult(710);
         } else {

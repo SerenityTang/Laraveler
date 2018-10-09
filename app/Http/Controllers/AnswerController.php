@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\AnswerOperationCreditEvent;
 use App\Models\Answer;
 use App\Models\Question;
-use App\Models\Support_opposition;
-use App\Models\User_data;
+use App\Models\SupportOpposition;
+use App\Models\UserData;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,8 +47,8 @@ class AnswerController extends Controller
                 $question->question_status = 1;
                 $question->save();
 
-                $user_data = User_data::where('user_id', $user->id)->first();
-                $user_data->increment('answer_count');
+                $UserData = UserData::where('user_id', $user->id)->first();
+                $UserData->increment('answer_count');
 
                 //触发回答问题加分事件
                 Event::fire(new AnswerOperationCreditEvent($user, 'answer'));
@@ -81,7 +81,7 @@ class AnswerController extends Controller
     public function adopt($id)
     {
         $answer = Answer::where('id', $id)->first();
-        $user_data = User_data::where('user_id', $answer->user_id)->first();
+        $UserData = UserData::where('user_id', $answer->user_id)->first();
         $user = $answer->user;
         $answer->adopted_at = Carbon::now()->toDateTimeString();
         $ans_bool = $answer->save();
@@ -92,7 +92,7 @@ class AnswerController extends Controller
             $ques_bool = $question->save();
 
             if ($ques_bool == true) {
-                $user_data->increment('adoption_count');
+                $UserData->increment('adoption_count');
 
                 //触发回答被采纳加分事件
                 Event::fire(new AnswerOperationCreditEvent($user, 'adopt'));
@@ -113,9 +113,9 @@ class AnswerController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $answer = Answer::where('id', $id)->first();
-            $curr_user_data = User_data::where('user_id', $user->id)->first();
-            $user_data = User_data::where('user_id', $answer->user_id)->first();
-            $sup_opp = Support_opposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($answer))->first();
+            $curr_UserData = UserData::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $answer->user_id)->first();
+            $sup_opp = SupportOpposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($answer))->first();
             $answer_user = $answer->user;
 
             //如果此用户支持过此问答的回答，则属于取消支持
@@ -123,8 +123,8 @@ class AnswerController extends Controller
                 $del_bool = $sup_opp->delete();
                 if ($del_bool == true) {
                     $answer->decrement('support_count');   //回答支持数-1
-                    $curr_user_data->decrement('support_count'); //当前用户支持数-1
-                    $user_data->decrement('supported_count'); //回答所属用户被支持数-1
+                    $curr_UserData->decrement('support_count'); //当前用户支持数-1
+                    $UserData->decrement('supported_count'); //回答所属用户被支持数-1
 
                     //取消支持，扣取支持添加的积分
                     Event::fire(new AnswerOperationCreditEvent($answer_user, 'support', 'no'));
@@ -139,12 +139,12 @@ class AnswerController extends Controller
                     'sup_opp_able_type'     =>get_class($answer),
                     'sup_opp_mode'          =>'support',
                 ];
-                $support_opposition = Support_opposition::create($data);
+                $support_opposition = SupportOpposition::create($data);
 
                 if ($support_opposition) {
                     $answer->increment('support_count');      //回答支持数+1
-                    $curr_user_data->increment('support_count'); //当前用户支持数+1
-                    $user_data->increment('supported_count'); //回答所属用户被支持数+1
+                    $curr_UserData->increment('support_count'); //当前用户支持数+1
+                    $UserData->increment('supported_count'); //回答所属用户被支持数+1
 
                     //支持，添加支持积分
                     Event::fire(new AnswerOperationCreditEvent($answer_user, 'support', 'yes'));
@@ -168,7 +168,7 @@ class AnswerController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $answer = Answer::where('id', $id)->first();
-            $sup_opp = Support_opposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($answer))->first();
+            $sup_opp = SupportOpposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($answer))->first();
             //如果此用户反对过此问答的回答，则属于取消反对
             if ($sup_opp) {
                 $del_bool = $sup_opp->delete();
@@ -185,7 +185,7 @@ class AnswerController extends Controller
                     'sup_opp_able_type'     =>get_class($answer),
                     'sup_opp_mode'          =>'opposition',
                 ];
-                $support_opposition = Support_opposition::create($data);
+                $support_opposition = SupportOpposition::create($data);
 
                 if ($support_opposition) {
                     $answer->increment('opposition_count');      //回答反对数+1

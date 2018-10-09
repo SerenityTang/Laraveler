@@ -9,10 +9,10 @@ use App\Models\Blog;
 use App\Models\Collection;
 use App\Models\Comment;
 use App\Models\PersonalDynamic;
-use App\Models\Support_opposition;
+use App\Models\SupportOpposition;
 use App\Models\Tag;
 use App\Models\Taggable;
-use App\Models\User_data;
+use App\Models\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -97,8 +97,8 @@ class BlogController extends Controller
 
             //判断是否发布成功
             if ($blog) {
-                $user_data = User_data::where('user_id', $user->id)->first();
-                $user_data->increment('article_count');
+                $UserData = UserData::where('user_id', $user->id)->first();
+                $UserData->increment('article_count');
 
                 //绑定标签
                 $tags = explode(',', $request->input('tags'));
@@ -256,12 +256,12 @@ class BlogController extends Controller
         }
 
         if (Auth::check()) {
-            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+            $UserData = UserData::where('user_id', Auth::user()->id)->first();
         } else {
             return view('pc.auth.login');
         }
 
-        return view('pc.blog.edit')->with(['blog' => $blog, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
+        return view('pc.blog.edit')->with(['blog' => $blog, 'UserData' => $UserData, 'tags' => $tags, 'bound_tags' => $bound_tags]);
     }
 
     /**
@@ -287,8 +287,8 @@ class BlogController extends Controller
 
             if ($bool == true) {
                 if ($ori_status == 2) {
-                    $user_data = User_data::where('user_id', Auth::user()->id)->first();
-                    $user_data->increment('article_count');
+                    $UserData = UserData::where('user_id', Auth::user()->id)->first();
+                    $UserData->increment('article_count');
 
                     return $this->success(route('blog.show', $id), '您的博客草稿以博客方式发布成功^_^');
                 } else {
@@ -321,10 +321,10 @@ class BlogController extends Controller
     public function destroy($id)
     {
         $blog = Blog::where('id', $id)->first();
-        $user_data = User_data::where('user_id', $blog->user_id)->first();
+        $UserData = UserData::where('user_id', $blog->user_id)->first();
         $blog->delete();
         if($blog->trashed()){
-            $user_data->decrement('article_count');
+            $UserData->decrement('article_count');
 
             return $this->jsonResult(706);
         }else{
@@ -361,9 +361,9 @@ class BlogController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $blog = Blog::where('id', $id)->first();
-            $curr_user_data = User_data::where('user_id', $user->id)->first();
-            $user_data = User_data::where('user_id', $blog->user_id)->first();
-            $supp_oppo = Support_opposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', 'like')->first();
+            $curr_UserData = UserData::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $blog->user_id)->first();
+            $supp_oppo = SupportOpposition::where('user_id', $user->id)->where('sup_opp_able_id', $id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', 'like')->first();
             $blog_user = $blog->user;
 
             //如果此用户点赞过此博客，则属于取消点赞
@@ -371,8 +371,8 @@ class BlogController extends Controller
                 $bool = $supp_oppo->delete();
                 if ($bool == true) {
                     $blog->decrement('like_count');     //点赞数-1
-                    $curr_user_data->decrement('support_count'); //当前用户点赞数-1
-                    $user_data->decrement('supported_count'); //回答所属用户被点赞数-1
+                    $curr_UserData->decrement('support_count'); //当前用户点赞数-1
+                    $UserData->decrement('supported_count'); //回答所属用户被点赞数-1
 
                     //取消点赞，扣取点赞添加的积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'like', 'no'));
@@ -388,11 +388,11 @@ class BlogController extends Controller
                     'sup_opp_mode'      =>'like',
                 ];
 
-                $s_o = Support_opposition::create($data);
+                $s_o = SupportOpposition::create($data);
                 if ($s_o) {
                     $blog->increment('like_count');     //点赞数+1
-                    $curr_user_data->increment('support_count'); //当前用户点赞数+1
-                    $user_data->increment('supported_count'); //回答所属用户被点赞数+1
+                    $curr_UserData->increment('support_count'); //当前用户点赞数+1
+                    $UserData->increment('supported_count'); //回答所属用户被点赞数+1
 
                     //点赞，添加点赞积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'like', 'yes'));
@@ -428,8 +428,8 @@ class BlogController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $blog = Blog::where('id', $id)->first();
-            $curr_user_data = User_data::where('user_id', $user->id)->first();
-            $user_data = User_data::where('user_id', $blog->user_id)->first();
+            $curr_UserData = UserData::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $blog->user_id)->first();
             $collection = Collection::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($blog))->first();
             $blog_user = $blog->user;
 
@@ -438,8 +438,8 @@ class BlogController extends Controller
                 $bool = $collection->delete();
                 if ($bool == true) {
                     $blog->decrement('favorite_count');     //收藏数-1
-                    $curr_user_data->decrement('collection_count'); //当前用户收藏数-1
-                    $user_data->decrement('collectioned_count'); //回答所属用户被收藏数-1
+                    $curr_UserData->decrement('collection_count'); //当前用户收藏数-1
+                    $UserData->decrement('collectioned_count'); //回答所属用户被收藏数-1
 
                     //取消收藏，扣取收藏添加的积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'favorite', 'no'));
@@ -457,8 +457,8 @@ class BlogController extends Controller
                 $coll = Collection::create($data);
                 if ($coll) {
                     $blog->increment('favorite_count');     //收藏数+1
-                    $curr_user_data->increment('collection_count'); //当前用户收藏数+1
-                    $user_data->increment('collectioned_count'); //回答所属用户被收藏数+1
+                    $curr_UserData->increment('collection_count'); //当前用户收藏数+1
+                    $UserData->increment('collectioned_count'); //回答所属用户被收藏数+1
 
                     //收藏，添加收藏积分
                     Event::fire(new BlogOperationCreditEvent($blog_user, 'favorite', 'yes'));

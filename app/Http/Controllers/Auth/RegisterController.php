@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User_data;
+use App\Models\UserData;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -112,20 +112,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user_data = [
+        $UserData = [
             'username' => $data['username'],
             'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
             'user_status' => 1,
             'personal_domain' => $data['username'],
         ];
-        $user = User::create($user_data);
+        $user = User::create($UserData);
 
         if ($user) {
             $data = [
                 'user_id' => $user->id,
             ];
-            User_data::create($data);
+            UserData::create($data);
         }
         return $user;
     }

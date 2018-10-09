@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attention;
 use App\Models\Tag;
-use App\Models\User_data;
+use App\Models\UserData;
 use Illuminate\Support\Facades\Auth;
 use Browser;
 
@@ -51,14 +51,14 @@ class TagController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $tag = Tag::where('id', $tag_id)->first();
-            $user_data = User_data::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $user->id)->first();
             $attention = Attention::where('user_id', $user->id)->where('entityable_id', $tag_id)->where('entityable_type', get_class($tag))->first();
             //如果此用户关注过此标签，则属于取消关注
             if ($attention) {
                 $attention_bool = $attention->delete();
                 if ($attention_bool == true) {
                     $tag->decrement('attention_count');     //关注数-1
-                    $user_data->decrement('atten_count'); //当前用户关注数-1
+                    $UserData->decrement('atten_count'); //当前用户关注数-1
 
                     return response('unattention');
                 }
@@ -73,7 +73,7 @@ class TagController extends Controller
                 $new_attention = Attention::create($data);
                 if ($new_attention) {
                     $tag->increment('attention_count');     //关注数+1
-                    $user_data->increment('atten_count'); //当前用户关注数+1
+                    $UserData->increment('atten_count'); //当前用户关注数+1
 
                     return response('attention');
                 }

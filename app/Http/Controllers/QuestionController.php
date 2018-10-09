@@ -12,7 +12,7 @@ use App\Models\PersonalDynamic;
 use App\Models\Question;
 use App\Models\Tag;
 use App\Models\Taggable;
-use App\Models\User_data;
+use App\Models\UserData;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use BrowserDetect;
@@ -61,11 +61,11 @@ class QuestionController extends Controller
             $start = Carbon::now()->addDays($week - 7);
             $end = Carbon::now()->addDays(7 - $week);
         }
-        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
-            ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
+        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
+            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
+            ->whereBetween('UserDatas.updated_at', [$start, $end])
+            ->orderBy('UserDatas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
             ->take(9)->get();
 
         if (Browser::isMobile()) {
@@ -99,12 +99,12 @@ class QuestionController extends Controller
     {
         $tags = Tag::where('status', 1)->get();
         if (Auth::check()) {
-            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+            $UserData = UserData::where('user_id', Auth::user()->id)->first();
         } else {
             return view('pc.auth.login');
         }
 
-        return view('pc.question.create')->with(['tags' => $tags, 'user_data' => $user_data]);
+        return view('pc.question.create')->with(['tags' => $tags, 'UserData' => $UserData]);
     }
 
     /**
@@ -131,8 +131,8 @@ class QuestionController extends Controller
 
             //判断是否发布成功
             if ($question) {
-                $user_data = User_data::where('user_id', $user->id)->first();
-                $user_data->increment('question_count');
+                $UserData = UserData::where('user_id', $user->id)->first();
+                $UserData->increment('question_count');
 
                 //绑定标签
                 $tags = explode(',', $request->input('tags'));
@@ -292,12 +292,12 @@ class QuestionController extends Controller
         }
 
         if (Auth::check()) {
-            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+            $UserData = UserData::where('user_id', Auth::user()->id)->first();
         } else {
             return view('pc.auth.login');
         }
 
-        return view('pc.question.edit')->with(['question' => $question, 'user_data' => $user_data, 'tags' => $tags, 'bound_tags' => $bound_tags]);
+        return view('pc.question.edit')->with(['question' => $question, 'UserData' => $UserData, 'tags' => $tags, 'bound_tags' => $bound_tags]);
     }
 
     /**
@@ -320,8 +320,8 @@ class QuestionController extends Controller
 
             if ($bool == true) {
                 if ($ori_status == 2) {
-                    $user_data = User_data::where('user_id', Auth::user()->id)->first();
-                    $user_data->increment('question_count');
+                    $UserData = UserData::where('user_id', Auth::user()->id)->first();
+                    $UserData->increment('question_count');
 
                     return $this->success(route('question.show', $id), '您的问题草稿以问答方式发布成功^_^');
                 } else {
@@ -342,10 +342,10 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         $question = Question::where('id', $id)->first();
-        $user_data = User_data::where('user_id', $question->user_id)->first();
+        $UserData = UserData::where('user_id', $question->user_id)->first();
         $question->delete();
         if ($question->trashed()) {
-            $user_data->decrement('question_count');
+            $UserData->decrement('question_count');
 
             return $this->jsonResult(701);
         } else {
@@ -444,16 +444,16 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $question = Question::where('id', $id)->first();
-            $curr_user_data = User_data::where('user_id', $user->id)->first();
-            $user_data = User_data::where('user_id', $question->user_id)->first();
+            $curr_UserData = UserData::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $question->user_id)->first();
             $attention = Attention::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
             //如果此用户关注过此问答，则属于取消关注
             if ($attention) {
                 $attention_bool = $attention->delete();
                 if ($attention_bool == true) {
                     $question->decrement('attention_count');     //关注数-1
-                    $curr_user_data->decrement('atten_count'); //当前用户关注数-1
-                    $user_data->decrement('attened_count'); //回答所属用户被关注数-1
+                    $curr_UserData->decrement('atten_count'); //当前用户关注数-1
+                    $UserData->decrement('attened_count'); //回答所属用户被关注数-1
 
                     return response('unattention');
                 }
@@ -468,8 +468,8 @@ class QuestionController extends Controller
                 $new_attention = Attention::create($data);
                 if ($new_attention) {
                     $question->increment('attention_count');     //关注数+1
-                    $curr_user_data->increment('atten_count'); //当前用户关注数+1
-                    $user_data->increment('attened_count'); //回答所属用户被关注数+1
+                    $curr_UserData->increment('atten_count'); //当前用户关注数+1
+                    $UserData->increment('attened_count'); //回答所属用户被关注数+1
 
                     //添加动态
                     $data = [
@@ -502,8 +502,8 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $question = Question::where('id', $id)->first();
-            $curr_user_data = User_data::where('user_id', $user->id)->first();
-            $user_data = User_data::where('user_id', $question->user_id)->first();
+            $curr_UserData = UserData::where('user_id', $user->id)->first();
+            $UserData = UserData::where('user_id', $question->user_id)->first();
             $collection = Collection::where('user_id', $user->id)->where('entityable_id', $id)->where('entityable_type', get_class($question))->first();
             $ques_user = $question->user;
 
@@ -512,8 +512,8 @@ class QuestionController extends Controller
                 $collection_bool = $collection->delete();
                 if ($collection_bool == true) {
                     $question->decrement('collection_count');     //收藏数-1
-                    $curr_user_data->decrement('collection_count'); //当前用户收藏数-1
-                    $user_data->decrement('collectioned_count'); //回答所属用户被收藏数-1
+                    $curr_UserData->decrement('collection_count'); //当前用户收藏数-1
+                    $UserData->decrement('collectioned_count'); //回答所属用户被收藏数-1
 
                     //取消收藏，扣取收藏添加的积分
                     Event::fire(new QuesOperationCreditEvent($ques_user, 'collection', 'no'));
@@ -531,8 +531,8 @@ class QuestionController extends Controller
                 $new_collection = Collection::create($data);
                 if ($new_collection) {
                     $question->increment('collection_count');     //收藏数+1
-                    $curr_user_data->increment('collection_count'); //当前用户收藏数+1
-                    $user_data->increment('collectioned_count'); //回答所属用户被收藏数+1
+                    $curr_UserData->increment('collection_count'); //当前用户收藏数+1
+                    $UserData->increment('collectioned_count'); //回答所属用户被收藏数+1
 
                     //收藏，添加收藏积分
                     Event::fire(new QuesOperationCreditEvent($ques_user, 'collection', 'yes'));
@@ -623,11 +623,11 @@ class QuestionController extends Controller
             $end = Carbon::now()->addDays(7 - $week);
         }
 
-        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
-            ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
+        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
+            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
+            ->whereBetween('UserDatas.updated_at', [$start, $end])
+            ->orderBy('UserDatas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_week')->with(['warm_users' => $warm_users]);
     }
@@ -644,11 +644,11 @@ class QuestionController extends Controller
         $start = date('Y-m-01', strtotime($now_day));//获取指定月份的第一天
         $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
 
-        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
-            ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
+        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
+            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
+            ->whereBetween('UserDatas.updated_at', [$start, $end])
+            ->orderBy('UserDatas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_month')->with(['warm_users' => $warm_users]);
     }

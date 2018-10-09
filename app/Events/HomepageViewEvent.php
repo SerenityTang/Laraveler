@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\User_data;
+use App\Models\UserData;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,16 +15,16 @@ class HomepageViewEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_data;
+    public $UserData;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User_data $user_data)
+    public function __construct(UserData $UserData)
     {
-        $this->user_data = $user_data;
+        $this->UserData = $UserData;
     }
 
     /**

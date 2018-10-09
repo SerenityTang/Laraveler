@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Events\HomepageViewEvent;
 use App\Models\Attention;
 use App\Models\Blog;
-use App\Models\Career_direction;
+use App\Models\CareerDirection;
 use App\Models\PersonalDynamic;
 use App\Models\Question;
-use App\Models\User_data;
-use App\Models\User_socialite;
+use App\Models\UserData;
 use App\Models\UserActivation;
 use App\Models\UserAuthenticate;
 use App\Models\UserCreditConfig;
 use App\Models\UserCreditStatement;
+use App\Models\UserSocialite;
 use App\Services\Qiniu\QiNiuCloud;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
 use App\User;
@@ -46,22 +46,22 @@ class UserController extends Controller
     public function index($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
 
         //统计主页被访问记录
         $curr_user = Auth::check() ? Auth::user() : null;
         if (is_null($curr_user)) {
             //当前访问者未登录，被访问者访问记录+1
-            Event::fire(new HomepageViewEvent($user_data));
+            Event::fire(new HomepageViewEvent($UserData));
         } else if ($curr_user->id != $user->id) {
             //当前访问者已登录且访问非登录者主页，被访问者访问记录+1
-            Event::fire(new HomepageViewEvent($user_data));
+            Event::fire(new HomepageViewEvent($UserData));
         }
 
         //个人动态信息
         $per_dyns = PersonalDynamic::where('user_id', $user->id)->get();
 
-        return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data, 'per_dyns' => $per_dyns]);
+        return view('pc.user.homepage.index')->with(['user' => $user, 'UserData' => $UserData, 'per_dyns' => $per_dyns]);
     }
 
     /**
@@ -75,11 +75,11 @@ class UserController extends Controller
         //通过唯一的个性域名获取用户
         $user = User::where('personal_domain', $personal_domain)->first();
         //获取用户数据
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //获取用户问答
         $questions = $user->questions;
 
-        return view('pc.user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
+        return view('pc.user.homepage.questions')->with(['user' => $user, 'UserData' => $UserData, 'questions' => $questions]);
     }
 
     /**
@@ -91,11 +91,11 @@ class UserController extends Controller
     public function answers($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //获取用户回答
         $answers = $user->answers;
 
-        return view('pc.user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
+        return view('pc.user.homepage.answers')->with(['user' => $user, 'UserData' => $UserData, 'answers' => $answers]);
     }
 
     /**
@@ -107,11 +107,11 @@ class UserController extends Controller
     public function blogs($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //获取用户博客
         $blogs = $user->blogs;
 
-        return view('pc.user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
+        return view('pc.user.homepage.blogs')->with(['user' => $user, 'UserData' => $UserData, 'blogs' => $blogs]);
     }
 
     /**
@@ -123,13 +123,13 @@ class UserController extends Controller
     public function attentions($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //关注的用户
         $atte_users = $user->atte_user;
         //关注的问答
         $atte_ques = $user->atte_ques;
 
-        return view('pc.user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
+        return view('pc.user.homepage.attentions')->with(['user' => $user, 'UserData' => $UserData, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
     }
 
     /**
@@ -141,10 +141,10 @@ class UserController extends Controller
     public function fans($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
 
-        return view('pc.user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
+        return view('pc.user.homepage.fans')->with(['user' => $user, 'UserData' => $UserData, 'fans' => $fans]);
     }
 
     /**
@@ -156,7 +156,7 @@ class UserController extends Controller
     public function supports($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //支持的回答
         $supp_answers = $user->supp_answer;
         //反对的回答
@@ -164,7 +164,7 @@ class UserController extends Controller
         //点赞的博客
         $like_blogs = $user->like_blog;
 
-        return view('pc.user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
+        return view('pc.user.homepage.supports')->with(['user' => $user, 'UserData' => $UserData, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
     }
 
     /**
@@ -176,13 +176,13 @@ class UserController extends Controller
     public function collections($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //收藏的博客
         $coll_blogs = $user->coll_blog;
         //收藏的问答
         $coll_ques = $user->coll_ques;
 
-        return view('pc.user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
+        return view('pc.user.homepage.collections')->with(['user' => $user, 'UserData' => $UserData, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
     }
 
     /**
@@ -194,13 +194,13 @@ class UserController extends Controller
     public function drafts($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //问答草稿
         $questions = Question::where('user_id', $user->id)->where('status', 2)->get();
         //博客草稿
         $blogs = Blog::where('user_id', $user->id)->where('status', 2)->get();
 
-        return view('pc.user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
+        return view('pc.user.homepage.drafts')->with(['user' => $user, 'UserData' => $UserData, 'questions' => $questions, 'blogs' => $blogs]);
     }
 
     /**
@@ -214,20 +214,20 @@ class UserController extends Controller
         //获取被关注用户id
         $user = $request->input('user');
         $users = User::where('id', $user)->first();
-        $user_data = $user->userData;
+        $UserData = $user->userData;
         //获取当前用户id
         $curr_user = $request->input('curr_user');
         $attention = Attention::where('user_id', $curr_user)->where('entityable_id', $user)->where('entityable_type', get_class($users))->first();
-        $curr_user_data = User_data::where('user_id', $curr_user)->first();
+        $curr_UserData = UserData::where('user_id', $curr_user)->first();
 
         if ($attention) {
             //如存在此用户关注该用户记录，则属于取消关注
             $att_del = $attention->delete();
             if ($att_del == true) {
                 //当前用户关注数-1
-                $curr_user_data->decrement('attention_count');
+                $curr_UserData->decrement('attention_count');
                 //被关注用户粉丝数-1
-                $user_data->decrement('fan_count');
+                $UserData->decrement('fan_count');
 
                 return 'unattention';
             }
@@ -241,9 +241,9 @@ class UserController extends Controller
             $attention_user = Attention::create($data);
             if ($attention_user) {
                 //当前用户关注数+1
-                $curr_user_data->increment('attention_count');
+                $curr_UserData->increment('attention_count');
                 //被关注用户粉丝数+1
-                $user_data->increment('fan_count');
+                $UserData->increment('fan_count');
                 return 'attention';
             }
         }
@@ -410,7 +410,7 @@ class UserController extends Controller
             $cur_user->career_status = $request->input('career_status');
             $career_direction = $request->input('career_direction');
             if ($career_direction != 0) {
-                $career_directions = Career_direction::where('id', $career_direction)->first();
+                $career_directions = CareerDirection::where('id', $career_direction)->first();
                 $cur_user->career_direction = $career_directions->name;
             } else {
                 $cur_user->career_direction = null;
@@ -972,7 +972,7 @@ class UserController extends Controller
     {
         $redirect_uri = $request->get('redirect_uri');
         $user = Auth::user();
-        $us = User_socialite::where('user_id', $user->id)->where('oauth_type', $driver)->first();
+        $us = UserSocialite::where('user_id', $user->id)->where('oauth_type', $driver)->first();
         if ($us) {
             $bool = $us->delete();
             if ($bool == true) {
@@ -1037,7 +1037,7 @@ class UserController extends Controller
     {
         if (Auth::check()) {
             $credit_config = UserCreditConfig::where('slug', 'signIn')->first();
-            $user_data = User_data::where('user_id', Auth::user()->id)->first();
+            $UserData = UserData::where('user_id', Auth::user()->id)->first();
 
             $data = [
                 'user_id' => Auth::user()->id,
@@ -1046,8 +1046,8 @@ class UserController extends Controller
             ];
             $credit_sta = UserCreditStatement::create($data);
             if ($credit_sta) {
-                $user_data->credits = $user_data->credits + $credit_config->credits;
-                $user_data->save();
+                $UserData->credits = $UserData->credits + $credit_config->credits;
+                $UserData->save();
 
                 return response('signIn');
             }
@@ -1153,7 +1153,7 @@ class UserController extends Controller
     public function get_careerStatus($ids)
     {
         $taxonomies = '';
-        $careers = Career_direction::get();
+        $careers = CareerDirection::get();
 
         foreach ($careers as $career) {
             $taxonomies .= '<option value="' . $career->id . '"';
@@ -1173,12 +1173,12 @@ class UserController extends Controller
      */
     public function active_rank()
     {
-        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+        $active_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
             ->where('user.user_status', '>', 0)
-            ->orderBy('user_datas.answer_count', 'DESC')
-            ->orderBy('user_datas.article_count', 'DESC')
+            ->orderBy('UserDatas.answer_count', 'DESC')
+            ->orderBy('UserDatas.article_count', 'DESC')
             ->orderBy('user.updated_at', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'UserDatas.coins', 'UserDatas.credits', 'UserDatas.attention_count', 'UserDatas.support_count', 'UserDatas.answer_count', 'UserDatas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.active_rank')->with(['active_users' => $active_users]);
@@ -1191,10 +1191,10 @@ class UserController extends Controller
      */
     public function credit_rank()
     {
-        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+        $credit_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
             ->where('user.user_status', '>', 0)
-            ->orderBy('user_datas.credits', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
+            ->orderBy('UserDatas.credits', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'UserDatas.coins', 'UserDatas.credits', 'UserDatas.attention_count', 'UserDatas.support_count', 'UserDatas.answer_count', 'UserDatas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.credit_rank')->with(['credit_users' => $credit_users]);

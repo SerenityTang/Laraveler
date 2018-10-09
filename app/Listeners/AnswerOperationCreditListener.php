@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AnswerOperationCreditEvent;
-use App\Models\User_data;
+use App\Models\UserData;
 use App\Models\UserCreditConfig;
 use App\Models\UserCreditStatement;
 use Illuminate\Queue\InteractsWithQueue;
@@ -35,7 +35,7 @@ class AnswerOperationCreditListener
         $answer_credit_con = UserCreditConfig::where('slug', 'answeredQuestion')->first();  //获取回答问题积分配置记录
         $adopt_credit_con = UserCreditConfig::where('slug', 'adoptedQuestion')->first();  //获取采纳回答积分配置记录
         $support_credit_con = UserCreditConfig::where('slug', 'supportedQuestion')->first();  //获取支持回答积分配置记录
-        $user_data = User_data::where('user_id', $user->id)->first();   //获取用户数据记录
+        $UserData = UserData::where('user_id', $user->id)->first();   //获取用户数据记录
         //获取用户当天回答问题流水表记录
         $answer_credit_sta = UserCreditStatement::where('user_id', $user->id)->where('type', $answer_credit_con->slug)->whereDate('created_at', '=', \Carbon\Carbon::today()->toDateString())->get();
         //获取用户当天回答被采纳流水表记录
@@ -58,8 +58,8 @@ class AnswerOperationCreditListener
                     $credit_sta = UserCreditStatement::create($data);
                     if ($credit_sta) {
                         //用户总分添加积分
-                        $user_data->credits = $user_data->credits + $answer_credit_con->credits;
-                        $user_data->save();
+                        $UserData->credits = $UserData->credits + $answer_credit_con->credits;
+                        $UserData->save();
                     }
                 }
 
@@ -75,8 +75,8 @@ class AnswerOperationCreditListener
                     $credit_sta = UserCreditStatement::create($data);
                     if ($credit_sta) {
                         //用户总分添加积分
-                        $user_data->credits = $user_data->credits + $adopt_credit_con->credits;
-                        $user_data->save();
+                        $UserData->credits = $UserData->credits + $adopt_credit_con->credits;
+                        $UserData->save();
                     }
                 }
 
@@ -94,8 +94,8 @@ class AnswerOperationCreditListener
                         $credit_sta = UserCreditStatement::create($data);
                         if ($credit_sta) {
                             //用户总分添加积分
-                            $user_data->credits = $user_data->credits + $support_credit_con->credits;
-                            $user_data->save();
+                            $UserData->credits = $UserData->credits + $support_credit_con->credits;
+                            $UserData->save();
                         }
                     }
                 } else if ($bool == 'no') {
@@ -108,8 +108,8 @@ class AnswerOperationCreditListener
                     $credit_sta = UserCreditStatement::create($data);
                     if ($credit_sta) {
                         //用户总分添加积分
-                        $user_data->credits = $user_data->credits - $support_credit_con->credits;
-                        $user_data->save();
+                        $UserData->credits = $UserData->credits - $support_credit_con->credits;
+                        $UserData->save();
                     }
                 }
 

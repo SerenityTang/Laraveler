@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User_data;
-use App\Models\User_socialite;
+use App\Models\UserData;
+use App\Models\UserSocialite;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -228,21 +228,21 @@ class OAuthController extends Controller
             } else {
                 if ($password) {
                     //密码不为空则新建账户
-                    $user_data = [
+                    $UserData = [
                         'username' => $username,
                         'mobile' => $mobile,
                         'password' => bcrypt($password),
                         'user_status' => 1,
                         'personal_domain' => $username,
                     ];
-                    $user = User::create($user_data);
+                    $user = User::create($UserData);
 
                     if ($user) {
                         $data = [
                             'user_id' => $user->id,
                         ];
-                        $user_data = User_data::create($data);
-                        if ($user_data) {
+                        $UserData = UserData::create($data);
+                        if ($UserData) {
                             $this->socialiteSave($request, $user->id);
 
                             $this->unRegisterUserSave($request, $user->id, $driver);
@@ -259,13 +259,13 @@ class OAuthController extends Controller
                     //密码为空则为此账户绑定第三方账号
                     //if (Auth::attempt(['mobile' => $mobile])) {
                     $user = User::where('mobile', $mobile)->first();
-                    $user_data = User_data::where('user_id', $user->id)->first();
+                    $UserData = UserData::where('user_id', $user->id)->first();
 
                     if ($user) {
                         $this->socialiteSave($request, $user->id);
 
-                        if (!$user_data) {
-                            User_data::create(['user_id' => $user->id]);
+                        if (!$UserData) {
+                            UserData::create(['user_id' => $user->id]);
                         }
 
                         $this->registerUserSave($request, $user->id, $driver);
@@ -291,9 +291,9 @@ class OAuthController extends Controller
      */
     private function socialiteSave(Request $request, $user_id)
     {
-        $user_socialite = User_socialite::firstOrNew(['oauth_type' => $request->get('oauth_type'), 'oauth_id' => $request->get('oauth_id')]);
-        $user_socialite->user_id = $user_id;
-        $user_socialite->save();
+        $UserSocialite = UserSocialite::firstOrNew(['oauth_type' => $request->get('oauth_type'), 'oauth_id' => $request->get('oauth_id')]);
+        $UserSocialite->user_id = $user_id;
+        $UserSocialite->save();
     }
 
     /**

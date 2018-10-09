@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Models\User_socialite;
+use App\Models\UserSocialite;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Flash;
@@ -27,7 +27,7 @@ trait SocialiteHelper
             $request = request();
             $redirect_uri = $request->get('redirect_uri');
             $request->session()->put('socialite_oauth_redirect_uri', $redirect_uri);
-            $oauth = User_socialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
+            $oauth = UserSocialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
             if ($oauth && $oauth->oauth_type == $driver) {
                 return redirect('/');
             } else {
@@ -41,7 +41,7 @@ trait SocialiteHelper
     public function callback($driver)
     {
         if (Auth::check()) {
-            $oauth = User_socialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
+            $oauth = UserSocialite::where('oauth_type', $driver)->where('user_id', Auth::user()->id)->first();
             if (!isset($this->oauthDrivers[$driver]) || ($oauth && $oauth->oauth_type == $driver)) {
                 return redirect()->intended('/');
             }
@@ -52,9 +52,9 @@ trait SocialiteHelper
             $oauthUser = Socialite::with($this->oauthDrivers[$driver])->user();
         }
 
-        $userSocialite = User_socialite::where('oauth_type', $driver)->where('oauth_id', $oauthUser->id)->first();
+        $userSocialite = UserSocialite::where('oauth_type', $driver)->where('oauth_id', $oauthUser->id)->first();
         if (!$userSocialite) {
-            $userSocialite = User_socialite::create(['oauth_type' => $driver, 'oauth_id' => $oauthUser->id]);
+            $userSocialite = UserSocialite::create(['oauth_type' => $driver, 'oauth_id' => $oauthUser->id]);
         }
         $userSocialite->oauth_type = $driver;
         $userSocialite->oauth_id = $oauthUser->id;
