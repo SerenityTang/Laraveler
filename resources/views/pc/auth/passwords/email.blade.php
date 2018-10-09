@@ -3,14 +3,15 @@
     找回密码 | @parent
 @stop
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}"/>
 @stop
 @section('content')
 @section('content')
     <div class="container">
         <div class="row">
             <div class="auth">
-                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST" action="{{ route('password.email') }}">
+                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST"
+                      action="{{ route('password.email') }}">
                     {{ csrf_field() }}
                     <strong>重置密码</strong>
                     <em class="title-eng">Reset Password</em>
@@ -19,7 +20,8 @@
                         <div class="form-group forget-u">
                             <div class="input-group">
                                 <span class="input-group-addon u-icon"><i class="fa fa-user fa-fw"></i></span>
-                                <input type="text" class="form-control text" id="username" name="username" placeholder="请输入登录手机号 {{--/ 邮箱--}}" value="{{ old('username') }}" autofocus>
+                                <input type="text" class="form-control text" id="username" name="username"
+                                       placeholder="请输入登录手机号 {{--/ 邮箱--}}" value="{{ old('username') }}" autofocus>
                             </div>
                             <span class="help-block help-block-clear">
                             <em></em>
@@ -28,8 +30,9 @@
                         <div class="form-group p-captcha">
                             <div class="input-group">
                                 <span class="input-group-addon c-icon"><i class="fa fa-check-square fa-fw"></i></span>
-                                <input type="text" class="form-control text c-text" id="captcha" name="captcha" style="width: 150px" maxlength="4" placeholder="验证码">&nbsp;
-                                <img id="captcha-img" class="captcha" src="{{ url('/captcha/verify') }}" >
+                                <input type="text" class="form-control text c-text" id="captcha" name="captcha"
+                                       style="width: 150px" maxlength="4" placeholder="验证码">&nbsp;
+                                <img id="captcha-img" class="captcha" src="{{ url('/captcha/verify') }}">
                                 <span class="glyphicon glyphicon-refresh loc" title="点击换一张"></span>
                             </div>
                             <span class="help-block help-block-clear">
@@ -39,8 +42,11 @@
                         <div class="form-group forget-verify">
                             <div class="input-group">
                                 <span class="input-group-addon c-icon"><i class="fa fa-comment fa-fw"></i></span>
-                                <input type="text" id="m_code" class="form-control text c-text" name="m_code" style="width: 160px;" maxlength="6" placeholder="验证码" autocomplete="off">&nbsp;
-                                <button id="sendVerifySmsButton" type="button" class="btn btn-success btn-flat get-btn" style="width: 128px;">获取验证码</button>
+                                <input type="text" id="m_code" class="form-control text c-text" name="m_code"
+                                       style="width: 160px;" maxlength="6" placeholder="验证码" autocomplete="off">&nbsp;
+                                <button id="sendVerifySmsButton" type="button" class="btn btn-success btn-flat get-btn"
+                                        style="width: 128px;">获取验证码
+                                </button>
                             </div>
                             <span class="help-block help-block-clear">
                             <em></em>
@@ -48,7 +54,10 @@
                         </div>
                         <div class="form-group forget-sub-btn">
                             <div class="submit-btn">
-                                <button type="button" id="forget-btn" class="btn btn-success btn-block btn-flat forget-btn" onautocomplete="off" disabled>提 交</button>
+                                <button type="button" id="forget-btn"
+                                        class="btn btn-success btn-block btn-flat forget-btn" onautocomplete="off"
+                                        disabled>提 交
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +66,8 @@
                         <div class="form-group password">
                             <div class="input-group">
                                 <span class="input-group-addon p-icon"><i class="fa fa-key fa-fw"></i></span>
-                                <input type="password" id="password" class="form-control text" name="password" placeholder="请输入新密码">
+                                <input type="password" id="password" class="form-control text" name="password"
+                                       placeholder="请输入新密码">
                             </div>
                             <span class="help-block help-block-clear">
                                 <em></em>
@@ -65,7 +75,9 @@
                         </div>
                         <div class="form-group forget-sub-btn">
                             <div class="submit-btn">
-                                <button type="button" id="reset-btn" class="btn btn-success btn-block btn-flat reset-btn" onautocomplete="off">提 交</button>
+                                <button type="button" id="reset-btn"
+                                        class="btn btn-success btn-block btn-flat reset-btn" onautocomplete="off">提 交
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +96,7 @@
     {{--粒子背景插件及效果--}}
     <script src="{{asset('libs/particleground/jquery.particleground.min.js')}}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             //粒子背景特效
             $('body').particleground({
                 dotColor: '#5cbdaa',
@@ -96,10 +108,10 @@
     <script>
         $('.glyphicon').click(function () {
             var captcha = $(this).prev('img');
-            captcha.attr('src', '/captcha/verify?key=login&t='+(new Date()).getTime());
+            captcha.attr('src', '/captcha/verify?key=login&t=' + (new Date()).getTime());
         });
         $('.captcha').click(function () {
-            $(this).attr('src', '/captcha/verify?key=login&t='+(new Date()).getTime());
+            $(this).attr('src', '/captcha/verify?key=login&t=' + (new Date()).getTime());
         });
     </script>
     <script>
@@ -145,8 +157,8 @@
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,
-                                end : function(){
-                                    location.href='{{ url("/login") }}';
+                                end: function () {
+                                    location.href = '{{ url("/login") }}';
                                 }
                             });
                         }
@@ -169,7 +181,7 @@
                 var pattern = /^1[34578]\d{9}$/;    //验证手机号规则
                 if (pattern.test($.trim(username)) == true) {
                     $('.forget-verify').fadeIn('slow');
-                }else {
+                } else {
                     $('.forget-verify').fadeOut('slow');
                 }
             });
@@ -250,7 +262,7 @@
                     clearTimeout(timeId);
                     changeBtn(opts.language.oricon, false);
                 } else {
-                    timeId = setTimeout(function() {
+                    timeId = setTimeout(function () {
                         clearTimeout(timeId);
                         changeBtn(btnText.replace('60 秒后再次获取', (seconds--) + ' 秒后再次获取'), true);
                         timer(seconds);
@@ -267,19 +279,19 @@
         });
 
         var options = {
-            token       : null,
-            interval    : 60,
-            voice       : false,
-            requestUrl  : null,
-            requestData : null,
-            notify      : function (msg, type) {
+            token: null,
+            interval: 60,
+            voice: false,
+            requestUrl: null,
+            requestData: null,
+            notify: function (msg, type) {
                 alert(msg);
             },
-            language    : {
-                oricon     : '获取验证码',
-                sending    : '短信发送中...',
-                failed     : '请求失败，请重试',
-                resendable : '60 秒后再次获取'
+            language: {
+                oricon: '获取验证码',
+                sending: '短信发送中...',
+                failed: '请求失败，请重试',
+                resendable: '60 秒后再次获取'
             }
         };
     </script>

@@ -12,7 +12,8 @@
 @section('style')
     <style type="text/css">
         .icon {
-            width: 1em; height: 1em;
+            width: 1em;
+            height: 1em;
             vertical-align: -0.15em;
             fill: currentColor;
             overflow: hidden;
@@ -26,13 +27,14 @@
                 <div class="panel panel-default main-content">
                     <h4 class="big-title"><i class="iconfont icon-fabu1"></i>发布问答</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('question/store') }}">
-                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" id="desc" name="desc" value="">
                         <input type="hidden" id="user_coin" name="user_coin" value="{{ $user_data->coins }}">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">问题标题</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control text-extra" id="question_title" name="question_title" placeholder="请简要概括您的问题，并以问号结束 ^_^">
+                                <input type="text" class="form-control text-extra" id="question_title"
+                                       name="question_title" placeholder="请简要概括您的问题，并以问号结束 ^_^">
                             </div>
                         </div>
                         <div class="form-group" style="margin-bottom: 5px;">
@@ -54,7 +56,9 @@
                             <label for="" class="col-sm-2 control-label">悬赏金币</label>
                             <div class="col-sm-4">
                                 @if($user_data->coins == 0)
-                                    <select id="price" name="price" class="form-control selectpicker" onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;">
+                                    <select id="price" name="price" class="form-control selectpicker"
+                                            onfocus="this.defaultIndex=this.selectedIndex;"
+                                            onchange="this.selectedIndex=this.defaultIndex;">
                                         <option value="0">0</option>
                                         <option value="2">2</option>
                                         <option value="5">5</option>
@@ -76,18 +80,21 @@
                         <div class="form-group tag-form-group">
                             <label for="" class="col-sm-2 control-label">问题标签</label>
                             <div class="col-sm-4 question-tag">
-                                <input type="text" class="form-control text-extra" id="tags" name="tags" data-role="tagsinput">
+                                <input type="text" class="form-control text-extra" id="tags" name="tags"
+                                       data-role="tagsinput">
                                 <div class="col-sm-5 tag-drop-tip">
                                     <ul>
                                         @foreach($tags as $tag)
-                                            <li class="tip" data-tag-id="{{ $tag->id }}" data-tag-category="{{ $tag->tcategory_id }}">
+                                            <li class="tip" data-tag-id="{{ $tag->id }}"
+                                                data-tag-category="{{ $tag->tcategory_id }}">
                                                 {{ $tag->name }}
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" id="tishi" class="btn" rel="popover" data-content="请选择或输入心仪标签按空格键键入">
+                            <a href="javascript:void(0)" id="tishi" class="btn" rel="popover"
+                               data-content="请选择或输入心仪标签按空格键键入">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-tishi"></use>
                                 </svg>
@@ -215,31 +222,31 @@
                         'tags': $('#tags').val(),
                     },
                     cache: false, //不允许有缓存
-                    success: function(res){
+                    success: function (res) {
                         if (res.code == 501) {
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,
-                                end : function(){
-                                    location.href='{{ url("/question") }}';
+                                end: function () {
+                                    location.href = '{{ url("/question") }}';
                                 }
                             });
                         } else if (res.code == 502) {
                             layer.msg(res.message, {
                                 icon: 2,
                                 time: 2000,
-                                end : function(){
-                                    location.href='{{ url("/question") }}';
+                                end: function () {
+                                    location.href = '{{ url("/question") }}';
                                 }
                             });
                         }
                     },
-                    error: function(){
+                    error: function () {
                         layer.msg('系统错误！', {
                             icon: 2,
                             time: 2000,
-                            end : function(){
-                                location.href='{{ url("/question") }}';
+                            end: function () {
+                                location.href = '{{ url("/question") }}';
                             }
                         });
                     }
@@ -251,7 +258,7 @@
         $(function () {
             $('.question-tag .am-tagsinput span .tt-menu').addClass('tt-drop-menu');
 
-            $("#tishi").popover({placement:'top', trigger: 'hover'});   //标签图标鼠标经过提示
+            $("#tishi").popover({placement: 'top', trigger: 'hover'});   //标签图标鼠标经过提示
 
             $('.question-tag .am-tagsinput input').focus(function () {
                 var tip = $(this).val();
@@ -297,11 +304,11 @@
             }
         });
         //从下拉tag列表选择并显示
-        $(".tag-drop-tip ul li.tip").click(function(event){
+        $(".tag-drop-tip ul li.tip").click(function (event) {
             var tag_value = $(this).data('tag-id');
             var tag_text = $(this).html();
             var tag_category = $(this).data('tag-category');
-            $('#tags').tagsinput('add', { "value": tag_value, "text": tag_text, "category": tag_category});
+            $('#tags').tagsinput('add', {"value": tag_value, "text": tag_text, "category": tag_category});
         });
     </script>
     <script>
@@ -311,12 +318,12 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#question_summernote').summernote({
                 lang: 'zh-CN',
                 width: 845,
                 height: 200,
-                placeholder:'请输入您的问题描述......',
+                placeholder: '请输入您的问题描述......',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
                     ['para', ['style']],
@@ -330,11 +337,11 @@
                     ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
-                    onChange:function (contents, $editable) {
+                    onChange: function (contents, $editable) {
                         var code = $(this).summernote("code");
                         $("#desc").val(code);
                     },
-                    onImageUpload: function(files) {
+                    onImageUpload: function (files) {
                         upload_image(files[0], 'question_summernote', 'question');
                     }
                 }
@@ -350,7 +357,7 @@
     </script>
     <script>
         $(":file").filestyle({
-            'placeholder' : '图片地址',
+            'placeholder': '图片地址',
             'buttonText': '选择图片',
             'badge': false,
             input: false

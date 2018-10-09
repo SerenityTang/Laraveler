@@ -29,8 +29,8 @@
     {{--JavaScript--}}
 
     <!--[if lt IE 9]>
-        <script type="text/javascript" src="{{ asset('libs/html5shiv/3.7.3/html5shiv.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('libs/respond/1.4.2/respond.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/html5shiv/3.7.3/html5shiv.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/respond/1.4.2/respond.min.js') }}"></script>
     <![endif]-->
 
     <script src="{{ asset('libs/jQuery/jQuery-2.2.0.min.js') }}"></script>

@@ -53,8 +53,10 @@
 {{--显示操作成功与否等提示信息--}}
 <div class="mt-90">
     @if ( session('message') )
-        <div class="alert @if(session('message_type') === 1) alert-success @else alert-danger @endif alert-dismissible" role="alert" id="alert_message">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="alert @if(session('message_type') === 1) alert-success @else alert-danger @endif alert-dismissible"
+             role="alert" id="alert_message">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             <p class="message"><i class="fa fa-check-circle fa-lg fa-fw"></i>{{ session('message') }}</p>
         </div>
     @endif
@@ -72,33 +74,40 @@
             </div>
             <div class="modal-body feedback-body">
                 <div class="row">
-                    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{{ url('/feedback') }}">
+                    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data"
+                          action="{{ url('/feedback') }}">
                         <div class="form-group" style="margin-bottom: 0;">
                             <label for="" class="col-sm-2 control-label">意见类型</label>
                             <div class="col-sm-9 extra">
                                 <ul class="feedback">
-                                    <li><input type="radio" id="content" name="feedback" value="内容意见" data-labelauty="内容意见" ></li>
-                                    <li><input type="radio" id="technology" name="feedback" value="技术问题" data-labelauty="技术问题"></li>
-                                    <li><input type="radio" id="other" name="feedback" value="其它" data-labelauty="其它"></li>
+                                    <li><input type="radio" id="content" name="feedback" value="内容意见"
+                                               data-labelauty="内容意见"></li>
+                                    <li><input type="radio" id="technology" name="feedback" value="技术问题"
+                                               data-labelauty="技术问题"></li>
+                                    <li><input type="radio" id="other" name="feedback" value="其它" data-labelauty="其它">
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">意见详情</label>
                             <div class="col-sm-9 extra">
-                                <textarea id="description" name="description" class="form-control" placeholder="请填写具体内容并留下您宝贵的意见^_^" rows="3"></textarea>
+                                <textarea id="description" name="description" class="form-control"
+                                          placeholder="请填写具体内容并留下您宝贵的意见^_^" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">页面链接</label>
                             <div class="col-sm-9 extra">
-                                <input type="text" id="fb-url" name="fb-url" class="form-control text-extra" placeholder="http://www.laraveler.net/">
+                                <input type="text" id="fb-url" name="fb-url" class="form-control text-extra"
+                                       placeholder="http://www.laraveler.net/">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">联系方式</label>
                             <div class="col-sm-9 extra">
-                                <input type="text" id="fb-contact" name="fb-contact" class="form-control text-extra" placeholder="请留下您的联系信息方便我们及时为您解答(QQ/邮箱)^_^">
+                                <input type="text" id="fb-contact" name="fb-contact" class="form-control text-extra"
+                                       placeholder="请留下您的联系信息方便我们及时为您解答(QQ/邮箱)^_^">
                             </div>
                         </div>
                     </form>
@@ -127,7 +136,7 @@
 <script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
 {{--意见反馈模态框--}}
 <script>
-    $(function(){
+    $(function () {
         $('.feedback input').labelauty();
 
         $('.feedback-btn').click(function () {
@@ -144,7 +153,7 @@
                     'fb-contact': $('#fb-contact').val(),
                 },
                 cache: false, //不允许有缓存
-                success: function(res){
+                success: function (res) {
                     if (res.code == 801) {
                         $('#feedback').modal('hide');
                         layer.msg(res.message, {
@@ -159,7 +168,7 @@
                         });
                     }
                 },
-                error: function(){
+                error: function () {
                     $('#feedback').modal('hide');
                     layer.msg('系统错误！', {
                         icon: 2,
@@ -176,13 +185,13 @@
 </script>
 <script>
     {{-- hover 下拉 --}}
-    $('ul.nav li.dropdown').hover(function() {
+    $('ul.nav li.dropdown').hover(function () {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
-    }, function() {
+    }, function () {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
     });
     {{-- 恢复父菜单的链接 --}}
-    $('.navbar .dropdown > a').click(function(){
+    $('.navbar .dropdown > a').click(function () {
         location.href = this.href;
     });
 </script>
@@ -202,8 +211,8 @@
 
 {{--导航搜索框--}}
 <script>
-    $(function(){
-        $(".search-text").focus(function(){
+    $(function () {
+        $(".search-text").focus(function () {
             if ($(this).parents('.search-bar').find('.search-text').val() == '') {
                 $(this).parents('.search-bar').find('.search-text').addClass('search-transition');
                 $(this).parents('.search-bar').find('.hot-search').fadeIn("8000");
@@ -212,11 +221,11 @@
                 $(this).parents('.search-bar').find('.search-text').addClass('search-transition');
             }
         });
-        $(".search-text").blur(function(){
+        $(".search-text").blur(function () {
             $(this).parents('.search-bar').find('input').removeClass('search-transition');
             $(this).parents('.search-bar').find('.hot-search').hide();
         });
-        $(".search-text").keyup(function() {
+        $(".search-text").keyup(function () {
             $(this).parents('.search-bar').find('.hot-search').css("display", "none");
         });
         /*$(".search-text").focus(function(){
@@ -257,7 +266,7 @@
 </script>
 {{--工具栏--}}
 <script>
-    $(function(){
+    $(function () {
         checkPosition();  //先执行一次判断当前位置而确定是否显示返回顶部按钮
 
         $('#backTop').on('click', moveTop);  //点击按钮返回顶部
@@ -265,8 +274,9 @@
 
         function moveTop() {
             /*滚动条一般位于HTML上，chrome浏览器位于body，为了保险选中两者*/
-            $('html,body').animate({scrollTop : 0}, 800);
+            $('html,body').animate({scrollTop: 0}, 800);
         }
+
         function moveTopFast() {
             $('html,body').scrollTop(0);
         }

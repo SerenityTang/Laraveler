@@ -17,8 +17,10 @@
                 <a href="{{ url('/contact') }}" class="contact" href="">联系我们</a> |
                 <a href="{{ url('/help') }}" class="faq" href="">帮助中心</a>
             </p>
-            <p class="copyright">Copyright ©  2018 <a href="/"  target="_blank"> laraveler.net</a> | Powered By <a href="http://www.laraveler.net/user/Serenity_Tang" target="_blank">Serenity_Tang</a></p>
-            <p class="record"><img src="/imgs/national-emblem.png" alt="国徽" width="15" height="15"> 互联网ICP备案：<a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18032035号-1 </a></p>
+            <p class="copyright">Copyright © 2018 <a href="/" target="_blank"> laraveler.net</a> | Powered By <a
+                        href="http://www.laraveler.net/user/Serenity_Tang" target="_blank">Serenity_Tang</a></p>
+            <p class="record"><img src="/imgs/national-emblem.png" alt="国徽" width="15" height="15"> 互联网ICP备案：<a
+                        href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18032035号-1 </a></p>
         </div>
 
         <div class="col-md-4 footer-middle">
@@ -36,13 +38,15 @@
                 <i class="iconfont icon-sr_qq footer-qq"></i>
                 <i class="iconfont icon-weixingongzhonghao1hover footer-weixin"></i>
                 <i class="iconfont icon-weibo-copy footer-weibo"></i>
-                <a href="https://github.com/SerenityTang/Laraveler" target="_blank"><i class="iconfont icon-github footer-github"></i></a>
+                <a href="https://github.com/SerenityTang/Laraveler" target="_blank"><i
+                            class="iconfont icon-github footer-github"></i></a>
             </p>
         </div>
 
         <div class="col-md-3">
             <p class="sponsor">服务赞助商</p>
-            <a href="https://www.upyun.com/" target="_blank"><img src="/imgs/ypy.png" alt="又拍云logo" width="90" height="45"></a>
+            <a href="https://www.upyun.com/" target="_blank"><img src="/imgs/ypy.png" alt="又拍云logo" width="90"
+                                                                  height="45"></a>
         </div>
     </div>
 </div>

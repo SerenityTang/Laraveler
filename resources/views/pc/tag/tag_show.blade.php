@@ -12,9 +12,11 @@
             <div class="page-header title-header">
                 <h2 class="tag-title">{{ $tag->name }}</h2>
                 @if(Auth::check() && \App\Helpers\Helpers::attention($tag->id, 'Tag', Auth::user()->id) != null)
-                    <a href="javascript:void(0)" class="attention-btn" data-tag-id="{{ $tag->id }}">已关注 | {{ $tag->attention_count }}</a>
+                    <a href="javascript:void(0)" class="attention-btn" data-tag-id="{{ $tag->id }}">已关注
+                        | {{ $tag->attention_count }}</a>
                 @else
-                    <a href="javascript:void(0)" class="attention-btn" data-tag-id="{{ $tag->id }}">关注 | {{ $tag->attention_count }}</a>
+                    <a href="javascript:void(0)" class="attention-btn" data-tag-id="{{ $tag->id }}">关注
+                        | {{ $tag->attention_count }}</a>
                 @endif
             </div>
             <p class="title-header-desc">{{ $tag->description }}</p>
@@ -33,10 +35,12 @@
                             @foreach($questions as $question)
                                 <li class="list-group-item global-list-item">
                                     <h2 class="title">
-                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+                                        <a href="{{ url('question/show/' . $question->id) }}"
+                                           title="{{ $question->title }}">{{ $question->title }}</a>
                                     </h2>
                                     <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
-                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
+                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}"
+                                             class="avatar-24" alt="{{ $question->user->username }}">
                                         <span class="username">{{ $question->user->username }} / </span>
                                     </a>
                                     <span class="time" title="{{ $question->created_at }}">
@@ -48,9 +52,11 @@
                                         <span>|</span>
                                         <span title="投票数"><i class="iconfont icon-toupiao"></i>{{$question->vote_count}}</span>
                                         <span>|</span>
-                                        <span title="回答数"><i class="iconfont icon-tubiaopinglunshu"></i>{{$question->answer_count}}</span>
+                                        <span title="回答数"><i
+                                                    class="iconfont icon-tubiaopinglunshu"></i>{{$question->answer_count}}</span>
                                         <span>|</span>
-                                        <span title="关注数"><i class="iconfont icon-guanzhu"></i>{{$question->attention_count}}</span>
+                                        <span title="关注数"><i
+                                                    class="iconfont icon-guanzhu"></i>{{$question->attention_count}}</span>
                                     </div>
                                 </li>
                             @endforeach
@@ -60,10 +66,12 @@
                             @foreach($blogs as $blog)
                                 <li class="list-group-item global-list-item">
                                     <h2 class="title">
-                                        <a href="{{ url('blog/show/'.$blog->id) }}" title="{{ $blog->title }}">{{ $blog->title }}</a>
+                                        <a href="{{ url('blog/show/'.$blog->id) }}"
+                                           title="{{ $blog->title }}">{{ $blog->title }}</a>
                                     </h2>
                                     <a class="author" href="{{ url('') }}">
-                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-24" alt="{{ $blog->user->username }}">
+                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}"
+                                             class="avatar-24" alt="{{ $blog->user->username }}">
                                         <span class="username">{{ $blog->user->username }} / </span>
                                     </a>
                                     <span class="time" title="{{ $blog->created_at }}">
@@ -71,11 +79,14 @@
                                     </span>
 
                                     <div class="ques-count">
-                                        <span title="浏览数"><i class="iconfont icon-liulan"></i>{{$blog->view_count}}</span>
+                                        <span title="浏览数"><i
+                                                    class="iconfont icon-liulan"></i>{{$blog->view_count}}</span>
                                         <span>|</span>
-                                        <span title="点赞数"><i class="iconfont icon-dianzan1"></i>{{$blog->like_count}}</span>
+                                        <span title="点赞数"><i
+                                                    class="iconfont icon-dianzan1"></i>{{$blog->like_count}}</span>
                                         <span>|</span>
-                                        <span title="收藏数"><i class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
+                                        <span title="收藏数"><i
+                                                    class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
                                         <span>|</span>
                                         <span title="评论数"><i class="iconfont icon-pinglun"></i>{{$blog->comment_count}}</span>
                                     </div>
@@ -106,7 +117,7 @@
     <script>
         $('.attention-btn').click(function () {
             var tag_id = $(this).data('tag-id');
-            var atten_count = parseInt($(this).html().replace(/[^0-9]/ig,""));  //获取a标签(按钮)中数字
+            var atten_count = parseInt($(this).html().replace(/[^0-9]/ig, ""));  //获取a标签(按钮)中数字
             var icon = $(this);
             $.ajax({
                 type: 'POST',
@@ -124,7 +135,7 @@
                     }
                 },
                 error: function () {
-                    
+
                 }
             });
         });

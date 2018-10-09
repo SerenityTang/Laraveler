@@ -5,9 +5,11 @@
         <div class="weui-panel__hd main-title">最新问答</div>
         <div class="weui-panel__bd">
             @foreach($new_questions as $question)
-                <a href="{{ url('question/show/' . $question->id) }}" class="weui-media-box weui-media-box_appmsg list-item">
+                <a href="{{ url('question/show/' . $question->id) }}"
+                   class="weui-media-box weui-media-box_appmsg list-item">
                     <div class="weui-media-box__hd list-item-img">
-                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="weui-media-box__thumb" alt="{{ $question->user->username }}">
+                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}"
+                             class="weui-media-box__thumb" alt="{{ $question->user->username }}">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title sub-title">{{ $question->title }}</h4>
@@ -16,7 +18,8 @@
                             <span class="time" title="{{ $question->created_at }}">
                             {!! $question->created_at !!}
                         </span>
-                            <span class="count-icon"><i class="iconfont icon-huida"></i>{{ $question->answer_count }}</span>
+                            <span class="count-icon"><i
+                                        class="iconfont icon-huida"></i>{{ $question->answer_count }}</span>
                         </p>
                     </div>
                 </a>
@@ -36,7 +39,8 @@
             @foreach($new_blogs as $blog)
                 <a href="{{ url('blog/show/' . $blog->id) }}" class="weui-media-box weui-media-box_appmsg list-item">
                     <div class="weui-media-box__hd list-item-img">
-                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="weui-media-box__thumb" alt="{{ $blog->user->username }}">
+                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}"
+                             class="weui-media-box__thumb" alt="{{ $blog->user->username }}">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title sub-title">{{ $blog->title }}</h4>
@@ -63,9 +67,11 @@
         <div class="weui-panel__hd main-title">热门问答</div>
         <div class="weui-panel__bd">
             @foreach($hot_questions as $question)
-                <a href="{{ url('question/show/' . $question->id) }}" class="weui-media-box weui-media-box_appmsg list-item">
+                <a href="{{ url('question/show/' . $question->id) }}"
+                   class="weui-media-box weui-media-box_appmsg list-item">
                     <div class="weui-media-box__hd list-item-img">
-                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="weui-media-box__thumb" alt="{{ $question->user->username }}">
+                        <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}"
+                             class="weui-media-box__thumb" alt="{{ $question->user->username }}">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title sub-title">{{ $question->title }}</h4>
@@ -74,7 +80,8 @@
                             <span class="time" title="{{ $question->created_at }}">
                             {!! $question->created_at !!}
                         </span>
-                            <span class="count-icon"><i class="iconfont icon-huida"></i>{{ $question->answer_count }}</span>
+                            <span class="count-icon"><i
+                                        class="iconfont icon-huida"></i>{{ $question->answer_count }}</span>
                         </p>
                     </div>
                 </a>
@@ -94,7 +101,8 @@
             @foreach($hot_blogs as $blog)
                 <a href="{{ url('blog/show/' . $blog->id) }}" class="weui-media-box weui-media-box_appmsg list-item">
                     <div class="weui-media-box__hd list-item-img">
-                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="weui-media-box__thumb" alt="{{ $blog->user->username }}">
+                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}"
+                             class="weui-media-box__thumb" alt="{{ $blog->user->username }}">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title sub-title">{{ $blog->title }}</h4>

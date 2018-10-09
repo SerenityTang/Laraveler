@@ -3,13 +3,14 @@
     用户登录
 @stop
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/user/bind.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('css/user/bind.css')}}"/>
 @stop
 @section('content')
     <div class="container">
         <div class="row">
             <div class="bind">
-                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST" action="{{ url('/auth/bind') }}">
+                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST"
+                      action="{{ url('/auth/bind') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="nickname" value="{{ $profile->nickname }}">
                     <input type="hidden" name="realname" value="{{ $profile->realname }}">
@@ -30,7 +31,8 @@
                     <em class="title-eng">Perfect The Info</em>
                     <div class="form-group form-group-bottom username">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名" value="{{ $profile->nickname }}">
+                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名"
+                                   value="{{ $profile->nickname }}">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -38,7 +40,8 @@
                     </div>
                     <div class="form-group form-group-bottom mobile">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="mobile" name="mobile" maxlength="11" placeholder="手机号" value="{{ old('mobile') }}">
+                            <input type="text" class="form-control text" id="mobile" name="mobile" maxlength="11"
+                                   placeholder="手机号" value="{{ old('mobile') }}">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -46,7 +49,8 @@
                     </div>
                     <div class="form-group form-group-bottom password">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="password" class="form-control text" id="password" name="password" placeholder="密码">
+                            <input type="password" class="form-control text" id="password" name="password"
+                                   placeholder="密码">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -54,7 +58,8 @@
                     </div>
                     <div class="form-group form-group-bottom verify">
                         <div class="input-group">
-                            <input type="text" class="form-control text" id="verify_code" name="verify_code" maxlength="6" placeholder="请输入验证码" style="width: 190px;">
+                            <input type="text" class="form-control text" id="verify_code" name="verify_code"
+                                   maxlength="6" placeholder="请输入验证码" style="width: 190px;">
                             <button type="button" class="btn btn-lg get-vcode" style="width: 128px;">获取验证码</button>
                         </div>
                         <span class="help-block help-block-clear">
@@ -73,7 +78,9 @@
                     </div>--}}
                     <div class="form-group">
                         <div class="submit-btn">
-                            <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat submit" data-loading-text="正在提交..." onautocomplete="off" disabled>提 交</button>
+                            <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat submit"
+                                    data-loading-text="正在提交..." onautocomplete="off" disabled>提 交
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -86,7 +93,7 @@
     {{--粒子背景插件及效果--}}
     <script src="{{asset('libs/particleground/jquery.particleground.min.js')}}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             //粒子背景特效
             $('body').particleground({
                 dotColor: '#5cbdaa',
@@ -97,7 +104,7 @@
     <script>
         $('.glyphicon').click(function () {
             var captcha = $(this).prev('img');
-            captcha.attr('src', '/captcha/verify?key=login&t='+(new Date()).getTime());
+            captcha.attr('src', '/captcha/verify?key=login&t=' + (new Date()).getTime());
         })
     </script>
     {{--按下回车登录相当于鼠标点击登录按钮--}}
@@ -131,7 +138,7 @@
                             'mobile': mobile,
                         },
                         cache: false,
-                        success: function(res){
+                        success: function (res) {
                             if (res.code == 502) {
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                             } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不存在用户名存在
@@ -143,7 +150,7 @@
                                 $('.password').fadeIn('slow');
                             }
                         },
-                        error: function(){
+                        error: function () {
                             layer.msg('系统错误！', {
                                 icon: 2,
                                 time: 2000,
@@ -170,7 +177,7 @@
                             'mobile': mobile,
                         },
                         cache: false,
-                        success: function(res){
+                        success: function (res) {
                             if (res.code == 502) {   //表单验证
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                             } else if (res.code == 903) {   //用户先输入手机号，且用户名手机号不存在
@@ -197,7 +204,7 @@
                                 $('.password').fadeOut('slow');
                             }
                         },
-                        error: function(){
+                        error: function () {
                             layer.msg('系统错误！', {
                                 icon: 2,
                                 time: 2000,
@@ -222,14 +229,14 @@
                             'password': password,
                         },
                         cache: false,
-                        success: function(res){
+                        success: function (res) {
                             if (res.code == 904) {
                                 $('#password').parents('.password').find('.help-block em').html(res.message);
                             } else if (res.code == 502) {
                                 $('#password').parents('.password').find('.help-block em').html(res.message);
                             }
                         },
-                        error: function(){
+                        error: function () {
                             layer.msg('系统错误！', {
                                 icon: 2,
                                 time: 2000,
@@ -254,14 +261,14 @@
                             'verify_code': verify_code,
                         },
                         cache: false,
-                        success: function(res){
+                        success: function (res) {
                             if (res.code == 905) {
                                 $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
                             } else if (res.code == 502) {
                                 $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
                             }
                         },
-                        error: function(){
+                        error: function () {
                             layer.msg('系统错误！', {
                                 icon: 2,
                                 time: 2000,
@@ -289,8 +296,8 @@
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 3000,
-                                end : function(){
-                                    location.href='{{ url("/") }}';
+                                end: function () {
+                                    location.href = '{{ url("/") }}';
                                 }
                             });
                         } else if (res.code == 911) {
@@ -397,7 +404,7 @@
                     clearTimeout(timeId);
                     changeBtn(opts.language.oricon, false);
                 } else {
-                    timeId = setTimeout(function() {
+                    timeId = setTimeout(function () {
                         clearTimeout(timeId);
                         changeBtn(btnText.replace('60 秒后再次获取', (seconds--) + ' 秒后再次获取'), true);
                         timer(seconds);
@@ -414,19 +421,19 @@
         });
 
         var options = {
-            token       : null,
-            interval    : 60,
-            voice       : false,
-            requestUrl  : null,
-            requestData : null,
-            notify      : function (msg, type) {
+            token: null,
+            interval: 60,
+            voice: false,
+            requestUrl: null,
+            requestData: null,
+            notify: function (msg, type) {
                 alert(msg);
             },
-            language    : {
-                oricon     : '获取验证码',
-                sending    : '短信发送中...',
-                failed     : '请求失败，请重试',
-                resendable : '60 秒后再次获取'
+            language: {
+                oricon: '获取验证码',
+                sending: '短信发送中...',
+                failed: '请求失败，请重试',
+                resendable: '60 秒后再次获取'
             }
         };
     </script>

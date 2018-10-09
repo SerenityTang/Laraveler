@@ -10,7 +10,7 @@ class WeixinController extends Controller
     public function api()
     {
         $echoStr = $_GET["echostr"];
-        if($this->checkSignature()){
+        if ($this->checkSignature()) {
             echo $echoStr;
             exit;
         }
@@ -40,10 +40,10 @@ class WeixinController extends Controller
         $tmpStr = sha1($tmpStr);
 
         //4.将加密后的字符串与signature进行对比，标识该请求来源于微信
-        if($tmpStr == $signature){
+        if ($tmpStr == $signature) {
             return true;
 
-        }else{
+        } else {
             return false;
         }
     }

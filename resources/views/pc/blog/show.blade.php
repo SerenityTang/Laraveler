@@ -19,12 +19,14 @@
                             <div>
                                 <h1 class="blog-show-title">{{ $blog->title }}</h1>
                                 @foreach($blog->tags as $tag)
-                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-content-tag">{{ $tag->name }}</a>
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}"
+                                       class="qb-content-tag">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
 
                             <a class="author" href="{{ url('user/'.$blog->user->personal_domain) }}">
-                                <span class="username"><i class="iconfont icon-gaojian-zuozhe"></i>{{ $blog->user->username }}</span>
+                                <span class="username"><i
+                                            class="iconfont icon-gaojian-zuozhe"></i>{{ $blog->user->username }}</span>
                             </a>
                             <span class="title-extra"><i class="iconfont icon-shijian time-icon"></i></span>
                             <span class="time" title="{{ $blog->created_at }}">
@@ -36,7 +38,8 @@
                                 <span>|</span>
                                 <span title="点赞数"><i class="iconfont icon-dianzan1"></i>{{$blog->like_count}}</span>
                                 <span>|</span>
-                                <span title="收藏数"><i class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
+                                <span title="收藏数"><i
+                                            class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
                                 <span>|</span>
                                 <span title="评论数"><i class="iconfont icon-tubiaopinglunshu"></i>{{$blog->comment_count}}</span>
                             </div>
@@ -49,21 +52,29 @@
                         <div class="blog-support">
                             <p class="blog-tip"><span class="ps">PS: </span>如本文对您有帮助，不妨通过一下方式支持一下博主噢 ^_^</p>
                             <div class="handle-bottom">
-                                <a href="javascript:void(0)" class="like-btn @if(\App\Helpers\Helpers::support($blog->id, 'Blog', 'like') != null)active @endif" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                <a href="javascript:void(0)"
+                                   class="like-btn @if(\App\Helpers\Helpers::support($blog->id, 'Blog', 'like') != null)active @endif"
+                                   data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}"
+                                   data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                     @if(\App\Helpers\Helpers::support($blog->id, 'Blog', 'like') != null)
                                         <i class="iconfont icon-dianzan2"></i>已点赞
                                     @else
                                         <i class="iconfont icon-dianzan2"></i>点赞
                                     @endif
                                 </a>
-                                <a href="javascript:void(0)" class="favorite-btn @if(\App\Helpers\Helpers::collection($blog->id, 'Blog') != null)active @endif" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                <a href="javascript:void(0)"
+                                   class="favorite-btn @if(\App\Helpers\Helpers::collection($blog->id, 'Blog') != null)active @endif"
+                                   data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}"
+                                   data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                     @if(\App\Helpers\Helpers::collection($blog->id, 'Blog') != null)
                                         <i class="iconfont icon-shoucang"></i>已收藏
                                     @else
                                         <i class="iconfont icon-shoucang"></i>收藏
                                     @endif
                                 </a>
-                                <a href="javascript:void(0)" class="admire-btn" data-blog-id="{{ $blog->id }}" data-blog-uid="{{ $blog->user_id }}" data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                <a href="javascript:void(0)" class="admire-btn" data-blog-id="{{ $blog->id }}"
+                                   data-blog-uid="{{ $blog->user_id }}"
+                                   data-blog-curruid="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                     <i class="iconfont icon-xuanshang"></i>赞赏
                                 </a>
                             </div>
@@ -74,7 +85,8 @@
                         <div class="comment-top">
                             <h3 class="comment-count">{{ $blog->comment_count }} 条评论</h3>
                             <div class="btn-group comment-rank" data-toggle="buttons">
-                                <label class="btn default-sort active" data-blog-id="{{ $blog->id }}" data-sort="default">
+                                <label class="btn default-sort active" data-blog-id="{{ $blog->id }}"
+                                       data-sort="default">
                                     <input type="radio" name="default" id="default"> 默认
                                 </label>
                                 <label class="btn time-sort" data-blog-id="{{ $blog->id }}" data-sort="time">
@@ -91,12 +103,15 @@
                                 @foreach($blog->parent_comments as $comment)
                                     <li class="list-group-item comment-item">
                                         <div class="media">
-                                            <a class="media-left ans-avatar avatar-40" href="{{ url('user/'.$comment->user->personal_domain) }}">
-                                                <img src="{{ App\Helpers\Helpers::get_user_avatar($comment->user_id, 'middle') }}" class="avatar-40" alt="{{ $comment->user->username }}">
+                                            <a class="media-left ans-avatar avatar-40"
+                                               href="{{ url('user/'.$comment->user->personal_domain) }}">
+                                                <img src="{{ App\Helpers\Helpers::get_user_avatar($comment->user_id, 'middle') }}"
+                                                     class="avatar-40" alt="{{ $comment->user->username }}">
                                             </a>
                                             <div class="media-body">
                                                 <h4 class="media-heading">
-                                                    <a class="author-name" href="{{ url('user/'.$comment->user->personal_domain) }}"><strong>{{ $comment->user->username }}</strong></a>
+                                                    <a class="author-name"
+                                                       href="{{ url('user/'.$comment->user->personal_domain) }}"><strong>{{ $comment->user->username }}</strong></a>
                                                     <span class="separate">评论于</span>
                                                     <span class="time" title="{{ $comment->created_at }}">
                                                         {!! $comment->created_at !!}
@@ -107,12 +122,18 @@
 
                                                 <div class="operation">
                                                     <span class="oper-left">
-                                                        <a href="javascript:void(0)" title="支持" class="like-icon @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif" data-comment-id="{{ $comment->id }}" data-user-id="{{ $comment->user_id }}" data-curr-uid="{{ Auth::check()?Auth::user()->id:0 }}">
+                                                        <a href="javascript:void(0)" title="支持"
+                                                           class="like-icon @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif"
+                                                           data-comment-id="{{ $comment->id }}"
+                                                           data-user-id="{{ $comment->user_id }}"
+                                                           data-curr-uid="{{ Auth::check()?Auth::user()->id:0 }}">
                                                             <i class="iconfont icon-dianzan"></i>
                                                             <span class="like-count @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif">{{ $comment->support_count }}</span>
                                                         </a>
                                                         @if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id)
-                                                            <a href="javascript:void(0)" title="回复" class="reply-icon" data-user-name="{{ $comment->user->username }}" data-user-id="{{ $comment->user_id }}">
+                                                            <a href="javascript:void(0)" title="回复" class="reply-icon"
+                                                               data-user-name="{{ $comment->user->username }}"
+                                                               data-user-id="{{ $comment->user_id }}">
                                                                 <i class="iconfont icon-icon_reply"></i>
                                                             </a>
                                                         @endif
@@ -120,10 +141,13 @@
 
                                                     <span class="oper-right">
                                                         <a href="javascript:void(0)" title="编辑">
-                                                            <i class="iconfont icon-bianji1 edit-icon"@if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;" @endif></i>
+                                                            <i class="iconfont icon-bianji1 edit-icon"
+                                                               @if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;" @endif></i>
                                                         </a>
                                                         <a href="javascript:void(0)" title="删除">
-                                                            <i class="iconfont icon-weibiaoti544 delete-icon"@if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;" @endif data-comment-id="{{ $comment->id }}"></i>
+                                                            <i class="iconfont icon-weibiaoti544 delete-icon"
+                                                               @if((Auth::check() ? Auth::user()->id : 0) != $comment->user_id) style="display: none;"
+                                                               @endif data-comment-id="{{ $comment->id }}"></i>
                                                         </a>
                                                     </span>
                                                 </div>
@@ -131,11 +155,15 @@
                                         </div>
                                         <div class="edit-comment">
                                             <form id="edit-comment" method="post" action="{{ url('comment/edit') }}">
-                                                <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                                                <textarea id="edit_comment_con" name="edit_comment_con" class="form-control" rows="2"></textarea>
+                                                <input type="hidden" id="editor_token" name="_token"
+                                                       value="{{ csrf_token() }}"/>
+                                                <textarea id="edit_comment_con" name="edit_comment_con"
+                                                          class="form-control" rows="2"></textarea>
                                                 <div class="comment-part-bottom">
                                                     <button type="button" class="btn edit-cancel">取消</button>
-                                                    <button type="button" class="btn edit-comment-btn" data-comment-id="{{ $comment->id }}">更改</button>
+                                                    <button type="button" class="btn edit-comment-btn"
+                                                            data-comment-id="{{ $comment->id }}">更改
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -145,10 +173,12 @@
                                                 @foreach($comment->getChildren() as $mutual_comment)
                                                     <div class="mutual-comment">
                                                         <h4 class="media-heading media-heading-extra">
-                                                            <a class="author reply-author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">{{ $mutual_comment->user->username }}</a>
+                                                            <a class="author reply-author"
+                                                               href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">{{ $mutual_comment->user->username }}</a>
                                                             <span class="separate">:</span>
                                                             @if($mutual_comment->to_user_id != null)
-                                                                <a class="author" href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">@ {{ $mutual_comment->toUser->username }}</a>
+                                                                <a class="author"
+                                                                   href="{{ url('user/'.$mutual_comment->user->personal_domain) }}">@ {{ $mutual_comment->toUser->username }}</a>
                                                             @endif
 
                                                             {!! $mutual_comment->content !!}
@@ -157,19 +187,29 @@
                                                             {!! $mutual_comment->created_at !!}
                                                         </span>
                                                         @if(Auth::check() && $mutual_comment->user_id != Auth::user()->id)
-                                                            <span title="回复"><a href="javascript:void(0);" id="sub-reply-icon" class="sub-reply-icon" data-user-id="{{ $mutual_comment->user_id }}" data-user-name="{{ $mutual_comment->user->username }}"><i class="iconfont icon-icon_reply"></i>回复</a></span>
+                                                            <span title="回复"><a href="javascript:void(0);"
+                                                                                id="sub-reply-icon"
+                                                                                class="sub-reply-icon"
+                                                                                data-user-id="{{ $mutual_comment->user_id }}"
+                                                                                data-user-name="{{ $mutual_comment->user->username }}"><i
+                                                                            class="iconfont icon-icon_reply"></i>回复</a></span>
                                                         @endif
                                                     </div>
                                                 @endforeach
                                             @endif
 
                                             <div class="comment-form">
-                                                <form id="comment-content" method="post" action="{{ url('comment/store') }}">
-                                                    <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                                                    <input type="hidden" id="comment_id" name="comment_id" value="{{ $comment->id }}">
+                                                <form id="comment-content" method="post"
+                                                      action="{{ url('comment/store') }}">
+                                                    <input type="hidden" id="editor_token" name="_token"
+                                                           value="{{ csrf_token() }}"/>
+                                                    <input type="hidden" id="comment_id" name="comment_id"
+                                                           value="{{ $comment->id }}">
                                                     <input type="hidden" id="to_user" name="to_user" value="">
-                                                    <input type="hidden" id="parent_id" name="parent_id" value="{{ $comment->id }}">
-                                                    <textarea id="comment_child" name="comment_child" class="form-control" rows="2"></textarea>
+                                                    <input type="hidden" id="parent_id" name="parent_id"
+                                                           value="{{ $comment->id }}">
+                                                    <textarea id="comment_child" name="comment_child"
+                                                              class="form-control" rows="2"></textarea>
                                                     <div class="comment-part-bottom">
                                                         <button type="button" class="btn btn-cancel">取消</button>
                                                         <button type="button" class="btn btn-child-reply">回复</button>
@@ -186,17 +226,19 @@
                     @if(Auth::guest())
                         <div class="panel-footer-tip">
                             <div class="login-tip">
-                                <p>您需要登录才可以发表评论噢！！！<a href="{{ url('login') }}">登录</a> or <a href="{{ url('register') }}">注册</a></p>
+                                <p>您需要登录才可以发表评论噢！！！<a href="{{ url('login') }}">登录</a> or <a
+                                            href="{{ url('register') }}">注册</a></p>
                             </div>
                         </div>
                     @else
                         @if($blog->user_id != Auth::user()->id)
                             <div class="panel-footer">
                                 <form method="post" action="{{ url('comment/blog_store') }}">
-                                    <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                                    <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}"/>
                                     <input type="hidden" id="comment_content" name="comment_content" value="">
                                     <input type="hidden" id="blog_id" name="blog_id" value="{{ $blog->id }}">
-                                    <div id="blog_comment_summernote" class="col-sm-9" data-blog-id="{{ $blog->id }}"></div>
+                                    <div id="blog_comment_summernote" class="col-sm-9"
+                                         data-blog-id="{{ $blog->id }}"></div>
                                     <div class="blog_comment_bottom">
                                         <button type="submit" class="btn btn-reply">发表评论</button>
                                     </div>
@@ -215,11 +257,14 @@
                         </div>
                         <div class="panel-body">
                             <div class="media">
-                                <a class="media-left blogger-avatar" href="{{ url('user/'.$blog->user->personal_domain) }}">
-                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-40" alt="{{ $blog->user->username }}">
+                                <a class="media-left blogger-avatar"
+                                   href="{{ url('user/'.$blog->user->personal_domain) }}">
+                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}"
+                                         class="avatar-40" alt="{{ $blog->user->username }}">
                                 </a>
                                 <div class="media-body blogger-content">
-                                    <a href="{{ url('user/'.$blog->user->personal_domain) }}" class="media-heading blogger-name">{{ $blog->user->username }}</a>
+                                    <a href="{{ url('user/'.$blog->user->personal_domain) }}"
+                                       class="media-heading blogger-name">{{ $blog->user->username }}</a>
                                     <p class="blogger-data">
                                         <span>博客：{{ App\Helpers\Helpers::get_user_data($blog->user_id)->article_count }}</span>
                                         <span>·</span>
@@ -230,11 +275,14 @@
                                             <a href="{{ url('blog/show_edit/'.$blog->id) }}" class="btn btn-edit">
                                                 <i class="iconfont icon-bianji"></i>编辑
                                             </a>
-                                            <a href="javascript:void(0)" class="btn btn-delete" data-blog-id="{{ $blog->id }}">
+                                            <a href="javascript:void(0)" class="btn btn-delete"
+                                               data-blog-id="{{ $blog->id }}">
                                                 <i class="iconfont icon-shanchu"></i>删除
                                             </a>
                                         @endif
-                                        <a href="javascript:void(0)" class="btn btn-attention" data-user="{{ $blog->user_id }}" data-curr-user="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                                        <a href="javascript:void(0)" class="btn btn-attention"
+                                           data-user="{{ $blog->user_id }}"
+                                           data-curr-user="{{ Auth::check() ? Auth::user()->id : 0 }}">
                                             @if(\App\Helpers\Helpers::attention($blog->user_id, 'User', (Auth::check() ? Auth::user()->id : 0)) == null)
                                                 <i class="iconfont icon-guanzhuderen2"></i>关注
                                             @else
@@ -251,7 +299,9 @@
                 <div class="list-side-other">
                     <div class="panel panel-default other-panel">
                         <div class="panel-heading">
-                            <h3 class="other-blog"><i class="iconfont icon-qita1 other-icon"></i>{{ $blog->user->username }} 的其它博客</h3>
+                            <h3 class="other-blog"><i
+                                        class="iconfont icon-qita1 other-icon"></i>{{ $blog->user->username }} 的其它博客
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <ul class="list-group list-others">
@@ -260,7 +310,8 @@
                                 @else
                                     @foreach($other_blogs as $other_blog)
                                         <li>
-                                            <a href="{{ url('question/show/' . $other_blog->id) }}" title="{{ $other_blog->title }}">{{ str_limit($other_blog->title, 30) }}</a>
+                                            <a href="{{ url('question/show/' . $other_blog->id) }}"
+                                               title="{{ $other_blog->title }}">{{ str_limit($other_blog->title, 30) }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -279,7 +330,8 @@
                                 @foreach($correlation_blogs as $correlation_blog)
                                     @if($blog->user_id != $correlation_blog->user_id)
                                         <li class="correlation-blog">
-                                            <a href="{{ url('blog/show/' . $correlation_blog->id) }}" title="{{ $correlation_blog->title }}">{{ str_limit($correlation_blog->title, 30) }}</a>
+                                            <a href="{{ url('blog/show/' . $correlation_blog->id) }}"
+                                               title="{{ $correlation_blog->title }}">{{ str_limit($correlation_blog->title, 30) }}</a>
                                         </li>
                                     @endif
                                 @endforeach
@@ -318,21 +370,21 @@
             @if(!\Auth::check())
                 window.location.href = '{{ url('/login') }}';
             @else
-                if (blog_uid != blog_curruid) {
-                    $.get('/blog/like/'+blog_id, function (message) {
-                        if (message == 'like') {
-                            $('.like-btn').addClass('active');
-                            $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>'+'已点赞');
-                        } else if (message == 'unlike') {
-                            $('.like-btn').removeClass('active');
-                            $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>'+'点赞');
-                        }
-                    });
-                } else {
-                    layer.tips('不能点赞自己的博客^_^', '.like-btn', {
-                        tips: [1, '#22d7bb'], //配置颜色
-                    });
-                }
+            if (blog_uid != blog_curruid) {
+                $.get('/blog/like/' + blog_id, function (message) {
+                    if (message == 'like') {
+                        $('.like-btn').addClass('active');
+                        $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>' + '已点赞');
+                    } else if (message == 'unlike') {
+                        $('.like-btn').removeClass('active');
+                        $('.like-btn').html('<i class="iconfont icon-dianzan2"></i>' + '点赞');
+                    }
+                });
+            } else {
+                layer.tips('不能点赞自己的博客^_^', '.like-btn', {
+                    tips: [1, '#22d7bb'], //配置颜色
+                });
+            }
             @endif
         });
 
@@ -344,21 +396,21 @@
             @if(!\Auth::check())
                 window.location.href = '{{ url('/login') }}';
             @else
-                if (blog_uid != blog_curruid) {
-                    $.get('/blog/favorite/'+blog_id, function (message) {
-                        if (message == 'favorite') {
-                            $('.favorite-btn').addClass('active');
-                            $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>'+'已收藏');
-                        } else if (message == 'unfavorite') {
-                            $('.favorite-btn').removeClass('active');
-                            $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>'+'收藏');
-                        }
-                    });
-                } else {
-                    layer.tips('不能收藏自己的博客^_^', '.favorite-btn', {
-                        tips: [1, '#22d7bb'], //配置颜色
-                    });
-                }
+            if (blog_uid != blog_curruid) {
+                $.get('/blog/favorite/' + blog_id, function (message) {
+                    if (message == 'favorite') {
+                        $('.favorite-btn').addClass('active');
+                        $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>' + '已收藏');
+                    } else if (message == 'unfavorite') {
+                        $('.favorite-btn').removeClass('active');
+                        $('.favorite-btn').html('<i class="iconfont icon-shoucang"></i>' + '收藏');
+                    }
+                });
+            } else {
+                layer.tips('不能收藏自己的博客^_^', '.favorite-btn', {
+                    tips: [1, '#22d7bb'], //配置颜色
+                });
+            }
             @endif
         });
 
@@ -370,13 +422,13 @@
             @if(!\Auth::check())
                 window.location.href = '{{ url('/login') }}';
             @else
-                if (blog_uid != blog_curruid) {
+            if (blog_uid != blog_curruid) {
 
-                } else {
-                    layer.tips('不能赞赏自己的博客^_^', '.admire-btn', {
-                        tips: [1, '#22d7bb'], //配置颜色
-                    });
-                }
+            } else {
+                layer.tips('不能赞赏自己的博客^_^', '.admire-btn', {
+                    tips: [1, '#22d7bb'], //配置颜色
+                });
+            }
             @endif
         });
 
@@ -388,31 +440,31 @@
                 @if(!\Auth::check())
                     window.location.href = '{{ url('/login') }}';
                 @else
-                    if (user != curr_user) {
-                        $.ajax({
-                            type : 'POST',
-                            data : {
-                                _token: '{{ csrf_token() }}',
-                                'user': user,
-                                'curr_user':curr_user
-                            },
-                            url : '{{ url('/user/attention_user') }}',
-                            success: function (data) {
-                                if (data == 'attention') {
-                                    $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>已关注');
-                                } else if (data == 'unattention') {
-                                    $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>关注');
-                                }
-                            },
-                            error: function () {
-                                layer.msg('系统错误');
+                if (user != curr_user) {
+                    $.ajax({
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            'user': user,
+                            'curr_user': curr_user
+                        },
+                        url: '{{ url('/user/attention_user') }}',
+                        success: function (data) {
+                            if (data == 'attention') {
+                                $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>已关注');
+                            } else if (data == 'unattention') {
+                                $('.btn-attention').html('<i class="iconfont icon-guanzhuderen2"></i>关注');
                             }
-                        });
-                    } else {
-                        layer.tips('不能关注自己^_^', '.btn-attention', {
-                            tips: [1, '#22d7bb'], //配置颜色
-                        });
-                    }
+                        },
+                        error: function () {
+                            layer.msg('系统错误');
+                        }
+                    });
+                } else {
+                    layer.tips('不能关注自己^_^', '.btn-attention', {
+                        tips: [1, '#22d7bb'], //配置颜色
+                    });
+                }
                 @endif
             });
         });
@@ -420,21 +472,21 @@
         //删除博客
         $('.btn-delete').click(function () {
             var blog_id = $(this).data('blog-id');
-            zeroModal.confirm("确定删除博客吗？", function() {
+            zeroModal.confirm("确定删除博客吗？", function () {
                 $.ajax({
-                    url : "{{url('/blog/destroy/[id]')}}".replace('[id]', blog_id),
-                    data : {
+                    url: "{{url('/blog/destroy/[id]')}}".replace('[id]', blog_id),
+                    data: {
                         _token: '{{csrf_token()}}',
                     },
-                    dataType : "json",
-                    type : "POST",
-                    success : function (res) {
-                        if(res.code == 706){
+                    dataType: "json",
+                    type: "POST",
+                    success: function (res) {
+                        if (res.code == 706) {
                             layer.msg(res.message, {
                                 icon: 6,//提示的样式
                                 time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
-                                end : function(){
-                                    location.href='{{ url("/blog") }}';
+                                end: function () {
+                                    location.href = '{{ url("/blog") }}';
                                 }
                             });
                         } else if (res.code == 707) {
@@ -442,7 +494,7 @@
                         }
 
                     },
-                    error : function () {
+                    error: function () {
                         zeroModal.error('系统错误！');
                     }
                 });
@@ -458,14 +510,14 @@
                 var user_id = $(this).data('user-id');
                 $('#to_user').val(user_id);
                 @if (Auth::check())
-                    if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
-                        icon.parents('.comment-item').find('.comment-form textarea').val('');
-                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
-                        icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
-                    } else {
-                        icon.parents('.comment-item').find('.comment-form textarea').val('');
-                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
-                    }
+                if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
+                    icon.parents('.comment-item').find('.comment-form textarea').val('');
+                    icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
+                    icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
+                } else {
+                    icon.parents('.comment-item').find('.comment-form textarea').val('');
+                    icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
+                }
                 @else
                     window.location.href = '{{ url('/login') }}';
                 @endif
@@ -477,14 +529,14 @@
                 var user_id = $(this).data('user-id');
                 $('#to_user').val(user_id);
                 @if (Auth::check())
-                    if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
-                        icon.parents('.comment-item').find('.comment-form textarea').val('');
-                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
-                        icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
-                    } else {
-                        icon.parents('.comment-item').find('.comment-form textarea').val('');
-                        icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
-                    }
+                if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
+                    icon.parents('.comment-item').find('.comment-form textarea').val('');
+                    icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
+                    icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
+                } else {
+                    icon.parents('.comment-item').find('.comment-form textarea').val('');
+                    icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
+                }
                 @else
                     window.location.href = '{{ url('/login') }}';
                 @endif
@@ -505,11 +557,11 @@
             $('.btn-child-reply').click(function () {
                 var icon = $(this);
                 var postData = icon.parents('.comment-form').find("#comment-content").serializeArray();
-                $.post('/comment/mutual_blog_store', postData, function(html){
+                $.post('/comment/mutual_blog_store', postData, function (html) {
                     $('.comment-content .comment-form').hide();
                     icon.parents('.comment-item').find(".comment-input").append(html);
 
-                    $('.comment-count').html(parseInt($('.comment-count').html())+1+' 条评论');       //回答的评论数+1
+                    $('.comment-count').html(parseInt($('.comment-count').html()) + 1 + ' 条评论');       //回答的评论数+1
                 });
             });
 
@@ -521,25 +573,25 @@
                 var curr_uid = $(this).data('curr-uid');
                 var like_count = icon.find('.like-count').html();
                 @if(\Auth::check())
-                    if (user_id != curr_uid) {
-                        $.get('/comment/support/'+comment_id, function (message) {
-                            if (message == 'support') {
-                                like_count++;
-                                icon.find('.like-count').html(like_count);
-                                icon.find('i').css('color', '#555');
-                                icon.find('.like-count').css('color', '#555');
-                            } else if (message == 'unsupport') {
-                                like_count--;
-                                icon.find('.like-count').html(like_count);
-                                icon.find('i').css('color', '#999');
-                                icon.find('.like-count').css('color', '#999');
-                            }
-                        });
-                    } else {
-                        layer.tips('不能支持自己的评论^_^', '.like-icon', {
-                            tips: [1, '#22d7bb'], //配置颜色
-                        });
-                    }
+                if (user_id != curr_uid) {
+                    $.get('/comment/support/' + comment_id, function (message) {
+                        if (message == 'support') {
+                            like_count++;
+                            icon.find('.like-count').html(like_count);
+                            icon.find('i').css('color', '#555');
+                            icon.find('.like-count').css('color', '#555');
+                        } else if (message == 'unsupport') {
+                            like_count--;
+                            icon.find('.like-count').html(like_count);
+                            icon.find('i').css('color', '#999');
+                            icon.find('.like-count').css('color', '#999');
+                        }
+                    });
+                } else {
+                    layer.tips('不能支持自己的评论^_^', '.like-icon', {
+                        tips: [1, '#22d7bb'], //配置颜色
+                    });
+                }
                 @else
                     window.location.href = '{{ url('/login') }}';
                 @endif
@@ -561,7 +613,7 @@
                 var icon = $(this);
                 var comment_id = $(this).data('comment-id');
                 var postData = icon.parents('.edit-comment').find("#edit-comment").serializeArray();
-                $.post('/comment/edit/'+comment_id, postData, function(message){
+                $.post('/comment/edit/' + comment_id, postData, function (message) {
                     icon.parents('.comment-item').find('.edit-comment').hide();
                     icon.parents('.comment-item').find('.media .media-body p').html(message);
                     icon.parents('.comment-item').find('.media').show('slow');
@@ -571,16 +623,16 @@
             $('.delete-icon').click(function () {
                 var icon = $(this);
                 var comment_id = $(this).data('comment-id');
-                zeroModal.confirm("确定删除评论吗？", function() {
+                zeroModal.confirm("确定删除评论吗？", function () {
                     $.ajax({
-                        url : "{{url('/comment/destroy/[id]')}}".replace('[id]', comment_id),
-                        data : {
+                        url: "{{url('/comment/destroy/[id]')}}".replace('[id]', comment_id),
+                        data: {
                             _token: '{{csrf_token()}}',
                         },
-                        dataType : "json",
-                        type : "POST",
-                        success : function (res) {
-                            if(res.code == 710){
+                        dataType: "json",
+                        type: "POST",
+                        success: function (res) {
+                            if (res.code == 710) {
                                 layer.msg(res.message, {
                                     icon: 6,//提示的样式
                                     time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
@@ -591,7 +643,7 @@
                             }
 
                         },
-                        error : function () {
+                        error: function () {
                             zeroModal.error('系统错误！');
                         }
                     });
@@ -605,7 +657,7 @@
             $('.default-sort').click(function () {
                 var blog_id = $(this).data('blog-id');
                 var sort = $(this).data('sort');
-                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                $.get('/blog/sort_show/' + blog_id + '/' + sort, function (html) {
                     $('.media').empty();
                     $('.media').append(html);
                 })
@@ -614,7 +666,7 @@
             $('.time-sort').click(function () {
                 var blog_id = $(this).data('blog-id');
                 var sort = $(this).data('sort');
-                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                $.get('/blog/sort_show/' + blog_id + '/' + sort, function (html) {
                     $('.media').empty();
                     $('.media').append(html);
                 })
@@ -623,7 +675,7 @@
             $('.support-sort').click(function () {
                 var blog_id = $(this).data('blog-id');
                 var sort = $(this).data('sort');
-                $.get('/blog/sort_show/'+blog_id+'/'+sort, function (html) {
+                $.get('/blog/sort_show/' + blog_id + '/' + sort, function (html) {
                     $('.media').empty();
                     $('.media').append(html);
                 })
@@ -631,12 +683,12 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#blog_comment_summernote').summernote({
                 lang: 'zh-CN',
                 width: 825,
                 height: 180,
-                placeholder:'请赶紧发表您的评论吧^_^',
+                placeholder: '请赶紧发表您的评论吧^_^',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
                     ['para', ['style']],
@@ -650,11 +702,11 @@
                     ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
-                    onChange:function (contents, $editable) {
+                    onChange: function (contents, $editable) {
                         var code = $(this).summernote("code");
                         $("#comment_content").val(code);
                     },
-                    onImageUpload: function(files) {
+                    onImageUpload: function (files) {
                         upload_editor_image(files[0], 'blog_comment_summernote', 'blog', $(this).data('blog-id'));
                     }
                 }

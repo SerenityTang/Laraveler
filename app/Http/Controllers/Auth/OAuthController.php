@@ -22,7 +22,7 @@ class OAuthController extends Controller
      */
     public function bind_verify(Request $request)
     {
-        $input = $request->only(['username', 'password', 'mobile','verify_code']);
+        $input = $request->only(['username', 'password', 'mobile', 'verify_code']);
         if (isset($input['username']) && $input['username'] != null && $input['mobile'] != null) {
             $username = User::where('username', $input['username'])->first();
             $rules = array(
@@ -131,7 +131,8 @@ class OAuthController extends Controller
     /**
      * 手机验证码发送
      */
-    public function send(Request $request, $mobile){
+    public function send(Request $request, $mobile)
+    {
         /**
          * 验证成功，发送验证码
          * 短信接口请求参数
@@ -151,11 +152,11 @@ class OAuthController extends Controller
         $param = "$verify_code,5";
 
         //发送短信前先删除此用户的短信验证码缓存
-        if (Cache::has($mobile.'minute')) {
+        if (Cache::has($mobile . 'minute')) {
             return $this->jsonResult(899);
         } else {
             Cache::forget($mobile);
-            Cache::forget($mobile.'minute');
+            Cache::forget($mobile . 'minute');
         }
 
         //发送短信验证码
@@ -166,7 +167,7 @@ class OAuthController extends Controller
         if ($back_data['code'] == '000000') {
             //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
             Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
-            Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+            Cache::put($request->input('mobile') . 'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
 
             return $this->jsonResult(900);
         } else {
@@ -188,7 +189,7 @@ class OAuthController extends Controller
         $verify_code = $request->input('verify_code');
         $driver = $request->input('driver');
         $rules = array(
-            'verify_code' => 'required|string|validateMobile:'.$mobile,
+            'verify_code' => 'required|string|validateMobile:' . $mobile,
         );
 
         $validator = Validator::make($request->all(), $rules);
@@ -238,7 +239,7 @@ class OAuthController extends Controller
 
                     if ($user) {
                         $data = [
-                            'user_id'       => $user->id,
+                            'user_id' => $user->id,
                         ];
                         $user_data = User_data::create($data);
                         if ($user_data) {
@@ -248,7 +249,7 @@ class OAuthController extends Controller
 
                             Auth::login($user);
                             //return $this->success('/', '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
-                            return $this->jsonResult(501, '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 '. $driver .' 社交账号 ^_^');
+                            return $this->jsonResult(501, '亲爱的' . $user->username . '，恭喜您成功注册并绑定了 ' . $driver . ' 社交账号 ^_^');
                         }
                     } else {
                         //return $this->error('/', '用户注册失败');
@@ -286,7 +287,7 @@ class OAuthController extends Controller
     /**
      * 写入 OAuth 数据
      * @param Request $request
-     * @param int     $user_id 用户id
+     * @param int $user_id 用户id
      */
     private function socialiteSave(Request $request, $user_id)
     {
@@ -298,7 +299,7 @@ class OAuthController extends Controller
     /**
      * 写入 User 数据（用户未注册）
      * @param Request $request
-     * @param int     $user_id 用户id
+     * @param int $user_id 用户id
      */
     private function unRegisterUserSave(Request $request, $user_id, $driver)
     {
@@ -346,7 +347,7 @@ class OAuthController extends Controller
     /**
      * 写入 User 数据（用户已注册）
      * @param Request $request
-     * @param int     $user_id 用户id
+     * @param int $user_id 用户id
      */
     private function registerUserSave(Request $request, $user_id, $driver)
     {

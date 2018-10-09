@@ -59,12 +59,13 @@ class RegisterController extends Controller
     /**
      * 注册
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
     {
-        $input = $request->only(['username', 'password', 'password_confirmation',/*'email',*/'mobile','m_code']);
+        $input = $request->only(['username', 'password', 'password_confirmation',/*'email',*/
+            'mobile', 'm_code']);
         //验证表单
         $validator = $this->validator($input);
         //判断是否存在错误信息
@@ -77,7 +78,7 @@ class RegisterController extends Controller
             Auth::login($user);
             //注册成功，删除此用户的短信验证码缓存
             Cache::forget($input['mobile']);
-            Cache::forget($input['mobile'].'minute');
+            Cache::forget($input['mobile'] . 'minute');
 
             return $this->success(route('home'), '亲爱的 ' . $user->username . '，恭喜您注册成功 ^_^');
         }
@@ -86,7 +87,7 @@ class RegisterController extends Controller
     /**
      * 注册表单验证
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -96,7 +97,7 @@ class RegisterController extends Controller
             'password' => 'required|string|between:6,20|confirmed',
             'password_confirmation' => 'required|string',
             'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
-            'm_code' => 'required|validateMobile:'.$data['mobile'],
+            'm_code' => 'required|validateMobile:' . $data['mobile'],
         );
 
         $validator = Validator::make($data, $rules);
@@ -106,7 +107,7 @@ class RegisterController extends Controller
     /**
      * 注册创建新用户
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     protected function create(array $data)
@@ -122,7 +123,7 @@ class RegisterController extends Controller
 
         if ($user) {
             $data = [
-                'user_id'       => $user->id,
+                'user_id' => $user->id,
             ];
             User_data::create($data);
         }
@@ -142,7 +143,7 @@ class RegisterController extends Controller
             'username' => 'required|string|max:255|unique:user',
             'password' => 'required|string|between:6,20|confirmed',
             'password_confirmation' => 'required|string',
-            'mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
+            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/|unique:user',
         ]);
         if ($validator->fails()) {
             //验证失败后建议清空存储的发送状态，防止用户重复试错
@@ -169,11 +170,11 @@ class RegisterController extends Controller
         $param = "$verify_code,5";
 
         //发送短信前先删除此用户的短信验证码缓存
-        if (Cache::has($mobile.'minute')) {
+        if (Cache::has($mobile . 'minute')) {
             return $this->jsonResult(899);
         } else {
             Cache::forget($mobile);
-            Cache::forget($mobile.'minute');
+            Cache::forget($mobile . 'minute');
         }
 
         //发送短信验证码
@@ -184,7 +185,7 @@ class RegisterController extends Controller
         if ($back_data['code'] == '000000') {
             //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
             Cache::put($request->input('mobile'), $verify_code, 5);     //短信验证码
-            Cache::put($request->input('mobile').'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+            Cache::put($request->input('mobile') . 'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
 
             return $this->jsonResult(900);
         } else {

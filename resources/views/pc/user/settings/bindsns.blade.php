@@ -24,12 +24,14 @@
                         </div>
                         <div class="col-sm-4">
                             @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'qq') == null)
-                                <a href="{{ url('auth/oauth/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                <a href="{{ url('auth/oauth/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a href="{{ url('user/unbind/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                <a href="{{ url('user/unbind/qq') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -42,12 +44,14 @@
                         </div>
                         <div class="col-sm-4">
                             @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weixin') == null)
-                                <a href="{{ url('auth/oauth/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                <a href="{{ url('auth/oauth/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a href="{{ url('user/unbind/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                <a href="{{ url('user/unbind/weixin') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -60,12 +64,14 @@
                         </div>
                         <div class="col-sm-4">
                             @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'weibo') == null)
-                                <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                <a href="{{ url('auth/oauth/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a href="{{ url('user/unbind/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                <a href="{{ url('user/unbind/weibo') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -78,12 +84,14 @@
                         </div>
                         <div class="col-sm-4">
                             @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'github') == null)
-                                <a href="{{ url('auth/oauth/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                <a href="{{ url('auth/oauth/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a href="{{ url('user/unbind/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                <a href="{{ url('user/unbind/github') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif
@@ -96,12 +104,14 @@
                         </div>
                         <div class="col-sm-4">
                             @if(\App\Helpers\Helpers::bindsns(Auth::user()->id, 'google') == null)
-                                <a href="{{ url('auth/oauth/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" role="button" class="btn bind-btn">
+                                <a href="{{ url('auth/oauth/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   role="button" class="btn bind-btn">
                                     绑定账号
                                 </a>
                             @else
                                 <a class="btn binded"><i class="iconfont icon-dagou"></i>已绑定</a>
-                                <a href="{{ url('user/unbind/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}" class="btn unbinded">
+                                <a href="{{ url('user/unbind/google') }}?{{ http_build_query(['redirect_uri' => request()->url()]) }}"
+                                   class="btn unbinded">
                                     <i class="iconfont icon-bind-remove"></i>解除绑定
                                 </a>
                             @endif

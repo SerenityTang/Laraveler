@@ -92,7 +92,8 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $input = $request->only(['username', 'password', 'captcha']);
         $rules = [
             'username' => 'required',

@@ -2,7 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <a href="{{ url('user/'.$user->personal_domain) }}"><img src="{{ App\Helpers\Helpers::get_user_avatar($user->id, 'big') }}" class="avatar-128 homepage-avatar" alt="{{ $user->username }}"></a>
+                <a href="{{ url('user/'.$user->personal_domain) }}"><img
+                            src="{{ App\Helpers\Helpers::get_user_avatar($user->id, 'big') }}"
+                            class="avatar-128 homepage-avatar" alt="{{ $user->username }}"></a>
             </div>
 
             <div class="col-md-6 homepage-middle">
@@ -18,15 +20,16 @@
                 </p>
                 <p class="homepage-desc">
                     @if(empty($user->description))
-                    {{ $user->username }}很懒，签名神马都没留下~~~
+                        {{ $user->username }}很懒，签名神马都没留下~~~
                     @else
-                    {{ $user->description }}
+                        {{ $user->description }}
                     @endif
                 </p>
 
                 <div class="homepage-btn">
                     @if($user->id != (Auth::check() ? Auth::user()->id : 0))
-                        <a class="btn btn-attention @if(\App\Helpers\Helpers::attention($user->id, 'User', (Auth::check() ? Auth::user()->id : 0)) != null) active @endif" data-user="{{ $user->id }}" data-curr-user="{{ Auth::check() ? Auth::user()->id : 0 }}">
+                        <a class="btn btn-attention @if(\App\Helpers\Helpers::attention($user->id, 'User', (Auth::check() ? Auth::user()->id : 0)) != null) active @endif"
+                           data-user="{{ $user->id }}" data-curr-user="{{ Auth::check() ? Auth::user()->id : 0 }}">
                             @if(\App\Helpers\Helpers::attention($user->id, 'User', (Auth::check() ? Auth::user()->id : 0)) == null)
                                 <i class="iconfont icon-guanzhu"></i>关注
                             @else
@@ -36,7 +39,8 @@
                         <a class="btn btn-ask"><i class="iconfont icon-tiwen"></i>向TA提问</a>
                         <a class="btn btn-pri-letter"><i class="iconfont icon-sixin"></i>私信</a>
                     @else
-                        <a href="{{ url('user/'.Auth::user()->username.'/settings') }}" class="btn btn-edit"><i class="iconfont icon-bianji1"></i>编辑资料</a>
+                        <a href="{{ url('user/'.Auth::user()->username.'/settings') }}" class="btn btn-edit"><i
+                                    class="iconfont icon-bianji1"></i>编辑资料</a>
                     @endif
                 </div>
             </div>
@@ -73,8 +77,10 @@
                     <div class="col-md-12 dynamic">
                         <p><i class="iconfont icon-fangwenliang"></i> 主页被访问次数：{{ $user_data->view_count }}</p>
                         <p><i class="iconfont icon-gerenxinxi_zhixiguanxi"></i>
-                            登录于：<span class="time" title="{{ $user->last_login_at }}">{!! $user->last_login_at !!}</span>
-                             / 活跃于：<span class="time" title="{{ $user->last_active_at }}">{!! $user->last_active_at !!}</span>
+                            登录于：<span class="time"
+                                      title="{{ $user->last_login_at }}">{!! $user->last_login_at !!}</span>
+                            / 活跃于：<span class="time"
+                                        title="{{ $user->last_active_at }}">{!! $user->last_active_at !!}</span>
                         </p>
                     </div>
                 </div>
@@ -96,27 +102,27 @@
             @if(!\Auth::check())
                 window.location.href = '{{ url('/login') }}';
             @else
-                $.ajax({
-                    type : 'POST',
-                    data : {
-                        _token: '{{ csrf_token() }}',
-                        'user': user,
-                        'curr_user':curr_user
-                    },
-                    url : '{{ url('/user/attention_user') }}',
-                    success: function (data) {
-                        if (data == 'attention') {
-                            $('.btn-attention').html('<i class="iconfont icon-guanzhu"></i>已关注');
-                            $('.btn-attention').addClass('active');
-                        } else if (data == 'unattention') {
-                            $('.btn-attention').html('<i class="iconfont icon-guanzhu"></i>关注');
-                            $('.btn-attention').removeClass('active');
-                        }
-                    },
-                    error: function () {
-                        layer.msg('系统错误');
+            $.ajax({
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    'user': user,
+                    'curr_user': curr_user
+                },
+                url: '{{ url('/user/attention_user') }}',
+                success: function (data) {
+                    if (data == 'attention') {
+                        $('.btn-attention').html('<i class="iconfont icon-guanzhu"></i>已关注');
+                        $('.btn-attention').addClass('active');
+                    } else if (data == 'unattention') {
+                        $('.btn-attention').html('<i class="iconfont icon-guanzhu"></i>关注');
+                        $('.btn-attention').removeClass('active');
                     }
-                });
+                },
+                error: function () {
+                    layer.msg('系统错误');
+                }
+            });
             @endif
         });
     });

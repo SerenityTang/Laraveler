@@ -6,13 +6,13 @@
  * Time: 下午3:44
  */
 
-Route::group(['prefix' => 'user'], function() {
+Route::group(['prefix' => 'user'], function () {
     Route::get('/active_rank', ['as' => 'user.active_rank', 'uses' => 'UserController@active_rank']);       //活跃排行榜
     Route::get('/credit_rank', ['as' => 'user.credit_rank', 'uses' => 'UserController@credit_rank']);       //积分排行榜
     Route::get('/email_bind/verify', ['as' => 'user.email_bind.verify', 'uses' => 'UserController@activate_email_bind']);    //激活邮箱绑定
 });
 /*个人主页*/
-Route::group(['prefix' => 'user/{personal_domain}'], function() {
+Route::group(['prefix' => 'user/{personal_domain}'], function () {
     Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
     Route::get('/questions', ['as' => 'user.questions', 'uses' => 'UserController@questions']);
     Route::get('/answers', ['as' => 'user.answers', 'uses' => 'UserController@answers']);
@@ -24,7 +24,7 @@ Route::group(['prefix' => 'user/{personal_domain}'], function() {
     Route::get('/drafts', ['as' => 'user.drafts', 'uses' => 'UserController@drafts']);
 });
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::post('/attention_user', ['as' => 'user.attention_user', 'uses' => 'UserController@attention_user']);
     /*个人设置*/
     Route::get('{username}/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);

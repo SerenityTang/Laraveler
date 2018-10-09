@@ -25,7 +25,8 @@
                 <div class="media media-item">
                     <div class="media-body">
                         <h3 class="media-heading">什么是积分？</h3>
-                        <p class="content">所有Laraveler注册用户在平台进行活动（每天登录、每天签到、回答问答、发布博客等）过程中均有机会获得积分，注册Laraveler账号后即可加入积分系统，积分不可兑换现金，不可转让。</p>
+                        <p class="content">
+                            所有Laraveler注册用户在平台进行活动（每天登录、每天签到、回答问答、发布博客等）过程中均有机会获得积分，注册Laraveler账号后即可加入积分系统，积分不可兑换现金，不可转让。</p>
                     </div>
                 </div>
                 <div class="media media-item">

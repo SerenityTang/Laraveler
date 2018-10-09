@@ -1,8 +1,20 @@
 <link rel="stylesheet" href="{{ asset('libs/jquery-checkbox/css/jquery-labelauty.css') }}">
 <style>
-    p {font-size: 14px;color: #555;}
-    ul {list-style-type: none;width: 332px;margin: 0 auto;}
-    ul li {float: left;margin-right: 40px;}
+    p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    ul {
+        list-style-type: none;
+        width: 332px;
+        margin: 0 auto;
+    }
+
+    ul li {
+        float: left;
+        margin-right: 40px;
+    }
 </style>
 
 <ul class="dowebok">
@@ -15,7 +27,7 @@
 <script src="{{ asset('libs/jQuery/jQuery-2.2.0.min.js') }}"></script>
 <script src="{{ asset('libs/jquery-checkbox/js/jquery-labelauty.js') }}"></script>
 <script>
-    $(function(){
+    $(function () {
         $(':input').labelauty();
     });
 </script>

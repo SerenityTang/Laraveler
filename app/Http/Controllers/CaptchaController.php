@@ -26,7 +26,6 @@ class CaptchaController extends Controller
         ]);
 
 
-
         $builder->create()->output(1);
 
         $phrase = $builder->getText();
@@ -54,6 +53,6 @@ class CaptchaController extends Controller
 //
 //
 //        header('Content-type: image/jpeg');
-        return ;
+        return;
     }
 }
