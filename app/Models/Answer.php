@@ -20,7 +20,7 @@ class Answer extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     /**
@@ -28,6 +28,6 @@ class Answer extends Model
      */
     public function question()
     {
-        return $this->belongsTo('App\Models\Question', 'question_id');
+        return $this->belongsTo('App\Models\Question', 'question_id', 'id');
     }
 }

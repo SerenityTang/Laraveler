@@ -41,7 +41,7 @@ class Question extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     /**
@@ -51,7 +51,7 @@ class Question extends Model
      */
     public function answers()
     {
-        return $this->hasMany('App\Models\Answer', 'question_id');
+        return $this->hasMany('App\Models\Answer', 'question_id', 'id');
     }
 
     /**
