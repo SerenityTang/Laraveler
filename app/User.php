@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\UserData;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Encore\Admin\Traits\AdminBuilder;
@@ -82,7 +83,7 @@ class User extends Authenticatable
      */
     public function answers()
     {
-        return $this->hasMany('App\Models\Answer', 'user_id');
+        return $this->hasMany('App\Models\Answer', 'user_id', 'id');
     }
 
     /**
@@ -107,7 +108,7 @@ class User extends Authenticatable
      */
     public function questions()
     {
-        return $this->hasMany('App\Models\Question', 'user_id');
+        return $this->hasMany('App\Models\Question', 'user_id', 'id');
     }
 
     /*
@@ -115,7 +116,7 @@ class User extends Authenticatable
     */
     public function blogs()
     {
-        return $this->hasMany('App\Models\Blog', 'user_id');
+        return $this->hasMany('App\Models\Blog', 'user_id', 'id');
     }
 
     /*
@@ -123,7 +124,7 @@ class User extends Authenticatable
      */
     public function atte_ques()
     {
-        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\Models\Question');
+        return $this->hasMany('App\Models\Attention', 'user_id', 'id')->where('entityable_type', 'App\Models\Question');
     }
 
     /*
@@ -131,7 +132,7 @@ class User extends Authenticatable
      */
     public function atte_user()
     {
-        return $this->hasMany('App\Models\Attention', 'user_id')->where('entityable_type', 'App\User');
+        return $this->hasMany('App\Models\Attention', 'user_id', 'id')->where('entityable_type', 'App\User');
     }
 
     /*
@@ -139,7 +140,7 @@ class User extends Authenticatable
     */
     public function coll_ques()
     {
-        return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Question');
+        return $this->hasMany('App\Models\Collection', 'user_id', 'id')->where('entityable_type', 'App\Models\Question');
     }
 
     /*
@@ -147,7 +148,7 @@ class User extends Authenticatable
     */
     public function supp_answer()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
+        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
     }
 
     /*
@@ -155,7 +156,7 @@ class User extends Authenticatable
     */
     public function oppo_answer()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
+        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
     }
 
     /*
@@ -163,7 +164,7 @@ class User extends Authenticatable
     */
     public function like_blog()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id')->where('sup_opp_able_type', 'App\Models\Blog')->where('sup_opp_mode', 'like');
+        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Blog')->where('sup_opp_mode', 'like');
     }
 
     /*
@@ -171,7 +172,7 @@ class User extends Authenticatable
     */
     public function coll_blog()
     {
-        return $this->hasMany('App\Models\Collection', 'user_id')->where('entityable_type', 'App\Models\Blog');
+        return $this->hasMany('App\Models\Collection', 'user_id', 'id')->where('entityable_type', 'App\Models\Blog');
     }
 
     /*
@@ -180,5 +181,15 @@ class User extends Authenticatable
     public function activations()
     {
         return $this->hasOne(\App\Models\UserActivation::class);
+    }
+
+    /**
+     * 用户数据信息
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function userData()
+    {
+        return $this->hasOne(UserData::class, 'user_id', 'id');
     }
 }

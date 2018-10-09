@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User_data extends Model
+class TagCategory extends Model
 {
-    protected $table = 'user_datas';
+    protected $table = 'tag_categories';
     protected $fillable = [
-        'user_id',
+        'name',
+        'description',
+        'weight',
         'created_at',
         'updated_at'
     ];

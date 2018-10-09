@@ -15,6 +15,8 @@ class HomepageViewEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $user_data;
+
     /**
      * Create a new event instance.
      *
