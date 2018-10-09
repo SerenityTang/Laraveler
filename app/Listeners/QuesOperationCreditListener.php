@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\QuesOperationCreditEvent;
-use App\Models\User_data;
+use App\Models\UserData;
 use App\Models\UserCreditConfig;
 use App\Models\UserCreditStatement;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,7 +34,7 @@ class QuesOperationCreditListener
         $bool = $event->bool;   //操作取消与否
         $vote_credit_con = UserCreditConfig::where('slug', 'votedQuestion')->first();  //获取投票问答积分配置记录
         $coll_credit_con = UserCreditConfig::where('slug', 'collectionedQuestion')->first();  //获取收藏问答积分配置记录
-        $user_data = User_data::where('user_id', $user->id)->first();   //获取用户数据记录
+        $UserData = UserData::where('user_id', $user->id)->first();   //获取用户数据记录
         //获取用户当天点赞流水表记录
         $vote_credit_sta = UserCreditStatement::where('user_id', $user->id)->where('type', $vote_credit_con->slug)->whereDate('created_at', '=', \Carbon\Carbon::today()->toDateString())->get();
         //获取用户当天收藏流水表记录
@@ -55,8 +55,8 @@ class QuesOperationCreditListener
                         $credit_sta = UserCreditStatement::create($data);
                         if ($credit_sta) {
                             //用户总分添加积分
-                            $user_data->credits = $user_data->credits + $vote_credit_con->credits;
-                            $user_data->save();
+                            $UserData->credits = $UserData->credits + $vote_credit_con->credits;
+                            $UserData->save();
                         }
                     }
                 } else if ($bool == 'no') {
@@ -69,8 +69,8 @@ class QuesOperationCreditListener
                     $credit_sta = UserCreditStatement::create($data);
                     if ($credit_sta) {
                         //用户总分添加积分
-                        $user_data->credits = $user_data->credits - $vote_credit_con->credits;
-                        $user_data->save();
+                        $UserData->credits = $UserData->credits - $vote_credit_con->credits;
+                        $UserData->save();
                     }
                 }
 
@@ -88,8 +88,8 @@ class QuesOperationCreditListener
                         $credit_sta = UserCreditStatement::create($data);
                         if ($credit_sta) {
                             //用户总分添加积分
-                            $user_data->credits = $user_data->credits + $coll_credit_con->credits;
-                            $user_data->save();
+                            $UserData->credits = $UserData->credits + $coll_credit_con->credits;
+                            $UserData->save();
                         }
                     }
                 } else if ($bool == 'no') {
@@ -102,8 +102,8 @@ class QuesOperationCreditListener
                     $credit_sta = UserCreditStatement::create($data);
                     if ($credit_sta) {
                         //用户总分扣除积分
-                        $user_data->credits = $user_data->credits - $coll_credit_con->credits;
-                        $user_data->save();
+                        $UserData->credits = $UserData->credits - $coll_credit_con->credits;
+                        $UserData->save();
                     }
                 }
 

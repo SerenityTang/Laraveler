@@ -148,7 +148,7 @@ class User extends Authenticatable
     */
     public function supp_answer()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
+        return $this->hasMany('App\Models\SupportOpposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'support');
     }
 
     /*
@@ -156,7 +156,7 @@ class User extends Authenticatable
     */
     public function oppo_answer()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
+        return $this->hasMany('App\Models\SupportOpposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Answer')->where('sup_opp_mode', 'opposition');
     }
 
     /*
@@ -164,7 +164,7 @@ class User extends Authenticatable
     */
     public function like_blog()
     {
-        return $this->hasMany('App\Models\Support_opposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Blog')->where('sup_opp_mode', 'like');
+        return $this->hasMany('App\Models\SupportOpposition', 'user_id', 'id')->where('sup_opp_able_type', 'App\Models\Blog')->where('sup_opp_mode', 'like');
     }
 
     /*

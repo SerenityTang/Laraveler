@@ -14,11 +14,11 @@ use App\Models\Blog;
 use App\Models\Collection;
 use App\Models\Comment;
 use App\Models\Question;
-use App\Models\Support_opposition;
+use App\Models\SupportOpposition;
 use App\Models\Tag;
 use App\Models\Taggable;
-use App\Models\User_data;
-use App\Models\User_socialite;
+use App\Models\UserData;
+use App\Models\UserSocialite;
 use App\Models\UserCreditStatement;
 use App\Models\Vote;
 use App\User;
@@ -72,9 +72,9 @@ class Helpers {
     }
 
     /*获取用户数据*/
-    public static function get_user_data($user_id){
-        $user_data = User_data::where('user_id', $user_id)->first();
-        return $user_data;
+    public static function get_UserData($user_id){
+        $UserData = UserData::where('user_id', $user_id)->first();
+        return $UserData;
     }
 
     /*获取回答*/
@@ -136,7 +136,7 @@ class Helpers {
         if (Auth::check()) {
             if ($mode_type === 'Answer' && $mode === 'support') {
                 $answer = Answer::where('id', $mode_id)->first();
-                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
+                $sup_opp = SupportOpposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -144,7 +144,7 @@ class Helpers {
                 return null;
             } else if ($mode_type === 'Answer' && $mode === 'opposition') {
                 $answer = Answer::where('id', $mode_id)->first();
-                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
+                $sup_opp = SupportOpposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($answer))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -152,7 +152,7 @@ class Helpers {
                 return null;
             } else if ($mode_type === 'Comment' && $mode === 'support') {
                 $comment = Comment::where('id', $mode_id)->first();
-                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', $mode)->first();
+                $sup_opp = SupportOpposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($comment))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -160,7 +160,7 @@ class Helpers {
                 return null;
             } else if ($mode_type === 'Blog' && $mode === 'like') {
                 $blog = Blog::where('id', $mode_id)->first();
-                $sup_opp = Support_opposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', $mode)->first();
+                $sup_opp = SupportOpposition::where('user_id', Auth::user()->id)->where('sup_opp_able_id', $mode_id)->where('sup_opp_able_type', get_class($blog))->where('sup_opp_mode', $mode)->first();
                 if ($sup_opp) {
                     return $sup_opp;
                 }
@@ -268,7 +268,7 @@ class Helpers {
     //判断是否第三方绑定
     public static function bindsns($user_id, $oauth_type)
     {
-        $user_socialite = User_socialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
+        $user_socialite = UserSocialite::where('user_id', $user_id)->where('oauth_type', $oauth_type)->first();
         if ($user_socialite) {
             return $user_socialite;
         }

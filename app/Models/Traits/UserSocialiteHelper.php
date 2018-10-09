@@ -8,7 +8,7 @@
  */
 namespace App\Models\Traits;
 
-use App\Models\User_socialite;
+use App\Models\UserSocialite;
 use App\User;
 
 trait UserSocialiteHelper
@@ -44,7 +44,7 @@ trait UserSocialiteHelper
      */
     public static function getByWeiboId($id)
     {
-        $OAuth = User_socialite::where('oauth_type', 'weibo')->where('oauth_id', $id)->first();
+        $OAuth = UserSocialite::where('oauth_type', 'weibo')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
@@ -60,7 +60,7 @@ trait UserSocialiteHelper
      */
     public static function getByQqId($id)
     {
-        $OAuth = User_socialite::where('oauth_type', 'qq')->where('oauth_id', $id)->first();
+        $OAuth = UserSocialite::where('oauth_type', 'qq')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
@@ -76,7 +76,7 @@ trait UserSocialiteHelper
      */
     public static function getByWeixinId($id)
     {
-        $OAuth = User_socialite::where('oauth_type', 'weixin')->where('oauth_id', $id)->first();
+        $OAuth = UserSocialite::where('oauth_type', 'weixin')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
@@ -92,7 +92,7 @@ trait UserSocialiteHelper
      */
     public static function getByWeixinWebId($id)
     {
-        $OAuth = User_socialite::where('oauth_type', 'weixinweb')->where('oauth_id', $id)->first();
+        $OAuth = UserSocialite::where('oauth_type', 'weixinweb')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
@@ -108,7 +108,7 @@ trait UserSocialiteHelper
      */
     public static function getByGithubId($id)
     {
-        $OAuth = User_socialite::where('oauth_type', 'github')->where('oauth_id', $id)->first();
+        $OAuth = UserSocialite::where('oauth_type', 'github')->where('oauth_id', $id)->first();
         if ($OAuth == null) {
             return null;
         }
