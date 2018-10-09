@@ -1,6 +1,11 @@
 <style>
-    .alert-extra {padding: 10px;}
-    .alert-extra strong {margin-bottom: 8px;}
+    .alert-extra {
+        padding: 10px;
+    }
+
+    .alert-extra strong {
+        margin-bottom: 8px;
+    }
 </style>
 @if (Session::has('success'))
     <div class="alert alert-success alert-extra">

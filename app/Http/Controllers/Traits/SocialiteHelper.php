@@ -94,7 +94,7 @@ trait SocialiteHelper
     /**
      * 登录第三方账号->绑定用户
      * @param object $oauthUser 第三方账号对象
-     * @param string $driver    认证方式
+     * @param string $driver 认证方式
      * @return object
      */
     public function bindSocialiteUserByGuest($oauthUser, $driver)

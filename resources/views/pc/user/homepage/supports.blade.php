@@ -20,7 +20,8 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的点赞 @else 我的点赞 @endif</h4>
+                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的点赞 @else
+                            我的点赞 @endif</h4>
 
                     <div id="horizontalTab" class="tab-top">
                         <ul>
@@ -35,12 +36,15 @@
                                     <li class="list-group-item list-tab">
                                         <div class="row content">
                                             <div class="col-md-12">
-                                                <a href="{{ url('question/show/' . \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_id) }}" title="{{ \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_title, 60) }}</a>
+                                                <a href="{{ url('question/show/' . \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_id) }}"
+                                                   title="{{ \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_title }}"
+                                                   class="title">{{ str_limit(\App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->question_title, 60) }}</a>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="col-md-8">{!! \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->content !!}</div>
-                                                <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->created_at }}">
+                                                <div class="col-md-2 create-time"
+                                                     title="{{ \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->created_at }}">
                                                     {!! \App\Helpers\Helpers::get_answer($supp_answer->sup_opp_able_id)->created_at !!}
                                                 </div>
                                             </div>
@@ -56,12 +60,15 @@
                                     <li class="list-group-item list-tab">
                                         <div class="row content">
                                             <div class="col-md-12">
-                                                <a href="{{ url('question/show/' . \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_id) }}" title="{{ \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_title, 60) }}</a>
+                                                <a href="{{ url('question/show/' . \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_id) }}"
+                                                   title="{{ \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_title }}"
+                                                   class="title">{{ str_limit(\App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->question_title, 60) }}</a>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="col-md-8">{!! \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->content !!}</div>
-                                                <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->created_at }}">
+                                                <div class="col-md-2 create-time"
+                                                     title="{{ \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->created_at }}">
                                                     {!! \App\Helpers\Helpers::get_answer($oppo_answer->sup_opp_able_id)->created_at !!}
                                                 </div>
                                             </div>
@@ -77,10 +84,13 @@
                                     <li class="list-group-item list-tab">
                                         <div class="row content">
                                             <div class="col-md-10">
-                                                <a href="{{ url('blog/show/' . $like_blog->sup_opp_able_id) }}" title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title, 60) }}</a>
+                                                <a href="{{ url('blog/show/' . $like_blog->sup_opp_able_id) }}"
+                                                   title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title }}"
+                                                   class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->title, 60) }}</a>
                                             </div>
 
-                                            <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->created_at }}">
+                                            <div class="col-md-2 create-time"
+                                                 title="{{ \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->created_at }}">
                                                 {!! \App\Helpers\Helpers::get_blog($like_blog->sup_opp_able_id)->created_at !!}
                                             </div>
                                         </div>

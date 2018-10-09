@@ -22,18 +22,24 @@
                                     @foreach($new_questions as $question)
                                         <li class="list-group-item home-list-item">
                                             <div class="media">
-                                                <a class="media-left home-media-left" href="{{ url('user/'.$question->user->personal_domain) }}">
-                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-32" alt="{{ $question->user->username }}">
+                                                <a class="media-left home-media-left"
+                                                   href="{{ url('user/'.$question->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}"
+                                                         class="avatar-32" alt="{{ $question->user->username }}">
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ str_limit($question->title, 40) }}</a>
+                                                        <a href="{{ url('question/show/' . $question->id) }}"
+                                                           title="{{ $question->title }}"
+                                                           class="h_q_title">{{ str_limit($question->title, 40) }}</a>
                                                     </h4>
-                                                    <a href="{{ url('user/'.$question->user->personal_domain) }}" class="h_q_user">{{ $question->user->username }} / </a>
+                                                    <a href="{{ url('user/'.$question->user->personal_domain) }}"
+                                                       class="h_q_user">{{ $question->user->username }} / </a>
                                                     <span class="time" title="{{ $question->created_at }}">
                                                         {!! $question->created_at !!}
                                                     </span>
-                                                    <span title="回答数" class="badge h_q_answer">{{ $question->answer_count }}</span>
+                                                    <span title="回答数"
+                                                          class="badge h_q_answer">{{ $question->answer_count }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -47,8 +53,10 @@
                         <div class="panel home-bg">
                             <div class="panel-heading home-heading">
                                 <h3 class="panel-title">
-                                    <a href="{{ route('question.index', ['filter' => 'hottest']) }}" class="section-title">热门问答</a>
-                                    <a href="{{ route('question.index', ['filter' => 'hottest']) }}" class="section-more">more</a>
+                                    <a href="{{ route('question.index', ['filter' => 'hottest']) }}"
+                                       class="section-title">热门问答</a>
+                                    <a href="{{ route('question.index', ['filter' => 'hottest']) }}"
+                                       class="section-more">more</a>
                                 </h3>
                             </div>
                             <div class="panel-body home-body">
@@ -56,18 +64,24 @@
                                     @foreach($hot_questions as $question)
                                         <li class="list-group-item home-list-item">
                                             <div class="media">
-                                                <a class="media-left home-media-left" href="{{ url('user/'.$question->user->personal_domain) }}">
-                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-32" alt="{{ $question->user->username }}">
+                                                <a class="media-left home-media-left"
+                                                   href="{{ url('user/'.$question->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}"
+                                                         class="avatar-32" alt="{{ $question->user->username }}">
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}" class="h_q_title">{{ str_limit($question->title, 40) }}</a>
+                                                        <a href="{{ url('question/show/' . $question->id) }}"
+                                                           title="{{ $question->title }}"
+                                                           class="h_q_title">{{ str_limit($question->title, 40) }}</a>
                                                     </h4>
-                                                    <a href="{{ url('user/'.$question->user->personal_domain) }}" class="h_q_user">{{ $question->user->username }} / </a>
+                                                    <a href="{{ url('user/'.$question->user->personal_domain) }}"
+                                                       class="h_q_user">{{ $question->user->username }} / </a>
                                                     <span class="time" title="{{ $question->created_at }}">
                                                         {!! $question->created_at !!}
                                                     </span>
-                                                    <span title="回答数" class="badge h_q_answer">{{ $question->answer_count }}</span>
+                                                    <span title="回答数"
+                                                          class="badge h_q_answer">{{ $question->answer_count }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -92,18 +106,24 @@
                                     @foreach($new_blogs as $new_blog)
                                         <li class="list-group-item home-list-item">
                                             <div class="media">
-                                                <a class="media-left home-media-left" href="{{ url('user/'.$new_blog->user->personal_domain) }}">
-                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($new_blog->user_id, 'small') }}" class="avatar-32" alt="{{ $new_blog->user->username }}">
+                                                <a class="media-left home-media-left"
+                                                   href="{{ url('user/'.$new_blog->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($new_blog->user_id, 'small') }}"
+                                                         class="avatar-32" alt="{{ $new_blog->user->username }}">
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}" title="{{ $new_blog->title }}" class="h_q_title">{{ str_limit($new_blog->title, 40) }}</a>
+                                                        <a href="{{ url('blog/show/' . $new_blog->id) }}"
+                                                           title="{{ $new_blog->title }}"
+                                                           class="h_q_title">{{ str_limit($new_blog->title, 40) }}</a>
                                                     </h4>
-                                                    <a href="{{ url('user/'.$new_blog->user->personal_domain) }}" class="h_q_user">{{ $new_blog->user->username }} / </a>
+                                                    <a href="{{ url('user/'.$new_blog->user->personal_domain) }}"
+                                                       class="h_q_user">{{ $new_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $new_blog->created_at }}">
                                                         {!! $new_blog->created_at !!}
                                                     </span>
-                                                    <span title="浏览数" class="badge h_q_answer">{{ $new_blog->view_count }}</span>
+                                                    <span title="浏览数"
+                                                          class="badge h_q_answer">{{ $new_blog->view_count }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -126,18 +146,24 @@
                                     @foreach($hot_blogs as $hot_blog)
                                         <li class="list-group-item home-list-item">
                                             <div class="media">
-                                                <a class="media-left home-media-left" href="{{ url('user/'.$hot_blog->user->personal_domain) }}">
-                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($hot_blog->user_id, 'small') }}" class="avatar-32" alt="{{ $hot_blog->user->username }}">
+                                                <a class="media-left home-media-left"
+                                                   href="{{ url('user/'.$hot_blog->user->personal_domain) }}">
+                                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($hot_blog->user_id, 'small') }}"
+                                                         class="avatar-32" alt="{{ $hot_blog->user->username }}">
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading home-media-heading">
-                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}" title="{{ $hot_blog->title }}" class="h_q_title">{{ str_limit($hot_blog->title, 40) }}</a>
+                                                        <a href="{{ url('blog/show/' . $hot_blog->id) }}"
+                                                           title="{{ $hot_blog->title }}"
+                                                           class="h_q_title">{{ str_limit($hot_blog->title, 40) }}</a>
                                                     </h4>
-                                                    <a href="{{ url('user/'.$hot_blog->user->personal_domain) }}" class="h_q_user">{{ $hot_blog->user->username }} / </a>
+                                                    <a href="{{ url('user/'.$hot_blog->user->personal_domain) }}"
+                                                       class="h_q_user">{{ $hot_blog->user->username }} / </a>
                                                     <span class="time" title="{{ $hot_blog->created_at }}">
                                                         {!! $hot_blog->created_at !!}
                                                     </span>
-                                                    <span title="浏览数" class="badge h_q_answer">{{ $hot_blog->view_count }}</span>
+                                                    <span title="浏览数"
+                                                          class="badge h_q_answer">{{ $hot_blog->view_count }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -169,7 +195,8 @@
                     <div class="panel-body">
                         <div id="tagscloud">
                             @foreach($tags as $tag)
-                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                <a href="{{ url('/tag/tag_show/'. $tag->id) }}"
+                                   class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -189,9 +216,12 @@
                         <ol class="list-group list-actives">
                             @foreach($active_users as $active_user)
                                 <li class="list-active">
-                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($active_user->id, 'small') }}" class="avatar-27" alt="{{ $active_user->username }}">
+                                    <img src="{{ App\Helpers\Helpers::get_user_avatar($active_user->id, 'small') }}"
+                                         class="avatar-27" alt="{{ $active_user->username }}">
                                     <a href="{{ url('user/'.$active_user->personal_domain) }}">{{ $active_user->username }}</a>
-                                    <span class="credit"><span title="回答数">{{ $active_user->answer_count }}</span> / <span title="博客数">{{ $active_user->article_count }}</span></span>
+                                    <span class="credit"><span
+                                                title="回答数">{{ $active_user->answer_count }}</span> / <span
+                                                title="博客数">{{ $active_user->article_count }}</span></span>
                                 </li>
                             @endforeach
                         </ol>
@@ -213,27 +243,27 @@
         $('.btn-signin').click(function () {
             var icon = $(this);
             @if(Auth::check())
-                $.ajax({
-                    type: 'POST',
-                    url : '{{ url('user/signIn') }}',
-                    data: {
-                        _token: '{{csrf_token()}}',
-                    },
-                    success: function (data) {
-                        if (data == 'signIn') {
-                            icon.html('已签到');
-                            icon.removeClass('btn-signin');
-                            icon.addClass('btn-signined');
-                            icon.attr('disabled', true);
-                        }
-                    },
-                    error : function () {
-                        layer.msg('系统错误！', {
-                            icon: 2,
-                            time: 2000,
-                        });
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('user/signIn') }}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    if (data == 'signIn') {
+                        icon.html('已签到');
+                        icon.removeClass('btn-signin');
+                        icon.addClass('btn-signined');
+                        icon.attr('disabled', true);
                     }
-                });
+                },
+                error: function () {
+                    layer.msg('系统错误！', {
+                        icon: 2,
+                        time: 2000,
+                    });
+                }
+            });
             @else
                 window.location.href = '{{ url('/login') }}';
             @endif

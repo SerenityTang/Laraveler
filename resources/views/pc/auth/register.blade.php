@@ -3,21 +3,25 @@
     用户注册 | @parent
 @stop
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('css/auth.css')}}"/>
 @stop
 @section('content')
     <div class="container">
         <div class="row">
             <div class="auth">
-                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST" action="{{ route('register') }}">
+                <form class="form-horizontal bs-example bs-example-form" role="form" method="POST"
+                      action="{{ route('register') }}">
                     {{ csrf_field() }}
 
                     <strong>用户注册</strong>
                     <em class="title-eng">User Register</em>
                     <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                         <div class="input-group">
-                            <span class="input-group-addon u-icon{{ $errors->has('username') ? ' u-icon-clear' : '' }}"><i class="fa fa-user fa-fw"></i></span>
-                            <input type="text" id="username" class="form-control text{{ $errors->has('username') ? ' text-clear' : '' }}" name="username" placeholder="用户名" value="{{ old('username') }}" autofocus>
+                            <span class="input-group-addon u-icon{{ $errors->has('username') ? ' u-icon-clear' : '' }}"><i
+                                        class="fa fa-user fa-fw"></i></span>
+                            <input type="text" id="username"
+                                   class="form-control text{{ $errors->has('username') ? ' text-clear' : '' }}"
+                                   name="username" placeholder="用户名" value="{{ old('username') }}" autofocus>
                         </div>
                         @if ($errors->has('username'))
                             <span class="help-block help-block-clear">
@@ -32,8 +36,11 @@
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <div class="input-group">
-                            <span class="input-group-addon p-icon{{ $errors->has('password') ? ' p-icon-clear' : '' }}"><i class="fa fa-key fa-fw"></i></span>
-                            <input type="password" id="password" class="form-control text{{ $errors->has('password') ? ' text-clear' : '' }}" name="password" placeholder="密码">
+                            <span class="input-group-addon p-icon{{ $errors->has('password') ? ' p-icon-clear' : '' }}"><i
+                                        class="fa fa-key fa-fw"></i></span>
+                            <input type="password" id="password"
+                                   class="form-control text{{ $errors->has('password') ? ' text-clear' : '' }}"
+                                   name="password" placeholder="密码">
                         </div>
                         @if ($errors->has('password'))
                             <span class="help-block help-block-clear">
@@ -48,8 +55,11 @@
 
                     <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                         <div class="input-group">
-                            <span class="input-group-addon p-icon{{ $errors->has('password_confirmation') ? ' p-icon-clear' : '' }}"><i class="fa fa-lock fa-fw"></i></span>
-                            <input type="password" id="password_confirmation" class="form-control text{{ $errors->has('password_confirmation') ? ' text-clear' : '' }}" name="password_confirmation" placeholder="确认密码">
+                            <span class="input-group-addon p-icon{{ $errors->has('password_confirmation') ? ' p-icon-clear' : '' }}"><i
+                                        class="fa fa-lock fa-fw"></i></span>
+                            <input type="password" id="password_confirmation"
+                                   class="form-control text{{ $errors->has('password_confirmation') ? ' text-clear' : '' }}"
+                                   name="password_confirmation" placeholder="确认密码">
                         </div>
                         @if ($errors->has('password_confirmation'))
                             <span class="help-block help-block-clear">
@@ -80,8 +90,11 @@
 
                     <div class="form-group">
                         <div class="input-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
-                            <span class="input-group-addon m-icon{{ $errors->has('mobile') ? ' m-icon-clear' : '' }}"><i class="fa fa-mobile-phone fa-fw fa-lg"></i></span>
-                            <input type="text" id="mobile" name="mobile" class="form-control text{{ $errors->has('mobile') ? ' text-clear' : '' }}" placeholder="手机号" value="{{ old('mobile') }}">
+                            <span class="input-group-addon m-icon{{ $errors->has('mobile') ? ' m-icon-clear' : '' }}"><i
+                                        class="fa fa-mobile-phone fa-fw fa-lg"></i></span>
+                            <input type="text" id="mobile" name="mobile"
+                                   class="form-control text{{ $errors->has('mobile') ? ' text-clear' : '' }}"
+                                   placeholder="手机号" value="{{ old('mobile') }}">
                         </div>
                         @if ($errors->has('mobile'))
                             <span class="help-block help-block-clear">
@@ -96,9 +109,15 @@
 
                     <div class="form-group">
                         <div class="input-group{{ $errors->has('m_code') ? ' has-error' : '' }}">
-                            <span class="input-group-addon c-icon{{ $errors->has('m_code') ? ' c-icon-clear' : '' }}"><i class="fa fa-comment fa-fw"></i></span>
-                            <input type="text" id="m_code" class="form-control text c-text{{ $errors->has('m_code') ? ' text-clear' : '' }}" name="m_code" style="width: 160px;" maxlength="6" placeholder="验证码" autocomplete="off">&nbsp;
-                            <button id="sendVerifySmsButton" type="button" class="btn btn-success btn-flat get-btn" style="width: 128px;">获取验证码</button>
+                            <span class="input-group-addon c-icon{{ $errors->has('m_code') ? ' c-icon-clear' : '' }}"><i
+                                        class="fa fa-comment fa-fw"></i></span>
+                            <input type="text" id="m_code"
+                                   class="form-control text c-text{{ $errors->has('m_code') ? ' text-clear' : '' }}"
+                                   name="m_code" style="width: 160px;" maxlength="6" placeholder="验证码"
+                                   autocomplete="off">&nbsp;
+                            <button id="sendVerifySmsButton" type="button" class="btn btn-success btn-flat get-btn"
+                                    style="width: 128px;">获取验证码
+                            </button>
                         </div>
                         @if ($errors->has('m_code'))
                             <span class="help-block help-block-clear">
@@ -109,7 +128,9 @@
 
                     <div class="form-group">
                         <div class="submit-btn">
-                            <button type="submit" id="register-btn" class="btn btn-success btn-block btn-flat reg-btn">注 册</button>
+                            <button type="submit" id="register-btn" class="btn btn-success btn-block btn-flat reg-btn">注
+                                册
+                            </button>
                         </div>
                     </div>
 
@@ -138,7 +159,7 @@
     {{--粒子背景插件及效果--}}
     <script src="{{asset('js/laravel-sms.js')}}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             //粒子背景特效
             $('body').particleground({
                 dotColor: '#5cbdaa',
@@ -243,7 +264,7 @@
                     clearTimeout(timeId);
                     changeBtn(opts.language.oricon, false);
                 } else {
-                    timeId = setTimeout(function() {
+                    timeId = setTimeout(function () {
                         clearTimeout(timeId);
                         changeBtn(btnText.replace('60 秒后再次获取', (seconds--) + ' 秒后再次获取'), true);
                         timer(seconds);
@@ -260,19 +281,19 @@
         });
 
         $.fn.sms.defaults = {
-            token       : null,
-            interval    : 60,
-            voice       : false,
-            requestUrl  : null,
-            requestData : null,
-            notify      : function (msg, type) {
+            token: null,
+            interval: 60,
+            voice: false,
+            requestUrl: null,
+            requestData: null,
+            notify: function (msg, type) {
                 alert(msg);
             },
-            language    : {
-                oricon     : '获取验证码',
-                sending    : '短信发送中...',
-                failed     : '请求失败，请重试',
-                resendable : '60 秒后再次获取'
+            language: {
+                oricon: '获取验证码',
+                sending: '短信发送中...',
+                failed: '请求失败，请重试',
+                resendable: '60 秒后再次获取'
             }
         };
     </script>

@@ -12,7 +12,8 @@
 @section('style')
     <style type="text/css">
         .icon {
-            width: 1em; height: 1em;
+            width: 1em;
+            height: 1em;
             vertical-align: -0.15em;
             fill: currentColor;
             overflow: hidden;
@@ -26,7 +27,7 @@
                 <div class="panel panel-default main-content">
                     <h4 class="big-title"><i class="iconfont icon-fabu1"></i>发布博客</h4>
                     <form class="form-horizontal" role="form" method="post" action="{{ url('blog/edit/'.$blog->id) }}">
-                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" id="desc" name="desc" value="">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客来源</label>
@@ -42,27 +43,32 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12 @if($blog->source == 0 || $blog->source == 1)source-display @endif">
-                                    <input type="text" class="form-control source-name text-extra" id="source_name" name="source_name" placeholder="请输入博客来源名称" value="{{ $blog->source_name }}">
-                                    <input type="text" class="form-control source-link text-extra" id="source_link" name="source_link" placeholder="请输入博客原文链接" value="{{ $blog->source_link }}">
+                                    <input type="text" class="form-control source-name text-extra" id="source_name"
+                                           name="source_name" placeholder="请输入博客来源名称" value="{{ $blog->source_name }}">
+                                    <input type="text" class="form-control source-link text-extra" id="source_link"
+                                           name="source_link" placeholder="请输入博客原文链接" value="{{ $blog->source_link }}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客标题</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control text-extra" id="blog_title" name="blog_title" placeholder="请输入博客标题" value="{{ $blog->title }}">
+                                <input type="text" class="form-control text-extra" id="blog_title" name="blog_title"
+                                       placeholder="请输入博客标题" value="{{ $blog->title }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客简介</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" id="blog_intro" name="blog_intro" rows="3" placeholder="请输入您的博客简介......">{{ $blog->intro }}</textarea>
+                                <textarea class="form-control" id="blog_intro" name="blog_intro" rows="3"
+                                          placeholder="请输入您的博客简介......">{{ $blog->intro }}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客内容</label>
                             {{--<div id="editor" class="col-sm-9"><p style="color: #ccc;">请输入您的博客内容......</p></div>--}}
-                            <div id="blog_summernote" class="col-sm-9" data-blog-id="{{ $blog->id }}">{!! $blog->description !!}</div>
+                            <div id="blog_summernote" class="col-sm-9"
+                                 data-blog-id="{{ $blog->id }}">{!! $blog->description !!}</div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">博客分类</label>
@@ -77,11 +83,13 @@
                         <div class="form-group tag-form-group">
                             <label for="" class="col-sm-2 control-label">博客标签</label>
                             <div class="col-sm-4 blog-tag">
-                                <input type="text" class="form-control text-extra" id="tags" name="tags" data-role="tagsinput">
+                                <input type="text" class="form-control text-extra" id="tags" name="tags"
+                                       data-role="tagsinput">
                                 <div class="col-sm-5 tag-drop-tip">
                                     <ul>
                                         @foreach($tags as $tag)
-                                            <li class="tip" data-tag-id="{{ $tag->id }}" data-tag-category="{{ $tag->tcategory_id }}">
+                                            <li class="tip" data-tag-id="{{ $tag->id }}"
+                                                data-tag-category="{{ $tag->tcategory_id }}">
                                                 {{ $tag->name }}
                                             </li>
                                         @endforeach
@@ -119,7 +127,7 @@
         $(function () {
             $('.blog-tag .am-tagsinput span .tt-menu').addClass('tt-drop-menu');
 
-            $("#tishi").popover({placement:'top', trigger: 'hover'});   //标签图标鼠标经过提示
+            $("#tishi").popover({placement: 'top', trigger: 'hover'});   //标签图标鼠标经过提示
 
             $('.blog-tag .am-tagsinput input').focus(function () {
                 var tip = $(this).val();
@@ -165,14 +173,18 @@
             }
         });
         //从下拉tag列表选择并显示
-        $(".tag-drop-tip ul li.tip").click(function(event){
+        $(".tag-drop-tip ul li.tip").click(function (event) {
             var tag_value = $(this).data('tag-id');
             var tag_text = $(this).html();
             var tag_category = $(this).data('tag-category');
-            $('#tags').tagsinput('add', { "value": tag_value, "text": tag_text, "category": tag_category});
+            $('#tags').tagsinput('add', {"value": tag_value, "text": tag_text, "category": tag_category});
         });
         @foreach($bound_tags as $bound_tag)
-            $('#tags').tagsinput('add', { "value": '{{ $bound_tag->id }}', "text": '{{ $bound_tag->name }}', "category": '{{ $bound_tag->tcategory_id }}'});
+        $('#tags').tagsinput('add', {
+            "value": '{{ $bound_tag->id }}',
+            "text": '{{ $bound_tag->name }}',
+            "category": '{{ $bound_tag->tcategory_id }}'
+        });
         @endforeach
     </script>
     <script>
@@ -195,7 +207,7 @@
                     });
                     return false;
                 }
-                if (source == 2 || source ==3) {
+                if (source == 2 || source == 3) {
                     if (source_name == '') {
                         layer.msg('博客来源名称不可为空喔(⊙o⊙)', {
                             icon: 2,
@@ -250,12 +262,12 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#blog_summernote').summernote({
                 lang: 'zh-CN',
                 width: 845,
                 height: 200,
-                placeholder:'请输入您的问题描述......',
+                placeholder: '请输入您的问题描述......',
                 dialogsFade: true, //淡入淡出
                 toolbar: [
                     ['para', ['style']],
@@ -269,11 +281,11 @@
                     ['misc', [/*'undo', 'redo', */'codeview', 'fullscreen', 'help']],
                 ],
                 callbacks: {
-                    onChange:function (contents, $editable) {
+                    onChange: function (contents, $editable) {
                         /*var code = $(this).summernote("code");
                         $("#desc").val($('#blog_summernote').summernote('code'));*/
                     },
-                    onImageUpload: function(files) {
+                    onImageUpload: function (files) {
                         upload_editor_image(files[0], 'blog_summernote', 'blog', 'blog', $(this).data('blog-id'));
                     }
                 }

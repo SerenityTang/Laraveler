@@ -27,7 +27,8 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a class="title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    <a class="title" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseOne">
                                         积分模块
                                     </a>
                                 </h4>
@@ -44,7 +45,8 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a class="title" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                    <a class="title" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseTwo">
                                         L币模块
                                     </a>
                                 </h4>

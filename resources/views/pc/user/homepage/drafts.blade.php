@@ -36,11 +36,13 @@
                                         <div class="row content">
                                             <div class="col-md-7">
                                                 @if($question->title == null)
-                                                    <a href="{{ url('question/show_edit/' . $question->id) }}" title="" class="title">
+                                                    <a href="{{ url('question/show_edit/' . $question->id) }}" title=""
+                                                       class="title">
                                                         此问答未定义标题
                                                     </a>
                                                 @else
-                                                    <a href="{{ url('question/show_edit/' . $question->id) }}" title="{{ $question->title }}" class="title">
+                                                    <a href="{{ url('question/show_edit/' . $question->id) }}"
+                                                       title="{{ $question->title }}" class="title">
                                                         {{ str_limit($question->title, 60) }}
                                                     </a>
                                                 @endif
@@ -53,7 +55,8 @@
                                             <div class="col-md-2 edit-icon">
                                                 <a href="{{ url('question/show_edit/' . $question->id) }}">编辑</a>
                                                 <span>·</span>
-                                                <a href="javascript:void(0)" class="q-reject-icon" data-question-id="{{ $question->id }}">舍弃</a>
+                                                <a href="javascript:void(0)" class="q-reject-icon"
+                                                   data-question-id="{{ $question->id }}">舍弃</a>
                                             </div>
 
                                         </div>
@@ -69,9 +72,12 @@
                                         <div class="row content">
                                             <div class="col-md-7">
                                                 @if($blog->title == null)
-                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}" title="" class="title">此博客未定义标题</a>
+                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}" title=""
+                                                       class="title">此博客未定义标题</a>
                                                 @else
-                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}" title="{{ $blog->title }}" class="title">{{ str_limit($blog->title, 60) }}</a>
+                                                    <a href="{{ url('blog/show_edit/' . $blog->id) }}"
+                                                       title="{{ $blog->title }}"
+                                                       class="title">{{ str_limit($blog->title, 60) }}</a>
                                                 @endif
                                                 <span class="seperator">保存于</span>
                                             </div>
@@ -83,7 +89,8 @@
                                             <div class="col-md-2 edit-icon">
                                                 <a href="{{ url('blog/show_edit/' . $blog->id) }}">编辑</a>
                                                 <span>·</span>
-                                                <a href="javascript:void(0)" class="b-reject-icon" data-blog-id="{{ $blog->id }}">舍弃</a>
+                                                <a href="javascript:void(0)" class="b-reject-icon"
+                                                   data-blog-id="{{ $blog->id }}">舍弃</a>
                                             </div>
                                         </div>
                                     </li>
@@ -132,16 +139,16 @@
         //舍弃草稿
         $('.q-reject-icon').click(function () {
             var question_id = $(this).data('question-id');
-            zeroModal.confirm("确定舍弃问题草稿吗？", function() {
+            zeroModal.confirm("确定舍弃问题草稿吗？", function () {
                 $.ajax({
-                    url : "{{url('/question/abandon/[id]')}}".replace('[id]', question_id),
-                    data : {
+                    url: "{{url('/question/abandon/[id]')}}".replace('[id]', question_id),
+                    data: {
                         _token: '{{csrf_token()}}',
                     },
-                    dataType : "json",
-                    type : "POST",
-                    success : function (res) {
-                        if(res.code == 704){
+                    dataType: "json",
+                    type: "POST",
+                    success: function (res) {
+                        if (res.code == 704) {
                             layer.msg(res.message, {
                                 icon: 6,//提示的样式
                                 time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
@@ -154,7 +161,7 @@
                         }
 
                     },
-                    error : function () {
+                    error: function () {
                         zeroModal.error('系统错误！');
                     }
                 });
@@ -163,16 +170,16 @@
 
         $('.b-reject-icon').click(function () {
             var blog_id = $(this).data('blog-id');
-            zeroModal.confirm("确定舍弃博客草稿吗？", function() {
+            zeroModal.confirm("确定舍弃博客草稿吗？", function () {
                 $.ajax({
-                    url : "{{url('/blog/abandon/[id]')}}".replace('[id]', blog_id),
-                    data : {
+                    url: "{{url('/blog/abandon/[id]')}}".replace('[id]', blog_id),
+                    data: {
                         _token: '{{csrf_token()}}',
                     },
-                    dataType : "json",
-                    type : "POST",
-                    success : function (res) {
-                        if(res.code == 708){
+                    dataType: "json",
+                    type: "POST",
+                    success: function (res) {
+                        if (res.code == 708) {
                             layer.msg(res.message, {
                                 icon: 6,//提示的样式
                                 time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
@@ -185,7 +192,7 @@
                         }
 
                     },
-                    error : function () {
+                    error: function () {
                         zeroModal.error('系统错误！');
                     }
                 });

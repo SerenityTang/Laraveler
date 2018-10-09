@@ -16,7 +16,7 @@ class CommentController extends Controller
     /**
      * 保存回答评论
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function answer_store(Request $request)
@@ -56,7 +56,7 @@ class CommentController extends Controller
     /**
      * 保存博客评论
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function blog_store(Request $request)
@@ -68,12 +68,12 @@ class CommentController extends Controller
             $user_data = User_data::where('user_id', $user->id)->first();
 
             $data = [
-                'user_id'                =>$user->id,
-                'content'                =>$request->input('comment_content'),
-                'commentable_id'         =>$blog_id,
-                'commentable_type'       =>get_class($blog),
-                'to_user_id'             =>$request->input('to_user'),
-                'status'                 =>1,
+                'user_id' => $user->id,
+                'content' => $request->input('comment_content'),
+                'commentable_id' => $blog_id,
+                'commentable_type' => get_class($blog),
+                'to_user_id' => $request->input('to_user'),
+                'status' => 1,
             ];
             $comment = Comment::create($data);
 
@@ -93,7 +93,7 @@ class CommentController extends Controller
     /**
      * 保存博客相互评论
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function mutual_blog_store(Request $request)
@@ -105,12 +105,12 @@ class CommentController extends Controller
             $user = Auth::user();
             $user_data = User_data::where('user_id', $user->id)->first();
             $data = [
-                'user_id'                =>$user->id,
-                'content'                =>$request->input('comment_child'),
-                'commentable_id'         =>$blog->id,
-                'commentable_type'       =>get_class($blog),
-                'to_user_id'             =>$request->input('to_user'),
-                'status'                 =>1,
+                'user_id' => $user->id,
+                'content' => $request->input('comment_child'),
+                'commentable_id' => $blog->id,
+                'commentable_type' => get_class($blog),
+                'to_user_id' => $request->input('to_user'),
+                'status' => 1,
             ];
             $mutual_comment = Comment::create($data);
 
@@ -134,13 +134,13 @@ class CommentController extends Controller
     /**
      * 读取回答的评论
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function show($commentable_id, $commentable_type)
     {
         $answer = Answer::where('id', $commentable_id)->first();
-        $comments = Comment::where('commentable_id', $commentable_id)->where('commentable_type', get_class($answer))->orderBy('created_at','asc')->get();
+        $comments = Comment::where('commentable_id', $commentable_id)->where('commentable_type', get_class($answer))->orderBy('created_at', 'asc')->get();
 
         return view('pc.comment.comment_part')->with(['comments' => $comments, 'commentable_id' => $commentable_id, 'commentable_type' => $commentable_type, 'answer' => $answer]);
     }
@@ -148,7 +148,7 @@ class CommentController extends Controller
     /**
      * 博客评论支持
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function support($comment_id)
@@ -174,10 +174,10 @@ class CommentController extends Controller
             } else {
                 //不存在支持记录，则属于支持
                 $data = [
-                    'user_id'           =>Auth::user()->id,
-                    'sup_opp_able_id'   =>$comment_id,
-                    'sup_opp_able_type' =>get_class($comment),
-                    'sup_opp_mode'      =>'support',
+                    'user_id' => Auth::user()->id,
+                    'sup_opp_able_id' => $comment_id,
+                    'sup_opp_able_type' => get_class($comment),
+                    'sup_opp_mode' => 'support',
                 ];
                 $s_o = Support_opposition::create($data);
                 if ($s_o) {
@@ -199,14 +199,14 @@ class CommentController extends Controller
     /**
      * 博客评论编辑
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $comment_id)
     {
         $comment = Comment::where('id', $comment_id)->first();
         $content = $request->input('edit_comment_con');
-        $edit_content = '<p>'.$content.'</p>';
+        $edit_content = '<p>' . $content . '</p>';
         $comment->content = $edit_content;
         $bool = $comment->save();
 
@@ -218,7 +218,7 @@ class CommentController extends Controller
     /**
      * 博客评论删除
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function destroy($comment_id)
@@ -226,11 +226,11 @@ class CommentController extends Controller
         $comment = Comment::where('id', $comment_id)->first();
         $user_data = User_data::where('user_id', $comment->user_id)->first();
         $comment->delete();
-        if($comment->trashed()){
+        if ($comment->trashed()) {
             $user_data->decrement('comment_count');
 
             return $this->jsonResult(710);
-        }else{
+        } else {
             return $this->jsonResult(711);
         }
     }

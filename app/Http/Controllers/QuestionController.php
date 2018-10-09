@@ -62,10 +62,10 @@ class QuestionController extends Controller
             $end = Carbon::now()->addDays(7 - $week);
         }
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)->where('user_datas.answer_count', '>', 0)
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
 
         if (Browser::isMobile()) {
@@ -110,7 +110,7 @@ class QuestionController extends Controller
     /**
      * 保存发布问答
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -118,14 +118,14 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $data = [
-                'user_id'       =>$user->id,
-                'qcategory_id'  =>$request->input('qcategory_id', 0),
-                'title'         =>$request->input('question_title'),
-                'description'   =>$request->input('desc'),
-                'price'         =>$request->input('price'),
+                'user_id' => $user->id,
+                'qcategory_id' => $request->input('qcategory_id', 0),
+                'title' => $request->input('question_title'),
+                'description' => $request->input('desc'),
+                'price' => $request->input('price'),
                 //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
-                'device'        =>1,
-                'status'        =>1,
+                'device' => 1,
+                'status' => 1,
             ];
             $question = Question::create($data);
 
@@ -138,9 +138,9 @@ class QuestionController extends Controller
                 $tags = explode(',', $request->input('tags'));
                 foreach ($tags as $tag) {
                     $taggables = [
-                        'tag_id'          =>$tag,
-                        'taggable_id'     =>$question->id,
-                        'taggable_type'   =>get_class($question),
+                        'tag_id' => $tag,
+                        'taggable_id' => $question->id,
+                        'taggable_type' => get_class($question),
                     ];
                     $taggable = Taggable::create($taggables);
                 }
@@ -150,12 +150,12 @@ class QuestionController extends Controller
 
                     //添加动态
                     $data = [
-                        'user_id'       => $user->id,
-                        'source_id'     => $question->id,
-                        'source_type'   => get_class($question),
-                        'action'        => 'publishQues',
-                        'title'         => $question->title,
-                        'content'       => $question->description,
+                        'user_id' => $user->id,
+                        'source_id' => $question->id,
+                        'source_type' => get_class($question),
+                        'action' => 'publishQues',
+                        'title' => $question->title,
+                        'content' => $question->description,
                     ];
                     $per_dyn = PersonalDynamic::create($data);
                     if ($per_dyn) {
@@ -176,7 +176,7 @@ class QuestionController extends Controller
     /**
      * 保存问答草稿
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store_draft(Request $request)
@@ -184,14 +184,14 @@ class QuestionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $data = [
-                'user_id'       =>$user->id,
-                'qcategory_id'  =>$request->input('qcategory_id', 0),
-                'title'         =>$request->input('question_title'),
-                'description'   =>$request->input('desc'),
-                'price'         =>$request->input('price'),
+                'user_id' => $user->id,
+                'qcategory_id' => $request->input('qcategory_id', 0),
+                'title' => $request->input('question_title'),
+                'description' => $request->input('desc'),
+                'price' => $request->input('price'),
                 //'device'        =>BrowserDetect::deviceModel() == '' ? BrowserDetect::deviceModel() : 'PC',
-                'device'        => 1,
-                'status'        => 2,
+                'device' => 1,
+                'status' => 2,
             ];
             $question = Question::create($data);
 
@@ -201,9 +201,9 @@ class QuestionController extends Controller
                 $tags = explode(',', $request->input('tags'));
                 foreach ($tags as $tag) {
                     $taggables = [
-                        'tag_id'            =>$tag,
-                        'taggable_id'     =>$question->id,
-                        'taggable_type'   =>get_class($question),
+                        'tag_id' => $tag,
+                        'taggable_id' => $question->id,
+                        'taggable_type' => get_class($question),
                     ];
                     $taggable = Taggable::create($taggables);
                 }
@@ -223,7 +223,7 @@ class QuestionController extends Controller
     /**
      * 展示问答内容页
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -246,7 +246,7 @@ class QuestionController extends Controller
         $tag_id = $question->tags()->pluck('tag_id');
         $correlation_ques = $question->whereHas('tags', function ($query) use ($tag_id) {
             $query->whereIn('tag_id', $tag_id);
-        })->where('status', 1)->orderBy('created_at','DESC')->take(8)->get();
+        })->where('status', 1)->orderBy('created_at', 'DESC')->take(8)->get();
 
         //最佳答案
         if ($question->question_status == 2 && $answers != null) {
@@ -261,7 +261,7 @@ class QuestionController extends Controller
     /**
      * 展示问答最佳答案
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show_best_answer($id)
@@ -276,7 +276,7 @@ class QuestionController extends Controller
     /**
      * 展示问答编辑页
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show_edit($id)
@@ -303,7 +303,7 @@ class QuestionController extends Controller
     /**
      * 保存修改问答
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $id)
@@ -336,7 +336,7 @@ class QuestionController extends Controller
     /**
      * 删除问答
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -344,11 +344,11 @@ class QuestionController extends Controller
         $question = Question::where('id', $id)->first();
         $user_data = User_data::where('user_id', $question->user_id)->first();
         $question->delete();
-        if($question->trashed()){
+        if ($question->trashed()) {
             $user_data->decrement('question_count');
 
             return $this->jsonResult(701);
-        }else{
+        } else {
             return $this->jsonResult(702);
         }
     }
@@ -356,7 +356,7 @@ class QuestionController extends Controller
     /**
      * 舍弃问答
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function abandon($id)
@@ -364,9 +364,9 @@ class QuestionController extends Controller
         $question = Question::where('id', $id)->first();
 
         $question->delete();
-        if($question->trashed()){
+        if ($question->trashed()) {
             return $this->jsonResult(704);
-        }else{
+        } else {
             return $this->jsonResult(705);
         }
     }
@@ -374,7 +374,7 @@ class QuestionController extends Controller
     /**
      * 问答投票
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function vote($id)
@@ -400,9 +400,9 @@ class QuestionController extends Controller
             } else {
                 //如果此用户无投票过此问答，则属于投票
                 $data = [
-                    'user_id'           =>$user->id,
-                    'entityable_id'   =>$id,
-                    'entityable_type' =>get_class($question)
+                    'user_id' => $user->id,
+                    'entityable_id' => $id,
+                    'entityable_type' => get_class($question)
                 ];
 
                 $new_vote = Vote::create($data);
@@ -415,12 +415,12 @@ class QuestionController extends Controller
 
                     //添加动态
                     $data = [
-                        'user_id'       => $user->id,
-                        'source_id'     => $question->id,
-                        'source_type'   => get_class($question),
-                        'action'        => 'voteQues',
-                        'title'         => $question->title,
-                        'content'       => $question->description,
+                        'user_id' => $user->id,
+                        'source_id' => $question->id,
+                        'source_type' => get_class($question),
+                        'action' => 'voteQues',
+                        'title' => $question->title,
+                        'content' => $question->description,
                     ];
                     $per_dyn = PersonalDynamic::create($data);
                     if ($per_dyn) {
@@ -436,7 +436,7 @@ class QuestionController extends Controller
     /**
      * 问答关注
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function attention($id)
@@ -460,9 +460,9 @@ class QuestionController extends Controller
             } else {
                 //如果此用户无关注过此问答，则属于关注
                 $data = [
-                    'user_id'           =>$user->id,
-                    'entityable_id'   =>$id,
-                    'entityable_type' =>get_class($question)
+                    'user_id' => $user->id,
+                    'entityable_id' => $id,
+                    'entityable_type' => get_class($question)
                 ];
 
                 $new_attention = Attention::create($data);
@@ -473,12 +473,12 @@ class QuestionController extends Controller
 
                     //添加动态
                     $data = [
-                        'user_id'       => $user->id,
-                        'source_id'     => $question->id,
-                        'source_type'   => get_class($question),
-                        'action'        => 'attentionQues',
-                        'title'         => $question->title,
-                        'content'       => $question->description,
+                        'user_id' => $user->id,
+                        'source_id' => $question->id,
+                        'source_type' => get_class($question),
+                        'action' => 'attentionQues',
+                        'title' => $question->title,
+                        'content' => $question->description,
                     ];
                     $per_dyn = PersonalDynamic::create($data);
                     if ($per_dyn) {
@@ -494,7 +494,7 @@ class QuestionController extends Controller
     /**
      * 问答收藏
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function collection($id)
@@ -523,9 +523,9 @@ class QuestionController extends Controller
             } else {
                 //如果此用户无关注过此问答，则属于收藏
                 $data = [
-                    'user_id'           =>$user->id,
-                    'entityable_id'   =>$id,
-                    'entityable_type' =>get_class($question)
+                    'user_id' => $user->id,
+                    'entityable_id' => $id,
+                    'entityable_type' => get_class($question)
                 ];
 
                 $new_collection = Collection::create($data);
@@ -539,12 +539,12 @@ class QuestionController extends Controller
 
                     //添加动态
                     $data = [
-                        'user_id'       => $user->id,
-                        'source_id'     => $question->id,
-                        'source_type'   => get_class($question),
-                        'action'        => 'collectionQues',
-                        'title'         => $question->title,
-                        'content'       => $question->description,
+                        'user_id' => $user->id,
+                        'source_id' => $question->id,
+                        'source_type' => get_class($question),
+                        'action' => 'collectionQues',
+                        'title' => $question->title,
+                        'content' => $question->description,
                     ];
                     $per_dyn = PersonalDynamic::create($data);
                     if ($per_dyn) {
@@ -560,7 +560,7 @@ class QuestionController extends Controller
     /**
      * 热门问答日榜
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function day_sort()
@@ -572,7 +572,7 @@ class QuestionController extends Controller
     /**
      * 热门问答周榜
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function week_sort()
@@ -593,7 +593,7 @@ class QuestionController extends Controller
     /**
      * 热门问答月榜
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function month_sort()
@@ -609,7 +609,7 @@ class QuestionController extends Controller
     /**
      * 热心周排行榜
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function warm_week()
@@ -626,8 +626,8 @@ class QuestionController extends Controller
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_week')->with(['warm_users' => $warm_users]);
     }
@@ -635,7 +635,7 @@ class QuestionController extends Controller
     /**
      * 热心月排行榜
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function warm_month()
@@ -645,10 +645,10 @@ class QuestionController extends Controller
         $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
 
         $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)->where('user_datas.answer_count', '>', 0)
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
             ->whereBetween('user_datas.updated_at', [$start, $end])
-            ->orderBy('user_datas.answer_count','DESC')
-            ->select('user.id','user.username','user.personal_domain','user_datas.answer_count')
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_month')->with(['warm_users' => $warm_users]);
     }

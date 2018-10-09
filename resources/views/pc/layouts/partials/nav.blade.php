@@ -8,31 +8,37 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left nav-column">
                 <li>
-                    <a href="{{ url('/') }}" class="version-link {{ App\Helpers\Helpers::setActive('/', 'active') }}">首页</a>
+                    <a href="{{ url('/') }}"
+                       class="version-link {{ App\Helpers\Helpers::setActive('/', 'active') }}">首页</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/question') }}" class="version-link {{ App\Helpers\Helpers::setActive('question', 'active') }}">问答</a>
+                    <a href="{{ url('/question') }}"
+                       class="version-link {{ App\Helpers\Helpers::setActive('question', 'active') }}">问答</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/blog') }}" class="version-link {{ App\Helpers\Helpers::setActive('blog', 'active') }}">博客</a>
+                    <a href="{{ url('/blog') }}"
+                       class="version-link {{ App\Helpers\Helpers::setActive('blog', 'active') }}">博客</a>
                 </li>
 
                 <li>
-                    <a href="{{ url('/tag') }}" class="version-link {{ App\Helpers\Helpers::setActive('tag', 'active') }}">标签</a>
+                    <a href="{{ url('/tag') }}"
+                       class="version-link {{ App\Helpers\Helpers::setActive('tag', 'active') }}">标签</a>
                 </li>
-                
+
                 <li>
-                    <a href="{{ url('/workshow') }}" class="version-link {{ App\Helpers\Helpers::setActive('workshow', 'active') }}">作品展示</a>
+                    <a href="{{ url('/workshow') }}"
+                       class="version-link {{ App\Helpers\Helpers::setActive('workshow', 'active') }}">作品展示</a>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="search-bar">
                     <form action="{{ url('/search') }}" method="post" accept-charset="utf-8">
-                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}" />
-                        <input type="text" id="search-text" name="search-text" class="search-text" placeholder="请输入你想要滴 ^_^ " @if(isset($keyword)) value="{{ $keyword }}" @endif>
+                        <input type="hidden" id="editor_token" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="text" id="search-text" name="search-text" class="search-text"
+                               placeholder="请输入你想要滴 ^_^ " @if(isset($keyword)) value="{{ $keyword }}" @endif>
                         <button type="submit" class="search-btn">
                             <i class="iconfont icon-sousuo"></i>
                         </button>
@@ -116,8 +122,10 @@
                     </li>
                     {{--个人信息--}}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ App\Helpers\Helpers::get_user_avatar(Auth()->user()->id, 'medium') }}" class="avatar-46" alt="{{ Auth::user()->username }}">
+                        <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="{{ App\Helpers\Helpers::get_user_avatar(Auth()->user()->id, 'medium') }}"
+                                 class="avatar-46" alt="{{ Auth::user()->username }}">
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-publish">
@@ -128,10 +136,12 @@
                                 <li class="divider"></li>
                             @endif--}}
                             <li>
-                                <a href="{{ url('user/'.Auth::user()->personal_domain) }}"><i class="fa fa-user fa-lg"></i>个人主页</a>
+                                <a href="{{ url('user/'.Auth::user()->personal_domain) }}"><i
+                                            class="fa fa-user fa-lg"></i>个人主页</a>
                             </li>
                             <li>
-                                <a href="{{ url('user/'.Auth::user()->username.'/settings') }}"><i class="fa fa-gear fa-lg"></i>个人设置</a>
+                                <a href="{{ url('user/'.Auth::user()->username.'/settings') }}"><i
+                                            class="fa fa-gear fa-lg"></i>个人设置</a>
                             </li>
                             <li class="divider"></li>
                             <li>

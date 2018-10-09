@@ -9,7 +9,8 @@
 @section('style')
     <style type="text/css">
         .icon {
-            width: 1em; height: 1em;
+            width: 1em;
+            height: 1em;
             vertical-align: -0.15em;
             fill: currentColor;
             overflow: hidden;
@@ -29,33 +30,42 @@
                 <div class="panel panel-default right-container">
                     <h4 class="title"><i class="iconfont icon-shimingrenzheng" style="top: 1px;"></i>实名认证</h4>
                     @if(Auth::user()->approval_status == 0)
-                        <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="{{ url('user/profile/post_authenticate') }}">
-                            <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}" />
+                        <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post"
+                              action="{{ url('user/profile/post_authenticate') }}">
+                            <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}"/>
                             <input type="hidden" id="redirect_uri" name="redirect_uri" value="{{ request()->url() }}">
 
                             <ul class="explain">
-                                <li>实名认证申请资料提交后，我们将在<span style="font-weight: bolder;color: #52acd9;"> 3 个工作日内</span>处理并反馈；</li>
-                                <li>手持身份证(正面)照片要求持证人<span style="font-weight: bolder;color: #52acd9;">五官可见、证件全部信息清晰无遮挡</span>；</li>
-                                <li>图像大小不超过<span style="font-weight: bolder;color: #52acd9;"> 2 MB</span>，只支持<span style="font-weight: bolder;color: #52acd9;"> JPG / JPEG / PNG / GIF </span>等格式的图片。</li>
+                                <li>实名认证申请资料提交后，我们将在<span style="font-weight: bolder;color: #52acd9;"> 3 个工作日内</span>处理并反馈；
+                                </li>
+                                <li>手持身份证(正面)照片要求持证人<span
+                                            style="font-weight: bolder;color: #52acd9;">五官可见、证件全部信息清晰无遮挡</span>；
+                                </li>
+                                <li>图像大小不超过<span style="font-weight: bolder;color: #52acd9;"> 2 MB</span>，只支持<span
+                                            style="font-weight: bolder;color: #52acd9;"> JPG / JPEG / PNG / GIF </span>等格式的图片。
+                                </li>
                             </ul>
                             <div class="form-group">
                                 <label for="" class="col-md-2 control-label">真实姓名</label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control text-extra" id="real_name" name="real_name" placeholder="请输入真实姓名">
+                                    <input type="text" class="form-control text-extra" id="real_name" name="real_name"
+                                           placeholder="请输入真实姓名">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="" class="col-md-2 control-label">身份证号码</label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control text-extra" id="id_card" name="id_card" placeholder="请输入身份证号码">
+                                    <input type="text" class="form-control text-extra" id="id_card" name="id_card"
+                                           placeholder="请输入身份证号码">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="" class="col-md-2 control-label">身份证(正面)</label>
                                 <div class="col-md-6 idcard-bor">
-                                    <img id="thumb_front" src="{{ asset('imgs/idcard-front.jpg') }}" alt="身份证(正面)" width="306" height="193">
+                                    <img id="thumb_front" src="{{ asset('imgs/idcard-front.jpg') }}" alt="身份证(正面)"
+                                         width="306" height="193">
                                     <div class="add" onclick="$('#front').click();">
                                         <p class="add-btn">+</p>
                                         <p class="add-text">添加照片</p>
@@ -67,7 +77,8 @@
                             <div id="preview" class="form-group">
                                 <label for="" class="col-md-2 control-label">身份证(反面)</label>
                                 <div class="col-md-7 idcard-bor">
-                                    <img id="thumb_verso" src="{{ asset('imgs/idcard-verso.jpg') }}" alt="身份证(反面)" width="306" height="193">
+                                    <img id="thumb_verso" src="{{ asset('imgs/idcard-verso.jpg') }}" alt="身份证(反面)"
+                                         width="306" height="193">
                                     <div class="add" onclick="$('#verso').click();">
                                         <p class="add-btn">+</p>
                                         <p class="add-text">添加照片</p>
@@ -79,7 +90,8 @@
                             <div class="form-group">
                                 <label for="" class="col-md-2 control-label">手持身份证(正面)</label>
                                 <div class="col-md-7 idcard-bor">
-                                    <img id="thumb_hand" src="{{ asset('imgs/idcard-hand.jpg') }}" alt="手持身份证(正面)" width="306" height="193">
+                                    <img id="thumb_hand" src="{{ asset('imgs/idcard-hand.jpg') }}" alt="手持身份证(正面)"
+                                         width="306" height="193">
                                     <div class="add" onclick="$('#hand').click();">
                                         <p class="add-btn">+</p>
                                         <p class="add-text">添加照片</p>
@@ -118,17 +130,17 @@
     <script src="{{ asset('css/iconfont/iconfont.js') }}"></script>
     <script>
         //正面生成预览图
-        $("#verso").change(function() {
+        $("#verso").change(function () {
             var $file = $(this);
             var fileObj = $file[0];
             var windowURL = window.URL || window.webkitURL;
             var dataURL;
             var $img = $("#thumb_verso");
 
-            if(fileObj && fileObj.files && fileObj.files[0]){
+            if (fileObj && fileObj.files && fileObj.files[0]) {
                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
-                $img.attr('src',dataURL);
-            }else{
+                $img.attr('src', dataURL);
+            } else {
                 dataURL = $file.val();
                 var imgObj = document.getElementById("thumb_verso");
                 // 两个坑:
@@ -140,17 +152,17 @@
         });
 
         //反面生成预览图
-        $("#front").change(function() {
+        $("#front").change(function () {
             var $file = $(this);
             var fileObj = $file[0];
             var windowURL = window.URL || window.webkitURL;
             var dataURL;
             var $img = $("#thumb_front");
 
-            if(fileObj && fileObj.files && fileObj.files[0]){
+            if (fileObj && fileObj.files && fileObj.files[0]) {
                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
-                $img.attr('src',dataURL);
-            }else{
+                $img.attr('src', dataURL);
+            } else {
                 dataURL = $file.val();
                 var imgObj = document.getElementById("thumb_front");
                 // 两个坑:
@@ -162,17 +174,17 @@
         });
 
         //手持生成预览图
-        $("#hand").change(function() {
+        $("#hand").change(function () {
             var $file = $(this);
             var fileObj = $file[0];
             var windowURL = window.URL || window.webkitURL;
             var dataURL;
             var $img = $("#thumb_hand");
 
-            if(fileObj && fileObj.files && fileObj.files[0]){
+            if (fileObj && fileObj.files && fileObj.files[0]) {
                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
-                $img.attr('src',dataURL);
-            }else{
+                $img.attr('src', dataURL);
+            } else {
                 dataURL = $file.val();
                 var imgObj = document.getElementById("thumb_hand");
                 // 两个坑:

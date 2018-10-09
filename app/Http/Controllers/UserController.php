@@ -32,12 +32,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use SmsManager;
 use Cache;
+
 //use App\Services\OSS;
 
 class UserController extends Controller
 {
     //用户个人主页
-    public function index($personal_domain) {
+    public function index($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -56,7 +58,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的问答
-    public function questions($personal_domain) {
+    public function questions($personal_domain)
+    {
         //通过唯一的个性域名获取用户
         $user = User::where('personal_domain', $personal_domain)->first();
         //获取用户数据
@@ -68,7 +71,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的回复
-    public function answers($personal_domain) {
+    public function answers($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
         //获取用户回答
@@ -78,7 +82,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的文章
-    public function blogs($personal_domain) {
+    public function blogs($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
         //获取用户博客
@@ -88,7 +93,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的关注
-    public function attentions($personal_domain) {
+    public function attentions($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -102,7 +108,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的粉丝
-    public function fans($personal_domain) {
+    public function fans($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
         $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
@@ -111,7 +118,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的支持
-    public function supports($personal_domain) {
+    public function supports($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -128,7 +136,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的收藏
-    public function collections($personal_domain) {
+    public function collections($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -142,7 +151,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之我的草稿
-    public function drafts($personal_domain) {
+    public function drafts($personal_domain)
+    {
         $user = User::where('personal_domain', $personal_domain)->first();
         $user_data = User_data::where('user_id', $user->id)->first();
 
@@ -156,7 +166,8 @@ class UserController extends Controller
     }
 
     //用户个人主页之关注用户
-    public function attention_user(Request $request) {
+    public function attention_user(Request $request)
+    {
         //获取被关注用户id
         $user = $request->input('user');
         $users = User::where('id', $user)->first();
@@ -180,9 +191,9 @@ class UserController extends Controller
         } else {
             //如不存在此用户关注该用户记录，则属于关注
             $data = [
-                'user_id'           =>$curr_user,
-                'entityable_id'     =>$user,
-                'entityable_type'   =>get_class($users),
+                'user_id' => $curr_user,
+                'entityable_id' => $user,
+                'entityable_type' => get_class($users),
             ];
             $attention_user = Attention::create($data);
             if ($attention_user) {
@@ -197,14 +208,16 @@ class UserController extends Controller
     }
 
     //用户个人设置之个人信息
-    public function settings(Request $request) {
+    public function settings(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
     }
 
     //用户个人设置之实名认证
-    public function authenticate(Request $request) {
+    public function authenticate(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         $user_auth = UserAuthenticate::where('user_id', $user->id)->first();
@@ -215,35 +228,40 @@ class UserController extends Controller
     }
 
     //用户个人设置之密码修改
-    public function edit_password(Request $request) {
+    public function edit_password(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.settings.edit_password')->with(['user' => $user]);
     }
 
     //用户个人设置之通知私信
-    public function edit_notify(Request $request) {
+    public function edit_notify(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.settings.edit_notify')->with(['user' => $user]);
     }
 
     //用户个人设置之账号安全
-    public function security(Request $request) {
+    public function security(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.settings.security')->with(['user' => $user]);
     }
 
     //用户个人设置之账号绑定
-    public function bindsns(Request $request) {
+    public function bindsns(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.settings.bindsns')->with(['user' => $user]);
     }
 
     //用户个人设置之职业状态
-    public function career_status(Request $request) {
+    public function career_status(Request $request)
+    {
         $user = $request->user();
         $user = User::where('id', $user->id)->first();
         return view('pc.user.partials.career_status')->with(['user' => $user]);
@@ -276,11 +294,11 @@ class UserController extends Controller
             $cur_user->description = $request->input('description');
 
             $file = $request->file('wechat_qrcode');
-            if($file != null){
+            if ($file != null) {
                 $validateRules = [
-                    'wechat_qrcode' => 'required|image|max:'.config('global.upload.image.max_size'),
+                    'wechat_qrcode' => 'required|image|max:' . config('global.upload.image.max_size'),
                 ];
-                $this->validate($request,$validateRules);
+                $this->validate($request, $validateRules);
                 $extension = $file->getClientOriginalExtension();
 
                 if (config('global.aliyun_oss')) {
@@ -289,22 +307,22 @@ class UserController extends Controller
 
                     //若之前上传了微信二维码图片，则先删除在添加新的图片
                     if ($cur_user->wechat_qrcode != null) {
-                        File::delete(storage_path('app/'.$cur_user->wechat_qrcode));
+                        File::delete(storage_path('app/' . $cur_user->wechat_qrcode));
                     }
                     //上传到本地服务器
-                    $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .'wechat_qrcode'. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .uniqid(str_random(8)).'.'.$extension;
-                    Storage::disk('local')->put($filePath,File::get($file));
-                    Image::make(storage_path('app/'.$filePath))->resize(180, 180)->save();
+                    $filePath = config('global.upload_folder') . DIRECTORY_SEPARATOR . 'wechat_qrcode' . DIRECTORY_SEPARATOR . \Auth::user()->id . DIRECTORY_SEPARATOR . uniqid(str_random(8)) . '.' . $extension;
+                    Storage::disk('local')->put($filePath, File::get($file));
+                    Image::make(storage_path('app/' . $filePath))->resize(180, 180)->save();
                 } else {
                     //若之前上传了微信二维码图片，则先删除在添加新的图片
                     if ($cur_user->wechat_qrcode != null) {
-                        File::delete(storage_path('app/'.$cur_user->wechat_qrcode));
+                        File::delete(storage_path('app/' . $cur_user->wechat_qrcode));
                     }
 
                     //只上传到本地服务器
-                    $filePath = config('global.upload_folder'). DIRECTORY_SEPARATOR .'wechat_qrcode'. DIRECTORY_SEPARATOR .\Auth::user()->id. DIRECTORY_SEPARATOR .uniqid(str_random(8)).'.'.$extension;
-                    Storage::disk('local')->put($filePath,File::get($file));
-                    Image::make(storage_path('app/'.$filePath))->resize(180, 180)->save();
+                    $filePath = config('global.upload_folder') . DIRECTORY_SEPARATOR . 'wechat_qrcode' . DIRECTORY_SEPARATOR . \Auth::user()->id . DIRECTORY_SEPARATOR . uniqid(str_random(8)) . '.' . $extension;
+                    Storage::disk('local')->put($filePath, File::get($file));
+                    Image::make(storage_path('app/' . $filePath))->resize(180, 180)->save();
                 }
                 $cur_user->wechat_qrcode = $filePath;
             }
@@ -319,7 +337,7 @@ class UserController extends Controller
             }
 
             $cur_user->save();
-            return $this->success(route('user.settings', ['username' => $user->username]),'个人信息修改成功！！！');
+            return $this->success(route('user.settings', ['username' => $user->username]), '个人信息修改成功！！！');
         } else {
             return view('pc.auth.login');
         }
@@ -336,15 +354,15 @@ class UserController extends Controller
         ];
 
         //保存选择图片后自动上传的图片
-        if($request->hasFile('user_avatar')) {
-            $this->validate($request,$validateRules);
+        if ($request->hasFile('user_avatar')) {
+            $this->validate($request, $validateRules);
             $user_id = \Auth::user()->id;
             $file = $request->file('user_avatar');
             $avatarDir = User::getAvatarDir($user_id);
             $extension = strtolower($file->getClientOriginalExtension());
             $extArray = array('png', 'gif', 'jpeg', 'jpg');
 
-            if(in_array($extension, $extArray)) {
+            if (in_array($extension, $extArray)) {
                 //上传到七牛云Kodo
                 if (config('global.qiniu_kodo')) {
                     $qiniu = new QiNiuCloud();
@@ -353,17 +371,17 @@ class UserController extends Controller
                     $qiniu->qiniu_upload($path);
 
                     //上传到本地服务器
-                    if($extension != 'jpg'){
-                        Image::make(File::get($file))->save(storage_path('app/'.User::getAvatarPath($user_id,'origin')));
-                    }else{
-                        Storage::disk('local')->put($avatarDir. DIRECTORY_SEPARATOR . User::getAvatarFileName($user_id,'origin').'.'.$extension, File::get($file));
+                    if ($extension != 'jpg') {
+                        Image::make(File::get($file))->save(storage_path('app/' . User::getAvatarPath($user_id, 'origin')));
+                    } else {
+                        Storage::disk('local')->put($avatarDir . DIRECTORY_SEPARATOR . User::getAvatarFileName($user_id, 'origin') . '.' . $extension, File::get($file));
                     }
                 } else {
                     //只上传到本地服务器
-                    if($extension != 'jpg'){
-                        Image::make(File::get($file))->save(storage_path('app/'.User::getAvatarPath($user_id,'origin')));
-                    }else{
-                        Storage::disk('local')->put($avatarDir. DIRECTORY_SEPARATOR . User::getAvatarFileName($user_id,'origin').'.'.$extension, File::get($file));
+                    if ($extension != 'jpg') {
+                        Image::make(File::get($file))->save(storage_path('app/' . User::getAvatarPath($user_id, 'origin')));
+                    } else {
+                        Storage::disk('local')->put($avatarDir . DIRECTORY_SEPARATOR . User::getAvatarFileName($user_id, 'origin') . '.' . $extension, File::get($file));
                     }
                 }
             } else {
@@ -379,7 +397,7 @@ class UserController extends Controller
         }
 
         //保存点击保存图片按钮后上传的裁剪图片
-        if($request->isMethod('POST')){
+        if ($request->isMethod('POST')) {
             $x = intval($request->input('x'));
             $y = intval($request->input('y'));
             $width = intval($request->input('width'));
@@ -387,10 +405,10 @@ class UserController extends Controller
 
             $user_id = $request->user()->id;
 
-            File::delete(storage_path('app/'.User::getAvatarPath($user_id,'big')));
-            File::delete(storage_path('app/'.User::getAvatarPath($user_id,'medium')));
-            File::delete(storage_path('app/'.User::getAvatarPath($user_id,'middle')));
-            File::delete(storage_path('app/'.User::getAvatarPath($user_id,'small')));
+            File::delete(storage_path('app/' . User::getAvatarPath($user_id, 'big')));
+            File::delete(storage_path('app/' . User::getAvatarPath($user_id, 'medium')));
+            File::delete(storage_path('app/' . User::getAvatarPath($user_id, 'middle')));
+            File::delete(storage_path('app/' . User::getAvatarPath($user_id, 'small')));
 
             //上传到阿里云oss
             if (config('global.aliyun_oss')) {
@@ -401,17 +419,17 @@ class UserController extends Controller
 
                 //上传到本地服务器
                 //crop():创建一个新的剪裁区域;resize():设置裁剪的图片大小;
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(24,24)->save(storage_path('app/'.User::getAvatarPath($user_id,'small')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(46,46)->save(storage_path('app/'.User::getAvatarPath($user_id,'medium')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(64,64)->save(storage_path('app/'.User::getAvatarPath($user_id,'middle')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(128,128)->save(storage_path('app/'.User::getAvatarPath($user_id,'big')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(24, 24)->save(storage_path('app/' . User::getAvatarPath($user_id, 'small')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(46, 46)->save(storage_path('app/' . User::getAvatarPath($user_id, 'medium')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(64, 64)->save(storage_path('app/' . User::getAvatarPath($user_id, 'middle')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(128, 128)->save(storage_path('app/' . User::getAvatarPath($user_id, 'big')));
             } else {
                 //只上传到本地服务器
                 //crop():创建一个新的剪裁区域;resize():设置裁剪的图片大小;
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(24,24)->save(storage_path('app/'.User::getAvatarPath($user_id,'small')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(46,46)->save(storage_path('app/'.User::getAvatarPath($user_id,'medium')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(64,64)->save(storage_path('app/'.User::getAvatarPath($user_id,'middle')));
-                Image::make(storage_path('app/'.User::getAvatarPath($user_id,'origin')))->crop($width,$height,$x,$y)->resize(128,128)->save(storage_path('app/'.User::getAvatarPath($user_id,'big')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(24, 24)->save(storage_path('app/' . User::getAvatarPath($user_id, 'small')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(46, 46)->save(storage_path('app/' . User::getAvatarPath($user_id, 'medium')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(64, 64)->save(storage_path('app/' . User::getAvatarPath($user_id, 'middle')));
+                Image::make(storage_path('app/' . User::getAvatarPath($user_id, 'origin')))->crop($width, $height, $x, $y)->resize(128, 128)->save(storage_path('app/' . User::getAvatarPath($user_id, 'big')));
             }
 
             /*return response()->json(array(
@@ -419,7 +437,7 @@ class UserController extends Controller
                 'msg' => '头像截剪成功'
             ));*/
 
-            return $this->jsonResult(602, config('errors.'.'602'), config('errors.'.'605'));
+            return $this->jsonResult(602, config('errors.' . '602'), config('errors.' . '605'));
         }
     }
 
@@ -448,10 +466,10 @@ class UserController extends Controller
 
             if ($validator->fails()) {
                 //两种写法，back()函数返回到上一个请求的位置
-                return redirect(route('user.edit_password',['username', $cur_user->username]))->withInput()->withErrors($validator);
+                return redirect(route('user.edit_password', ['username', $cur_user->username]))->withInput()->withErrors($validator);
                 //return redirect()->back()->withInput()->withErrors($validator);
             } else if (!Hash::check($input['old_password'], $cur_user->password)) {   //判断原密码是否正确
-                return redirect(route('user.edit_password',['username', $cur_user->username]))->withInput()->withErrors(['old_password' => '原密码错误！！！']);
+                return redirect(route('user.edit_password', ['username', $cur_user->username]))->withInput()->withErrors(['old_password' => '原密码错误！！！']);
             } else {
                 $cur_user->password = bcrypt($input['new_password']);
                 $cur_user->save();
@@ -513,13 +531,13 @@ class UserController extends Controller
                     //方法二：发送HTML格式
                     //验证通过后发送邮件
                     // 生成唯一 token
-                    $token = bcrypt($email.time());
+                    $token = bcrypt($email . time());
 
                     $data = [
-                        'email'             => $email,
-                        'user'              => $user,
-                        'token'             => $token,
-                        'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                        'email' => $email,
+                        'user' => $user,
+                        'token' => $token,
+                        'email_verify_url' => url('user/email_bind/verify') . '?v=' . $token
                     ];
 
                     Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
@@ -528,7 +546,7 @@ class UserController extends Controller
                     });
 
                     // 数据库保存 token
-                    if ($user->activations){
+                    if ($user->activations) {
                         $user->activations()->update(['token' => $token]);
                     } else {
                         $user->activations()->save(new UserActivation([
@@ -536,7 +554,7 @@ class UserController extends Controller
                         ]));
                     }
 
-                    return $this->jsonResult(909, '邮箱地址绑定成功，请前往-> '. $email .' <-验证', $email);
+                    return $this->jsonResult(909, '邮箱地址绑定成功，请前往-> ' . $email . ' <-验证', $email);
                 } else {
                     //邮箱绑定失败
                     return $this->jsonResult(910);
@@ -565,13 +583,13 @@ class UserController extends Controller
                 return $this->jsonResult(502, $validator->errors()->all());
             } else {
                 // 生成唯一 token
-                $token = bcrypt($email.time());
+                $token = bcrypt($email . time());
 
                 $data = [
-                    'email'             => $email,
-                    'user'              => $user,
-                    'token'             => $token,
-                    'email_verify_url'  => url('user/email_bind/verify') . '?v=' . $token
+                    'email' => $email,
+                    'user' => $user,
+                    'token' => $token,
+                    'email_verify_url' => url('user/email_bind/verify') . '?v=' . $token
                 ];
 
                 Mail::send('user.partials.email_verify', ['data' => $data], function ($message) use ($data) {
@@ -580,7 +598,7 @@ class UserController extends Controller
                 });
 
                 // 数据库保存 token
-                if ($user->activations){
+                if ($user->activations) {
                     $user->activations()->update(['token' => $token]);
                 } else {
                     $user->activations()->save(new UserActivation([
@@ -588,7 +606,7 @@ class UserController extends Controller
                     ]));
                 }
 
-                return $this->jsonResult(909, '一封验证邮件已发送至'. $email .'，请前往此邮箱进行验证 ^_^');
+                return $this->jsonResult(909, '一封验证邮件已发送至' . $email . '，请前往此邮箱进行验证 ^_^');
             }
         } else {
             return view('pc.auth.login');
@@ -663,7 +681,7 @@ class UserController extends Controller
 
         //验证手机号
         $validator = Validator::make($data, [
-            'mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            'mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
         ]);
         if ($validator->fails()) {
             //验证失败后建议清空存储的发送状态，防止用户重复试错
@@ -695,11 +713,11 @@ class UserController extends Controller
             $param = "$verify_code,5";
 
             //发送短信前先删除此用户的短信验证码缓存
-            if (Cache::has($mobile.'minute')) {
+            if (Cache::has($mobile . 'minute')) {
                 return $this->jsonResult(899);
             } else {
                 Cache::forget($mobile);
-                Cache::forget($mobile.'minute');
+                Cache::forget($mobile . 'minute');
             }
 
             //发送短信验证码
@@ -710,7 +728,7 @@ class UserController extends Controller
             if ($back_data['code'] == '000000') {
                 //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
                 Cache::put($request->input('mobile'), $verify_code, 5);
-                Cache::put($request->input('mobile').'minute', 1, 1);
+                Cache::put($request->input('mobile') . 'minute', 1, 1);
 
                 return $this->jsonResult(900);
             } else {
@@ -730,7 +748,7 @@ class UserController extends Controller
         $user_mobile = User::where('mobile', $data['new_mobile'])->first();
         //验证手机号
         $validator = Validator::make($data, [
-            'new_mobile'     => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
+            'new_mobile' => 'required|string|min:11|regex:/^1[34578][0-9]{9}$/',
         ]);
         if ($validator->fails()) {
             //验证失败后建议清空存储的发送状态，防止用户重复试错
@@ -759,11 +777,11 @@ class UserController extends Controller
             $param = "$verify_code,5";
 
             //发送短信前先删除此用户的短信验证码缓存
-            if (Cache::has($mobile.'minute')) {
+            if (Cache::has($mobile . 'minute')) {
                 return $this->jsonResult(899);
             } else {
                 Cache::forget($mobile);
-                Cache::forget($mobile.'minute');
+                Cache::forget($mobile . 'minute');
             }
 
             //发送短信验证码
@@ -774,7 +792,7 @@ class UserController extends Controller
             if ($back_data['code'] == '000000') {
                 //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
                 Cache::put($request->input('new_mobile'), $verify_code, 5);
-                Cache::put($request->input('new_mobile').'minute', 1, 1);
+                Cache::put($request->input('new_mobile') . 'minute', 1, 1);
 
                 return $this->jsonResult(900);
             } else {
@@ -793,7 +811,7 @@ class UserController extends Controller
         $data = $request->all();
         //验证手机验证码
         $validator = Validator::make($data, [
-            'verify_code' => 'required|validateMobile:'.$data['mobile'],
+            'verify_code' => 'required|validateMobile:' . $data['mobile'],
         ]);
         if ($validator->fails()) {
             //验证失败后建议清空存储的发送状态，防止用户重复试错
@@ -808,7 +826,7 @@ class UserController extends Controller
             if ($bool == true) {
                 //绑定成功，删除此用户的短信验证码缓存
                 Cache::forget($data['mobile']);
-                Cache::forget($data['mobile'].'minute');
+                Cache::forget($data['mobile'] . 'minute');
 
                 return $this->jsonResult(898, '恭喜您，手机号码绑定成功 ^_^', $user->username);
             } else {
@@ -914,9 +932,9 @@ class UserController extends Controller
             $user_data = User_data::where('user_id', Auth::user()->id)->first();
 
             $data = [
-                'user_id'   => Auth::user()->id,
-                'type'      => $credit_config->slug,
-                'credits'   => $credit_config->credits,
+                'user_id' => Auth::user()->id,
+                'type' => $credit_config->slug,
+                'credits' => $credit_config->credits,
             ];
             $credit_sta = UserCreditStatement::create($data);
             if ($credit_sta) {
@@ -947,10 +965,10 @@ class UserController extends Controller
             return $this->error($input['redirect_uri'], config('errors.915'));
         } else if ($input['id_card'] == null) {
             return $this->error($input['redirect_uri'], config('errors.916'));
-        }else if ($validator->fails()) {
+        } else if ($validator->fails()) {
             return $this->error($input['redirect_uri'], config('errors.917'));
             //return back()->withInput()->withErrors($validator);
-        } else if($request->hasFile('front') && $request->hasFile('verso') && $request->hasFile('hand')) {
+        } else if ($request->hasFile('front') && $request->hasFile('verso') && $request->hasFile('hand')) {
             $user_id = Auth::user()->id;
             //获取图片
             $front_file = $request->file('front');
@@ -983,14 +1001,14 @@ class UserController extends Controller
                     $qiniu->qiniu_upload($path);
 
                     $data = [
-                        'user_id'       => $user_id,
-                        'realname'      => $input['real_name'],
-                        'idcard'        => $input['id_card'],
-                        'front_img'     => config('global.qiniu_url') . $front_part_path,
-                        'verso_img'     => config('global.qiniu_url') . $verso_part_path,
-                        'hand_img'      => config('global.qiniu_url') . $hand_part_path,
-                        'status'        => 0,
-                        'feeback'       => '实名认证资料提交成功，我们将在3个工作日内完成审核并反馈，请耐心等待并留意实名认证进度......',
+                        'user_id' => $user_id,
+                        'realname' => $input['real_name'],
+                        'idcard' => $input['id_card'],
+                        'front_img' => config('global.qiniu_url') . $front_part_path,
+                        'verso_img' => config('global.qiniu_url') . $verso_part_path,
+                        'hand_img' => config('global.qiniu_url') . $hand_part_path,
+                        'status' => 0,
+                        'feeback' => '实名认证资料提交成功，我们将在3个工作日内完成审核并反馈，请耐心等待并留意实名认证进度......',
                     ];
                     $user_auth = UserAuthenticate::create($data);
                     if ($user_auth) {
@@ -1024,12 +1042,12 @@ class UserController extends Controller
         $taxonomies = '';
         $careers = Career_direction::get();
 
-        foreach($careers as $career){
-            $taxonomies .= '<option value="'. $career->id. '"';
-            if(strcasecmp($career->name, $ids) === 0){
+        foreach ($careers as $career) {
+            $taxonomies .= '<option value="' . $career->id . '"';
+            if (strcasecmp($career->name, $ids) === 0) {
                 $taxonomies .= ' selected';
             }
-            $taxonomies .= '>'. $career->name .'</option>';
+            $taxonomies .= '>' . $career->name . '</option>';
         }
         //dd($taxonomies);
         return $taxonomies;
@@ -1043,11 +1061,11 @@ class UserController extends Controller
     public function active_rank()
     {
         $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.answer_count','DESC')
-            ->orderBy('user_datas.article_count','DESC')
-            ->orderBy('user.updated_at','DESC')
-            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
+            ->where('user.user_status', '>', 0)
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->orderBy('user_datas.article_count', 'DESC')
+            ->orderBy('user.updated_at', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.active_rank')->with(['active_users' => $active_users]);
@@ -1061,9 +1079,9 @@ class UserController extends Controller
     public function credit_rank()
     {
         $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
-            ->where('user.user_status','>',0)
-            ->orderBy('user_datas.credits','DESC')
-            ->select('user.id','user.username','user.personal_domain','user.expert_status','user_datas.coins','user_datas.credits','user_datas.attention_count','user_datas.support_count','user_datas.answer_count','user_datas.article_count')
+            ->where('user.user_status', '>', 0)
+            ->orderBy('user_datas.credits', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.credit_rank')->with(['credit_users' => $credit_users]);

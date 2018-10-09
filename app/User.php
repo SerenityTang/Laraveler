@@ -36,12 +36,11 @@ class User extends Authenticatable
     ];
 
 
-
-    public static function getAvatarPath($userId, $size='big', $ext='jpg')
+    public static function getAvatarPath($userId, $size = 'big', $ext = 'jpg')
     {
         $avatarDir = self::getAvatarDir($userId);
-        $avatarFileName = self::getAvatarFileName($userId,$size);
-        return $avatarDir. DIRECTORY_SEPARATOR .$avatarFileName.'.'.$ext;
+        $avatarFileName = self::getAvatarFileName($userId, $size);
+        return $avatarDir . DIRECTORY_SEPARATOR . $avatarFileName . '.' . $ext;
     }
 
     /**
@@ -49,7 +48,7 @@ class User extends Authenticatable
      * @param $user_id
      * @return string
      */
-    public static function getAvatarDir($userId, $rootPath='avatar')
+    public static function getAvatarDir($userId, $rootPath = 'avatar')
     {
         /*$userId = sprintf("%09d", $userId);
         return $rootPath.'/'.substr($userId, 0, 3) . '/' . substr($userId, 3, 2) . '/' . substr($userId, 5, 2);*/
@@ -63,14 +62,14 @@ class User extends Authenticatable
      * @param string $size
      * @return mixed
      */
-    public static function getAvatarFileName($userId, $size='big')
+    public static function getAvatarFileName($userId, $size = 'big')
     {
         $avatarNames = [
-            'small'=>'user_small_'.$userId,
-            'medium'=>'user_medium_'.$userId,
-            'middle'=>'user_middle_'.$userId,
-            'big'=>'user_big_'.$userId,
-            'origin'=>'user_origin_'.$userId
+            'small' => 'user_small_' . $userId,
+            'medium' => 'user_medium_' . $userId,
+            'middle' => 'user_middle_' . $userId,
+            'big' => 'user_big_' . $userId,
+            'origin' => 'user_origin_' . $userId
         ];
         return $avatarNames[$size];
 

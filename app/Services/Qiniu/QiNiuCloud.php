@@ -6,6 +6,7 @@
  * Date: 2018/5/9
  * Time: 下午9:48
  */
+
 namespace App\Services\Qiniu;
 
 use Illuminate\Support\Facades\File;
@@ -14,7 +15,8 @@ use Qiniu\Storage\UploadManager;
 
 class QiNiuCloud
 {
-    public function qiniu_upload($filePath) {//dd($filePath);
+    public function qiniu_upload($filePath)
+    {//dd($filePath);
         // 需要填写你的 Access Key 和 Secret Key
         $accessKey = config('filesystems.disks.qiniu.access_key');
         $secretKey = config('filesystems.disks.qiniu.secret_key');

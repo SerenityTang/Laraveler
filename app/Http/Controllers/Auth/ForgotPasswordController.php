@@ -49,12 +49,13 @@ class ForgotPasswordController extends Controller
      * 获取手机验证码前验证与验证码发送
      *
      */
-    public function mobile_verify_code(Request $request) {
+    public function mobile_verify_code(Request $request)
+    {
         $input = $request->only(['username', 'captcha']);
         $mobile = User::where('mobile', $input['username'])->first();
         $rules = [
-            'username'      =>'required',
-            'captcha'       =>'required|validateCaptcha',
+            'username' => 'required',
+            'captcha' => 'required|validateCaptcha',
         ];
 
         $validator = Validator::make($input, $rules);
@@ -79,11 +80,11 @@ class ForgotPasswordController extends Controller
             $param = "$verify_code,5";
 
             //发送短信前先删除此用户的短信验证码缓存
-            if (Cache::has($input['username'].'minute')) {
+            if (Cache::has($input['username'] . 'minute')) {
                 return $this->jsonResult(899);
             } else {
                 Cache::forget($input['username']);
-                Cache::forget($input['username'].'minute');
+                Cache::forget($input['username'] . 'minute');
             }
 
             //发送短信验证码
@@ -94,7 +95,7 @@ class ForgotPasswordController extends Controller
             if ($back_data['code'] == '000000') {
                 //发送成功，把短信验证码保存在缓存 key：手机号，value：验证码随机数
                 Cache::put($input['username'], $verify_code, 5);     //短信验证码
-                Cache::put($input['username'].'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
+                Cache::put($input['username'] . 'minute', 1, 1);       //记录此手机一分钟内获取验证码标记
 
                 return $this->jsonResult(900);
             } else {
@@ -107,13 +108,13 @@ class ForgotPasswordController extends Controller
     /**
      * 验证手机验证码
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      */
     public function forgot_submit(Request $request)
     {
         $input = $request->only(['username', 'm_code']);
         $rules = [
-            'm_code' => 'required|validateMobile:'.$input['username'],
+            'm_code' => 'required|validateMobile:' . $input['username'],
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -126,7 +127,7 @@ class ForgotPasswordController extends Controller
     /**
      * 提交新密码
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      */
     public function reset_submit(Request $request)
     {

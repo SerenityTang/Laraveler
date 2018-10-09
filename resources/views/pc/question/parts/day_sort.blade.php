@@ -1,10 +1,12 @@
 @foreach($day_hot_questions as $question)
     <li class="list-group-item hot-list-item">
         <h2 class="title">
-            <a href="{{ url('question/show/' . $question->id) }}" title="{{ $question->title }}">{{ $question->title }}</a>
+            <a href="{{ url('question/show/' . $question->id) }}"
+               title="{{ $question->title }}">{{ $question->title }}</a>
         </h2>
         <a class="author" href="{{ url('user/'.$question->user->personal_domain) }}">
-            <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24" alt="{{ $question->user->username }}">
+            <img src="{{ App\Helpers\Helpers::get_user_avatar($question->user_id, 'small') }}" class="avatar-24"
+                 alt="{{ $question->user->username }}">
             <span class="username">{{ $question->user->username }} / </span>
         </a>
         <span class="time" title="{{ $question->created_at }}">

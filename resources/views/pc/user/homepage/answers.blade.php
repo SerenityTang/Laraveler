@@ -18,7 +18,8 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的回答 @else 我的回答 @endif</h4>
+                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的回答 @else
+                            我的回答 @endif</h4>
 
                     <ul class="list-group">
                         <li class="list-group-item list-">
@@ -34,7 +35,9 @@
                             <li class="list-group-item list-">
                                 <div class="row content">
                                     <div class="col-md-12">
-                                        <a href="{{ url('question/show/' . $answer->question_id) }}" title="{{ $answer->question_title }}" class="title">{{ str_limit($answer->question_title, 60) }}</a>
+                                        <a href="{{ url('question/show/' . $answer->question_id) }}"
+                                           title="{{ $answer->question_title }}"
+                                           class="title">{{ str_limit($answer->question_title, 60) }}</a>
                                     </div>
 
                                     <div class="col-md-7">

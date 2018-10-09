@@ -10,7 +10,9 @@
 
 @section('content')
     <div class="swiper-container">
-        <div class="my-pagination"><ul class="my-pagination-ul"></ul></div>
+        <div class="my-pagination">
+            <ul class="my-pagination-ul"></ul>
+        </div>
         <div class="swiper-wrapper">
 
             <div class="swiper-slide">
@@ -90,17 +92,28 @@
 @section('footer')
     <script src="{{ asset('libs/mobile-tab/swiper/swiper.min.js') }}"></script>
     <script>
-        var mySwiper = new Swiper('.swiper-container',{
+        var mySwiper = new Swiper('.swiper-container', {
             pagination: '.my-pagination-ul',
             paginationClickable: true,
             paginationBulletRender: function (index, className) {
                 switch (index) {
-                    case 0: name='最新';break;
-                    case 1: name='热门';break;
-                    case 2: name='悬赏';break;
-                    case 3: name='零回答';break;
-                    case 4: name='已采纳';break;
-                    default: name='';
+                    case 0:
+                        name = '最新';
+                        break;
+                    case 1:
+                        name = '热门';
+                        break;
+                    case 2:
+                        name = '悬赏';
+                        break;
+                    case 3:
+                        name = '零回答';
+                        break;
+                    case 4:
+                        name = '已采纳';
+                        break;
+                    default:
+                        name = '';
                 }
                 return '<li class="' + className + '">' + name + '</li>';
             }

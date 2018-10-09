@@ -16,8 +16,11 @@
                         <div id="tabs" class="tabs">
                             <nav>
                                 <ul>
-                                    <li @if($filter === 'newest') class="tab-current" @endif><a href="{{ route('blog.index') }}"><span>最新博客</span></a></li>
-                                    <li @if($filter === 'hottest') class="tab-current" @endif><a href="{{ route('blog.index', ['filter' => 'hottest']) }}"><span>热门博客</span></a></li>
+                                    <li @if($filter === 'newest') class="tab-current" @endif><a
+                                                href="{{ route('blog.index') }}"><span>最新博客</span></a></li>
+                                    <li @if($filter === 'hottest') class="tab-current" @endif><a
+                                                href="{{ route('blog.index', ['filter' => 'hottest']) }}"><span>热门博客</span></a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -27,13 +30,16 @@
                             @foreach($blogs as $blog)
                                 <li class="list-group-item global-list-item">
                                     <h2 class="title">
-                                        <a href="{{ url('blog/show/'.$blog->id) }}" title="{{ $blog->title }}">{{ $blog->title }}</a>
+                                        <a href="{{ url('blog/show/'.$blog->id) }}"
+                                           title="{{ $blog->title }}">{{ $blog->title }}</a>
                                         @foreach($blog->tags as $tag)
-                                            <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="qb-tag">{{ $tag->name }}</a>
+                                            <a href="{{ url('/tag/tag_show/'. $tag->id) }}"
+                                               class="qb-tag">{{ $tag->name }}</a>
                                         @endforeach
                                     </h2>
                                     <a class="author" href="{{ url('') }}">
-                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}" class="avatar-24" alt="{{ $blog->user->username }}">
+                                        <img src="{{ App\Helpers\Helpers::get_user_avatar($blog->user_id, 'small') }}"
+                                             class="avatar-24" alt="{{ $blog->user->username }}">
                                         <span class="username">{{ $blog->user->username }} / </span>
                                     </a>
                                     <span class="time" title="{{ $blog->created_at }}">
@@ -41,11 +47,14 @@
                                     </span>
 
                                     <div class="ques-count">
-                                        <span title="浏览数"><i class="iconfont icon-liulan"></i>{{$blog->view_count}}</span>
+                                        <span title="浏览数"><i
+                                                    class="iconfont icon-liulan"></i>{{$blog->view_count}}</span>
                                         <span>|</span>
-                                        <span title="点赞数"><i class="iconfont icon-dianzan1"></i>{{$blog->like_count}}</span>
+                                        <span title="点赞数"><i
+                                                    class="iconfont icon-dianzan1"></i>{{$blog->like_count}}</span>
                                         <span>|</span>
-                                        <span title="收藏数"><i class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
+                                        <span title="收藏数"><i
+                                                    class="iconfont icon-shoucang1"></i>{{$blog->favorite_count}}</span>
                                         <span>|</span>
                                         <span title="评论数"><i class="iconfont icon-pinglun"></i>{{$blog->comment_count}}</span>
                                     </div>
@@ -65,7 +74,8 @@
                         <ul class="list-group stick-list">
                             @foreach($stick_blogs as $stick_blog)
                                 <li class="list-group-item stick-item">
-                                    <a class="stick" href="{{ url('blog/show/'.$stick_blog->id) }}" title="{{ $stick_blog->title }}">{{ str_limit($stick_blog->title, 28) }}</a>
+                                    <a class="stick" href="{{ url('blog/show/'.$stick_blog->id) }}"
+                                       title="{{ $stick_blog->title }}">{{ str_limit($stick_blog->title, 28) }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -80,7 +90,8 @@
                         <ul class="list-group promote-list">
                             @foreach($promote_blogs as $promote_blog)
                                 <li class="list-group-item promote-item">
-                                    <a class="promote" href="{{ url('blog/show/'.$promote_blog->id) }}" title="{{ $promote_blog->title }}">{{ str_limit($promote_blog->title, 28) }}</a>
+                                    <a class="promote" href="{{ url('blog/show/'.$promote_blog->id) }}"
+                                       title="{{ $promote_blog->title }}">{{ str_limit($promote_blog->title, 28) }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -95,7 +106,8 @@
                         <div id="tagscloud">
                             @if(isset($hot_tags))
                                 @foreach($hot_tags as $tag)
-                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}" class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
+                                    <a href="{{ url('/tag/tag_show/'. $tag->id) }}"
+                                       class="tagc{{ random_int(1,9) }}">{{ $tag->name }}</a>
                                 @endforeach
                             @endif
                         </div>

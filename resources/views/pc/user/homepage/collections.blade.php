@@ -20,7 +20,8 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
-                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的收藏 @else 我的收藏 @endif</h4>
+                    <h4 class="title">@if($user->id != (Auth::check() ? Auth::user()->id : 0)) TA的收藏 @else
+                            我的收藏 @endif</h4>
 
                     <div id="horizontalTab" class="tab-top">
                         <ul>
@@ -43,12 +44,15 @@
                                     <li class="list-group-item list-tab">
                                         <div class="row content">
                                             <div class="col-md-7">
-                                                <a href="{{ url('question/show/' . $coll_que->entityable_id) }}" title="{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_question($coll_que->entityable_id)->title, 60) }}</a>
+                                                <a href="{{ url('question/show/' . $coll_que->entityable_id) }}"
+                                                   title="{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->title }}"
+                                                   class="title">{{ str_limit(\App\Helpers\Helpers::get_question($coll_que->entityable_id)->title, 60) }}</a>
                                             </div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->view_count }}</div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->answer_count }}</div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->vote_count }}</div>
-                                            <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->created_at }}">
+                                            <div class="col-md-2 create-time"
+                                                 title="{{ \App\Helpers\Helpers::get_question($coll_que->entityable_id)->created_at }}">
                                                 {!! \App\Helpers\Helpers::get_question($coll_que->entityable_id)->created_at !!}
                                             </div>
                                         </div>
@@ -72,12 +76,15 @@
                                     <li class="list-group-item list-tab">
                                         <div class="row content">
                                             <div class="col-md-7">
-                                                <a href="{{ url('blog/show/' . $coll_blog->entityable_id) }}" title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title }}" class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title, 60) }}</a>
+                                                <a href="{{ url('blog/show/' . $coll_blog->entityable_id) }}"
+                                                   title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title }}"
+                                                   class="title">{{ str_limit(\App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->title, 60) }}</a>
                                             </div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->view_count }}</div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->like_count }}</div>
                                             <div class="col-md-1 count">{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->favorite_count }}</div>
-                                            <div class="col-md-2 create-time" title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->created_at }}">
+                                            <div class="col-md-2 create-time"
+                                                 title="{{ \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->created_at }}">
                                                 {!! \App\Helpers\Helpers::get_blog($coll_blog->entityable_id)->created_at !!}
                                             </div>
                                         </div>

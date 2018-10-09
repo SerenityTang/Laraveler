@@ -7,9 +7,9 @@
  */
 
 //Route::resource('question', 'QuestionController');
-Route::group(['prefix' => 'question'], function() {
+Route::group(['prefix' => 'question'], function () {
     //问答tab分类
-    Route::get('/{filter?}', ['as' => 'question.index', 'uses' => 'QuestionController@index'])->where(['filter'=>'(newest|hottest|reward|unanswer|unsolve|adopt)']);
+    Route::get('/{filter?}', ['as' => 'question.index', 'uses' => 'QuestionController@index'])->where(['filter' => '(newest|hottest|reward|unanswer|unsolve|adopt)']);
     Route::get('/show/{id}', ['as' => 'question.show', 'uses' => 'QuestionController@show']);       //问答内容页
     Route::get('/{id}/show_best_answer', ['as' => 'question.show_best_answer', 'uses' => 'QuestionController@show_best_answer']);       //问答最佳回答
     Route::get('/day_sort', ['as' => 'question.day_sort', 'uses' => 'QuestionController@day_sort']);       //热门问答日榜
@@ -18,7 +18,7 @@ Route::group(['prefix' => 'question'], function() {
     Route::get('/warm_week', ['as' => 'question.warm_week', 'uses' => 'QuestionController@warm_week']);       //热心周排行榜
     Route::get('/warm_month', ['as' => 'question.warm_month', 'uses' => 'QuestionController@warm_month']);       //热心月排行榜
 
-    Route::group(['middleware' => ['auth']], function() {
+    Route::group(['middleware' => ['auth']], function () {
         Route::get('/create', ['as' => 'question.create', 'uses' => 'QuestionController@create']);      //创建问答
         Route::any('/store', ['as' => 'question.store', 'uses' => 'QuestionController@store']);      //保存创建问答
         Route::any('/store_draft', ['as' => 'question.store_draft', 'uses' => 'QuestionController@store_draft']);      //保存问答草稿

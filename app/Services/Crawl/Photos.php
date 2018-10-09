@@ -6,6 +6,7 @@
  * Date: 2018/5/6
  * Time: 上午10:26
  */
+
 namespace App\Services\Crawl;
 
 use GuzzleHttp\Client;
@@ -17,7 +18,8 @@ class Photos
     private $base_url = 'http://www.duxingshe.cn/photos';
     private $downloadDir = 'dxs';
 
-    public function crawlDxs() {
+    public function crawlDxs()
+    {
         $dom = new Dom();
         $jar = new CookieJar();
         $client = new Client(['base_uri' => $this->base_url, 'cookies' => true]);
@@ -26,7 +28,7 @@ class Photos
         /*$client = new Client();
         $response = $client->request('GET', $this->base_url);*/
 
-        $dom->load((string) $response->getBody());//dd($dom->load((string) $response->getBody()));
+        $dom->load((string)$response->getBody());//dd($dom->load((string) $response->getBody()));
 
         $photo = $dom->find('.photo_thumbnail');
         $count = count($photo);     //获取首页图片总数

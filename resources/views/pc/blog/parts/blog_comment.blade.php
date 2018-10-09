@@ -1,10 +1,12 @@
 @foreach($comments as $comment)
     <a class="media-left ans-avatar avatar-40" href="{{ url('user/'.$comment->user->personal_domain) }}">
-        <img src="{{ App\Helpers\Helpers::get_user_avatar($comment->user_id, 'middle') }}" class="avatar-40" alt="{{ $comment->user->username }}">
+        <img src="{{ App\Helpers\Helpers::get_user_avatar($comment->user_id, 'middle') }}" class="avatar-40"
+             alt="{{ $comment->user->username }}">
     </a>
     <div class="media-body">
         <h4 class="media-heading">
-            <a class="author-name" href="{{ url('user/'.$comment->user->personal_domain) }}"><strong>{{ $comment->user->username }}</strong></a>
+            <a class="author-name"
+               href="{{ url('user/'.$comment->user->personal_domain) }}"><strong>{{ $comment->user->username }}</strong></a>
             <span class="separate">评论于</span>
             <span class="time" title="{{ $comment->created_at }}">
                 {!! $comment->created_at !!}
@@ -15,19 +17,23 @@
 
         <div class="operation">
             <span class="oper-left">
-                <a href="javascript:void(0)" title="支持" class="like-icon @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif" data-comment-id="{{ $comment->id }}">
+                <a href="javascript:void(0)" title="支持"
+                   class="like-icon @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif"
+                   data-comment-id="{{ $comment->id }}">
                     <i class="iconfont icon-dianzan"></i>
                     <span class="like-count @if(\App\Helpers\Helpers::support($comment->id, 'Comment', 'support') != null)active @endif">{{ $comment->support_count }}</span>
                 </a>
 
-                <a href="javascript:void(0)" title="回复" class="reply-icon" data-user-name="{{ $comment->user->username }}" data-user-id="{{ $comment->user_id }}">
+                <a href="javascript:void(0)" title="回复" class="reply-icon"
+                   data-user-name="{{ $comment->user->username }}" data-user-id="{{ $comment->user_id }}">
                     <i class="iconfont icon-icon_reply"></i>
                 </a>
             </span>
 
             <span class="oper-right">
                 <a href="javascript:void(0)" title="编辑"><i class="iconfont icon-bianji1 edit-icon"></i></a>
-                <a href="javascript:void(0)" title="删除"><i class="iconfont icon-weibiaoti544 delete-icon" data-comment-id="{{ $comment->id }}"></i></a>
+                <a href="javascript:void(0)" title="删除"><i class="iconfont icon-weibiaoti544 delete-icon"
+                                                           data-comment-id="{{ $comment->id }}"></i></a>
             </span>
         </div>
     </div>
@@ -49,11 +55,11 @@
             @if (Auth::check())
             if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
                 icon.parents('.comment-item').find('.comment-form textarea').val('');
-                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
                 icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
             } else {
                 icon.parents('.comment-item').find('.comment-form textarea').val('');
-                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
             }
             @else
                 window.location.href = '{{ url('/login') }}';
@@ -68,11 +74,11 @@
             @if (Auth::check())
             if (icon.parents('.comment-item').find('.comment-form').is(":hidden")) {
                 icon.parents('.comment-item').find('.comment-form textarea').val('');
-                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
                 icon.parents('.comment-item').find('.comment-form').slideToggle('slow');
             } else {
                 icon.parents('.comment-item').find('.comment-form textarea').val('');
-                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ '+user_name);
+                icon.parents('.comment-item').find('.comment-form textarea').attr('placeholder', '@ ' + user_name);
             }
             @else
                 window.location.href = '{{ url('/login') }}';
@@ -94,11 +100,11 @@
         $('.btn-child-reply').click(function () {
             var icon = $(this);
             var postData = icon.parents('.comment-form').find("#comment-content").serializeArray();
-            $.post('/comment/mutual_blog_store', postData, function(html){
+            $.post('/comment/mutual_blog_store', postData, function (html) {
                 $('.comment-content .comment-form').hide();
                 icon.parents('.comment-item').find(".comment-input").append(html);
 
-                $('.comment-count').html(parseInt($('.comment-count').html())+1+' 条评论');       //回答的评论数+1
+                $('.comment-count').html(parseInt($('.comment-count').html()) + 1 + ' 条评论');       //回答的评论数+1
             });
         });
 
@@ -107,7 +113,7 @@
             var icon = $(this);
             var comment_id = $(this).data('comment-id');
             var like_count = icon.find('.like-count').html();
-            $.get('/comment/support/'+comment_id, function (message) {
+            $.get('/comment/support/' + comment_id, function (message) {
                 if (message == 'support') {
                     like_count++;
                     icon.find('.like-count').html(like_count);
@@ -138,7 +144,7 @@
             var icon = $(this);
             var comment_id = $(this).data('comment-id');
             var postData = icon.parents('.edit-comment').find("#edit-comment").serializeArray();
-            $.post('/comment/edit/'+comment_id, postData, function(message){
+            $.post('/comment/edit/' + comment_id, postData, function (message) {
                 icon.parents('.comment-item').find('.edit-comment').hide();
                 icon.parents('.comment-item').find('.media .media-body p').html(message);
                 icon.parents('.comment-item').find('.media').show('slow');
@@ -148,16 +154,16 @@
         $('.delete-icon').click(function () {
             var icon = $(this);
             var comment_id = $(this).data('comment-id');
-            zeroModal.confirm("确定删除评论吗？", function() {
+            zeroModal.confirm("确定删除评论吗？", function () {
                 $.ajax({
-                    url : "{{url('/comment/destroy/[id]')}}".replace('[id]', comment_id),
-                    data : {
+                    url: "{{url('/comment/destroy/[id]')}}".replace('[id]', comment_id),
+                    data: {
                         _token: '{{csrf_token()}}',
                     },
-                    dataType : "json",
-                    type : "POST",
-                    success : function (res) {
-                        if(res.code == 710){
+                    dataType: "json",
+                    type: "POST",
+                    success: function (res) {
+                        if (res.code == 710) {
                             layer.msg(res.message, {
                                 icon: 6,//提示的样式
                                 time: 2000, //2秒关闭（如果不配置，默认是3秒）//设置后不需要自己写定时关闭了，单位是毫秒
@@ -168,7 +174,7 @@
                         }
 
                     },
-                    error : function () {
+                    error: function () {
                         zeroModal.error('系统错误！');
                     }
                 });

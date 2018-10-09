@@ -65,9 +65,9 @@ class TagController extends Controller
             } else {
                 //如果此用户无关注过此标签，则属于关注
                 $data = [
-                    'user_id'           =>$user->id,
-                    'entityable_id'   =>$tag_id,
-                    'entityable_type' =>get_class($tag)
+                    'user_id' => $user->id,
+                    'entityable_id' => $tag_id,
+                    'entityable_type' => get_class($tag)
                 ];
 
                 $new_attention = Attention::create($data);

@@ -23,7 +23,9 @@
                             <label for="" class="col-sm-2 control-label">邮箱</label>
                             @if($user->email_status == 0)
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control text-extra" id="email" name="email" placeholder="请输入绑定邮箱" value="{{ $user->email }}" @if($user->email) disabled @endif>
+                                    <input type="text" class="form-control text-extra" id="email" name="email"
+                                           placeholder="请输入绑定邮箱" value="{{ $user->email }}"
+                                           @if($user->email) disabled @endif>
                                 </div>
                                 <div class="col-md-2 btn-bind @if($user->email != null)show-active @endif">
                                     <button type="button" class="btn btn-lg email-bind">绑定</button>
@@ -38,10 +40,13 @@
                                 </div>
                             @elseif($user->email_status == 1)
                                 <div class="col-md-5">
-                                    <p class="binded-email">{{ substr_replace($user->email, ' **** ', 3, 6) }} <span class="email-binded-tip">已绑定</span></p>
+                                    <p class="binded-email">{{ substr_replace($user->email, ' **** ', 3, 6) }} <span
+                                                class="email-binded-tip">已绑定</span></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-lg email-changed" data-toggle="modal" data-target="#verifyEmailModal">更换</button>
+                                    <button type="button" class="btn btn-lg email-changed" data-toggle="modal"
+                                            data-target="#verifyEmailModal">更换
+                                    </button>
                                 </div>
                             @endif
                         </div>
@@ -50,13 +55,15 @@
                             <div class="form-group">
                                 <label for="" class="col-sm-2 control-label">手机</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control text-extra" id="mobile" name="mobile" placeholder="请输入绑定手机" value="{{--{{ $user->mobile }}--}}">
+                                    <input type="text" class="form-control text-extra" id="mobile" name="mobile"
+                                           placeholder="请输入绑定手机" value="{{--{{ $user->mobile }}--}}">
                                 </div>
                             </div>
                             <div class="form-group verify">
                                 <label for="" class="col-sm-2 control-label"></label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control text-extra" id="verify_code" name="verify_code" maxlength="6" placeholder="请输入验证码">
+                                    <input type="text" class="form-control text-extra" id="verify_code"
+                                           name="verify_code" maxlength="6" placeholder="请输入验证码">
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-lg get-vcode">获取验证码</button>
@@ -69,10 +76,13 @@
                             <div class="form-group">
                                 <label for="" class="col-sm-2 control-label">手机</label>
                                 <div class="col-md-5">
-                                    <p class="binded-mobile">{{ substr_replace($user->mobile, ' **** ', 3, 4)}} <span class="mobile-binded-tip">已绑定</span></p>
+                                    <p class="binded-mobile">{{ substr_replace($user->mobile, ' **** ', 3, 4)}} <span
+                                                class="mobile-binded-tip">已绑定</span></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-lg mobile-changed" data-toggle="modal" data-target="#verifyMobileModal">更换</button>
+                                    <button type="button" class="btn btn-lg mobile-changed" data-toggle="modal"
+                                            data-target="#verifyMobileModal">更换
+                                    </button>
                                 </div>
                             </div>
                         @endif
@@ -119,8 +129,8 @@
                             layer.msg(res.message, {
                                 icon: 7,
                                 time: 3000,
-                                end : function(res){
-                                    location.href='{{ url('/login') }}';
+                                end: function (res) {
+                                    location.href = '{{ url('/login') }}';
                                 }
                             });
                         } else if (res.code == 893) {
@@ -165,7 +175,7 @@
                 }
                 $.ajax({
                     type: 'post',
-                    url:  '{{ url('/user/verify_mobile_code') }}',
+                    url: '{{ url('/user/verify_mobile_code') }}',
                     data: {
                         _token: '{{csrf_token()}}',
                         'mobile': $('#new-mobile').val(),
@@ -182,8 +192,8 @@
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,
-                                end : function(res){
-                                    location.href='{{ url('/user/[data]/security') }}'.replace('[data]', data);
+                                end: function (res) {
+                                    location.href = '{{ url('/user/[data]/security') }}'.replace('[data]', data);
                                 }
                             });
 
@@ -267,7 +277,7 @@
                     clearTimeout(timeId);
                     changeBtn(opts.language.oricon, false);
                 } else {
-                    timeId = setTimeout(function() {
+                    timeId = setTimeout(function () {
                         clearTimeout(timeId);
                         changeBtn(btnText.replace('60 s', (seconds--) + ' s'), true);
                         timer(seconds);
@@ -284,19 +294,19 @@
         });
 
         var options = {
-            token       : null,
-            interval    : 60,
-            voice       : false,
-            requestUrl  : null,
-            requestData : null,
-            notify      : function (msg, type) {
+            token: null,
+            interval: 60,
+            voice: false,
+            requestUrl: null,
+            requestData: null,
+            notify: function (msg, type) {
                 alert(msg);
             },
-            language    : {
-                oricon     : '获取验证码',
-                sending    : '短信发送中...',
-                failed     : '请求失败，请重试',
-                resendable : '60 s'
+            language: {
+                oricon: '获取验证码',
+                sending: '短信发送中...',
+                failed: '请求失败，请重试',
+                resendable: '60 s'
             }
         };
     </script>
@@ -304,7 +314,7 @@
 
 
     <script>
-        $(function(){
+        $(function () {
             //邮箱更换模态框取消隐藏
             $('.email-cancel-btn').click(function () {
                 $('#verifyEmailModal').modal('hide');
@@ -334,8 +344,8 @@
                             layer.msg(res.message, {
                                 icon: 7,
                                 time: 3000,
-                                end : function(res){
-                                    location.href='{{ url('/login') }}';
+                                end: function (res) {
+                                    location.href = '{{ url('/login') }}';
                                 }
                             });
                         } else if (res.code == 890) {
@@ -441,7 +451,7 @@
                                 time: 6000,
                             });
                             $('#email').val(res.data);                  //填充输入内容
-                            $('#email').attr("disabled","disabled");    //设置input不可编辑
+                            $('#email').attr("disabled", "disabled");    //设置input不可编辑
                             $('.btn-bind').addClass('show-active');     //绑定按钮隐藏
                             $('.cv-btn').removeClass('show-active');    //更换&验证按钮显示
                         } else if (res.code == 910) {
@@ -500,7 +510,7 @@
             });
             //邮箱地址更换取消
             $('.email-cancel').click(function () {
-                $('#email').attr("disabled","disabled");    //设置input不可编辑
+                $('#email').attr("disabled", "disabled");    //设置input不可编辑
                 $('.sc-btn').addClass('show-active');    //提交&取消按钮隐藏
                 $('.cv-btn').removeClass('show-active');    //更换&验证按钮显示
             });
@@ -587,7 +597,7 @@
                     clearTimeout(timeId);
                     changeBtn(opts.language.oricon, false);
                 } else {
-                    timeId = setTimeout(function() {
+                    timeId = setTimeout(function () {
                         clearTimeout(timeId);
                         changeBtn(btnText.replace('60 s', (seconds--) + ' s'), true);
                         timer(seconds);
@@ -604,19 +614,19 @@
         });
 
         var defaults = {
-            token       : null,
-            interval    : 60,
-            voice       : false,
-            requestUrl  : null,
-            requestData : null,
-            notify      : function (msg, type) {
+            token: null,
+            interval: 60,
+            voice: false,
+            requestUrl: null,
+            requestData: null,
+            notify: function (msg, type) {
                 alert(msg);
             },
-            language    : {
-                oricon     : '获取验证码',
-                sending    : '短信发送中...',
-                failed     : '请求失败，请重试',
-                resendable : '60 s'
+            language: {
+                oricon: '获取验证码',
+                sending: '短信发送中...',
+                failed: '请求失败，请重试',
+                resendable: '60 s'
             }
         };
     </script>
@@ -631,7 +641,7 @@
             $('.mobile-bind').click(function () {
                 $.ajax({
                     type: 'post',
-                    url:  '{{ url('/user/verify_mobile_code') }}',
+                    url: '{{ url('/user/verify_mobile_code') }}',
                     data: {
                         _token: '{{csrf_token()}}',
                         'mobile': $('#mobile').val(),
@@ -650,8 +660,8 @@
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 2000,
-                                end : function(res){
-                                    location.href='{{ url('/user/[data]/security') }}'.replace('[data]', data);
+                                end: function (res) {
+                                    location.href = '{{ url('/user/[data]/security') }}'.replace('[data]', data);
                                 }
                             });
 

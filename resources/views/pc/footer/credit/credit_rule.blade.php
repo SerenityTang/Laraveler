@@ -25,22 +25,22 @@
                 <table class="table table-hover">
                     <caption>积分规则列表</caption>
                     <thead>
-                        <tr>
-                            <th>名称</th>
-                            <th>分值</th>
-                            <th>次数(一天内)</th>
-                            <th>说明</th>
-                        </tr>
+                    <tr>
+                        <th>名称</th>
+                        <th>分值</th>
+                        <th>次数(一天内)</th>
+                        <th>说明</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach($user_credit_configs as $user_credit_config)
-                            <tr>
-                                <td>{{ $user_credit_config->behavior }}</td>
-                                <td>+{{ $user_credit_config->credits }}</td>
-                                <td>{{ $user_credit_config->time }}</td>
-                                <td>{{ $user_credit_config->description }}</td>
-                            </tr>
-                        @endforeach
+                    @foreach($user_credit_configs as $user_credit_config)
+                        <tr>
+                            <td>{{ $user_credit_config->behavior }}</td>
+                            <td>+{{ $user_credit_config->credits }}</td>
+                            <td>{{ $user_credit_config->time }}</td>
+                            <td>{{ $user_credit_config->description }}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

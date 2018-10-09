@@ -17,13 +17,15 @@
             <div class="col-md-9">
                 <div class="panel panel-default right-container">
                     <h4 class="title"><i class="iconfont icon-mima"></i>密码修改</h4>
-                    <form class="form-horizontal" role="form" method="post" action="{{ url('user/profile/modify_password') }}">
-                        <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}" />
+                    <form class="form-horizontal" role="form" method="post"
+                          action="{{ url('user/profile/modify_password') }}">
+                        <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}"/>
 
                         <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                             <label for="" class="col-sm-2 control-label">原密码</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control text-extra" id="old_password" name="old_password" placeholder="请输入原密码">
+                                <input type="password" class="form-control text-extra" id="old_password"
+                                       name="old_password" placeholder="请输入原密码">
                             </div>
                             @if ($errors->has('old_password'))
                                 <span class="help-block help-block-clear">
@@ -34,7 +36,8 @@
                         <div class="form-group{{ $errors->has('new_password') ? ' has-error' : '' }}">
                             <label for="" class="col-sm-2 control-label">新密码</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control text-extra" id="new_password" name="new_password" placeholder="请输入新密码">
+                                <input type="password" class="form-control text-extra" id="new_password"
+                                       name="new_password" placeholder="请输入新密码">
                             </div>
                             @if ($errors->has('new_password'))
                                 <span class="help-block help-block-clear">
@@ -45,7 +48,8 @@
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                             <label for="" class="col-sm-2 control-label">确认密码</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control text-extra" id="password_confirmation" name="password_confirmation" placeholder="请输入确认密码">
+                                <input type="password" class="form-control text-extra" id="password_confirmation"
+                                       name="password_confirmation" placeholder="请输入确认密码">
                             </div>
                             @if ($errors->has('password_confirmation'))
                                 <span class="help-block help-block-clear">

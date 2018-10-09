@@ -68,13 +68,13 @@ class SearchController extends Controller
                         $querys = Tag::where('name', $word)->first();
                         if (!$querys || !$querys->id) {
                             $data = [
-                                'tid'         => 0,
-                                'user_id'     => $user->id,
-                                'name'        => $word,
-                                'avatar'      => '',
+                                'tid' => 0,
+                                'user_id' => $user->id,
+                                'name' => $word,
+                                'avatar' => '',
                                 'description' => '',
-                                'created_at'  => Carbon::now()->toDateTimeString(),
-                                'updated_at'  => Carbon::now()->toDateTimeString()
+                                'created_at' => Carbon::now()->toDateTimeString(),
+                                'updated_at' => Carbon::now()->toDateTimeString()
                             ];
                             Tag::create($data);
                         }
@@ -92,8 +92,8 @@ class SearchController extends Controller
         foreach ($querys as $index => $tag) {
             $taxonomy = $tag->taxonomy;
             $tags[$index] = [
-                'value'    => $tag->id,
-                'text'     => $tag->name,
+                'value' => $tag->id,
+                'text' => $tag->name,
                 'category' => $taxonomy ? $taxonomy->name : '',
             ];
         }

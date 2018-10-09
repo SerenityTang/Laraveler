@@ -31,96 +31,112 @@
                                 @foreach($per_dyns as $per_dyn)
                                     @if($per_dyn->action == 'publishQues')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 发布了问答于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                发布了问答于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'answerQues')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 回答了问答于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                回答了问答于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'voteQues')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 投票了问答于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                投票了问答于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <<a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <<a href="{{ url('question/show/'.$per_dyn->source_id) }}"
+                                                class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'attentionQues')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 关注了问答于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                关注了问答于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'collectionQues')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 收藏了问答于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                收藏了问答于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('question/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'publishBlog')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 发布了博客于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                发布了博客于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <div class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </div>
                                         </li>
                                     @elseif($per_dyn->action == 'likeBlog')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 点赞了博客于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                点赞了博客于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
                                         </li>
                                     @elseif($per_dyn->action == 'favoriteBlog')
                                         <li class="list-group-item dyn-item">
-                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}} 收藏了博客于
+                                            <p class="dyn-info">{{\App\Helpers\Helpers::get_user($per_dyn->user_id)->username}}
+                                                收藏了博客于
                                                 <span class="time" title="{{ $per_dyn->created_at }}">
                                                     {!! $per_dyn->created_at !!}
                                                 </span>
                                             </p>
-                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}" class="dyn-item-title">{{ $per_dyn->title }}</a>
+                                            <a href="{{ url('blog/show/'.$per_dyn->source_id) }}"
+                                               class="dyn-item-title">{{ $per_dyn->title }}</a>
                                             <p class="dyn-content">
                                                 {!! str_limit($per_dyn->content, 1000) !!}
                                             </p>
