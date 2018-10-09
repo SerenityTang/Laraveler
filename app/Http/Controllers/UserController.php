@@ -37,17 +37,24 @@ use Cache;
 
 class UserController extends Controller
 {
-    //用户个人主页
+    /**
+     * 用户个人主页
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
+        $user_data = $user->userData;
 
         //统计主页被访问记录
         $curr_user = Auth::check() ? Auth::user() : null;
-        if ($curr_user == null) {
+        if (is_null($curr_user)) {
+            //当前访问者未登录，被访问者访问记录+1
             Event::fire(new HomepageViewEvent($user_data));
         } else if ($curr_user->id != $user->id) {
+            //当前访问者已登录且访问非登录者主页，被访问者访问记录+1
             Event::fire(new HomepageViewEvent($user_data));
         }
 
@@ -57,121 +64,157 @@ class UserController extends Controller
         return view('pc.user.homepage.index')->with(['user' => $user, 'user_data' => $user_data, 'per_dyns' => $per_dyns]);
     }
 
-    //用户个人主页之我的问答
+    /**
+     * 用户个人主页之我的问答
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function questions($personal_domain)
     {
         //通过唯一的个性域名获取用户
         $user = User::where('personal_domain', $personal_domain)->first();
         //获取用户数据
-        $user_data = User_data::where('user_id', $user->id)->first();
+        $user_data = $user->userData;
         //获取用户问答
         $questions = $user->questions;
 
         return view('pc.user.homepage.questions')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions]);
     }
 
-    //用户个人主页之我的回复
+    /**
+     * 用户个人主页之我的回复
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function answers($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
+        $user_data = $user->userData;
         //获取用户回答
         $answers = $user->answers;
 
         return view('pc.user.homepage.answers')->with(['user' => $user, 'user_data' => $user_data, 'answers' => $answers]);
     }
 
-    //用户个人主页之我的文章
+    /**
+     * 用户个人主页之我的文章
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function blogs($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
+        $user_data = $user->userData;
         //获取用户博客
         $blogs = $user->blogs;
 
         return view('pc.user.homepage.blogs')->with(['user' => $user, 'user_data' => $user_data, 'blogs' => $blogs]);
     }
 
-    //用户个人主页之我的关注
+    /**
+     * 用户个人主页之我的关注
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function attentions($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
-
+        $user_data = $user->userData;
         //关注的用户
         $atte_users = $user->atte_user;
-
         //关注的问答
         $atte_ques = $user->atte_ques;
 
         return view('pc.user.homepage.attentions')->with(['user' => $user, 'user_data' => $user_data, 'atte_ques' => $atte_ques, 'atte_users' => $atte_users]);
     }
 
-    //用户个人主页之我的粉丝
+    /**
+     * 用户个人主页之我的粉丝
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function fans($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
+        $user_data = $user->userData;
         $fans = Attention::where('entityable_id', $user->id)->where('entityable_type', get_class($user))->get();
 
         return view('pc.user.homepage.fans')->with(['user' => $user, 'user_data' => $user_data, 'fans' => $fans]);
     }
 
-    //用户个人主页之我的支持
+    /**
+     * 用户个人主页之我的支持
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function supports($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
-
+        $user_data = $user->userData;
         //支持的回答
         $supp_answers = $user->supp_answer;
-
         //反对的回答
         $oppo_answers = $user->oppo_answer;
-
         //点赞的博客
         $like_blogs = $user->like_blog;
 
         return view('pc.user.homepage.supports')->with(['user' => $user, 'user_data' => $user_data, 'supp_answers' => $supp_answers, 'oppo_answers' => $oppo_answers, 'like_blogs' => $like_blogs]);
     }
 
-    //用户个人主页之我的收藏
+    /**
+     * 用户个人主页之我的收藏
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function collections($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
-
+        $user_data = $user->userData;
         //收藏的博客
         $coll_blogs = $user->coll_blog;
-
         //收藏的问答
         $coll_ques = $user->coll_ques;
 
         return view('pc.user.homepage.collections')->with(['user' => $user, 'user_data' => $user_data, 'coll_ques' => $coll_ques, 'coll_blogs' => $coll_blogs]);
     }
 
-    //用户个人主页之我的草稿
+    /**
+     * 用户个人主页之我的草稿
+     *
+     * @param $personal_domain
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function drafts($personal_domain)
     {
         $user = User::where('personal_domain', $personal_domain)->first();
-        $user_data = User_data::where('user_id', $user->id)->first();
-
+        $user_data = $user->userData;
         //问答草稿
         $questions = Question::where('user_id', $user->id)->where('status', 2)->get();
-
         //博客草稿
         $blogs = Blog::where('user_id', $user->id)->where('status', 2)->get();
 
         return view('pc.user.homepage.drafts')->with(['user' => $user, 'user_data' => $user_data, 'questions' => $questions, 'blogs' => $blogs]);
     }
 
-    //用户个人主页之关注用户
+    /**
+     * 用户个人主页之关注用户
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     public function attention_user(Request $request)
     {
         //获取被关注用户id
         $user = $request->input('user');
         $users = User::where('id', $user)->first();
-        $user_data = User_data::where('user_id', $user)->first();
+        $user_data = $user->userData;
         //获取当前用户id
         $curr_user = $request->input('curr_user');
         $attention = Attention::where('user_id', $curr_user)->where('entityable_id', $user)->where('entityable_type', get_class($users))->first();
@@ -207,7 +250,12 @@ class UserController extends Controller
         return $this->jsonResult(500);
     }
 
-    //用户个人设置之个人信息
+    /**
+     * 用户个人设置之个人信息
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function settings(Request $request)
     {
         $user = $request->user();
@@ -215,7 +263,12 @@ class UserController extends Controller
         return view('pc.user.settings.setting')->with(['user' => $user, 'taxonomies' => self::get_careerStatus($user->career_direction)]);
     }
 
-    //用户个人设置之实名认证
+    /**
+     * 用户个人设置之实名认证
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function authenticate(Request $request)
     {
         $user = $request->user();
@@ -227,7 +280,12 @@ class UserController extends Controller
         return view('pc.user.settings.authenticate')->with(['user' => $user]);
     }
 
-    //用户个人设置之密码修改
+    /**
+     * 用户个人设置之密码修改
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit_password(Request $request)
     {
         $user = $request->user();
@@ -235,7 +293,12 @@ class UserController extends Controller
         return view('pc.user.settings.edit_password')->with(['user' => $user]);
     }
 
-    //用户个人设置之通知私信
+    /**
+     * 用户个人设置之通知私信
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit_notify(Request $request)
     {
         $user = $request->user();
@@ -243,7 +306,12 @@ class UserController extends Controller
         return view('pc.user.settings.edit_notify')->with(['user' => $user]);
     }
 
-    //用户个人设置之账号安全
+    /**
+     * 用户个人设置之账号安全
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function security(Request $request)
     {
         $user = $request->user();
@@ -251,7 +319,12 @@ class UserController extends Controller
         return view('pc.user.settings.security')->with(['user' => $user]);
     }
 
-    //用户个人设置之账号绑定
+    /**
+     * 用户个人设置之账号绑定
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function bindsns(Request $request)
     {
         $user = $request->user();
@@ -259,7 +332,12 @@ class UserController extends Controller
         return view('pc.user.settings.bindsns')->with(['user' => $user]);
     }
 
-    //用户个人设置之职业状态
+    /**
+     * 用户个人设置之职业状态
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function career_status(Request $request)
     {
         $user = $request->user();
@@ -269,7 +347,9 @@ class UserController extends Controller
 
     /**
      * 保存用户个人信息
+     *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function per_detail(Request $request)
     {
@@ -345,7 +425,9 @@ class UserController extends Controller
 
     /**
      * 修改用户头像
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function post_avatar(Request $request)
     {
@@ -443,7 +525,9 @@ class UserController extends Controller
 
     /**
      * 修改用户密码
+     *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function modify_password(Request $request)
     {
@@ -484,7 +568,9 @@ class UserController extends Controller
 
     /**
      * 绑定邮箱
+     *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function email_bind(Request $request)
     {
@@ -567,7 +653,9 @@ class UserController extends Controller
 
     /**
      * 验证邮箱（重新发送验证邮件）
+     *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function send_verify(Request $request)
     {
@@ -615,7 +703,9 @@ class UserController extends Controller
 
     /**
      * 激活邮箱
+     *
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function activate_email_bind(Request $request)
     {
@@ -646,7 +736,9 @@ class UserController extends Controller
 
     /**
      * 更换邮箱前验证
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function verify_email(Request $request)
     {
@@ -672,7 +764,9 @@ class UserController extends Controller
 
     /**
      * 绑定手机号并发送验证码
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function mobile_bind(Request $request)
     {
@@ -740,7 +834,9 @@ class UserController extends Controller
 
     /**
      * 更换绑定手机号并发送验证码
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function change_mobile_bind(Request $request)
     {
@@ -804,7 +900,9 @@ class UserController extends Controller
 
     /**
      * 验证用户提交的手机验证码
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function verify_mobile_code(Request $request)
     {
@@ -837,7 +935,9 @@ class UserController extends Controller
 
     /**
      * 更换手机前验证
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function verify_mobile(Request $request)
     {
@@ -863,7 +963,10 @@ class UserController extends Controller
 
     /**
      * 社交账号解除绑定
+     *
      * @param Request $request
+     * @param $driver
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function social_unbind(Request $request, $driver)
     {
@@ -882,6 +985,9 @@ class UserController extends Controller
 
     /**
      * 通知私信
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function notify(Request $request)
     {
@@ -924,6 +1030,8 @@ class UserController extends Controller
 
     /**
      * 签到
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function signIn()
     {
@@ -950,6 +1058,9 @@ class UserController extends Controller
 
     /**
      * 实名认证
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function post_authenticate(Request $request)
     {
@@ -1035,7 +1146,9 @@ class UserController extends Controller
 
     /**
      * 获取职业方向以下拉菜单方式返回
-     * @param $ids 职业名称
+     *
+     * @param $ids
+     * @return string
      */
     public function get_careerStatus($ids)
     {
@@ -1056,7 +1169,7 @@ class UserController extends Controller
     /**
      * 活跃排行榜
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function active_rank()
     {

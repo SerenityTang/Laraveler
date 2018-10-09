@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PersonalDynamic extends Model
 {
+    protected $table = 'personal_dynamics';
     protected $fillable = [
         'user_id',
         'source_id',

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Career_direction extends Model
+class CareerDirection extends Model
 {
     //
 }

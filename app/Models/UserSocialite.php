@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User_socialite extends Model
+class UserSocialite extends Model
 {
     protected $fillable = [
         'user_id',
