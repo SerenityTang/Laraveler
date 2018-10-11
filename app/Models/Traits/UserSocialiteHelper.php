@@ -9,7 +9,7 @@
 namespace App\Models\Traits;
 
 use App\Models\UserSocialite;
-use App\User;
+use App\Models\User;
 
 trait UserSocialiteHelper
 {

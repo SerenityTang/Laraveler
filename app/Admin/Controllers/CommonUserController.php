@@ -8,7 +8,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\User;
+use App\Models\User;
 //use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Auth\Database\Permission;
 use Encore\Admin\Auth\Database\Role;

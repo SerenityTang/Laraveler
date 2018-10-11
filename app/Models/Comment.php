@@ -44,7 +44,7 @@ class Comment extends Node
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
     /**
@@ -53,7 +53,7 @@ class Comment extends Node
      */
     public function toUser()
     {
-        return $this->belongsTo('App\User', 'to_user_id');
+        return $this->belongsTo('App\Models\User', 'to_user_id');
     }
 
     /**
