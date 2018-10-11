@@ -8,7 +8,7 @@ use App\Services\Ucpaas\Agents\UcpaasAgent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserOauth;
-use App\User;
+use App\Models\User;
 use App\Models\UserProfile;
 use BrowserDetect;
 use Illuminate\Support\Facades\Auth;

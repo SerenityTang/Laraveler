@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\UserData;
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -108,7 +108,7 @@ class RegisterController extends Controller
      * 注册创建新用户
      *
      * @param  array $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
@@ -134,7 +134,7 @@ class RegisterController extends Controller
      * 短信验证码验证
      *
      * @param  Request $request
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function note_verify_code(Request $request)
     {

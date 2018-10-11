@@ -6,7 +6,7 @@ use App\Events\LoginCreditEvent;
 use App\Events\WelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\SocialiteHelper;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;

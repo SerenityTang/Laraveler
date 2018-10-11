@@ -21,7 +21,7 @@ use App\Models\UserData;
 use App\Models\UserSocialite;
 use App\Models\UserCreditStatement;
 use App\Models\Vote;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Qiniu\Config;
 use Qiniu\Storage\BucketManager;

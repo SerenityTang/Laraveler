@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Traits;
 
 use App\Models\UserSocialite;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Flash;
 use Laravel\Socialite\Facades\Socialite;

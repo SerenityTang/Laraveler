@@ -16,7 +16,7 @@ use App\Models\UserCreditStatement;
 use App\Models\UserSocialite;
 use App\Services\Qiniu\QiNiuCloud;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

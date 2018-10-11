@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\UserData;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Encore\Admin\Traits\AdminBuilder;
@@ -143,7 +142,7 @@ class User extends Authenticatable
      */
     public function atte_user()
     {
-        return $this->hasMany('App\Models\Attention', 'user_id', 'id')->where('entityable_type', 'App\User');
+        return $this->hasMany('App\Models\Attention', 'user_id', 'id')->where('entityable_type', 'App\Models\User');
     }
 
     /**
