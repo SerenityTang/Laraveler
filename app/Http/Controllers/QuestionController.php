@@ -104,7 +104,7 @@ class QuestionController extends Controller
             return view('pc.auth.login');
         }
 
-        return view('pc.question.create')->with(['tags' => $tags, 'UserData' => $UserData]);
+        return view('pc.question.create')->with(['tags' => $tags, 'user_data' => $UserData]);
     }
 
     /**
