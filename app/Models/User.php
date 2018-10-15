@@ -210,7 +210,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function userData()
+    public function user_data()
     {
         return $this->hasOne(UserData::class, 'user_id', 'id');
     }
