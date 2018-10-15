@@ -1173,12 +1173,12 @@ class UserController extends Controller
      */
     public function active_rank()
     {
-        $active_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
+        $active_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status', '>', 0)
-            ->orderBy('UserDatas.answer_count', 'DESC')
-            ->orderBy('UserDatas.article_count', 'DESC')
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->orderBy('user_datas.article_count', 'DESC')
             ->orderBy('user.updated_at', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'UserDatas.coins', 'UserDatas.credits', 'UserDatas.attention_count', 'UserDatas.support_count', 'UserDatas.answer_count', 'UserDatas.article_count')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.active_rank')->with(['active_users' => $active_users]);
@@ -1191,10 +1191,10 @@ class UserController extends Controller
      */
     public function credit_rank()
     {
-        $credit_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
+        $credit_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
             ->where('user.user_status', '>', 0)
-            ->orderBy('UserDatas.credits', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'UserDatas.coins', 'UserDatas.credits', 'UserDatas.attention_count', 'UserDatas.support_count', 'UserDatas.answer_count', 'UserDatas.article_count')
+            ->orderBy('user_datas.credits', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user.expert_status', 'user_datas.coins', 'user_datas.credits', 'user_datas.attention_count', 'user_datas.support_count', 'user_datas.answer_count', 'user_datas.article_count')
             ->take(10)->get();
 
         return view('pc.user.partials.credit_rank')->with(['credit_users' => $credit_users]);

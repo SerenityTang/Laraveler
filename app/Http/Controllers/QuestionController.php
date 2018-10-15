@@ -61,11 +61,11 @@ class QuestionController extends Controller
             $start = Carbon::now()->addDays($week - 7);
             $end = Carbon::now()->addDays(7 - $week);
         }
-        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
-            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
-            ->whereBetween('UserDatas.updated_at', [$start, $end])
-            ->orderBy('UserDatas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
 
         if (Browser::isMobile()) {
@@ -623,11 +623,11 @@ class QuestionController extends Controller
             $end = Carbon::now()->addDays(7 - $week);
         }
 
-        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
-            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
-            ->whereBetween('UserDatas.updated_at', [$start, $end])
-            ->orderBy('UserDatas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_week')->with(['warm_users' => $warm_users]);
     }
@@ -644,11 +644,11 @@ class QuestionController extends Controller
         $start = date('Y-m-01', strtotime($now_day));//获取指定月份的第一天
         $end = date('Y-m-t', strtotime($now_day)); //获取指定月份的最后一天
 
-        $warm_users = DB::table('UserDatas')->leftJoin('user', 'user.id', '=', 'UserDatas.user_id')
-            ->where('user.user_status', '>', 0)->where('UserDatas.answer_count', '>', 0)
-            ->whereBetween('UserDatas.updated_at', [$start, $end])
-            ->orderBy('UserDatas.answer_count', 'DESC')
-            ->select('user.id', 'user.username', 'user.personal_domain', 'UserDatas.answer_count')
+        $warm_users = DB::table('user_datas')->leftJoin('user', 'user.id', '=', 'user_datas.user_id')
+            ->where('user.user_status', '>', 0)->where('user_datas.answer_count', '>', 0)
+            ->whereBetween('user_datas.updated_at', [$start, $end])
+            ->orderBy('user_datas.answer_count', 'DESC')
+            ->select('user.id', 'user.username', 'user.personal_domain', 'user_datas.answer_count')
             ->take(9)->get();
         return view('pc.question.parts.warm_month')->with(['warm_users' => $warm_users]);
     }
