@@ -13,6 +13,7 @@ use App\Models\UserActivation;
 use App\Models\UserAuthenticate;
 use App\Models\UserCreditConfig;
 use App\Models\UserCreditStatement;
+use App\Models\UserData;
 use App\Models\UserSocialite;
 use App\Services\Qiniu\QiNiuCloud;
 use App\Services\Ucpaas\Agents\UcpaasAgent;
@@ -1037,7 +1038,7 @@ class UserController extends Controller
     {
         if (Auth::check()) {
             $credit_config = UserCreditConfig::where('slug', 'signIn')->first();
-            $user_data = user_data::where('user_id', Auth::user()->id)->first();
+            $user_data = UserData::where('user_id', Auth::user()->id)->first();
 
             $data = [
                 'user_id' => Auth::user()->id,
