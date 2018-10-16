@@ -430,7 +430,7 @@
                     url: '{{ url('/user/email_bind') }}',
                     data: {
                         _token: '{{csrf_token()}}',
-                        'email': $('#email').val(),
+                        'new_email': $('#email').val(),
                     },
                     cache: false,
                     success: function (res) {
