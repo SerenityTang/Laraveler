@@ -35,14 +35,14 @@
     </style>
 </head>
 <body>
-<h2>亲爱的 {{ $data['user']->username }} ，您好</h2>
+<h2>亲爱的 {{ $user->username }} ，您好</h2>
 
-<p class="bind">您申请的绑定邮箱地址验证，请点击 <a href="{{ $data['email_verify_url'] }}" role="button" class="confirm-btn"
+<p class="bind">您申请的绑定邮箱地址验证，请在 3 小时内点击 <a href="{{ $url }}" role="button" class="confirm-btn"
                                     style="text-decoration: none;">这里</a> 确认，O(∩_∩)O谢谢！！！</p>
 
 <p class="bind">如果上面的按钮无法点击，您也可以尝试复制（右键复制）下面的地址，并粘帖到浏览器的地址栏中访问。</p>
 
-<p><a href="{{ $data['email_verify_url'] }}">{{ $data['email_verify_url'] }}</a></p>
+<p><a href="{{ $url }}">{{ $url }}</a></p>
 <br>
 <p>Laraveler - 中文领域的Laravel技术问答交流社区祝您使用愉快！！！</p>
 </body>

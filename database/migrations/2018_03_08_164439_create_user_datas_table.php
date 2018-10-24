@@ -14,8 +14,9 @@ class CreateUserDatasTable extends Migration
     public function up()
     {
         Schema::create('user_datas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->comment('用户id');
+            $table->string('id', 36)->index()->primary();
+
+            $table->string('user_id', 36)->comment('用户id');
             $table->integer('coins')->unsigned()->default(0)->comment('L币数');
             $table->integer('credits')->unsigned()->default(0)->comment('积分数');
 
@@ -33,7 +34,9 @@ class CreateUserDatasTable extends Migration
             $table->integer('attention_count')->unsigned()->default(0)->comment('用户关注数');
             $table->integer('fan_count')->unsigned()->default(0)->comment('粉丝数');
             $table->integer('view_count')->unsigned()->default(0)->comment('主页被访问数');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

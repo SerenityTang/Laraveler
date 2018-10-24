@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Feedback extends Model
+class Feedback extends CoreModel
 {
     protected $table = 'feedbacks';
     protected $fillable = [

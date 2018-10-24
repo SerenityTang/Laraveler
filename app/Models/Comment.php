@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\UuidModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Baum\Node;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Node
 {
+    use SoftDeletes, UuidModelTrait;
+
     protected $table = 'comments';
 
     // 'parent_id' column name
@@ -24,8 +27,6 @@ class Comment extends Node
 
     // guard attributes from mass-assignment
     protected $guarded = array('id', 'parent_id', 'lft', 'rgt', 'depth');
-
-    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 

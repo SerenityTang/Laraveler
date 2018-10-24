@@ -13,7 +13,6 @@ use Response;
 
 trait ResultTrait
 {
-
     /**
      * json 格式返回结果
      * @param  int $code 状态码

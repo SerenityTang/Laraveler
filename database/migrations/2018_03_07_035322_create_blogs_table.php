@@ -14,12 +14,11 @@ class CreateBlogsTable extends Migration
     public function up()
     {
         Schema::create('blogs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('bcategory_id')->unsigned()->comment('博客分类id');
-            $table->integer('user_id')->unsigned()->comment('博客作者id');
-            $table->index('user_id');
+            $table->string('id', 36)->index()->primary();
+
+            $table->string('bcategory_id', 36)->comment('博客分类id');
+            $table->string('user_id', 36)->comment('博客作者id');
             $table->string('title')->comment('博客标题');
-            $table->index('title');
             $table->string('intro')->nullable()->comment('博客简介');
             $table->longText('description')->comment('博客详情');
             $table->string('cover')->nullable()->comment('博客封面');
@@ -34,8 +33,9 @@ class CreateBlogsTable extends Migration
             $table->integer('comment_count')->default(0)->comment('评论数');
             $table->integer('sticky')->default(0)->comment('置顶状态：0->否，1->是');
             $table->integer('promote')->default(0)->comment('推荐状态：0->否，1->是');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

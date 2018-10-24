@@ -202,7 +202,7 @@ class User extends Authenticatable
      */
     public function activations()
     {
-        return $this->hasOne(\App\Models\UserActivation::class);
+        return $this->hasOne(UserActivation::class, 'user_id', 'id');
     }
 
     /**

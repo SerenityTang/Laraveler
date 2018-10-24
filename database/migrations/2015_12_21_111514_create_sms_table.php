@@ -14,7 +14,7 @@ class CreateSmsTable extends Migration
     public function up()
     {
         Schema::create('laravel_sms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 36)->index()->primary();
 
             //to:用于存储手机号
             $table->string('to')->default('');

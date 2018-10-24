@@ -14,10 +14,10 @@ class CreateTaggablesTable extends Migration
     public function up()
     {
         Schema::create('taggables', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('tag_id')->unsigned()->comment('标签id');
-            $table->index('tag_id');
-            $table->morphs('taggable');
+            $table->string('tag_id', 36)->comment('标签id');
+            $table->string('taggable_id', 36);
+            $table->string('taggable_type');
+
             $table->timestamps();
         });
     }

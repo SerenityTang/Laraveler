@@ -14,11 +14,14 @@ class CreateUserCreditStatementsTable extends Migration
     public function up()
     {
         Schema::create('user_credit_statements', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->comment('用户id');
+            $table->string('id', 36)->index()->primary();
+
+            $table->string('user_id', 36)->comment('用户id');
             $table->string('type')->comment('行为');
             $table->integer('credits')->comment('获得积分');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

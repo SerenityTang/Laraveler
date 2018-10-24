@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
 
-class TagCategory extends Model
+class TagCategory extends CoreModel
 {
     protected $table = 'tag_categories';
     protected $fillable = [

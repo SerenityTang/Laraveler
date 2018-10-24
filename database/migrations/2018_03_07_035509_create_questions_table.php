@@ -14,12 +14,11 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->default(0)->comment('问题发起人id');
-            $table->integer('qcategory_id')->unsigned()->default(0)->comment('问题分类id');
-            $table->index('user_id');
+            $table->string('id', 36)->index()->primary();
+
+            $table->string('user_id', 36)->comment('问题发起人id');
+            $table->string('qcategory_id', 36)->comment('问题分类id');
             $table->string('title')->comment('问题标题');
-            $table->index('title');
             $table->text('description')->nullable()->comment('问题详情');
             $table->smallInteger('price')->default(0)->comment('问题价格');
             //$table->tinyInteger('hide')->default(0)->comment('匿名提问');
@@ -32,8 +31,9 @@ class CreateQuestionsTable extends Migration
             $table->tinyInteger('device')->default(1)->comment('提问设备类型：1->pc,2->安卓,3->IOS,4->weixin');
             $table->tinyInteger('question_status')->default(0)->comment('问题状态：0->待回答，1->已回答，2->已采纳');
             $table->tinyInteger('status')->default(1)->comment('显示状态：0->否，1->是，2->草稿');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

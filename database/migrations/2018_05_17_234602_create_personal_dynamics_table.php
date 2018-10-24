@@ -14,13 +14,17 @@ class CreatePersonalDynamicsTable extends Migration
     public function up()
     {
         Schema::create('personal_dynamics', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->comment('用户id');
-            $table->morphs('source');
+            $table->string('id', 36)->index()->primary();
+
+            $table->string('user_id', 36)->comment('用户id');
+            $table->string('source_id', 36);
+            $table->string('source_type');
             $table->string('action')->comment('操作行为：publishQues,answerQues,voteQues,attentionQues,collectionQues,publishBlog,likeBlog,favoriteBlog');
             $table->string('title')->comment('标题');
             $table->text('content')->nullable()->comment('内容');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

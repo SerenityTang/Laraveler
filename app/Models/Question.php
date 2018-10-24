@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
-class Question extends Model
+class Question extends CoreModel
 {
-    use SoftDeletes, Searchable;
+    use Searchable;
     protected $table = 'questions';
     protected $dates = ['delete_at'];
     protected $fillable = [

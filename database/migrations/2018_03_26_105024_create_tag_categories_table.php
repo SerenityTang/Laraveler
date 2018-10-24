@@ -14,12 +14,14 @@ class CreateTagCategoriesTable extends Migration
     public function up()
     {
         Schema::create('tag_categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 36)->index()->primary();
+
             $table->string('name')->comment('分类名称');
-            $table->index('name');
             $table->longText('description')->nullable()->comment('分类描述');
             $table->integer('weight')->nullable()->default(0)->comment('排序--数值越大，越往后');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

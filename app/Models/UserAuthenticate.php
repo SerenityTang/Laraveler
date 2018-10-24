@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
 
-class UserAuthenticate extends Model
+class UserAuthenticate extends CoreModel
 {
+    protected $table = 'user_authenticates';
     protected $fillable = [
         'user_id',
         'realname',

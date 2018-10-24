@@ -42,8 +42,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::post('profile/post_authenticate', ['as' => 'user.profile.post_authenticate', 'uses' => 'UserController@post_authenticate']); //实名认证
 
     /*账号安全*/
-    Route::post('/email_bind', ['as' => 'user.email_bind', 'uses' => 'UserController@email_bind']);                                     //提交邮箱绑定
-    Route::post('/email_bind/send_verify', ['as' => 'user.email_bind.send_verify', 'uses' => 'UserController@send_verify']);            //验证邮箱
+    Route::post('/email/bind/send', ['as' => 'user.email.bind.send', 'uses' => 'UserController@sendEmail']);                            //提交邮箱绑定并发送邮件
+    Route::post('/email/bind/active', ['as' => 'user.email.bind.active', 'uses' => 'UserController@activeEmail']);                      //激活邮件
     Route::post('/verify_email', ['as' => 'user.verify_email', 'uses' => 'UserController@verify_email']);                               //更换邮箱前验证
 
     Route::post('/mobile_bind', ['as' => 'user.mobile_bind', 'uses' => 'UserController@mobile_bind']);                                  //提交手机绑定手机号

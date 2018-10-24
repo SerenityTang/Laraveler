@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonalDynamic extends Model
+class PersonalDynamic extends CoreModel
 {
     protected $table = 'personal_dynamics';
     protected $fillable = [

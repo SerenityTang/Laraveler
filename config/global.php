@@ -33,8 +33,8 @@ return [
     | Default to '2000000'.
     |
     */
-    'upload' =>[
-        'image'=>[
+    'upload' => [
+        'image' => [
             'max_size' => env('MAX_SIZE', '2048'), //图片上传大小 单位是kb
         ]
     ],
@@ -50,6 +50,11 @@ return [
     |
     */
     'qiniu_kodo' => env('QINIU_KODO', true), //是否开启上传到oss
-    'qiniu_url'  => 'http://photo.laraveler.net/'
+    'qiniu_url' => 'http://photo.laraveler.net/',
     //'qiniu_kodo_bucket' => env('QINIU_KODO_BUCKET', 'laraveler'),
+
+    'email' => [
+        'subject' => 'Laraveler - 中文领域的Laravel技术问答交流社区邮箱绑定验证',
+        'expire' => 3,
+    ],
 ];

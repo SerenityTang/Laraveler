@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Comment;
 use Laravel\Scout\Searchable;
 
-class Blog extends Model
+class Blog extends CoreModel
 {
-    use SoftDeletes, Searchable;
+    use Searchable;
+
     protected $table = 'blogs';
     protected $dates = ['delete_at'];
     protected $fillable = [

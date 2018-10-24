@@ -14,7 +14,8 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 36)->index()->primary();
+
             $table->string('username')->unique()->comment('用户名');
             $table->string('email')->unique()->nullable()->comment('邮箱');
             $table->string('mobile', 50)->unique()->comment('电话号码');
@@ -66,7 +67,9 @@ class CreateUserTable extends Migration
             $table->dateTime('last_active_at')->nullable()->comment('最后活跃时间');
             $table->dateTime('last_login_ip')->nullable()->comment('最后登录IP');
             $table->dateTime('user_agent')->nullable()->comment('最后登录浏览器信息');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

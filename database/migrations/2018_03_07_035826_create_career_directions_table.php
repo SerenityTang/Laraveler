@@ -14,13 +14,16 @@ class CreateCareerDirectionsTable extends Migration
     public function up()
     {
         Schema::create('career_directions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 36)->index()->primary();
+
             $table->string('slug', 50)->unique()->comment('机器名称');
             $table->string('name')->comment('名称');
             $table->index('name');
             $table->longText('description')->nullable()->comment('概述');
             $table->tinyInteger('status')->default(1)->comment('职业方向状态：0->禁用，1->正常');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

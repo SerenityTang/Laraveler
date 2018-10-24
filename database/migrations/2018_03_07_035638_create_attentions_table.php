@@ -14,9 +14,10 @@ class CreateAttentionsTable extends Migration
     public function up()
     {
         Schema::create('attentions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->comment('用户id');
-            $table->morphs('entityable');
+            $table->string('user_id',36)->comment('用户id');
+            $table->string('entityable_id',36);
+            $table->string('entityable_type');
+
             $table->timestamps();
         });
     }

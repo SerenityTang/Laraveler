@@ -15,12 +15,15 @@ class CreateUserCreditConfigsTable extends Migration
     {
         Schema::create('user_credit_configs', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('behavior')->comment('行为');
             $table->string('slug')->comment('机器码');
             $table->integer('credits')->comment('积分');
             $table->integer('time')->comment('次数(一天内)');
             $table->longText('description')->comment('说明');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

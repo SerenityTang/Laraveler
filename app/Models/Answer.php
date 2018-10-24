@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Core\CoreModel;
+use App\Models\Traits\UuidModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Answer extends Model
+class Answer extends CoreModel
 {
+    protected $table = 'answers';
     protected $fillable = [
         'question_title',
         'question_id',

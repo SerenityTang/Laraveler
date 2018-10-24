@@ -427,7 +427,7 @@
             $('.email-bind, .email-submit').click(function () {
                 $.ajax({
                     type: 'post',
-                    url: '{{ url('/user/email_bind') }}',
+                    url: '{{ url('/user/email/bind/send') }}',
                     data: {
                         _token: '{{csrf_token()}}',
                         'new_email': $('#email').val(),
