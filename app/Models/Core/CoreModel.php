@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CoreModel extends Model
 {
-    //use UuidModelTrait;
-    //use SoftDeletes;
+    use UuidModelTrait;
+    use SoftDeletes;
 
     //public $incrementing = false;
 }
