@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserSocialite extends CoreModel
 {
     protected $table = 'user_socialites';
+
     protected $fillable = [
         'user_id',
         'oauth_type',

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Answer extends CoreModel
 {
     protected $table = 'answers';
+
     protected $fillable = [
         'question_title',
         'question_id',

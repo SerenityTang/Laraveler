@@ -9,8 +9,11 @@ use Laravel\Scout\Searchable;
 class Question extends CoreModel
 {
     use Searchable;
+
     protected $table = 'questions';
+
     protected $dates = ['delete_at'];
+
     protected $fillable = [
         'user_id',
         'qcategory_id',

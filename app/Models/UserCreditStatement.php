@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserCreditStatement extends CoreModel
 {
     protected $table = 'user_credit_statements';
+
     protected $fillable= [
         'user_id',
         'type',

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Vote extends Pivot
 {
     protected $table = 'votes';
+
     protected $fillable = [
         'user_id',
         'entityable_id',

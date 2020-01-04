@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class UserActivation extends CoreModel
 {
     protected $table = 'user_activations';
-    protected $fillable = ['user_id', 'token', 'expire_at', 'url'];
+
+    protected $fillable = [
+        'user_id',
+        'token',
+        'expire_at',
+        'url'
+    ];
 }

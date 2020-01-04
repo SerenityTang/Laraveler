@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SupportOpposition extends CoreModel
 {
     protected $table = 'support_oppositions';
+
     protected $fillable = [
         'user_id',
         'sup_opp_able_id',

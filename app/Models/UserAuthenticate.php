@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserAuthenticate extends CoreModel
 {
     protected $table = 'user_authenticates';
+
     protected $fillable = [
         'user_id',
         'realname',

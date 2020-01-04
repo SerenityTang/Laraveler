@@ -11,7 +11,9 @@ class Blog extends CoreModel
     use Searchable;
 
     protected $table = 'blogs';
+
     protected $dates = ['delete_at'];
+
     protected $fillable = [
         'bcategory_id',
         'user_id',

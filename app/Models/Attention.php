@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attention extends CoreModel
 {
     protected $table = 'attentions';
+
     protected $fillable = [
         'user_id',
         'entityable_id',

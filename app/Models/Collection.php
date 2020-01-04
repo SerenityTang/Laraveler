@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Collection extends Pivot
 {
     protected $table = 'collections';
+
     protected $fillable = [
         'user_id',
         'entityable_id',

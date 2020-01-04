@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends CoreModel
 {
     protected $table = 'tags';
+
     protected $fillable = [
         'tcategory_id',
         'name',

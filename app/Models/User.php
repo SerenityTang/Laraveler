@@ -6,10 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Encore\Admin\Traits\AdminBuilder;
 use App\Models\Traits\UserSocialiteHelper;
+use App\Models\Traits\UuidModelTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable, AdminBuilder, UserSocialiteHelper;
+    use Notifiable, AdminBuilder, UserSocialiteHelper, UuidModelTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
