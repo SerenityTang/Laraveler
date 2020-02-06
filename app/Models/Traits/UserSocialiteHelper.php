@@ -16,6 +16,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定$driver用户的本地用户信息
+     *
      * @param string $driver 绑定方式[qq、weibo、weixin、weixinweb]
      * @param string $id     第三方用户的openid
      * @return null
@@ -39,6 +40,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定weibo用户的本地用户信息
+     *
      * @param string $id weibo第三方用户的openid
      * @return null
      */
@@ -55,6 +57,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定qq用户的本地用户信息
+     *
      * @param string $id qq第三方用户的openid
      * @return null
      */
@@ -71,6 +74,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定weixin用户的本地用户信息
+     *
      * @param string $id weixin第三方用户的openid
      * @return null
      */
@@ -87,6 +91,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定微信开放平台用户的本地用户信息
+     *
      * @param string $id 微信开放平台用户的openid
      * @return null
      */
@@ -103,6 +108,7 @@ trait UserSocialiteHelper
 
     /**
      * 获取绑定微信开放平台用户的本地用户信息
+     *
      * @param string $id 微信开放平台用户的openid
      * @return null
      */

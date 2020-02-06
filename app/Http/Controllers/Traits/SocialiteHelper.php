@@ -18,6 +18,12 @@ trait SocialiteHelper
 {
     protected $oauthDrivers = ['qq' => 'qq', 'weibo' => 'weibo', 'weixin' => 'weixin', 'github' => 'github', 'google' => 'google'];
 
+    /**
+     * 第三方授权（将用户重定向到第三方的授权页面）
+     *
+     * @param $driver
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function oauth($driver)
     {
         //return view('pc.auth.oauth.callback');
@@ -34,10 +40,17 @@ trait SocialiteHelper
                 return Socialite::driver($driver)->redirect();
             }
         } else {
+            // 第三方授权登录（将用户重定向到第三方的授权页面）
             return Socialite::driver($driver)->redirect();
         }
     }
 
+    /**
+     * 第三方授权登录回调
+     *
+     * @param $driver
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function callback($driver)
     {
         if (Auth::check()) {
@@ -46,6 +59,7 @@ trait SocialiteHelper
                 return redirect()->intended('/');
             }
         }
+        // 从第三方获取用户信息(测试过两种获取方式返回结果一样，适用于微博、QQ、Github)
         if ($this->oauthDrivers[$driver] == 'github') {
             $oauthUser = Socialite::driver('github')->user();
         } else {
@@ -66,7 +80,8 @@ trait SocialiteHelper
         }
         $userSocialite->save();
 
-        $user = User::getByDriver($driver, $oauthUser->id);
+        //$user = User::getByDriver($driver, $oauthUser->id);
+        $user = $this->checkIfUser($driver, $oauthUser->id);
         if ($user) {
             // 如注册过，说明用户绑定第三方账号，直接登录并跳转（第三方登录）
             if (!Auth::check()) {
@@ -93,6 +108,7 @@ trait SocialiteHelper
 
     /**
      * 登录第三方账号->绑定用户
+     *
      * @param object $oauthUser 第三方账号对象
      * @param string $driver 认证方式
      * @return object
@@ -203,5 +219,26 @@ trait SocialiteHelper
         }
 
         return $profile;
+    }
+
+    /**
+     * 当前授权登录用户存在与否
+     *
+     * @param $driver
+     * @param $oauthUserId
+     * @return null
+     */
+    public function checkIfUser($driver, $oauthUserId)
+    {
+        if (is_array($driver, ['qq', 'weibo', 'github', 'weixin', 'weixinweb'])) {
+            $OAuth = UserSocialite::where('oauth_type', $driver)->where('oauth_id', $oauthUserId)->first();
+            if ($OAuth == null) {
+                return null;
+            }
+            $user = User::where('id', $OAuth->user_id)->first();
+
+            return $user;
+        }
+        return null;
     }
 }

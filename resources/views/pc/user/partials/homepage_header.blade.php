@@ -39,8 +39,10 @@
                         <a class="btn btn-ask"><i class="iconfont icon-tiwen"></i>向TA提问</a>
                         <a class="btn btn-pri-letter"><i class="iconfont icon-sixin"></i>私信</a>
                     @else
-                        <a href="{{ url('user/'.Auth::user()->username.'/settings') }}" class="btn btn-edit"><i
-                                    class="iconfont icon-bianji1"></i>编辑资料</a>
+                        @if(Auth::check())
+                            <a href="{{ url('user/'.Auth::user()->username.'/settings') }}" class="btn btn-edit"><i
+                                        class="iconfont icon-bianji1"></i>编辑资料</a>
+                        @endif
                     @endif
                 </div>
             </div>

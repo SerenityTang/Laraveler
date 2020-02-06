@@ -26,7 +26,7 @@ class HomepageViewListener
      */
     public function handle(HomepageViewEvent $event)
     {
-        $user_data = $event->user_data;
+        $user_data = $event->UserData;
 
         //主页访问量+1
         $user_data->increment('view_count');

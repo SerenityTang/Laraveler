@@ -101,7 +101,6 @@
             });
         });
     </script>
-    {{--切换图片验证码--}}
     <script>
         $('.glyphicon').click(function () {
             var captcha = $(this).prev('img');
@@ -109,7 +108,7 @@
         })
     </script>
     {{--按下回车登录相当于鼠标点击登录按钮--}}
-    {{--<script>
+    <script>
         $(document).ready(function () {
             $(document).keydown(function (e) {
                 var event = document.all ? window.event : e; //IE浏览器事件绑定在全局window(唯独有all属性)，其他浏览器事件局部变量传入方法中
@@ -118,7 +117,7 @@
                 }
             });
         });
-    </script>--}}
+    </script>
     <script>
         $(function () {
             $('#username').focus(function () {
@@ -126,19 +125,30 @@
             });
             $('#username').focusout(function () {
                 var username = $('#username').val();
+                var mobile = $('#mobile').val();
                 if (username == '') {
                     $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
                 } else {
                     $.ajax({
-                        url: '{{ url('/auth/callback/bind_verify') }}',
+                        url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
                             'username': username,
+                            'mobile': mobile,
                         },
                         cache: false,
                         success: function (res) {
-                            $('#username').parents('.username').find('.help-block em').html(res.message);
+                            if (res.code == 502) {
+                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                            } else if (res.code == 906) {      //用户按顺序输入用户名手机号且手机号不存在用户名存在
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号且手机号不存在用户名不存在
+                                $('#mobile').parents('.mobile').find('.help-block em').html('提交信息即创建新账号。');
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
+                            }
                         },
                         error: function () {
                             layer.msg('系统错误！', {
@@ -153,29 +163,45 @@
                 $('#mobile').parents('.mobile').find('.help-block em').html('');
             });
             $('#mobile').focusout(function () {
+                var username = $('#username').val();
                 var mobile = $('#mobile').val();
                 if (mobile == '') {
                     $('#mobile').parents('.mobile').find('.help-block em').html('手机号码 不能为空。');
                 } else {
                     $.ajax({
-                        url: '{{ url('/auth/callback/bind_verify') }}',
+                        url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
+                            'username': username,
                             'mobile': mobile,
                         },
                         cache: false,
                         success: function (res) {
                             if (res.code == 502) {   //表单验证
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                            } else if (res.code == 903) {   //用户先输入手机号，且用户名手机号不存在
+                                if (username == '') {
+                                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
+                                    $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                    $('.password').fadeIn('slow');
+                                    return false;
+                                }
                             } else if (res.code == 902) {      //用户先输入手机号，且手机号存在
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
-                                $('.password').fadeOut('slow');
-                                return false;
-                            } else if (res.code == 903) {   //用户先输入手机号，且手机号不存在
-                                $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                if (username == '') {
+                                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
+                                    $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                    $('.password').fadeOut('slow');
+                                    return false;
+                                }
+                            } else if (res.code == 906) {   //用户按顺序输入用户名手机号，且输入存在手机号隐藏密码栏再输入不存在手机号显示密码栏，用户名存在
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
                                 $('.password').fadeIn('slow');
-                                return false;
+                            } else if (res.code == 907) {   //用户按顺序输入用户名手机号，且输入存在手机号隐藏密码栏再输入不存在手机号显示密码栏，用户名不存在
+                                $('#username').parents('.username').find('.help-block em').html(res.message);
+                                $('.password').fadeIn('slow');
+                            } else if (res.code == 501) {   //用户按顺序输入用户名手机号，手机号存在，隐藏密码栏
+                                $('.password').fadeOut('slow');
                             }
                         },
                         error: function () {
@@ -196,7 +222,7 @@
                     $('#password').parents('.password').find('.help-block em').html('密码 不能为空。');
                 } else {
                     $.ajax({
-                        url: '{{ url('/auth/callback/bind_verify') }}',
+                        url: '{{ url('/auth/bind_verify') }}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
@@ -204,7 +230,43 @@
                         },
                         cache: false,
                         success: function (res) {
-                            $('#password').parents('.password').find('.help-block em').html(res.message);
+                            if (res.code == 904) {
+                                $('#password').parents('.password').find('.help-block em').html(res.message);
+                            } else if (res.code == 502) {
+                                $('#password').parents('.password').find('.help-block em').html(res.message);
+                            }
+                        },
+                        error: function () {
+                            layer.msg('系统错误！', {
+                                icon: 2,
+                                time: 2000,
+                            });
+                        }
+                    });
+                }
+            });
+            $('#verify_code').focus(function () {
+                $('#verify_code').parents('.verify').find('.help-block em').html('');
+            });
+            $('#verify_code').focusout(function () {
+                var verify_code = $('#verify_code').val();
+                if (verify_code == '') {
+                    $('#verify_code').parents('.verify').find('.help-block em').html('验证码 不能为空。');
+                } else {
+                    $.ajax({
+                        url: '{{ url('/auth/bind_verify') }}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            'verify_code': verify_code,
+                        },
+                        cache: false,
+                        success: function (res) {
+                            if (res.code == 905) {
+                                $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
+                            } else if (res.code == 502) {
+                                $('#verify_code').parents('.verify').find('.help-block em').html(res.message);
+                            }
                         },
                         error: function () {
                             layer.msg('系统错误！', {
@@ -223,7 +285,7 @@
                 var data = $("form").serialize();
 
                 $.ajax({
-                    url: '{{ url('/auth/callback/bind') }}',
+                    url: '{{ url('/auth/bind') }}',
                     type: 'post',
                     data: data,
                     cache: false,
@@ -281,7 +343,7 @@
                 }
                 $.ajax({
                     type: 'post',
-                    url: '{{ url('/auth/callback/send') }}',
+                    url: '{{ url('/auth/get_mobile_code') }}',
                     data: {
                         _token: '{{csrf_token()}}',
                         'username': $('#username').val(),
