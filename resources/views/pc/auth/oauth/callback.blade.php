@@ -29,15 +29,6 @@
 
                     <strong>完善基本资料</strong>
                     <em class="title-eng">Perfect The Info</em>
-                    <div class="form-group form-group-bottom username">
-                        <div class="col-sm-12 form-input input-group">
-                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名"
-                                   value="{{ $profile->nickname }}">
-                        </div>
-                        <span class="help-block help-block-clear">
-                            <em></em>
-                        </span>
-                    </div>
                     <div class="form-group form-group-bottom mobile">
                         <div class="col-sm-12 form-input input-group">
                             <input type="text" class="form-control text" id="mobile" name="mobile" maxlength="11"
@@ -47,10 +38,18 @@
                             <em></em>
                         </span>
                     </div>
+                    <div class="form-group form-group-bottom username">
+                        <div class="col-sm-12 form-input input-group">
+                            <input type="text" class="form-control text" id="username" name="username" placeholder="用户名"
+                                   value="{{ $profile->nickname }}">
+                        </div>
+                        <span class="help-block help-block-clear">
+                            <em></em>
+                        </span>
+                    </div>
                     <div class="form-group form-group-bottom password">
                         <div class="col-sm-12 form-input input-group">
-                            <input type="password" class="form-control text" id="password" name="password"
-                                   placeholder="密码">
+                            <input type="password" class="form-control text" id="password" name="password" placeholder="密码">
                         </div>
                         <span class="help-block help-block-clear">
                             <em></em>
@@ -121,34 +120,6 @@
     </script>--}}
     <script>
         $(function () {
-            $('#username').focus(function () {
-                $('#username').parents('.username').find('.help-block em').html('');
-            });
-            $('#username').focusout(function () {
-                var username = $('#username').val();
-                if (username == '') {
-                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
-                } else {
-                    $.ajax({
-                        url: '{{ url('/auth/callback/bind_verify') }}',
-                        type: 'post',
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            'username': username,
-                        },
-                        cache: false,
-                        success: function (res) {
-                            $('#username').parents('.username').find('.help-block em').html(res.message);
-                        },
-                        error: function () {
-                            layer.msg('系统错误！', {
-                                icon: 2,
-                                time: 2000,
-                            });
-                        }
-                    });
-                }
-            });
             $('#mobile').focus(function () {
                 $('#mobile').parents('.mobile').find('.help-block em').html('');
             });
@@ -170,13 +141,43 @@
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
                             } else if (res.code == 902) {      //用户先输入手机号，且手机号存在
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                $('.username').fadeOut('slow');
                                 $('.password').fadeOut('slow');
                                 return false;
                             } else if (res.code == 903) {   //用户先输入手机号，且手机号不存在
                                 $('#mobile').parents('.mobile').find('.help-block em').html(res.message);
+                                $('.username').fadeIn('slow');
                                 $('.password').fadeIn('slow');
                                 return false;
                             }
+                        },
+                        error: function () {
+                            layer.msg('系统错误！', {
+                                icon: 2,
+                                time: 2000,
+                            });
+                        }
+                    });
+                }
+            });
+            $('#username').focus(function () {
+                $('#username').parents('.username').find('.help-block em').html('');
+            });
+            $('#username').focusout(function () {
+                var username = $('#username').val();
+                if (username == '') {
+                    $('#username').parents('.username').find('.help-block em').html('用户名 不能为空。');
+                } else {
+                    $.ajax({
+                        url: '{{ url('/auth/callback/bind_verify') }}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            'username': username,
+                        },
+                        cache: false,
+                        success: function (res) {
+                            $('#username').parents('.username').find('.help-block em').html(res.message);
                         },
                         error: function () {
                             layer.msg('系统错误！', {

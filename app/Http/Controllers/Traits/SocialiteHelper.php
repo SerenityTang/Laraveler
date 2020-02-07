@@ -230,7 +230,7 @@ trait SocialiteHelper
      */
     public function checkIfUser($driver, $oauthUserId)
     {
-        if (is_array($driver, ['qq', 'weibo', 'github', 'weixin', 'weixinweb'])) {
+        if (in_array($driver, ['qq', 'weibo', 'github', 'weixin', 'weixinweb'])) {
             $OAuth = UserSocialite::where('oauth_type', $driver)->where('oauth_id', $oauthUserId)->first();
             if ($OAuth == null) {
                 return null;

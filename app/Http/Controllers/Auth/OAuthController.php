@@ -234,12 +234,12 @@ class OAuthController extends Controller
 
                     if ($user) {
                         $UserData = UserData::where('user_id', $user->id)->first();
-                        // 更新第三方信息表用户ID字段
-                        $this->socialiteSave($request, $user->id);
-                        // 用户信息子表(确保子表有信息)
+                        // 用户信息子表(确保子表有当前用户信息)
                         if (!$UserData) {
                             UserData::create(['user_id' => $user->id]);
                         }
+                        // 更新第三方信息表用户ID字段
+                        $this->socialiteSave($request, $user->id);
                         // 更新用户表(第三方信息覆盖)
                         $this->registerUserSave($request, $user->id, $driver);
                         // 登录
