@@ -73,27 +73,30 @@ class OAuthController extends Controller
     {
         $data = $request->all();
         if ($request->input('pwd_status') == 0) {
-            $rules = array(
+            $rules = [
                 'username' => 'required|string|between:2,15',
                 'mobile' => 'required|bail|string|min:11|regex:/^1[34578][0-9]{9}$/',
                 'password' => 'required|string|between:6,20',
-            );
+            ];
         } else if ($request->input('pwd_status') == 1) {
-            $rules = array(
-                'username' => 'required|string|between:2,15',
+            $rules = [
                 'mobile' => 'required|bail|string|min:11|regex:/^1[34578][0-9]{9}$/',
-            );
+            ];
         }
 
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             return $this->jsonResult(502, $validator->errors());
         } else {
-            $user = User::where('username', $data['username'])->first();
-            if ($user) {
-                //获取验证码前判断手机号不存在且用户名存在
-                return $this->jsonResult(906);
-            } else {
+            if ($request->input('pwd_status') == 0) {
+                $user = User::where('username', $data['username'])->first();
+                if ($user) {
+                    //获取验证码前判断手机号不存在且用户名存在
+                    return $this->jsonResult(906);
+                } else {
+                    return $this->send($data['mobile']);
+                }
+            } else if ($request->input('pwd_status') == 1) {
                 return $this->send($data['mobile']);
             }
         }
